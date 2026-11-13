@@ -129,7 +129,9 @@ export async function applyLeadUpdate(existing: Lead, body: LeadUpdateBody, acto
       ...(effectiveStatus !== undefined && { status: effectiveStatus }),
       ...outcomeDates,
       notes, value,
-      campaignId: campaignId ?? undefined,
+      // campaignId: undefined = não veio no PATCH (não mexe); null = desvincular.
+      // Sem essa distinção o botão "Desvincular campanha" do CRM não tinha efeito.
+      ...(campaignId !== undefined && { campaignId: campaignId || null }),
       ...(pipeline !== undefined && { pipeline }),
       ...(pipelineStage !== undefined && { pipelineStage }),
       ...(attendanceStatus !== undefined && { attendanceStatus: attendanceStatus ?? null }),

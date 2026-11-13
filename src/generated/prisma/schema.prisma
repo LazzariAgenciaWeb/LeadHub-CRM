@@ -756,6 +756,19 @@ model Lead {
   trackingLink   TrackingLink? @relation(fields: [trackingLinkId], references: [id])
   trackingLinkId String?
 
+  // ─── UTMs crus da conversão ───────────────────────────────────────────────
+  // O que a landing/anúncio realmente mandou, gravado sem tradução. `campaignId`
+  // acima é a versão normalizada (é ela que dá "quantos leads esta campanha
+  // trouxe"); estes campos são o recibo: anúncio e criativo exatos, grafia
+  // original do utm_campaign mesmo quando a campanha foi criada na hora pelo
+  // webhook, e o que permite corrigir a atribuição depois sem perder a origem.
+  // utm_content costuma vir com o code do /r/CODE.
+  utmSource   String?
+  utmMedium   String?
+  utmCampaign String?
+  utmContent  String?
+  utmTerm     String?
+
   // Conversas do Direct vinculadas (prospecção via Instagram).
   igConversations IgConversation[]
   bioSubmissions  BioSubmission[] // respostas da Página do Negócio que geraram/atualizaram o lead

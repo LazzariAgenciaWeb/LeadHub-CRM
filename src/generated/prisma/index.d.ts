@@ -35353,6 +35353,11 @@ export namespace Prisma {
     companyId: string | null
     campaignId: string | null
     trackingLinkId: string | null
+    utmSource: string | null
+    utmMedium: string | null
+    utmCampaign: string | null
+    utmContent: string | null
+    utmTerm: string | null
     promotedFromPipeline: string | null
     promotedAt: Date | null
     promotedReason: string | null
@@ -35404,6 +35409,11 @@ export namespace Prisma {
     companyId: string | null
     campaignId: string | null
     trackingLinkId: string | null
+    utmSource: string | null
+    utmMedium: string | null
+    utmCampaign: string | null
+    utmContent: string | null
+    utmTerm: string | null
     promotedFromPipeline: string | null
     promotedAt: Date | null
     promotedReason: string | null
@@ -35456,6 +35466,11 @@ export namespace Prisma {
     companyId: number
     campaignId: number
     trackingLinkId: number
+    utmSource: number
+    utmMedium: number
+    utmCampaign: number
+    utmContent: number
+    utmTerm: number
     promotedFromPipeline: number
     promotedAt: number
     promotedReason: number
@@ -35519,6 +35534,11 @@ export namespace Prisma {
     companyId?: true
     campaignId?: true
     trackingLinkId?: true
+    utmSource?: true
+    utmMedium?: true
+    utmCampaign?: true
+    utmContent?: true
+    utmTerm?: true
     promotedFromPipeline?: true
     promotedAt?: true
     promotedReason?: true
@@ -35570,6 +35590,11 @@ export namespace Prisma {
     companyId?: true
     campaignId?: true
     trackingLinkId?: true
+    utmSource?: true
+    utmMedium?: true
+    utmCampaign?: true
+    utmContent?: true
+    utmTerm?: true
     promotedFromPipeline?: true
     promotedAt?: true
     promotedReason?: true
@@ -35622,6 +35647,11 @@ export namespace Prisma {
     companyId?: true
     campaignId?: true
     trackingLinkId?: true
+    utmSource?: true
+    utmMedium?: true
+    utmCampaign?: true
+    utmContent?: true
+    utmTerm?: true
     promotedFromPipeline?: true
     promotedAt?: true
     promotedReason?: true
@@ -35761,6 +35791,11 @@ export namespace Prisma {
     companyId: string
     campaignId: string | null
     trackingLinkId: string | null
+    utmSource: string | null
+    utmMedium: string | null
+    utmCampaign: string | null
+    utmContent: string | null
+    utmTerm: string | null
     promotedFromPipeline: string | null
     promotedAt: Date | null
     promotedReason: string | null
@@ -35832,6 +35867,11 @@ export namespace Prisma {
     companyId?: boolean
     campaignId?: boolean
     trackingLinkId?: boolean
+    utmSource?: boolean
+    utmMedium?: boolean
+    utmCampaign?: boolean
+    utmContent?: boolean
+    utmTerm?: boolean
     promotedFromPipeline?: boolean
     promotedAt?: boolean
     promotedReason?: boolean
@@ -35901,6 +35941,11 @@ export namespace Prisma {
     companyId?: boolean
     campaignId?: boolean
     trackingLinkId?: boolean
+    utmSource?: boolean
+    utmMedium?: boolean
+    utmCampaign?: boolean
+    utmContent?: boolean
+    utmTerm?: boolean
     promotedFromPipeline?: boolean
     promotedAt?: boolean
     promotedReason?: boolean
@@ -35958,6 +36003,11 @@ export namespace Prisma {
     companyId?: boolean
     campaignId?: boolean
     trackingLinkId?: boolean
+    utmSource?: boolean
+    utmMedium?: boolean
+    utmCampaign?: boolean
+    utmContent?: boolean
+    utmTerm?: boolean
     promotedFromPipeline?: boolean
     promotedAt?: boolean
     promotedReason?: boolean
@@ -36057,6 +36107,11 @@ export namespace Prisma {
       companyId: string
       campaignId: string | null
       trackingLinkId: string | null
+      utmSource: string | null
+      utmMedium: string | null
+      utmCampaign: string | null
+      utmContent: string | null
+      utmTerm: string | null
       promotedFromPipeline: string | null
       promotedAt: Date | null
       promotedReason: string | null
@@ -36515,6 +36570,11 @@ export namespace Prisma {
     readonly companyId: FieldRef<"Lead", 'String'>
     readonly campaignId: FieldRef<"Lead", 'String'>
     readonly trackingLinkId: FieldRef<"Lead", 'String'>
+    readonly utmSource: FieldRef<"Lead", 'String'>
+    readonly utmMedium: FieldRef<"Lead", 'String'>
+    readonly utmCampaign: FieldRef<"Lead", 'String'>
+    readonly utmContent: FieldRef<"Lead", 'String'>
+    readonly utmTerm: FieldRef<"Lead", 'String'>
     readonly promotedFromPipeline: FieldRef<"Lead", 'String'>
     readonly promotedAt: FieldRef<"Lead", 'DateTime'>
     readonly promotedReason: FieldRef<"Lead", 'String'>
@@ -177845,6 +177905,11 @@ export namespace Prisma {
     companyId: 'companyId',
     campaignId: 'campaignId',
     trackingLinkId: 'trackingLinkId',
+    utmSource: 'utmSource',
+    utmMedium: 'utmMedium',
+    utmCampaign: 'utmCampaign',
+    utmContent: 'utmContent',
+    utmTerm: 'utmTerm',
     promotedFromPipeline: 'promotedFromPipeline',
     promotedAt: 'promotedAt',
     promotedReason: 'promotedReason',
@@ -183128,6 +183193,11 @@ export namespace Prisma {
     companyId?: StringFilter<"Lead"> | string
     campaignId?: StringNullableFilter<"Lead"> | string | null
     trackingLinkId?: StringNullableFilter<"Lead"> | string | null
+    utmSource?: StringNullableFilter<"Lead"> | string | null
+    utmMedium?: StringNullableFilter<"Lead"> | string | null
+    utmCampaign?: StringNullableFilter<"Lead"> | string | null
+    utmContent?: StringNullableFilter<"Lead"> | string | null
+    utmTerm?: StringNullableFilter<"Lead"> | string | null
     promotedFromPipeline?: StringNullableFilter<"Lead"> | string | null
     promotedAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
     promotedReason?: StringNullableFilter<"Lead"> | string | null
@@ -183196,6 +183266,11 @@ export namespace Prisma {
     companyId?: SortOrder
     campaignId?: SortOrderInput | SortOrder
     trackingLinkId?: SortOrderInput | SortOrder
+    utmSource?: SortOrderInput | SortOrder
+    utmMedium?: SortOrderInput | SortOrder
+    utmCampaign?: SortOrderInput | SortOrder
+    utmContent?: SortOrderInput | SortOrder
+    utmTerm?: SortOrderInput | SortOrder
     promotedFromPipeline?: SortOrderInput | SortOrder
     promotedAt?: SortOrderInput | SortOrder
     promotedReason?: SortOrderInput | SortOrder
@@ -183267,6 +183342,11 @@ export namespace Prisma {
     companyId?: StringFilter<"Lead"> | string
     campaignId?: StringNullableFilter<"Lead"> | string | null
     trackingLinkId?: StringNullableFilter<"Lead"> | string | null
+    utmSource?: StringNullableFilter<"Lead"> | string | null
+    utmMedium?: StringNullableFilter<"Lead"> | string | null
+    utmCampaign?: StringNullableFilter<"Lead"> | string | null
+    utmContent?: StringNullableFilter<"Lead"> | string | null
+    utmTerm?: StringNullableFilter<"Lead"> | string | null
     promotedFromPipeline?: StringNullableFilter<"Lead"> | string | null
     promotedAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
     promotedReason?: StringNullableFilter<"Lead"> | string | null
@@ -183335,6 +183415,11 @@ export namespace Prisma {
     companyId?: SortOrder
     campaignId?: SortOrderInput | SortOrder
     trackingLinkId?: SortOrderInput | SortOrder
+    utmSource?: SortOrderInput | SortOrder
+    utmMedium?: SortOrderInput | SortOrder
+    utmCampaign?: SortOrderInput | SortOrder
+    utmContent?: SortOrderInput | SortOrder
+    utmTerm?: SortOrderInput | SortOrder
     promotedFromPipeline?: SortOrderInput | SortOrder
     promotedAt?: SortOrderInput | SortOrder
     promotedReason?: SortOrderInput | SortOrder
@@ -183395,6 +183480,11 @@ export namespace Prisma {
     companyId?: StringWithAggregatesFilter<"Lead"> | string
     campaignId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     trackingLinkId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    utmSource?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    utmMedium?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    utmCampaign?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    utmContent?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    utmTerm?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     promotedFromPipeline?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     promotedAt?: DateTimeNullableWithAggregatesFilter<"Lead"> | Date | string | null
     promotedReason?: StringNullableWithAggregatesFilter<"Lead"> | string | null
@@ -198374,6 +198464,11 @@ export namespace Prisma {
     aiStageReturnAt?: Date | string | null
     aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -198440,6 +198535,11 @@ export namespace Prisma {
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -198500,6 +198600,11 @@ export namespace Prisma {
     aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -198566,6 +198671,11 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -198629,6 +198739,11 @@ export namespace Prisma {
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -198678,6 +198793,11 @@ export namespace Prisma {
     aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -198728,6 +198848,11 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -215316,6 +215441,11 @@ export namespace Prisma {
     companyId?: SortOrder
     campaignId?: SortOrder
     trackingLinkId?: SortOrder
+    utmSource?: SortOrder
+    utmMedium?: SortOrder
+    utmCampaign?: SortOrder
+    utmContent?: SortOrder
+    utmTerm?: SortOrder
     promotedFromPipeline?: SortOrder
     promotedAt?: SortOrder
     promotedReason?: SortOrder
@@ -215372,6 +215502,11 @@ export namespace Prisma {
     companyId?: SortOrder
     campaignId?: SortOrder
     trackingLinkId?: SortOrder
+    utmSource?: SortOrder
+    utmMedium?: SortOrder
+    utmCampaign?: SortOrder
+    utmContent?: SortOrder
+    utmTerm?: SortOrder
     promotedFromPipeline?: SortOrder
     promotedAt?: SortOrder
     promotedReason?: SortOrder
@@ -215423,6 +215558,11 @@ export namespace Prisma {
     companyId?: SortOrder
     campaignId?: SortOrder
     trackingLinkId?: SortOrder
+    utmSource?: SortOrder
+    utmMedium?: SortOrder
+    utmCampaign?: SortOrder
+    utmContent?: SortOrder
+    utmTerm?: SortOrder
     promotedFromPipeline?: SortOrder
     promotedAt?: SortOrder
     promotedReason?: SortOrder
@@ -246708,6 +246848,11 @@ export namespace Prisma {
     aiStageReturnAt?: Date | string | null
     aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -246772,6 +246917,11 @@ export namespace Prisma {
     isInternal?: boolean
     campaignId?: string | null
     trackingLinkId?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -251086,6 +251236,11 @@ export namespace Prisma {
     companyId?: StringFilter<"Lead"> | string
     campaignId?: StringNullableFilter<"Lead"> | string | null
     trackingLinkId?: StringNullableFilter<"Lead"> | string | null
+    utmSource?: StringNullableFilter<"Lead"> | string | null
+    utmMedium?: StringNullableFilter<"Lead"> | string | null
+    utmCampaign?: StringNullableFilter<"Lead"> | string | null
+    utmContent?: StringNullableFilter<"Lead"> | string | null
+    utmTerm?: StringNullableFilter<"Lead"> | string | null
     promotedFromPipeline?: StringNullableFilter<"Lead"> | string | null
     promotedAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
     promotedReason?: StringNullableFilter<"Lead"> | string | null
@@ -254031,6 +254186,11 @@ export namespace Prisma {
     aiStageReturnAt?: Date | string | null
     aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -254095,6 +254255,11 @@ export namespace Prisma {
     isInternal?: boolean
     companyId: string
     trackingLinkId?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -255006,6 +255171,11 @@ export namespace Prisma {
     aiStageReturnAt?: Date | string | null
     aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -255070,6 +255240,11 @@ export namespace Prisma {
     isInternal?: boolean
     companyId: string
     campaignId?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -258160,6 +258335,11 @@ export namespace Prisma {
     aiStageReturnAt?: Date | string | null
     aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -258225,6 +258405,11 @@ export namespace Prisma {
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -258325,6 +258510,11 @@ export namespace Prisma {
     aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -258390,6 +258580,11 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -259102,6 +259297,11 @@ export namespace Prisma {
     aiStageReturnAt?: Date | string | null
     aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -259167,6 +259367,11 @@ export namespace Prisma {
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -259273,6 +259478,11 @@ export namespace Prisma {
     aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -259338,6 +259548,11 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -260700,6 +260915,11 @@ export namespace Prisma {
     aiStageReturnAt?: Date | string | null
     aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -260765,6 +260985,11 @@ export namespace Prisma {
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -261397,6 +261622,11 @@ export namespace Prisma {
     aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -261462,6 +261692,11 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -262096,6 +262331,11 @@ export namespace Prisma {
     aiStageReturnAt?: Date | string | null
     aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -262161,6 +262401,11 @@ export namespace Prisma {
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -262236,6 +262481,11 @@ export namespace Prisma {
     aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -262301,6 +262551,11 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -265431,6 +265686,11 @@ export namespace Prisma {
     aiStageReturnAt?: Date | string | null
     aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -265496,6 +265756,11 @@ export namespace Prisma {
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -266180,6 +266445,11 @@ export namespace Prisma {
     aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -266245,6 +266515,11 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -267876,6 +268151,11 @@ export namespace Prisma {
     aiStageReturnAt?: Date | string | null
     aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -267941,6 +268221,11 @@ export namespace Prisma {
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -268906,6 +269191,11 @@ export namespace Prisma {
     aiStageReturnAt?: Date | string | null
     aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -268971,6 +269261,11 @@ export namespace Prisma {
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -269485,6 +269780,11 @@ export namespace Prisma {
     aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -269550,6 +269850,11 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -289096,6 +289401,11 @@ export namespace Prisma {
     aiStageReturnAt?: Date | string | null
     aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -289161,6 +289471,11 @@ export namespace Prisma {
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -289614,6 +289929,11 @@ export namespace Prisma {
     aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -289679,6 +289999,11 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -307996,6 +308321,11 @@ export namespace Prisma {
     aiStageReturnAt?: Date | string | null
     aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -308061,6 +308391,11 @@ export namespace Prisma {
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -308686,6 +309021,11 @@ export namespace Prisma {
     aiStageReturnAt?: Date | string | null
     aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -308751,6 +309091,11 @@ export namespace Prisma {
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -308917,6 +309262,11 @@ export namespace Prisma {
     aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -308982,6 +309332,11 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -310812,6 +311167,11 @@ export namespace Prisma {
     aiStageReturnAt?: Date | string | null
     aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -310877,6 +311237,11 @@ export namespace Prisma {
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -311432,6 +311797,11 @@ export namespace Prisma {
     aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -311497,6 +311867,11 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -321868,6 +322243,11 @@ export namespace Prisma {
     aiStageReturnAt?: Date | string | null
     aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -321933,6 +322313,11 @@ export namespace Prisma {
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -322767,6 +323152,11 @@ export namespace Prisma {
     aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -322832,6 +323222,11 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -336043,6 +336438,11 @@ export namespace Prisma {
     aiStageReturnAt?: Date | string | null
     aiStageAnalyzedAt?: Date | string | null
     isInternal?: boolean
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -336108,6 +336508,11 @@ export namespace Prisma {
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -336301,6 +336706,11 @@ export namespace Prisma {
     aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -336366,6 +336776,11 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -339915,6 +340330,11 @@ export namespace Prisma {
     isInternal?: boolean
     campaignId?: string | null
     trackingLinkId?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -342069,6 +342489,11 @@ export namespace Prisma {
     aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -342133,6 +342558,11 @@ export namespace Prisma {
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -342195,6 +342625,11 @@ export namespace Prisma {
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -346052,6 +346487,11 @@ export namespace Prisma {
     isInternal?: boolean
     companyId: string
     trackingLinkId?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -346162,6 +346602,11 @@ export namespace Prisma {
     aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -346226,6 +346671,11 @@ export namespace Prisma {
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -346288,6 +346738,11 @@ export namespace Prisma {
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -346526,6 +346981,11 @@ export namespace Prisma {
     isInternal?: boolean
     companyId: string
     campaignId?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -346583,6 +347043,11 @@ export namespace Prisma {
     aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -346647,6 +347112,11 @@ export namespace Prisma {
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -346709,6 +347179,11 @@ export namespace Prisma {
     isInternal?: BoolFieldUpdateOperationsInput | boolean
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -348147,6 +348622,11 @@ export namespace Prisma {
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -348351,6 +348831,11 @@ export namespace Prisma {
     aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -348416,6 +348901,11 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -348478,6 +348968,11 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -351784,6 +352279,11 @@ export namespace Prisma {
     companyId: string
     campaignId?: string | null
     trackingLinkId?: string | null
+    utmSource?: string | null
+    utmMedium?: string | null
+    utmCampaign?: string | null
+    utmContent?: string | null
+    utmTerm?: string | null
     promotedFromPipeline?: string | null
     promotedAt?: Date | string | null
     promotedReason?: string | null
@@ -351885,6 +352385,11 @@ export namespace Prisma {
     aiStageReturnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aiStageAnalyzedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isInternal?: BoolFieldUpdateOperationsInput | boolean
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -351950,6 +352455,11 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null
@@ -352012,6 +352522,11 @@ export namespace Prisma {
     companyId?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     trackingLinkId?: NullableStringFieldUpdateOperationsInput | string | null
+    utmSource?: NullableStringFieldUpdateOperationsInput | string | null
+    utmMedium?: NullableStringFieldUpdateOperationsInput | string | null
+    utmCampaign?: NullableStringFieldUpdateOperationsInput | string | null
+    utmContent?: NullableStringFieldUpdateOperationsInput | string | null
+    utmTerm?: NullableStringFieldUpdateOperationsInput | string | null
     promotedFromPipeline?: NullableStringFieldUpdateOperationsInput | string | null
     promotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     promotedReason?: NullableStringFieldUpdateOperationsInput | string | null

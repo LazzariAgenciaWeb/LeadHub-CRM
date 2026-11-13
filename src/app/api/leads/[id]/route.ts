@@ -76,6 +76,22 @@ export async function PATCH(
     return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
   }
 
+  // Campanha vem do cliente: confere que é da MESMA empresa do lead antes de
+  // vincular. Sem isso, um PATCH montado à mão jogaria o lead na campanha de
+  // outra empresa e sujaria a contagem de leads por campanha dela.
+  if (body.campaignId) {
+    const campaign = await prisma.campaign.findFirst({
+      where: { id: String(body.campaignId), companyId: existing.companyId },
+      select: { id: true },
+    });
+    if (!campaign) {
+      return NextResponse.json(
+        { error: "Campanha não encontrada nesta empresa. Escolha uma campanha da própria empresa do lead." },
+        { status: 400 },
+      );
+    }
+  }
+
   const lead = await applyLeadUpdate(existing, body, { id: userId, name: session.user?.name ?? null });
   return NextResponse.json(lead);
 }

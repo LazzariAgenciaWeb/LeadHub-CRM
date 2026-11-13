@@ -112,6 +112,21 @@ export async function POST(req: NextRequest) {
     resolvedStage = firstStage?.name ?? null;
   }
 
+  // Mesma checagem do PATCH: campanha informada tem que ser da empresa do lead,
+  // senão a contagem de leads por campanha de outra empresa fica suja.
+  if (campaignId) {
+    const campaign = await prisma.campaign.findFirst({
+      where: { id: String(campaignId), companyId: effectiveCompanyId },
+      select: { id: true },
+    });
+    if (!campaign) {
+      return NextResponse.json(
+        { error: "Campanha não encontrada nesta empresa. Escolha uma campanha da própria empresa do lead." },
+        { status: 400 },
+      );
+    }
+  }
+
   const lead = await prisma.lead.create({
     data: {
       name: nameClean || null,

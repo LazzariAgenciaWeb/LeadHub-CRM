@@ -6,6 +6,85 @@ import { getClickupSettings, syncOportunidadeToClickup } from "@/lib/clickup";
 const ALLOWED_PIPELINES = ["PROSPECCAO", "LEADS", "OPORTUNIDADES"] as const;
 const ALLOWED_STATUS = ["NEW", "CONTACTED", "PROPOSAL", "CLOSED", "LOST"] as const;
 
+/** Texto do payload: devolve null pra vazio, pra cair direto em coluna nullable. */
+function txt(value: unknown, max = 255): string | null {
+  const s = String(value ?? "").trim();
+  return s ? s.slice(0, max) : null;
+}
+
+/**
+ * Slug da campanha — mesma regra do POST /api/campaigns, pra campanha criada
+ * pelo webhook e campanha criada na tela chegarem no mesmo slug e casarem.
+ */
+function campaignSlug(name: string): string {
+  return name
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+/**
+ * Canal da campanha deduzido do utm_source/utm_medium. Serve só pra campanha
+ * nascer com o ícone certo em /campanhas — dá pra trocar na tela depois.
+ */
+function campaignSourceFromUtm(hint: string | null): "WHATSAPP" | "INSTAGRAM" | "FACEBOOK" | "GOOGLE" | "LINK" | "OTHER" {
+  const h = (hint ?? "").toLowerCase();
+  if (h.includes("whats")) return "WHATSAPP";
+  if (h.includes("insta") || h === "ig") return "INSTAGRAM";
+  if (h.includes("face") || h === "fb" || h.includes("meta")) return "FACEBOOK";
+  if (h.includes("google") || h.includes("adwords") || h.includes("gads")) return "GOOGLE";
+  if (h.includes("link")) return "LINK";
+  return "OTHER";
+}
+
+/**
+ * Campanha declarada no payload (id, slug ou nome) → Campaign da empresa.
+ *
+ * Quando nada casa, CRIA a campanha. O pedido era poder dizer de qual campanha
+ * o lead veio direto no JSON; se a gente ignorasse um valor desconhecido, o
+ * lead voltaria a entrar sem campanha e a contagem por campanha seguiria
+ * furada — justamente o que ninguém percebe até precisar do número. O nome
+ * fica igual ao que veio: é só renomear em /campanhas que os leads vão junto,
+ * porque o vínculo é por id.
+ */
+async function resolveCampaignFromPayload(
+  companyId: string,
+  ref: string,
+  sourceHint: string | null,
+): Promise<{ id: string; source: string } | null> {
+  const name = ref.trim().slice(0, 120);
+  if (!name) return null;
+  const slug = campaignSlug(name);
+  if (!slug) return null; // nome só com símbolos não vira campanha
+
+  const match = {
+    companyId,
+    OR: [{ id: name }, { slug }, { name: { equals: name, mode: "insensitive" as const } }],
+  };
+
+  const found = await prisma.campaign.findFirst({ where: match, select: { id: true, source: true } });
+  if (found) return found;
+
+  try {
+    return await prisma.campaign.create({
+      data: {
+        companyId,
+        name,
+        slug,
+        source: campaignSourceFromUtm(sourceHint),
+        description: "Criada automaticamente pelo webhook de leads",
+      },
+      select: { id: true, source: true },
+    });
+  } catch {
+    // Corrida entre dois envios do mesmo formulário: o slug é único por empresa,
+    // então o segundo cai aqui e aproveita a campanha que o primeiro criou.
+    return prisma.campaign.findFirst({ where: match, select: { id: true, source: true } });
+  }
+}
+
 /**
  * Espelha no ClickUp o lead que está (ou acabou de entrar) em OPORTUNIDADES —
  * mesma regra do PATCH da tela do lead. Best-effort: falha de integração não
@@ -175,7 +254,26 @@ async function handlePost(
   // utm_campaign (slug da campanha) é o plano B quando o tráfego não passou
   // pelo shortlink (anúncio apontando direto pro site, por exemplo).
   const linkCode = String(body.utm_content ?? body.linkCode ?? body.link_code ?? "").trim();
-  const utmCampaignSlug = String(body.utm_campaign ?? "").trim().toLowerCase();
+
+  // UTMs crus, gravados como vieram. A campanha do lead é a relação com
+  // Campaign (é ela que conta lead por campanha); estes campos guardam o
+  // anúncio/criativo exato e a grafia original — sem eles, corrigir a
+  // atribuição depois significa perder de onde o lead realmente veio.
+  const utmSource   = txt(body.utm_source);
+  const utmMedium   = txt(body.utm_medium);
+  const utmCampaign = txt(body.utm_campaign);
+  const utmContent  = txt(body.utm_content) ?? (linkCode || null);
+  const utmTerm     = txt(body.utm_term);
+
+  // Campanha declarada no payload: "campaign"/"campanha" aceita id, slug ou o
+  // nome da campanha do LeadHub. Valor com {{...}} é template que a ferramenta
+  // não substituiu (acontece no formulário de lead da Meta) — ignorado, senão
+  // viraria uma campanha chamada "{{campaign.name}}".
+  const declaredCampaign = String(
+    body.campaign ?? body.campanha ?? body.campaignId ?? body.campaign_id ?? "",
+  ).trim();
+  const campaignProvided = !!declaredCampaign && !declaredCampaign.includes("{{");
+  const utmCampaignRef = utmCampaign && !utmCampaign.includes("{{") ? utmCampaign : null;
 
   const attributedLink = linkCode
     ? await prisma.trackingLink.findFirst({
@@ -193,12 +291,19 @@ async function handlePost(
   let attributedCampaign: { id: string; source: string } | null =
     attributedLink?.campaign ? { id: attributedLink.campaign.id, source: attributedLink.campaign.source } : null;
 
-  if (!attributedCampaign && utmCampaignSlug) {
-    const bySlug = await prisma.campaign.findFirst({
-      where: { companyId: company.id, slug: utmCampaignSlug },
-      select: { id: true, source: true },
-    });
-    if (bySlug) attributedCampaign = bySlug;
+  // Campo "campaign" explícito manda em tudo: quem escreveu no payload está
+  // dizendo de qual campanha o lead veio, e isso vale mais que o palpite do
+  // link. Já o utm_campaign só entra quando o link não trouxe campanha — o
+  // /r/CODE é um clique de verdade, logo mais confiável que a UTM da URL.
+  if (campaignProvided) {
+    const declared = await resolveCampaignFromPayload(
+      company.id, declaredCampaign, utmSource ?? utmMedium ?? source,
+    );
+    if (declared) attributedCampaign = declared;
+  } else if (!attributedCampaign && utmCampaignRef) {
+    attributedCampaign = await resolveCampaignFromPayload(
+      company.id, utmCampaignRef, utmSource ?? utmMedium ?? source,
+    );
   }
 
   // Origem herdada da atribuição: a do link, senão a da campanha.
@@ -228,6 +333,7 @@ async function handlePost(
     id: true, pipeline: true, pipelineStage: true, status: true,
     name: true, phone: true, notes: true, value: true, clickupTaskId: true,
     source: true, campaignId: true, trackingLinkId: true,
+    utmSource: true, utmMedium: true, utmCampaign: true, utmContent: true, utmTerm: true,
   } as const;
 
   const existing = leadId
@@ -264,6 +370,16 @@ async function handlePost(
           ...(segment ? { segment } : {}),
           ...(city ? { city } : {}),
           ...(instagram ? { instagram } : {}),
+          // Atribuição só preenche buraco: lead que veio do WhatsApp e depois
+          // preencheu o formulário ganha a campanha/UTM que faltava, sem que um
+          // repost da rotina reescreva a origem de um lead já atribuído.
+          ...(!existing.campaignId && attributedCampaign ? { campaignId: attributedCampaign.id } : {}),
+          ...(!existing.trackingLinkId && attributedLink ? { trackingLinkId: attributedLink.id } : {}),
+          ...(!existing.utmSource   && utmSource   ? { utmSource }   : {}),
+          ...(!existing.utmMedium   && utmMedium   ? { utmMedium }   : {}),
+          ...(!existing.utmCampaign && utmCampaign ? { utmCampaign } : {}),
+          ...(!existing.utmContent  && utmContent  ? { utmContent }  : {}),
+          ...(!existing.utmTerm     && utmTerm     ? { utmTerm }     : {}),
         },
       });
       return NextResponse.json({
@@ -289,8 +405,17 @@ async function handlePost(
       // Atribuição só preenche buraco: lead que já tem origem/campanha/link
       // gravados não é reescrito por um repost do formulário.
       ...(!sourceProvided && !existing.source && attributedSource ? { source: attributedSource } : {}),
-      ...(!existing.campaignId && attributedCampaign ? { campaignId: attributedCampaign.id } : {}),
+      // Campanha declarada no payload é correção explícita — troca a que estiver
+      // lá. A deduzida do link/UTM continua só preenchendo buraco.
+      ...(campaignProvided && attributedCampaign
+        ? { campaignId: attributedCampaign.id }
+        : !existing.campaignId && attributedCampaign ? { campaignId: attributedCampaign.id } : {}),
       ...(!existing.trackingLinkId && attributedLink ? { trackingLinkId: attributedLink.id } : {}),
+      ...(utmSource   ? { utmSource }   : {}),
+      ...(utmMedium   ? { utmMedium }   : {}),
+      ...(utmCampaign ? { utmCampaign } : {}),
+      ...(utmContent  ? { utmContent }  : {}),
+      ...(utmTerm     ? { utmTerm }     : {}),
       ...(value  != null ? { value }  : {}),
       ...(status != null ? { status } : {}),
     };
@@ -315,6 +440,7 @@ async function handlePost(
       select: {
         id: true, name: true, phone: true, email: true, value: true, notes: true,
         status: true, pipeline: true, pipelineStage: true, clickupTaskId: true,
+        campaign: { select: { id: true, name: true } },
       },
     });
 
@@ -343,6 +469,11 @@ async function handlePost(
       status:        status ?? "NEW",
       ...(attributedCampaign ? { campaignId: attributedCampaign.id } : {}),
       ...(attributedLink ? { trackingLinkId: attributedLink.id } : {}),
+      utmSource,
+      utmMedium,
+      utmCampaign,
+      utmContent,
+      utmTerm,
       pipeline,
       pipelineStage: pipelineStage ?? firstStage?.name ?? null,
       notes,
@@ -363,6 +494,7 @@ async function handlePost(
       id: true, name: true, phone: true, email: true, instagram: true,
       value: true, notes: true, status: true, pipeline: true,
       pipelineStage: true, clickupTaskId: true,
+      campaign: { select: { id: true, name: true } },
     },
   });
 
@@ -424,11 +556,18 @@ export async function GET(
       optional: [
         "name", "email", "source", "pipeline", "pipelineStage", "notes",
         "segment", "city", "website", "instagram", "value", "status",
+        "campaign", "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term",
         "fbc", "fbp", "fbclid", "eventSourceUrl",
       ],
       pipeline_values: ["PROSPECCAO", "LEADS", "OPORTUNIDADES"],
       status_values: ALLOWED_STATUS,
       meta_capi: "Para melhorar o match no Meta Ads, envie os cookies _fbc e _fbp (ou o fbclid da URL) + eventSourceUrl da landing.",
+      campanha: {
+        campo: '"campaign" (ou "campanha") aceita o nome, o slug ou o id da campanha. Sem ele, vale o utm_campaign.',
+        cria_sozinha: "Campanha que ainda não existe é criada na hora com esse nome — o lead já entra contado nela. Depois é só renomear em Campanhas, que os leads seguem junto.",
+        link: "Quando o tráfego passou pelo /r/CODE, o utm_content traz o código do link e a campanha dele é usada. Um \"campaign\" explícito no JSON tem prioridade sobre isso.",
+        utms: "utm_source, utm_medium, utm_campaign, utm_content e utm_term são gravados como vieram, pra auditar a atribuição depois.",
+      },
     },
     update: {
       como: 'Envie "update": true para atualizar um lead que já existe em vez de criar outro.',

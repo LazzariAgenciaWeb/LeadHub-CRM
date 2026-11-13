@@ -75,7 +75,7 @@ export default function WebhookSettings({ companyId, webhookToken: initialToken,
     if (!webhookUrl) return;
     const curl = `curl -X POST "${webhookUrl}" \\
   -H "Content-Type: application/json" \\
-  -d '{"name":"João Silva","phone":"5511999990001","email":"joao@email.com","source":"formulario-site","pipeline":"PROSPECCAO","notes":"Interesse no plano Pro"}'`;
+  -d '{"name":"João Silva","phone":"5511999990001","email":"joao@email.com","source":"formulario-site","campaign":"Black Friday 2026","pipeline":"PROSPECCAO","notes":"Interesse no plano Pro"}'`;
     navigator.clipboard.writeText(curl);
     setCopiedCurl(true);
     setTimeout(() => setCopiedCurl(false), 2000);
@@ -181,6 +181,8 @@ export default function WebhookSettings({ companyId, webhookToken: initialToken,
                 { field: "value / valor",    req: false, desc: "Valor do negócio (aceita 1500.50 ou 1.500,50)" },
                 { field: "status",           req: false, desc: "NEW, CONTACTED, PROPOSAL, CLOSED ou LOST" },
                 { field: "website / site",   req: false, desc: "Site do lead" },
+                { field: "campaign / campanha", req: false, desc: "Campanha de onde o lead veio — nome, slug ou id. Não existe ainda? É criada na hora" },
+                { field: "utm_source, utm_medium, utm_campaign, utm_content, utm_term", req: false, desc: "UTMs da landing, gravadas como vieram. Sem campaign, o utm_campaign vira a campanha" },
                 { field: "update",           req: false, desc: "true = atualiza o lead existente em vez de criar outro" },
               ].map(({ field, req, desc }) => (
                 <tr key={field}>
@@ -213,10 +215,42 @@ export default function WebhookSettings({ companyId, webhookToken: initialToken,
     "phone": "5511999990001",
     "email": "joao@email.com",
     "source": "formulario-site",
+    "campaign": "Black Friday 2026",
     "pipeline": "PROSPECCAO",
     "notes": "Interesse no plano Pro"
   }'`}
           </pre>
+        </div>
+      )}
+
+      {/* De qual campanha veio o lead */}
+      {webhookUrl && (
+        <div className="mb-6">
+          <h3 className="text-white text-sm font-semibold mb-2">De qual campanha veio o lead</h3>
+          <p className="text-slate-500 text-xs mb-3">
+            Mande <code className="text-indigo-300 font-mono">&quot;campaign&quot;</code> com o nome, o slug ou o id da
+            campanha. Se ela ainda não existir, é criada na hora com esse nome — o lead já entra contado nela,
+            e depois é só renomear em <strong className="text-slate-400">Campanhas</strong> que os leads vão junto.
+            Sem esse campo, vale o <code className="text-indigo-300 font-mono">utm_campaign</code> que a landing enviar.
+          </p>
+          <pre className="bg-[#080b12] border border-[#1e2d45] rounded-xl px-4 py-3 text-xs text-slate-300 font-mono overflow-x-auto whitespace-pre-wrap">
+{`curl -X POST "${webhookUrl}" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "name": "João Silva",
+    "phone": "5511999990001",
+    "campaign": "Black Friday 2026",
+    "utm_source": "instagram",
+    "utm_medium": "paid",
+    "utm_content": "criativo-carrossel-01"
+  }'`}
+          </pre>
+          <p className="text-slate-500 text-xs mt-2">
+            Quando o tráfego passa pelo link <code className="text-indigo-300 font-mono">/r/CODE</code>, a campanha
+            do link já entra sozinha — o <code className="text-indigo-300 font-mono">campaign</code> do JSON tem
+            prioridade sobre ela. As UTMs ficam gravadas como vieram e aparecem no lead, pra conferir qual anúncio
+            trouxe o contato.
+          </p>
         </div>
       )}
 

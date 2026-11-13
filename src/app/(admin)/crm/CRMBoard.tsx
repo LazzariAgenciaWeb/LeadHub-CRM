@@ -2,6 +2,7 @@
 
 import { useState, useTransition, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import {
   Search, Target, Lightbulb,
   Tag, Clock, FileText, Sparkles, Link2, Plug, Settings, MessageSquare, CheckSquare, Building2,
@@ -86,6 +87,13 @@ export interface CRMLead {
   diagnosisSource: string | null;
   diagnosisToken: string | null;
   diagnosisClickedAt: string | null;
+  // UTMs crus da conversão (webhook da landing). Só exibição — a campanha
+  // editável é `campaign`.
+  utmSource?: string | null;
+  utmMedium?: string | null;
+  utmCampaign?: string | null;
+  utmContent?: string | null;
+  utmTerm?: string | null;
   trackingLinkId: string | null;
   trackingLink: {
     id: string;
@@ -458,6 +466,7 @@ export default function CRMBoard({
 
   // Filtro por tag no header do Kanban
   const [tagFilterId, setTagFilterId] = useState<string | null>(null);
+  const [campaignFilterId, setCampaignFilterId] = useState<string | null>(null);
   // Filtros rápidos de prospect (header do kanban)
   const [filterHasEmail, setFilterHasEmail] = useState(false);
   const [filterHasWhatsapp, setFilterHasWhatsapp] = useState(false);
@@ -496,6 +505,13 @@ export default function CRMBoard({
   const [savingTask, setSavingTask] = useState(false);
 
   // Vincular tracking link
+  // Campanha do lead — mesma mecânica do link de rastreamento (lista da empresa,
+  // vincula/desvincula pelo PATCH).
+  const [showCampaignPicker, setShowCampaignPicker] = useState(false);
+  const [campaignOptions, setCampaignOptions] = useState<{ id: string; name: string; source: string }[]>([]);
+  const [loadingCampaigns, setLoadingCampaigns] = useState(false);
+  const [savingCampaign, setSavingCampaign] = useState(false);
+
   const [showLinkTracker, setShowLinkTracker] = useState(false);
   const [trackerLinks, setTrackerLinks] = useState<CRMLead["trackingLink"][]>([]);
   const [loadingTrackerLinks, setLoadingTrackerLinks] = useState(false);
@@ -579,6 +595,14 @@ export default function CRMBoard({
     return [...map.values()].sort((a, b) => a.name.localeCompare(b.name));
   })();
 
+  // Campanhas presentes em pelo menos 1 lead — alimenta o filtro do header.
+  // Derivado dos leads já carregados (não busca nada), igual ao filtro de tags.
+  const campaignsInUse = (() => {
+    const map = new Map<string, { id: string; name: string }>();
+    for (const l of leads) if (l.campaign && !map.has(l.campaign.id)) map.set(l.campaign.id, l.campaign);
+    return [...map.values()].sort((a, b) => a.name.localeCompare(b.name));
+  })();
+
   // Empresas presentes nos leads carregados (SUPER_ADMIN vê várias misturadas).
   const companiesInUse = (() => {
     const map = new Map<string, { id: string; name: string }>();
@@ -590,6 +614,10 @@ export default function CRMBoard({
   const filteredLeads = leads.filter((l) => {
     if (companyFilterId && l.company?.id !== companyFilterId) return false;
     if (tagFilterId && !(l.tags ?? []).some((t) => t.id === tagFilterId)) return false;
+    // "__sem__" = leads que não têm campanha nenhuma — é o recorte que mostra
+    // o que está entrando sem atribuição.
+    if (campaignFilterId === "__sem__" && l.campaign) return false;
+    if (campaignFilterId && campaignFilterId !== "__sem__" && l.campaign?.id !== campaignFilterId) return false;
     if (filterHasEmail && !l.email) return false;
     if (filterHasWhatsapp && l.hasWhatsapp !== true) return false;
     if (filterHasDiagnosis && !l.diagnosisAt) return false;
@@ -1299,6 +1327,36 @@ export default function CRMBoard({
     setEditingNotes(false);
   }
 
+  async function loadCampaigns() {
+    if (loadingCampaigns || campaignOptions.length > 0) return;
+    setLoadingCampaigns(true);
+    try {
+      const companyId = selected?.company?.id ?? defaultCompanyId ?? "";
+      const res = await fetch(`/api/campaigns?companyId=${companyId}`);
+      if (res.ok) setCampaignOptions(await res.json());
+    } catch { /* ignore */ } finally {
+      setLoadingCampaigns(false);
+    }
+  }
+
+  async function handleLinkCampaign(campaignId: string | null) {
+    if (!selected) return;
+    setSavingCampaign(true);
+    const res = await fetch(`/api/leads/${selected.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ campaignId }),
+    });
+    if (res.ok) {
+      const updated = await res.json();
+      const campaign = updated.campaign ?? null;
+      setSelected({ ...selected, campaign });
+      setLeads((prev) => prev.map((l) => (l.id === selected.id ? { ...l, campaign } : l)));
+      setShowCampaignPicker(false);
+    }
+    setSavingCampaign(false);
+  }
+
   async function loadTrackerLinks() {
     if (loadingTrackerLinks || trackerLinks.length > 0) return;
     setLoadingTrackerLinks(true);
@@ -1548,6 +1606,20 @@ export default function CRMBoard({
               {tagsInUse.map((t) => (
                 <option key={t.id} value={t.id}>{t.name}</option>
               ))}
+            </select>
+          )}
+          {campaignsInUse.length > 0 && (
+            <select
+              value={campaignFilterId ?? ""}
+              onChange={(e) => setCampaignFilterId(e.target.value || null)}
+              title="Filtrar por campanha"
+              className="bg-[#0f1623] border border-[#1e2d45] rounded-lg px-2.5 py-1.5 text-sm text-white focus:outline-none focus:border-indigo-500 cursor-pointer max-w-[180px]"
+            >
+              <option value="">📣 Todas as campanhas</option>
+              {campaignsInUse.map((c) => (
+                <option key={c.id} value={c.id}>{c.name}</option>
+              ))}
+              <option value="__sem__">— Sem campanha</option>
             </select>
           )}
           {/* Filtros rápidos de contato — agrupados num botão de filtro */}
@@ -2401,10 +2473,25 @@ export default function CRMBoard({
                   </div>
                   <div className="flex flex-wrap items-center gap-2">
                     <SourceBadge source={selected.source} size="md" />
-                    {selected.campaign && (
+                    {selected.campaign ? (
                       <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium border bg-orange-500/15 text-orange-300 border-orange-500/25">
                         📣 {selected.campaign.name}
+                        <button
+                          onClick={() => { setShowCampaignPicker((v) => !v); loadCampaigns(); }}
+                          title="Trocar ou desvincular a campanha"
+                          className="ml-1 text-orange-400/70 hover:text-orange-200 transition-colors"
+                        >
+                          ✏️
+                        </button>
                       </span>
+                    ) : (
+                      <button
+                        onClick={() => { setShowCampaignPicker((v) => !v); loadCampaigns(); }}
+                        title="Dizer de qual campanha este lead veio"
+                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs border border-dashed border-[#2a3d5a] text-slate-500 hover:text-slate-300 hover:border-[#3a5070] transition-colors"
+                      >
+                        + Campanha
+                      </button>
                     )}
                     {selected.trackingLink && (
                       <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium border bg-indigo-500/15 text-indigo-300 border-indigo-500/25">
@@ -2413,6 +2500,51 @@ export default function CRMBoard({
                       </span>
                     )}
                   </div>
+
+                  {/* UTMs como vieram da landing — mostra o anúncio/criativo exato
+                      quando o lead entrou pelo webhook. */}
+                  {(selected.utmSource || selected.utmMedium || selected.utmCampaign || selected.utmTerm) && (
+                    <div className="mt-2.5 pt-2.5 border-t border-[#1e2d45] flex flex-wrap gap-x-3 gap-y-1 text-[10px] text-slate-500 font-mono">
+                      {selected.utmSource   && <span>utm_source=<span className="text-slate-300">{selected.utmSource}</span></span>}
+                      {selected.utmMedium   && <span>utm_medium=<span className="text-slate-300">{selected.utmMedium}</span></span>}
+                      {selected.utmCampaign && <span>utm_campaign=<span className="text-slate-300">{selected.utmCampaign}</span></span>}
+                      {selected.utmTerm     && <span>utm_term=<span className="text-slate-300">{selected.utmTerm}</span></span>}
+                    </div>
+                  )}
+
+                  {showCampaignPicker && (
+                    <div className="mt-2.5 space-y-2 bg-[#0f1623] border border-[#1e2d45] rounded-lg p-3">
+                      {loadingCampaigns ? (
+                        <div className="text-center text-slate-600 text-xs py-3">Carregando...</div>
+                      ) : campaignOptions.length === 0 ? (
+                        <p className="text-slate-600 text-xs text-center py-3">
+                          Nenhuma campanha cadastrada. Crie uma em <Link href="/campanhas" className="text-indigo-400 hover:text-indigo-300 underline">Campanhas</Link>.
+                        </p>
+                      ) : (
+                        <div className="max-h-44 overflow-y-auto space-y-1">
+                          {campaignOptions.map((c) => (
+                            <button key={c.id} onClick={() => handleLinkCampaign(c.id)} disabled={savingCampaign}
+                              className={`w-full text-left px-3 py-2 rounded-lg text-xs transition-colors disabled:opacity-50 ${
+                                selected.campaign?.id === c.id
+                                  ? "bg-orange-500/20 border border-orange-500/40 text-orange-200"
+                                  : "bg-[#0a0f1a] border border-[#1e2d45] text-slate-300 hover:bg-[#161f30] hover:text-white"
+                              }`}>
+                              📣 {c.name}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                      <div className="flex items-center gap-2">
+                        {selected.campaign && (
+                          <button onClick={() => handleLinkCampaign(null)} disabled={savingCampaign}
+                            className="text-[10px] px-2 py-1 rounded bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 transition-colors disabled:opacity-50">
+                            Desvincular
+                          </button>
+                        )}
+                        <button onClick={() => setShowCampaignPicker(false)} className="text-slate-500 text-xs hover:text-white transition-colors">Cancelar</button>
+                      </div>
+                    </div>
+                  )}
 
                   {/* Rastreabilidade da promoção: veio de outro pipeline + via qual gatilho */}
                   {selected.promotedFromPipeline && (
