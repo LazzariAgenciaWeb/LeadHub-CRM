@@ -304,7 +304,7 @@ export default function CompanyArquivos({ clientId }: { clientId: string }) {
                       <div className="flex gap-3">
                         <a href={href} target="_blank" rel="noopener noreferrer" className="shrink-0">
                           {it.kind === "FILE" && so && isImageMime(so.mimeType) ? (
-                            <img src={`/api/storage/${so.id}`} alt={it.title} loading="lazy" className="w-16 h-16 object-cover rounded-lg border border-[#1e2d45]" />
+                            <img src={`/api/storage/${so.id}?v=thumb`} alt={it.title} loading="lazy" className="w-16 h-16 object-cover rounded-lg border border-[#1e2d45]" />
                           ) : (
                             <span className="w-16 h-16 rounded-lg border border-[#1e2d45] bg-[#0a0f1a] flex items-center justify-center text-2xl">
                               {lk ? lk.icon : fileEmoji(so?.mimeType, so?.fileName)}

@@ -40,7 +40,7 @@ function Anexos({ imgs, outros }: { imgs: Item[]; outros: Item[] }) {
       {imgs.map((im) => (
         <a key={im.key} href={im.url} target="_blank" rel="noopener noreferrer" title={im.name}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={im.url} alt={im.name} loading="lazy"
+          <img src={`${im.url}&v=view`} alt={im.name} loading="lazy"
             style={{ display: "block", maxWidth: "100%", maxHeight: 420, borderRadius: 10, border: "1px solid #1E2D45" }} />
         </a>
       ))}

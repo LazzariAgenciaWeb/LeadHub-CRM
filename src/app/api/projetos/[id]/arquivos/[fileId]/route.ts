@@ -3,13 +3,15 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { presignDownload } from "@/lib/storage/s3";
 import { fileVisibleToClient } from "@/lib/client-task-files";
+import { imageVariant, parseVariant, variantResponse } from "@/lib/storage/thumb";
 
 // Mesma lista do /api/storage/[id]: só abre no navegador o que é seguro.
 const INLINE_OK = /^(image\/(png|jpe?g|gif|webp|avif)|application\/pdf|video\/(mp4|webm|quicktime)|audio\/[\w.+-]+|text\/plain)$/i;
 
 /**
  * GET /api/projetos/[id]/arquivos/[fileId]            → abre (preview quando seguro)
- * GET /api/projetos/[id]/arquivos/[fileId]?download=1 → baixa
+ * GET /api/projetos/[id]/arquivos/[fileId]?download=1 → baixa (sempre o original)
+ * GET /api/projetos/[id]/arquivos/[fileId]?v=thumb    → versão leve, só pra ver
  *
  * Arquivo de tarefa pro painel do CLIENTE. O /api/storage/[id] só libera a
  * equipe da agência; aqui o acesso é:
@@ -60,6 +62,12 @@ export async function GET(
 
   if (asClient && (!task.visibleToClient || task.ignoredAt || !fileVisibleToClient(task.comments, fileId))) {
     return new NextResponse("Não encontrado", { status: 404 });
+  }
+
+  const variant = req.nextUrl.searchParams.get("download") === "1" ? null : parseVariant(req.nextUrl.searchParams.get("v"));
+  if (variant) {
+    const buf = await imageVariant(obj, variant);
+    if (buf) return variantResponse(buf);
   }
 
   const download = req.nextUrl.searchParams.get("download") === "1" || !INLINE_OK.test(obj.mimeType);

@@ -618,9 +618,10 @@ export default function AprovarClient(p: Props) {
                       <button type="button" className="full" onClick={() => setReadId(f.id)}>⤢ Ler em tela cheia</button>
                     </>
                   ) : f.mimeType.startsWith("image/") ? (
+                    // Versão leve (até 1600 px) pra ver e aprovar; "Baixar" entrega o original.
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
-                      src={fileUrl(f.id)}
+                      src={`${fileUrl(f.id)}?v=view`}
                       alt={`${p.title}: ${f.fileName}`}
                       loading={i < 2 ? "eager" : "lazy"}
                       onLoad={(e) => {
@@ -780,7 +781,7 @@ export default function AprovarClient(p: Props) {
                         <a key={f.id} href={fileUrl(f.id)} target="_blank" rel="noopener noreferrer" title={f.fileName}>
                           {/^image\//i.test(f.mimeType)
                             // eslint-disable-next-line @next/next/no-img-element
-                            ? <img src={fileUrl(f.id)} alt={f.fileName} loading="lazy" />
+                            ? <img src={`${fileUrl(f.id)}?v=thumb`} alt={f.fileName} loading="lazy" />
                             : <span>{f.fileName.split(".").pop()}</span>}
                         </a>
                       ))}

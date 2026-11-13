@@ -1181,7 +1181,7 @@ function CommentAttachmentCard({
         {isImage ? (
           <a href={`/api/storage/${a.id}`} target="_blank" rel="noopener noreferrer" className="shrink-0 relative" title={a.fileName}>
             <img
-              src={`/api/storage/${a.id}`}
+              src={`/api/storage/${a.id}?v=thumb`}
               alt={a.fileName}
               loading="lazy"
               className={`w-20 h-20 object-cover rounded border border-[#1e2d45] hover:opacity-90 transition ${rejected ? "opacity-50 grayscale" : ""}`}

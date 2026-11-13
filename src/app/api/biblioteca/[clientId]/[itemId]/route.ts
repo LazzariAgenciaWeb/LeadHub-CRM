@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { deleteObject } from "@/lib/storage/s3";
+import { deleteImageVariants } from "@/lib/storage/thumb";
 import { libraryAccess, normalizeFolder, normalizeUrl, LIBRARY_ITEM_SELECT } from "@/lib/client-library";
 
 type Ctx = { params: Promise<{ clientId: string; itemId: string }> };
@@ -55,6 +56,7 @@ export async function DELETE(_req: NextRequest, { params }: Ctx) {
 
   if (r.item.storageObject) {
     await deleteObject(r.item.storageObject.key).catch(() => {});
+    await deleteImageVariants(r.item.storageObject.key);
     await prisma.storageObject.delete({ where: { id: r.item.storageObject.id } });
   } else {
     await prisma.clientLibraryItem.delete({ where: { id: itemId } });

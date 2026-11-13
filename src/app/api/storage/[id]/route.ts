@@ -3,6 +3,7 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { presignDownload, deleteObject, MEDIA_TTL_SEC } from "@/lib/storage/s3";
 import { authorizeTarget, targetOf, isManager } from "@/lib/storage/access";
+import { imageVariant, parseVariant, variantResponse, deleteImageVariants } from "@/lib/storage/thumb";
 
 // Tipos que o navegador pode abrir direto (preview). O resto sempre baixa —
 // evita HTML/script servido inline a partir do domínio do storage.
@@ -54,6 +55,8 @@ async function loadByTicketToken(id: string, token: string) {
 // GET /api/storage/[id]            → abre (preview quando seguro)
 // GET /api/storage/[id]?download=1 → força download
 // GET /api/storage/[id]?t=<token>  → página pública do chamado, sem login
+// GET /api/storage/[id]?v=thumb|view → versão leve da imagem, só pra ver
+//                                     (lib/storage/thumb); baixar = original
 // Redireciona pra uma URL assinada de curta duração no MinIO.
 export async function GET(
   req: NextRequest,
@@ -61,11 +64,16 @@ export async function GET(
 ) {
   const { id } = await params;
   const download = req.nextUrl.searchParams.get("download") === "1";
+  const variant = download ? null : parseVariant(req.nextUrl.searchParams.get("v"));
 
   const token = req.nextUrl.searchParams.get("t");
   if (token) {
     const obj = await loadByTicketToken(id, token);
     if (obj) {
+      if (variant) {
+        const buf = await imageVariant(obj, variant);
+        if (buf) return variantResponse(buf);
+      }
       const url = await presignDownload(obj.key, obj.fileName, { download: download || !INLINE_OK.test(obj.mimeType), ...mediaTtl(obj.mimeType) });
       const res = NextResponse.redirect(url, 302);
       res.headers.set("Cache-Control", "private, no-store");
@@ -78,6 +86,11 @@ export async function GET(
 
   const r = await load(session, id);
   if ("error" in r) return NextResponse.json({ error: r.error }, { status: r.status });
+
+  if (variant && r.obj.status === "READY") {
+    const buf = await imageVariant(r.obj, variant);
+    if (buf) return variantResponse(buf);
+  }
 
   const url = await presignDownload(r.obj.key, r.obj.fileName, { download: download || !INLINE_OK.test(r.obj.mimeType), ...mediaTtl(r.obj.mimeType) });
   const res = NextResponse.redirect(url, 302);
@@ -104,6 +117,7 @@ export async function DELETE(
   }
 
   await deleteObject(r.obj.key);
+  await deleteImageVariants(r.obj.key);
   await prisma.storageObject.delete({ where: { id } });
 
   if (r.obj.projectTaskId) {

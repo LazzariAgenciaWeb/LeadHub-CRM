@@ -32,7 +32,7 @@ export default function AttachmentList({
             <div key={f.id} className="relative group">
               <a href={`/api/storage/${f.id}`} target="_blank" rel="noopener noreferrer" title={f.fileName}>
                 <img
-                  src={`/api/storage/${f.id}`}
+                  src={`/api/storage/${f.id}?v=thumb`}
                   alt={f.fileName}
                   loading="lazy"
                   className={`${compact ? "w-16 h-16" : "w-20 h-20"} object-cover rounded-lg border border-[#1e2d45] hover:opacity-90 transition`}

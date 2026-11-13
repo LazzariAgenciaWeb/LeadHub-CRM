@@ -88,7 +88,7 @@ function ClientFileCard({ a, url, dl }: {
       <div className={`cfile ${rej ? "rej" : ""}`}>
         <a className="cfthumb" href={url} target="_blank" rel="noopener noreferrer" title={a.fileName}>
           {isImage
-            ? <img src={url} alt={a.fileName} loading="lazy" />
+            ? <img src={`${url}${url.includes("?") ? "&" : "?"}v=thumb`} alt={a.fileName} loading="lazy" />
             : <span className="cfic">📄</span>}
           {rej && <span className={`rib ${st === "reprovada" ? "rep" : ""}`}>{st === "reprovada" ? "REPROVADA" : "VERSÃO ANTIGA"}</span>}
         </a>

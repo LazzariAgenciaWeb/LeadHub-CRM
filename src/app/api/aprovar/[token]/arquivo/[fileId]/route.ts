@@ -2,12 +2,15 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { presignDownload, MEDIA_TTL_SEC } from "@/lib/storage/s3";
 import { fileVisibleToClient } from "@/lib/client-task-files";
+import { imageVariant, parseVariant, variantResponse } from "@/lib/storage/thumb";
 
 // Mesma lista do /api/storage/[id]: só abre no navegador o que é seguro.
 const INLINE_OK = /^(image\/(png|jpe?g|gif|webp|avif)|application\/pdf|video\/(mp4|webm|quicktime)|audio\/[\w.+-]+|text\/plain)$/i;
 
 // GET /api/aprovar/[token]/arquivo/[fileId] — arquivo da peça no link de
 // aprovação. O token só abre arquivos DESTA tarefa e visíveis ao cliente.
+// ?v=thumb|view → versão leve só pra ver (miniatura / carrossel). Baixar
+// (?download=1) e abrir sem ?v entregam sempre o ORIGINAL.
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ token: string; fileId: string }> },
@@ -25,6 +28,12 @@ export async function GET(
   });
   if (!obj || obj.status !== "READY" || obj.projectTaskId !== task.id || !fileVisibleToClient(task.comments, fileId)) {
     return new NextResponse("Não encontrado", { status: 404 });
+  }
+
+  const variant = req.nextUrl.searchParams.get("download") === "1" ? null : parseVariant(req.nextUrl.searchParams.get("v"));
+  if (variant) {
+    const buf = await imageVariant(obj, variant);
+    if (buf) return variantResponse(buf);
   }
 
   const download = req.nextUrl.searchParams.get("download") === "1" || !INLINE_OK.test(obj.mimeType);
