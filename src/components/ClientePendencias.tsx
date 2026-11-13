@@ -36,7 +36,8 @@ type PortalProps = Pick<Props, "temAcesso" | "agencia" | "origem">;
 const CSS = `
 .cpd,.cpd-top{--cpd-ink:#E2E8F0;--cpd-ink2:#AFB6C6;--cpd-ink3:#727A8C;--cpd-warn:#F5B564;
   --cpd-line:rgba(255,255,255,.1);--cpd-card:rgba(255,255,255,.04);
-  margin-top:26px;font-family:inherit;color:var(--cpd-ink)}
+  font-family:inherit;color:var(--cpd-ink)}
+.cpd{margin-top:26px}
 .cpd *{box-sizing:border-box}
 .cpd-box{padding:14px 16px;border-radius:16px;border:1px solid var(--cpd-line);background:var(--cpd-card)}
 .cpd-box+.cpd-box{margin-top:10px}
@@ -64,12 +65,20 @@ const CSS = `
 .cpd-erro{margin:0;font-size:12.5px;color:#FCA5A5}
 .cpd-ok{margin:0;font-size:13px;color:#86EFAC;line-height:1.5}
 .cpd-wa{font-size:12.5px;color:var(--accent,#7C9BFF);text-decoration:none;font-weight:600}
-.cpd-top{position:relative;flex:none;font-family:inherit;color:var(--cpd-ink)}
+.cpd-top{position:relative;flex:none;display:flex;align-items:center;margin:0}
 .cpd-top *{box-sizing:border-box}
-.cpd-pill{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;cursor:pointer;
-  border:1px solid var(--cpd-line);background:rgba(255,255,255,.05);color:var(--cpd-ink2);
-  font-family:inherit;font-size:12.5px;font-weight:600;white-space:nowrap}
-.cpd-pill:hover,.cpd-pill[aria-expanded=true]{color:var(--cpd-ink);border-color:rgba(255,255,255,.22)}
+.cpd-fab{position:relative;display:grid;place-items:center;width:42px;height:42px;margin:0;padding:0;border:0;border-radius:50%;
+  cursor:pointer;background:var(--accent,#6E86FF);color:var(--on-accent,#fff);
+  box-shadow:0 6px 18px rgba(0,0,0,.4),0 0 0 3px color-mix(in srgb,var(--accent,#6E86FF) 22%,transparent);
+  transition:transform .15s ease}
+.cpd-fab:hover{transform:scale(1.06)}
+.cpd-fab:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.cpd-fab svg{width:21px;height:21px;display:block}
+.cpd-badge{position:absolute;top:-5px;right:-5px;min-width:20px;height:20px;padding:0 5px;border-radius:999px;
+  background:#EF4444;color:#fff;border:2px solid #06070C;font-size:11px;font-weight:800;line-height:16px;
+  text-align:center;letter-spacing:0;text-transform:none;font-family:inherit}
+.cpd-pop .cpd-list{margin:8px 0 12px}
+.cpd-sep{height:1px;background:var(--cpd-line);margin:12px 0}
 .cpd-pop{position:absolute;right:0;top:calc(100% + 8px);z-index:40;width:min(330px,calc(100vw - 32px));
   padding:14px 16px;border-radius:16px;border:1px solid var(--cpd-line);background:#12141B;
   box-shadow:0 18px 40px rgba(0,0,0,.5);text-align:left}
@@ -180,12 +189,24 @@ function PortalConteudo(p: PortalProps) {
   );
 }
 
+/** Ícone de pessoa (traço), no lugar do emoji — fica igual em todo aparelho. */
+function IconeUsuario() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <circle cx="12" cy="8" r="4" />
+      <path d="M4 21v-1a7 7 0 0 1 7-7h2a7 7 0 0 1 7 7v1" />
+    </svg>
+  );
+}
+
 /**
- * Botão "Portal do cliente" pro topo da tela, ao lado da logo. Abre um painel
- * com a mesma porta (entrar ou pedir acesso) — fica fora do caminho de quem só
- * veio aprovar.
+ * Botão redondo do portal pro topo da tela, ao lado da logo, com contador das
+ * OUTRAS peças esperando aprovação (esta não conta — já está na tela). Abre um
+ * painel com essas peças e a porta do portal (entrar ou pedir acesso) — fica
+ * fora do caminho de quem só veio aprovar.
  */
-export function PortalAcesso(p: PortalProps) {
+export function PortalAcesso(p: PortalProps & { aprovacoes?: ItemPendente[] }) {
+  const pendentes = p.aprovacoes ?? [];
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -208,11 +229,38 @@ export function PortalAcesso(p: PortalProps) {
   return (
     <div className="cpd-top" ref={ref}>
       <style>{CSS}</style>
-      <button type="button" className="cpd-pill" aria-expanded={open} onClick={() => setOpen((v) => !v)}>
-        <span aria-hidden>👤</span> {p.temAcesso ? "Entrar no portal" : "Portal do cliente"}
+      <button
+        type="button"
+        className="cpd-fab"
+        aria-expanded={open}
+        aria-label={pendentes.length
+          ? `Portal do cliente: ${pendentes.length} ${pendentes.length === 1 ? "outra peça" : "outras peças"} pra aprovar`
+          : "Portal do cliente"}
+        title="Portal do cliente"
+        onClick={() => setOpen((v) => !v)}
+      >
+        <IconeUsuario />
+        {pendentes.length > 0 && <b className="cpd-badge">{pendentes.length > 9 ? "9+" : pendentes.length}</b>}
       </button>
       {/* Montado sempre (só escondido): fechar o painel não apaga o pedido em andamento. */}
       <div className="cpd-pop" hidden={!open}>
+        {pendentes.length > 0 && (
+          <>
+            <p className="cpd-h warn">⏳ {pendentes.length === 1 ? "Mais 1 peça esperando você" : `Mais ${pendentes.length} peças esperando você`}</p>
+            <ul className="cpd-list">
+              {pendentes.map((it) => (
+                <li key={it.url}>
+                  <a className="cpd-item" href={it.url}>
+                    <span className="ico">🎨</span>
+                    <span className="tx"><b>{it.title}</b>{it.sub && <small>{it.sub}</small>}</span>
+                    <span className="go">Aprovar →</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <div className="cpd-sep" />
+          </>
+        )}
         <PortalConteudo temAcesso={p.temAcesso} agencia={p.agencia} origem={p.origem} />
       </div>
     </div>

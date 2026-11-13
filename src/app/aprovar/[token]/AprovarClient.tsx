@@ -173,7 +173,7 @@ input.f:focus,textarea.f:focus{outline:none;border-color:var(--accent)}
 .brandbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:14px;margin-bottom:16px;border-bottom:1px solid var(--line)}
 .brandbar img{height:30px;width:auto;max-width:150px;object-fit:contain;display:block}
 .brandbar b{font-size:15px;letter-spacing:-.01em}
-.brandbar span{font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em}
+.brandbar>span,.brandbar .bbr>span{font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em}
 .brandbar .bbr{display:flex;align-items:center;gap:12px;min-width:0}
 @media (max-width:560px){.brandbar .bbr>span{display:none}}
 .made{margin-top:28px;text-align:center;font-size:11px;color:var(--ink3)}
@@ -543,6 +543,7 @@ export default function AprovarClient(p: Props) {
             <span>Aprovação de peças</span>
             {/* Portal no topo: embaixo ele se confundia com aprovar/ajustar. */}
             <PortalAcesso
+              aprovacoes={p.pendencias.aprovacoes}
               temAcesso={p.pendencias.temAcesso}
               agencia={p.pendencias.agencia}
               origem={{ kind: "aprovacao", token: p.token }}
