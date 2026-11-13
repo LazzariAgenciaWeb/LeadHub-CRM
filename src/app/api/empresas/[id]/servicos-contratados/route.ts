@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
+import { can } from "@/lib/permissions";
 import { cleanCobranca } from "@/lib/client-service-billing";
 import { cleanVigencia } from "@/lib/client-service-vigencia";
 
@@ -31,7 +32,9 @@ async function authorize(session: any, companyId: string) {
     select: { id: true, parentCompanyId: true },
   });
   if (!company) return { error: NextResponse.json({ error: "Empresa não encontrada" }, { status: 404 }) };
-  const ok = role === "SUPER_ADMIN" || company.parentCompanyId === userCompanyId || company.id === userCompanyId;
+  // Financeiro do cliente é dado sensível: além do vínculo com a empresa,
+  // atendente (CLIENT) precisa do setor com "Financeiro" liberado.
+  const ok = can(session, "canViewFinanceiro") && (role === "SUPER_ADMIN" || company.parentCompanyId === userCompanyId || company.id === userCompanyId);
   if (!ok) return { error: NextResponse.json({ error: "Sem permissão" }, { status: 403 }) };
   // Catálogo pertence à agência (mãe) — ou à própria empresa se for top-level.
   const catalogOwnerId = company.parentCompanyId ?? company.id;

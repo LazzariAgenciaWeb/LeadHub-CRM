@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
+import { can } from "@/lib/permissions";
 import { Prisma } from "@/generated/prisma";
 import { cleanCobranca } from "@/lib/client-service-billing";
 import { cleanVigencia } from "@/lib/client-service-vigencia";
@@ -31,7 +32,9 @@ async function loadAndAuth(session: any, companyId: string, csId: string) {
     include: { clientCompany: { select: { id: true, parentCompanyId: true } } },
   });
   if (!cs || cs.clientCompanyId !== companyId) return { error: NextResponse.json({ error: "Não encontrado" }, { status: 404 }) };
-  const ok = role === "SUPER_ADMIN" || cs.clientCompany.parentCompanyId === userCompanyId || cs.clientCompany.id === userCompanyId;
+  // Financeiro do cliente é dado sensível: além do vínculo com a empresa,
+  // atendente (CLIENT) precisa do setor com "Financeiro" liberado.
+  const ok = can(session, "canViewFinanceiro") && (role === "SUPER_ADMIN" || cs.clientCompany.parentCompanyId === userCompanyId || cs.clientCompany.id === userCompanyId);
   if (!ok) return { error: NextResponse.json({ error: "Sem permissão" }, { status: 403 }) };
   return { cs, catalogOwnerId: cs.clientCompany.parentCompanyId ?? cs.clientCompany.id };
 }

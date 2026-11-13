@@ -1,6 +1,7 @@
 import { getEffectiveSession } from "./effective-session";
 import { prisma } from "./prisma";
 import { assertModule } from "./billing";
+import { can } from "./permissions";
 
 /**
  * Regras de acesso ao Cofre:
@@ -8,6 +9,11 @@ import { assertModule } from "./billing";
  *  - ADMIN da empresa-pai: acesso a sub-empresas que ele gerencia (parentCompanyId match).
  *  - ADMIN da própria empresa: acesso ao cofre da empresa dele.
  *  - CLIENT (cliente final): acesso de escrita total ao cofre da própria empresa.
+ *  - CLIENT atendente da empresa-pai: entra na sub-empresa se o setor libera
+ *    ver clientes (canViewCompanies) + o módulo em questão — Cofre nas rotas
+ *    do cofre, Marketing nas rotas de marketing/integrações (checkCofreModule
+ *    = false). No cofre escreve mas não apaga (igual cliente final); em
+ *    marketing é só leitura.
  *  - Demais: negado.
  *
  * fix A3 — quando `checkCofreModule=true` (default), valida que o plano da
@@ -75,6 +81,23 @@ export async function authorizeVaultAccess(
     });
     if (sub?.parentCompanyId === userCompanyId) {
       return { ok: true, companyId: targetCompanyId, userId, userName: u.name ?? u.email ?? "?", userRole: role, canWrite: true, canDelete: true };
+    }
+  }
+
+  // Atendente da empresa-pai: liberado pelo setor (ver clientes + módulo).
+  if (role === "CLIENT" && userCompanyId && can(session, "canViewCompanies")) {
+    const perm = checkCofreModule ? "canViewCofre" : "canViewMarketing";
+    if (can(session, perm)) {
+      const sub = await prisma.company.findUnique({
+        where: { id: targetCompanyId },
+        select: { parentCompanyId: true },
+      });
+      if (sub?.parentCompanyId === userCompanyId) {
+        return {
+          ok: true, companyId: targetCompanyId, userId, userName: u.name ?? u.email ?? "?", userRole: role,
+          canWrite: checkCofreModule, canDelete: false,
+        };
+      }
     }
   }
 

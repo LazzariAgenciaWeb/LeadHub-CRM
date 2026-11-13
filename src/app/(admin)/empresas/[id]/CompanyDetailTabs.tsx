@@ -14,6 +14,7 @@ import CompanyContractedServices from "./CompanyContractedServices";
 import CompanyFinanceiro from "./CompanyFinanceiro";
 import CompanyFinanceHistory, { type FinanceLogItem } from "./CompanyFinanceHistory";
 import CompanyBillingNotes from "./CompanyBillingNotes";
+import type { ClientRecordAccess } from "@/lib/permissions";
 
 interface Campaign {
   id: string;
@@ -121,6 +122,11 @@ interface Props {
   invoices: any[];
   financeLogs: FinanceLogItem[];
   billingNotes: string | null;
+  /**
+   * Abas liberadas pro usuário (permissões do setor). Ausente = tudo liberado.
+   * É só a vitrine: o page.tsx não consulta o dado e as APIs barram por conta.
+   */
+  access?: ClientRecordAccess;
 }
 
 const SOURCE_ICON: Record<string, string> = {
@@ -197,6 +203,17 @@ const TABS: { id: TabId; label: string; icon: string; superAdminOnly?: boolean; 
   { id: "integracoes",  label: "Integrações",  icon: "🔌" },
   { id: "plano",        label: "Plano",        icon: "💳", realSuperAdminOnly: true },
 ];
+// Permissão de setor que cada aba exige. Aba fora do mapa é do cadastro em si
+// (contatos, arquivos) e aparece pra quem vê o cliente.
+const TAB_ACCESS: Partial<Record<TabId, keyof ClientRecordAccess>> = {
+  servicos: "financeiro", cobrancas: "financeiro", historico: "financeiro", vendas: "financeiro",
+  negociacoes: "negociacoes",
+  projetos: "projetos",
+  chamados: "chamados",
+  marketing: "marketing", integracoes: "marketing",
+  campanhas: "campanhas",
+  cofre: "cofre",
+};
 const TAB_BY_ID = Object.fromEntries(TABS.map((t) => [t.id, t])) as Record<TabId, (typeof TABS)[number]>;
 
 // Grupos de 1º nível. Grupo com >1 aba mostra uma barra de sub-abas embaixo;
@@ -234,6 +251,7 @@ export default function CompanyDetailTabs({
   financeLogs,
   billingNotes,
   isClientCompany = false,
+  access,
 }: Props) {
   // Counts for tab labels
   const counts: Record<TabId, number> = {
@@ -263,7 +281,8 @@ export default function CompanyDetailTabs({
   const isTabVisible = (id: TabId) =>
     (!TAB_BY_ID[id].superAdminOnly || isSuperAdmin) &&
     (!TAB_BY_ID[id].realSuperAdminOnly || isRealSuperAdmin) &&
-    (id !== "arquivos" || isClientCompany);
+    (id !== "arquivos" || isClientCompany) &&
+    (!access || !TAB_ACCESS[id] || access[TAB_ACCESS[id]!]);
   const visibleGroups = GROUPS
     .map((g) => ({ ...g, tabs: g.tabIds.filter(isTabVisible) }))
     .filter((g) => g.tabs.length > 0);
@@ -287,7 +306,7 @@ export default function CompanyDetailTabs({
       "#arquivos": "arquivos",
     };
     const alvo = porAncora[window.location.hash];
-    if (alvo) {
+    if (alvo && isTabVisible(alvo)) {
       setActiveTab(alvo);
       document.getElementById("empresa-abas")?.scrollIntoView({ behavior: "smooth", block: "start" });
     }

@@ -162,6 +162,36 @@ export function can(session: any, permission: keyof UserPermissions): boolean {
   return getPermissions(session)[permission];
 }
 
+/**
+ * O que o usuário enxerga DENTRO do cadastro de um cliente (/empresas/[id]).
+ * Ver o cliente (canViewCompanies) não abre tudo: cada grupo de abas segue a
+ * mesma permissão de setor que já vale pro módulo no menu — quem não tem
+ * Financeiro no menu também não vê cobrança dentro do cliente.
+ * ADMIN/SUPER_ADMIN recebem tudo (getPermissions já devolve ALL).
+ */
+export interface ClientRecordAccess {
+  financeiro: boolean;  // serviços contratados, cobranças, histórico, vendas fechadas
+  negociacoes: boolean;
+  projetos: boolean;
+  chamados: boolean;
+  marketing: boolean;   // marketing + integrações
+  campanhas: boolean;
+  cofre: boolean;
+}
+
+export function clientRecordAccess(session: any): ClientRecordAccess {
+  const p = getPermissions(session);
+  return {
+    financeiro: p.canViewFinanceiro,
+    negociacoes: p.canViewLeads,
+    projetos: p.canViewProjetos,
+    chamados: p.canViewTickets,
+    marketing: p.canViewMarketing,
+    campanhas: p.canViewCampanhas,
+    cofre: p.canViewCofre,
+  };
+}
+
 /** Verifica se o módulo está habilitado para a empresa */
 export function hasModule(session: any, module: keyof UserModules): boolean {
   return getModules(session)[module];

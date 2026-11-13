@@ -2,7 +2,7 @@ import { redirect, notFound } from "next/navigation";
 import { getEffectiveSession, isImpersonating } from "@/lib/effective-session";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { can } from "@/lib/permissions";
+import { can, clientRecordAccess } from "@/lib/permissions";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import DeleteCompanyButton from "./DeleteCompanyButton";
@@ -34,6 +34,10 @@ export default async function EmpresaDetailPage({
 
   // CLIENT sem canViewCompanies → sem acesso
   if (role === "CLIENT" && !can(session, "canViewCompanies")) redirect("/dashboard");
+
+  // O que este usuário enxerga dentro do cadastro: cada grupo de abas segue a
+  // permissão do setor. Sem a permissão, o dado nem é consultado.
+  const access = clientRecordAccess(session);
 
   const { id } = await params;
   // Super admin só é super admin aqui quando NÃO está impersonando. Dentro de
@@ -96,23 +100,23 @@ export default async function EmpresaDetailPage({
   // Serviços contratados + catálogo da agência (seletor) + financeiro do cliente.
   const catalogOwnerId = company.parentCompanyId ?? id;
   const [contractedRaw, catalogRaw, invoicesRaw, financeLogsRaw] = await Promise.all([
-    prisma.clientService.findMany({
+    !access.financeiro ? [] : prisma.clientService.findMany({
       where:   { clientCompanyId: id },
       orderBy: [{ order: "asc" }, { createdAt: "desc" }],
       include: { service: { select: { id: true, name: true } } },
     }),
-    prisma.service.findMany({
+    !access.financeiro ? [] : prisma.service.findMany({
       where:   { companyId: catalogOwnerId },
       orderBy: [{ order: "asc" }, { name: "asc" }],
       select:  { id: true, name: true },
     }),
-    prisma.clientInvoice.findMany({
+    !access.financeiro ? [] : prisma.clientInvoice.findMany({
       where:   { clientCompanyId: id },
       orderBy: [{ status: "asc" }, { dueDate: "desc" }],
       include: { clientService: { select: { id: true, label: true } } },
     }),
     // Trilha de auditoria do financeiro deste cliente (quem/quando/por quê).
-    prisma.financeLog.findMany({
+    !access.financeiro ? [] : prisma.financeLog.findMany({
       where: { clientCompanyId: id },
       orderBy: { createdAt: "desc" },
       take: 80,
@@ -183,7 +187,7 @@ export default async function EmpresaDetailPage({
   const projectVis = projectVisibilityWhere(viewer);
 
   const [salesRaw, projetosRaw, chamadosRaw] = await Promise.all([
-    prisma.sale.findMany({
+    !access.financeiro ? [] : prisma.sale.findMany({
       where: { clientCompanyId: id },
       orderBy: { closedAt: "desc" },
       select: {
@@ -192,7 +196,7 @@ export default async function EmpresaDetailPage({
         projectId: true,
       },
     }),
-    prisma.setorClickupList.findMany({
+    !access.projetos ? [] : prisma.setorClickupList.findMany({
       where: { clientCompanyId: id, ...(projectVis ? { AND: [projectVis] } : {}) },
       orderBy: [{ dueDate: "asc" }, { createdAt: "desc" }],
       select: {
@@ -202,7 +206,7 @@ export default async function EmpresaDetailPage({
         service: { select: { name: true } },
       },
     }),
-    prisma.ticket.findMany({
+    !access.chamados ? [] : prisma.ticket.findMany({
       where: {
         clientCompanyId: id,
         ...(realRole !== "SUPER_ADMIN" ? { isInternal: false } : {}),
@@ -235,7 +239,7 @@ export default async function EmpresaDetailPage({
   if (emailMatches.length)  leadOr.push({ email: { in: emailMatches, mode: "insensitive" } });
   if (company.name.trim())  leadOr.push({ name: { equals: company.name.trim(), mode: "insensitive" } });
 
-  const negociacoesRaw = agencyId && agencyId !== id && leadOr.length > 0
+  const negociacoesRaw = access.negociacoes && agencyId && agencyId !== id && leadOr.length > 0
     ? await prisma.lead.findMany({
         where: { companyId: agencyId, OR: leadOr },
         orderBy: { updatedAt: "desc" },
@@ -294,11 +298,11 @@ export default async function EmpresaDetailPage({
   const chamadosAbertos = chamados.filter((t) => t.status === "OPEN" || t.status === "IN_PROGRESS").length;
 
   const relacionamento = [
-    { label: "Negociações em aberto", value: negAbertas,      color: "text-amber-400" },
-    { label: "Negociações ganhas",    value: negGanhas,       color: "text-green-400" },
-    { label: "Projetos em andamento", value: projetosAbertos, color: "text-indigo-400" },
-    { label: "Chamados em aberto",    value: chamadosAbertos, color: "text-orange-400" },
-  ];
+    { label: "Negociações em aberto", value: negAbertas,      color: "text-amber-400",  show: access.negociacoes },
+    { label: "Negociações ganhas",    value: negGanhas,       color: "text-green-400",  show: access.negociacoes },
+    { label: "Projetos em andamento", value: projetosAbertos, color: "text-indigo-400", show: access.projetos },
+    { label: "Chamados em aberto",    value: chamadosAbertos, color: "text-orange-400", show: access.chamados },
+  ].filter((r) => r.show);
 
   // Usuários da empresa sem Contato vinculado (órfãos) → viram linhas "virtual:"
   // na aba Acessos & usuários, pra logins criados direto também aparecerem.
@@ -482,6 +486,7 @@ export default async function EmpresaDetailPage({
                 <span className={`font-bold text-sm ${row.color}`}>{row.value}</span>
               </div>
             ))}
+            {access.financeiro && (
             <div className="border-t border-[#1e2d45] pt-2 mt-1 flex items-center justify-between">
               <span className="text-slate-400 text-xs font-semibold">Vendas fechadas</span>
               <span className="text-white font-bold text-sm">
@@ -493,6 +498,10 @@ export default async function EmpresaDetailPage({
                 )}
               </span>
             </div>
+            )}
+            {relacionamento.length === 0 && !access.financeiro && (
+              <div className="text-slate-600 text-xs">Nada liberado para o seu setor aqui.</div>
+            )}
           </div>
         </div>
 
@@ -532,7 +541,7 @@ export default async function EmpresaDetailPage({
       <div id="empresa-abas">
         <CompanyDetailTabs
           companyId={id}
-          campaigns={company.campaigns as any}
+          campaigns={(access.campanhas ? company.campaigns : []) as any}
           negociacoes={negociacoes}
           vendas={vendas}
           projetos={projetos}
@@ -544,7 +553,8 @@ export default async function EmpresaDetailPage({
           contracted={contracted}
           catalog={catalogRaw}
           invoices={invoices}
-          billingNotes={(company as any).billingNotes ?? null}
+          access={access}
+          billingNotes={access.financeiro ? ((company as any).billingNotes ?? null) : null}
           financeLogs={financeLogsRaw.map((l) => ({
             id: l.id,
             entity: l.entity,

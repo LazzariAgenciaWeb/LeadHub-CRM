@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
+import { can } from "@/lib/permissions";
 import { logFinance, agencyOf } from "@/lib/finance-log";
 
 const STATUSES = ["ABERTO", "PAGO", "CANCELADO"];
@@ -13,7 +14,9 @@ async function loadAndAuth(session: any, companyId: string, invId: string) {
     include: { clientCompany: { select: { id: true, parentCompanyId: true } } },
   });
   if (!inv || inv.clientCompanyId !== companyId) return { error: NextResponse.json({ error: "Não encontrado" }, { status: 404 }) };
-  const ok = role === "SUPER_ADMIN" || inv.clientCompany.parentCompanyId === userCompanyId || inv.clientCompany.id === userCompanyId;
+  // Financeiro do cliente é dado sensível: além do vínculo com a empresa,
+  // atendente (CLIENT) precisa do setor com "Financeiro" liberado.
+  const ok = can(session, "canViewFinanceiro") && (role === "SUPER_ADMIN" || inv.clientCompany.parentCompanyId === userCompanyId || inv.clientCompany.id === userCompanyId);
   if (!ok) return { error: NextResponse.json({ error: "Sem permissão" }, { status: 403 }) };
   return { inv };
 }
