@@ -26,7 +26,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ tok
     where: { approvalToken: token },
     select: {
       id: true, title: true, status: true, projectId: true, comments: true, clickupTaskId: true, assigneeId: true,
-      approvalRound: true, approvalFileIds: true, approvalLinks: true,
+      approvalRound: true, approvalFileIds: true, approvalLinks: true, approvalSentAt: true,
       project: { select: { setor: { select: { companyId: true } } } },
     },
   });

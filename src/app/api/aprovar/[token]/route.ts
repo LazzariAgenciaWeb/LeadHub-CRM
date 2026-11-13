@@ -35,7 +35,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ tok
     where: { approvalToken: token },
     select: {
       id: true, title: true, status: true, comments: true, clickupTaskId: true, projectId: true,
-      approvalCommentAt: true, approvalRound: true, approvalFileIds: true, approvalLinks: true,
+      approvalCommentAt: true, approvalRound: true, approvalFileIds: true, approvalLinks: true, approvalSentAt: true,
       project: { select: { approvalGroupJid: true, setor: { select: { companyId: true } } } },
     },
   });
@@ -108,6 +108,8 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ tok
       completedAt:    now,
       approvedAt:     now,
       approvedByName: name,
+      // A rodada fecha: o que o cliente aprovou vira a lista da versão.
+      approvalFileIds: [...inPiece],
       comments:       sanitizeComments([...updated, clientComment]) ?? Prisma.DbNull,
     },
   });

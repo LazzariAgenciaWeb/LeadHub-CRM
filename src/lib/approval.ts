@@ -75,13 +75,22 @@ export async function collectApprovalFiles(
 /**
  * Arquivos que o cliente vê no link agora. 1ª rodada: montado na hora (inclui
  * o que a equipe subir depois do envio). Da 2ª em diante: a lista guardada no
- * envio, pra versão anterior não voltar misturada.
+ * envio, pra versão anterior não voltar misturada — mais o que a equipe subir
+ * DEPOIS do envio enquanto o cliente não respondeu (ex.: artes trazidas do
+ * ClickUp depois de enviar). É a mesma lista que o "Reenviar" montaria. Quando
+ * o cliente responde, a lista fecha (freezePieceFiles).
  */
-export async function pieceFileIds(task: { id: string; comments: unknown; approvalRound: number; approvalFileIds: unknown }): Promise<string[]> {
+export async function pieceFileIds(task: {
+  id: string; comments: unknown; status: string; approvalRound: number; approvalFileIds: unknown; approvalSentAt: Date | null;
+}): Promise<string[]> {
   // Da 2ª rodada em diante vale a lista gravada no envio — inclusive VAZIA:
   // rodada só de texto (legenda depois das fotos aprovadas) não reabre as fotos,
   // senão um ajuste na legenda marcaria as artes aprovadas como "alteração".
-  if (task.approvalRound > 1 && Array.isArray(task.approvalFileIds)) return readFileIds(task.approvalFileIds);
+  if (task.approvalRound > 1 && Array.isArray(task.approvalFileIds)) {
+    const sent = readFileIds(task.approvalFileIds);
+    if (task.status !== "AGUARDANDO_CLIENTE" || !task.approvalSentAt) return sent;
+    return (await collectApprovalFiles(task, { since: task.approvalSentAt, keep: sent })).ids;
+  }
   return (await collectApprovalFiles(task)).ids;
 }
 

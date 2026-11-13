@@ -43,7 +43,7 @@ export const MAX_ADJ_TEXT = 1000;
 export const MAX_OPEN_PER_ROUND = 50;
 
 /** Itens do carrossel na ordem da página: arquivos e depois vídeos por link. */
-export async function pieceOrder(task: { id: string; comments: unknown; approvalRound: number; approvalFileIds: unknown; approvalLinks: unknown }): Promise<string[]> {
+export async function pieceOrder(task: Parameters<typeof pieceFileIds>[0] & { approvalLinks: unknown }): Promise<string[]> {
   const files = await pieceFileIds(task);
   const links = (await pieceLinks(task)).map((l) => linkItemId(l.url));
   return [...files, ...links];
@@ -84,7 +84,7 @@ export async function sendAdjustments(args: {
     where: { id: taskId },
     select: {
       id: true, title: true, status: true, comments: true, clickupTaskId: true, projectId: true,
-      approvalCommentAt: true, approvalRound: true, approvalFileIds: true, approvalLinks: true,
+      approvalCommentAt: true, approvalRound: true, approvalFileIds: true, approvalLinks: true, approvalSentAt: true,
       project: { select: { approvalGroupJid: true, setor: { select: { companyId: true } } } },
     },
   });
@@ -164,6 +164,9 @@ export async function sendAdjustments(args: {
     data: {
       status: "EM_PRODUCAO", awaitingClient: false, done: false, completedAt: null,
       approvedAt: null, approvedByName: null,
+      // A rodada fecha: o que o cliente viu (inclusive o que subiu depois do
+      // envio) vira a lista da versão.
+      approvalFileIds: [...inPiece],
       comments: sanitizeComments([...updated, clientComment]) ?? Prisma.DbNull,
     },
   });

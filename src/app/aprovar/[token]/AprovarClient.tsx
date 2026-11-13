@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { MarkdownDoc } from "@/components/MarkdownDoc";
-import ClientePendencias, { type ItemPendente } from "@/components/ClientePendencias";
+import ClientePendencias, { PortalAcesso, type ItemPendente } from "@/components/ClientePendencias";
 import type { AdjustmentView } from "@/lib/approval-adjustments";
 
 /**
@@ -174,6 +174,8 @@ input.f:focus,textarea.f:focus{outline:none;border-color:var(--accent)}
 .brandbar img{height:30px;width:auto;max-width:150px;object-fit:contain;display:block}
 .brandbar b{font-size:15px;letter-spacing:-.01em}
 .brandbar span{font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em}
+.brandbar .bbr{display:flex;align-items:center;gap:12px;min-width:0}
+@media (max-width:560px){.brandbar .bbr>span{display:none}}
 .made{margin-top:28px;text-align:center;font-size:11px;color:var(--ink3)}
 .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line2)}
 .err{color:#FF8A8A;font-size:13px}
@@ -537,7 +539,15 @@ export default function AprovarClient(p: Props) {
             // eslint-disable-next-line @next/next/no-img-element
             ? <img src={p.brand.logoUrl} alt={p.brand.name} />
             : <b>{p.brand.name}</b>}
-          <span>Aprovação de peças</span>
+          <div className="bbr">
+            <span>Aprovação de peças</span>
+            {/* Portal no topo: embaixo ele se confundia com aprovar/ajustar. */}
+            <PortalAcesso
+              temAcesso={p.pendencias.temAcesso}
+              agencia={p.pendencias.agencia}
+              origem={{ kind: "aprovacao", token: p.token }}
+            />
+          </div>
         </div>
         <div className="eyebrow">
           {p.clientName && <span>{p.clientName}</span>}
@@ -792,6 +802,7 @@ export default function AprovarClient(p: Props) {
           temAcesso={p.pendencias.temAcesso}
           agencia={p.pendencias.agencia}
           origem={{ kind: "aprovacao", token: p.token }}
+          semPortal
         />
 
         <div className="links">

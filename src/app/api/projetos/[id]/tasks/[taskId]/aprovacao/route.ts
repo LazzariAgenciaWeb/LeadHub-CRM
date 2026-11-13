@@ -69,7 +69,10 @@ export async function POST(
   const picked = await collectApprovalFiles(task, sameRound
     ? { since: task.approvalSentAt, keep: readFileIds(task.approvalFileIds) }
     : { since: task.approvalRound > 0 ? task.approvalSentAt : null });
-  const fileIds = picked.ids;
+  // Rodada nova: o que entrou na versão anterior depois do envio dela (e ficou
+  // na lista quando o cliente respondeu) não volta como "novo".
+  const prevIds = new Set(sameRound ? [] : readFileIds(task.approvalFileIds));
+  const fileIds = picked.ids.filter((id) => !prevIds.has(id));
   // Vídeos por link (Drive/YouTube) — mesma regra de rodada dos arquivos.
   const links = await collectApprovalLinks(task, sameRound
     ? { since: task.approvalSentAt, keep: readLinks(task.approvalLinks) }
