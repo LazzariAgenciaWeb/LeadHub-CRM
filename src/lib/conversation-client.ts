@@ -73,6 +73,22 @@ const STOPWORDS = new Set([
   "clinica", "studio", "estudio", "casa", "instituto", "escritorio", "loja", "lojas", "restaurante", "hotel",
   "pousada", "academia", "escola", "centro", "consultorio", "farmacia", "imobiliaria", "advogados", "advocacia",
   "associados", "consultoria", "comercio", "servicos", "industria", "distribuidora", "empresa", "solucoes",
+  "colegio", "laboratorio", "supermercado", "mercado", "auto", "pecas", "metais",
+]);
+
+// Primeiro nome sozinho não identifica cliente pessoa física: "Gustavo" não é
+// o cliente GUSTAVO BARROS ALVES. Com esse primeiro token o nome parcial exige
+// mais uma palavra em comum.
+const FIRST_NAMES = new Set([
+  "ana", "maria", "jose", "joao", "antonio", "francisco", "carlos", "paulo", "pedro", "lucas", "luiz", "luis",
+  "marcos", "marcio", "marcelo", "gustavo", "rodrigo", "andre", "fernando", "rafael", "bruno", "eduardo",
+  "felipe", "gabriel", "daniel", "leonardo", "mateus", "matheus", "vinicius", "guilherme", "ricardo", "sergio",
+  "roberto", "diego", "thiago", "tiago", "claudio", "fabio", "flavio", "vitor", "victor", "igor", "alexandre",
+  "leandro", "rogerio", "edson", "douglas", "jean", "william", "cesar", "erick", "eric", "gilson", "julio",
+  "juliana", "fernanda", "patricia", "camila", "amanda", "mariana", "aline", "vanessa", "leticia", "larissa",
+  "bruna", "julia", "beatriz", "gabriela", "adriana", "sandra", "marcia", "luciana", "cristina", "renata",
+  "simone", "erica", "eliane", "kelly", "sabrina", "natalia", "priscila", "jessica", "tatiana", "carla",
+  "thais", "paola", "paula", "marina", "clara", "sofia", "laura", "lara", "isabela", "debora", "monica",
 ]);
 
 export function normalizeName(s: string | null | undefined): string {
@@ -105,8 +121,13 @@ export function nameMatch(convName: string, client: ClientRef, agencyStop: Set<s
     const toks = significantTokens(n, agencyStop);
     if (toks.length === 0) continue;
     if (toks.every((t) => conv.has(t)) && toks.some((t) => t.length >= 3)) return "NOME";
+    // Parcial: o nome da conversa COMEÇA pela primeira palavra distintiva do
+    // cliente ("Gamma Travel" ↔ "Gamma Turismo"); "Fort Metais" não casa
+    // "Metais Cobra". Primeiro nome de pessoa precisa de mais uma em comum.
     const first = toks[0];
-    if (first.length >= 4 && conv.has(first)) best = "NOME_PARCIAL";
+    const convFirst = significantTokens(convName, agencyStop)[0];
+    const shared = toks.filter((t) => conv.has(t)).length;
+    if (first.length >= 4 && first === convFirst && (shared >= 2 || !FIRST_NAMES.has(first))) best = "NOME_PARCIAL";
   }
   return best;
 }

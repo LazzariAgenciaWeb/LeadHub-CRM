@@ -33,11 +33,26 @@ function puros() {
   const azz: ClientRef = { id: "z", name: "AZZ Software" };
 
   ok("grupo 'Bushatsky + AZZ Agência' casa Bushatsky (nome completo)", nameMatch("Bushatsky + AZZ Agência", bush, stop) === "NOME");
-  ok("grupo 'Nobre Corretora | AZZ' casa Nobre (parcial)", nameMatch("Nobre Corretora | AZZ", nobre, stop) !== null);
+  ok("grupo 'Nobre Corretora | AZZ' casa Nobre", nameMatch("Nobre Corretora | AZZ", nobre, stop) !== null);
   ok("grupo 'Mania de Móveis + AZZ' casa Mania de Móveis", nameMatch("Mania de Móveis + AZZ", mania, stop) === "NOME");
   ok("contato 'Financeiro Agrofértil' casa Agrofértil (acento ignorado)", nameMatch("Financeiro Agrofertil", agro, stop) !== null);
   ok("nome da agência não casa cliente que só divide 'AZZ'", nameMatch("Bushatsky + AZZ Agência", azz, stop) === null);
   ok("nome sem nada a ver não casa", nameMatch("Família Silva", bush, stop) === null);
+  // Casos reais da 1ª simulação em produção (16/11/2026) que davam errado.
+  const gustavo: ClientRef = { id: "g", name: "GUSTAVO BARROS ALVES" };
+  const mariaA: ClientRef = { id: "ma", name: "MARIA AUGUSTA PLATES METAIS" };
+  const cobra: ClientRef = { id: "mc", name: "Metais Cobra" };
+  const autoPecas: ClientRef = { id: "ap", name: "AUTO PECAS CHATEAUBRIAND LTDA - EPP" };
+  const terra: ClientRef = { id: "ts", name: "Colégio Terra do Saber" };
+  ok("'Gustavo' não casa GUSTAVO BARROS ALVES (só primeiro nome)", nameMatch("Gustavo", gustavo, stop) === null);
+  ok("'Gustavo Fossá' não casa GUSTAVO BARROS ALVES", nameMatch("Gustavo Fossá", gustavo, stop) === null);
+  ok("'Maria Inês' não casa MARIA AUGUSTA PLATES METAIS", nameMatch("Maria Inês", mariaA, stop) === null);
+  ok("grupo 'Fort Metais + Azz' não casa Metais Cobra", nameMatch("Fort Metais + Azz", cobra, stop) === null);
+  ok("'Chico Auto Peças + AZZ' não casa AUTO PECAS CHATEAUBRIAND", nameMatch("Chico Auto Peças + AZZ", autoPecas, stop) === null);
+  ok("'Colégio Ceeduc + Azz' não casa Colégio Terra do Saber", nameMatch("Colégio Ceeduc + Azz", terra, stop) === null);
+  ok("'Gado Nobre + Azz' não casa Nobre Corretora", nameMatch("Gado Nobre + Azz", nobre, stop) === null);
+  ok("'Gamma Travel + Azz' casa Gamma Turismo (parcial)", nameMatch("Gamma Travel + Azz", { id: "gt", name: "Gamma Turismo - Marco" }, stop) === "NOME_PARCIAL");
+  ok("'Erick Santiago' casa ERICK DO NASCIMENTO PLACIDO SANTIAGO (2 palavras)", nameMatch("Erick Santiago", { id: "e", name: "ERICK DO NASCIMENTO PLACIDO SANTIAGO" }, stop) !== null);
 
   const clients = new Map([bush, nobre, mania, agro].map((c) => [c.id, c]));
   const s1 = pickSuggestion([{ clientId: "b", reason: "NOME" }], clients);
