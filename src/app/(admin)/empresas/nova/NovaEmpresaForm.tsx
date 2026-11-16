@@ -57,17 +57,26 @@ export default function NovaEmpresaForm({ isSuperAdmin }: Props) {
       payload.moduleTickets = form.moduleTickets;
     }
 
-    const res = await fetch("/api/companies", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+    // Falha de rede ou erro 500 sem JSON também precisa aparecer na tela —
+    // antes o botão só voltava ao normal e parecia que "não salvou" sem motivo.
+    let res: Response;
+    try {
+      res = await fetch("/api/companies", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+    } catch {
+      setLoading(false);
+      setError("Não foi possível salvar: sem conexão com o servidor. Tente de novo.");
+      return;
+    }
 
     setLoading(false);
 
     if (!res.ok) {
-      const data = await res.json();
-      setError(data.error ?? "Erro ao criar empresa");
+      const data = await res.json().catch(() => null);
+      setError(data?.error ?? `Erro ao salvar (código ${res.status}). Tente de novo.`);
       return;
     }
 

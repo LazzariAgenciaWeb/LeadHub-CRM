@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
-import { isSuperAdmin, isAdmin, can } from "@/lib/permissions";
+import { isSuperAdmin, can } from "@/lib/permissions";
 
 // GET /api/companies?search= — Lista empresas
 // SUPER_ADMIN: vê todos os tenants (empresas de nível 1)
@@ -64,8 +62,12 @@ export async function GET(req: NextRequest) {
 // POST /api/companies — Criar empresa
 // SUPER_ADMIN: cria empresa de nível 1 (com opções de hasSystemAccess, módulos)
 // CLIENT: cria sub-empresa vinculada a si (parentCompanyId automático)
+//
+// Usa getEffectiveSession (igual o GET): o SUPER_ADMIN impersonando uma agência
+// cadastra um CLIENTE dela. Com a sessão real o registro nascia como empresa de
+// nível 1, sem parentCompanyId — salvava, mas nunca aparecia em "Meus Clientes".
 export async function POST(request: NextRequest) {
-  const session = await getServerSession(authOptions);
+  const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
 
   const role = (session.user as any).role;
