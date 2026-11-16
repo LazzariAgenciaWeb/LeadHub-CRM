@@ -89,16 +89,18 @@ const LISTA_SELECT = {
   account: { select: { label: true, fromEmail: true } },
   lead:   { select: { id: true, name: true } },
   ticket: { select: { id: true, title: true } },
+  clientCompany: { select: { id: true, name: true } },
+  clientMark: true,
   _count: { select: { attachments: true } },
 } as const;
 
 export const listarEmails: ToolDef<{
   pasta?: string; query?: string; de?: string; naoLidos?: boolean;
-  desde?: string; ate?: string; leadId?: string; ticketId?: string; limite?: number;
+  desde?: string; ate?: string; leadId?: string; ticketId?: string; clientCompanyId?: string; limite?: number;
 }> = {
   name: "listar_emails",
   description:
-    "Procura na CAIXA DE EMAIL da empresa (recebidos e enviados) pra pegar informação — o que o cliente pediu, o que foi combinado, o orçamento que chegou. Filtra por pasta, texto (assunto, resumo e corpo), remetente, não lidos, período, lead ou chamado. Devolve id, data, remetente, assunto e um resumo de cada um; pro texto inteiro, anexos e a conversa toda use ler_email. É SÓ LEITURA — não responde nem apaga nada.",
+    "Procura na CAIXA DE EMAIL da empresa (recebidos e enviados) pra pegar informação — o que o cliente pediu, o que foi combinado, o orçamento que chegou. Filtra por pasta, texto (assunto, resumo e corpo), remetente, não lidos, período, lead, chamado ou cliente (clientCompanyId: os emails ligados àquele cliente, enviados e recebidos). Devolve id, data, remetente, assunto e um resumo de cada um; pro texto inteiro, anexos e a conversa toda use ler_email. É SÓ LEITURA — não responde nem apaga nada.",
   input_schema: {
     type: "object",
     properties: {
@@ -110,6 +112,7 @@ export const listarEmails: ToolDef<{
       ate:      { type: "string", description: "Até esta data (ISO 8601 com fuso)." },
       leadId:   { type: "string", description: "Só os ligados a este lead (ignora a pasta)." },
       ticketId: { type: "string", description: "Só os ligados a este chamado (ignora a pasta)." },
+      clientCompanyId: { type: "string", description: "Só os ligados a este cliente (ignora a pasta)." },
       limite:   { type: "number", description: "Quantos trazer. Default 20, máximo 50." },
     },
   },
@@ -120,7 +123,7 @@ export const listarEmails: ToolDef<{
     }
 
     const limite = Math.min(Math.max(input.limite ?? 20, 1), 50);
-    const porVinculo = !!(input.leadId || input.ticketId);
+    const porVinculo = !!(input.leadId || input.ticketId || input.clientCompanyId);
 
     const pastaPedida = (input.pasta ?? "").trim().toUpperCase();
     if (pastaPedida && pastaPedida !== "TODAS" && !PASTAS.includes(pastaPedida as (typeof PASTAS)[number])) {
@@ -134,6 +137,7 @@ export const listarEmails: ToolDef<{
     if (porVinculo) {
       if (input.leadId)   where.leadId = input.leadId;
       if (input.ticketId) where.ticketId = input.ticketId;
+      if (input.clientCompanyId) where.clientCompanyId = input.clientCompanyId;
       where.folder = { not: "TRASH" };
     } else if (pastaPedida === "TODAS") {
       where.folder = { in: PASTAS_UTEIS };
@@ -173,7 +177,7 @@ export const listarEmails: ToolDef<{
     if (emails.length === 0) {
       return ok(
         porVinculo
-          ? "Nenhum email ligado a esse lead/chamado."
+          ? "Nenhum email ligado a esse lead/chamado/cliente."
           : `Nenhum email${input.query ? ` com "${input.query}"` : ""}${input.de ? ` de "${input.de}"` : ""} em ${pastaPedida || "INBOX"}.`,
         { data: { emails: [] } },
       );
@@ -183,6 +187,8 @@ export const listarEmails: ToolDef<{
       const vinc = [
         e.lead   ? `lead "${e.lead.name}"` : null,
         e.ticket ? `chamado "${e.ticket.title}"` : null,
+        e.clientCompany ? `cliente "${e.clientCompany.name}"` : null,
+        e.clientMark ? `marcado como ${e.clientMark === "ACEITE" ? "aceite" : "confirmação de faturamento"}` : null,
       ].filter(Boolean).join(" · ");
       const resumo = e.aiSummary?.trim() || e.snippet;
       return (
@@ -245,6 +251,7 @@ export const lerEmail: ToolDef<{ emailId: string; incluirConversa?: boolean }> =
     ];
     if (e.lead)   cab.push(`Lead ligado: "${e.lead.name}" (id=${e.lead.id})`);
     if (e.ticket) cab.push(`Chamado ligado: "${e.ticket.title}" (id=${e.ticket.id})`);
+    if (e.clientCompany) cab.push(`Cliente: "${e.clientCompany.name}" (id=${e.clientCompany.id})${e.clientMark ? ` · marcado como ${e.clientMark}` : ""}`);
     if (e.aiImportance || e.aiSummary) {
       cab.push(`Triagem: ${e.aiImportance ?? "—"}${e.aiSummary ? ` · ${texto(e.aiSummary, 200)}` : ""}`);
     }

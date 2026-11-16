@@ -87,6 +87,8 @@ export default async function EsteiraPage() {
         ? { id: s.clientCompany.id, name: nomeCliente(s.clientCompany) }
         : null,
       contractStatus: s.contractStatus,
+      acceptedAt: s.acceptedAt?.toISOString() ?? null,
+      billingConfirmed: s.billingConfirmed,
       billingStatus: s.billingStatus,
       productionStatus: s.productionStatus,
       deliveredAt: s.deliveredAt?.toISOString() ?? null,

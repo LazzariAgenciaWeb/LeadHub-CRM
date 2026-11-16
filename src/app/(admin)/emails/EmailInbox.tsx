@@ -509,6 +509,15 @@ export default function EmailInbox() {
     return () => { cancelado = true; };
   }, [selected?.id]);
 
+  // Link direto pra um email (/emails?email=<id>) — é o que o aceite e a
+  // confirmação de faturamento guardam como prova, e o que a Central do
+  // Cliente abre. Roda uma vez, na montagem.
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("email");
+    if (id) openEmailById(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   /** Abre outro email da conversa sem piscar a tela. */
   async function openEmailById(id: string) {
     setDetailLoading(true);

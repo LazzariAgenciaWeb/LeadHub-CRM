@@ -1,5 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { type ToolDef, ok, fail, appUrl, fmtDate, fmtDateTime, brl } from "./types";
+import { ACCEPTANCE_LABEL, CONTRACT_STATUS_LABEL, productionBlocker } from "@/lib/sale-contract";
+import { buildClientTimeline, TIMELINE_LABEL } from "@/lib/client-central";
 
 /** Ferramentas de LEITURA: buscar cliente, projetos, usuários, resumo de cliente. */
 
@@ -118,7 +120,7 @@ export const listarSetores: ToolDef<Record<string, never>> = {
 export const resumoCliente: ToolDef<{ clientCompanyId: string }> = {
   name: "resumo_cliente",
   description:
-    "Visão 360º de um cliente: projetos ativos, chamados abertos, cobranças em aberto/atrasadas, contratos ativos e último contato no WhatsApp. Use quando o usuário perguntar 'como está o cliente X'.",
+    "Visão 360º de um cliente: vendas/contratos (com id pra usar como contratoId, status do aceite, faturamento confirmado, produção e o que ainda trava), origem (lead), links da pasta do Drive e da lista do ClickUp, projetos ativos, chamados abertos, cobranças em aberto/atrasadas, serviços contratados, último contato no WhatsApp e os 5 últimos eventos da linha do tempo. Use quando o usuário perguntar 'como está o cliente X'.",
   input_schema: {
     type: "object",
     properties: { clientCompanyId: { type: "string" } },
@@ -127,12 +129,19 @@ export const resumoCliente: ToolDef<{ clientCompanyId: string }> = {
   run: async ({ clientCompanyId }, ctx) => {
     const client = await prisma.company.findFirst({
       where: { id: clientCompanyId, parentCompanyId: ctx.companyId },
-      select: { id: true, name: true, phone: true, email: true, status: true },
+      select: { id: true, name: true, phone: true, email: true, status: true, driveFolderUrl: true, clickupListUrl: true },
     });
     if (!client) return fail("Cliente não encontrado na carteira.");
 
     const now = ctx.now;
-    const [projects, tickets, invoices, services, lastMsg] = await Promise.all([
+    const [sales, recent, projects, tickets, invoices, services, lastMsg] = await Promise.all([
+      prisma.sale.findMany({
+        where: { clientCompanyId, companyId: ctx.companyId },
+        orderBy: { closedAt: "desc" },
+        take: 10,
+        include: { lead: { select: { id: true, name: true, createdAt: true } }, project: { select: { name: true } } },
+      }),
+      buildClientTimeline(clientCompanyId, ctx.companyId, { viewerUserId: ctx.userId, limit: 5 }),
       prisma.setorClickupList.findMany({
         where: { clientCompanyId, setor: { companyId: ctx.companyId }, status: { notIn: ["ENTREGUE", "CANCELADO"] } },
         select: { id: true, name: true, status: true, dueDate: true, _count: { select: { internalTasks: { where: { done: false, ignoredAt: null } } } } },
@@ -163,14 +172,34 @@ export const resumoCliente: ToolDef<{ clientCompanyId: string }> = {
     ]);
 
     const out: string[] = [`Cliente: ${client.name}${client.status !== "ACTIVE" ? " (INATIVO)" : ""}`];
+    out.push(`Pasta no Drive: ${client.driveFolderUrl ?? "não cadastrada"} · Lista no ClickUp: ${client.clickupListUrl ?? "não cadastrada"}`);
+    const origem = sales.filter((s) => s.lead).at(-1)?.lead;
+    out.push(`Origem: ${origem ? `lead "${origem.name ?? "sem nome"}" (id=${origem.id}, criado ${fmtDate(origem.createdAt)})` : "sem lead de origem registrado"}`);
+    if (sales.length === 0) {
+      out.push("Vendas/contratos: nenhuma venda vinculada a este cliente.");
+    } else {
+      out.push(`Vendas/contratos (${sales.length}):`);
+      for (const s of sales) {
+        const aceite = s.acceptedAt
+          ? `aceito em ${fmtDate(s.acceptedAt)} via ${ACCEPTANCE_LABEL[s.acceptanceType ?? ""] ?? s.acceptanceType}${s.acceptanceUrl ? ` (${s.acceptanceUrl.startsWith("/") ? appUrl(s.acceptanceUrl) : s.acceptanceUrl})` : ""}`
+          : `contrato ${CONTRACT_STATUS_LABEL[s.contractStatus] ?? s.contractStatus}, SEM aceite registrado`;
+        const fat = s.billingConfirmed ? `faturamento confirmado por ${s.billingConfirmedBy} em ${fmtDate(s.billingConfirmedAt)}` : "faturamento NÃO confirmado";
+        const prod = s.productionStatus === "PENDENTE"
+          ? `produção a liberar${productionBlocker(s) ? ` (${productionBlocker(s)})` : " (pronta pra liberar)"}`
+          : `produção ${s.productionStatus === "LIBERADO" ? "em andamento" : s.productionStatus.toLowerCase()}${s.project ? ` — projeto "${s.project.name}"` : ""}`;
+        out.push(`  - ${s.title} · contratoId=${s.id} · ${brl(s.valueCents)} · fechada ${fmtDate(s.closedAt)} · ${aceite} · ${fat} · ${prod}`);
+      }
+    }
     out.push(`Projetos ativos (${projects.length}): ${projects.map((p) => `${p.name} [${p.status}, ${p._count.internalTasks} tarefas abertas, prazo ${fmtDate(p.dueDate)}]`).join("; ") || "nenhum"}`);
     out.push(`Chamados abertos (${tickets.length}): ${tickets.map((t) => `${t.title} [${t.priority}, ${t.assignee?.name ?? "sem responsável"}, prazo ${fmtDateTime(t.dueDate)}]`).join("; ") || "nenhum"}`);
     const overdue = invoices.filter((i) => i.dueDate < now);
     out.push(`Cobranças em aberto: ${invoices.length} (${brl(invoices.reduce((a, i) => a + i.amountCents, 0))}); atrasadas: ${overdue.length} (${brl(overdue.reduce((a, i) => a + i.amountCents, 0))})`);
     out.push(`Contratos ativos: ${services.map((s) => `${s.label}${s.amountCents ? ` ${brl(s.amountCents)}${s.isRecurring ? `/${(s.billingCycle ?? "MENSAL").toLowerCase()}` : ""}` : ""}`).join("; ") || "nenhum"}`);
     if (lastMsg) out.push(`Último contato WhatsApp: ${fmtDateTime(lastMsg.receivedAt)} (${lastMsg.direction === "INBOUND" ? "cliente escreveu" : "nós escrevemos"}): "${lastMsg.body.slice(0, 80)}"`);
+    out.push(`Últimos eventos: ${recent.length ? "" : "nenhum"}`);
+    for (const e of recent) out.push(`  - [${fmtDate(new Date(e.at))}] ${TIMELINE_LABEL[e.type]}: ${e.title}`);
     out.push(`Link: ${appUrl(`/empresas/${client.id}`)}`);
-    return ok(out.join("\n"), { data: { client, projects, tickets, invoices, services, lastMsg } });
+    return ok(out.join("\n"), { data: { client, sales, recent, projects, tickets, invoices, services, lastMsg } });
   },
 };
 

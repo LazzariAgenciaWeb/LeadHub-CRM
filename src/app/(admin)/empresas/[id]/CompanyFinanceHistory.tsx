@@ -23,6 +23,12 @@ const ACTION_LABEL: Record<string, { label: string; cls: string }> = {
   EXCLUIDO: { label: "excluído", cls: "text-red-400" },
   IGNORADO: { label: "ignorado no mês", cls: "text-slate-400" },
   IGNORADO_REVERTIDO: { label: "voltou pra fila", cls: "text-emerald-400" },
+  CONTRATO_ENVIADO: { label: "contrato enviado", cls: "text-blue-400" },
+  ACEITE_REGISTRADO: { label: "aceite registrado", cls: "text-emerald-400" },
+  ACEITE_REMOVIDO: { label: "aceite removido", cls: "text-red-400" },
+  FATURAMENTO_CONFIRMADO: { label: "faturamento confirmado", cls: "text-emerald-400" },
+  FATURAMENTO_DESCONFIRMADO: { label: "confirmação retirada", cls: "text-red-400" },
+  PRODUCAO_LIBERADA: { label: "produção liberada", cls: "text-blue-400" },
 };
 
 const brl = (c: number) =>

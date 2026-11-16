@@ -370,6 +370,13 @@ model Company {
   // — e aparece na fila de faturamento, no momento em que a pessoa age.
   billingNotes String? @db.Text
 
+  // Endereços fixos do cliente na Central do Cliente.
+  driveFolderUrl String? // pasta do Google Drive
+  clickupListUrl String? // lista do ClickUp
+
+  clientDocuments ClientDocument[] @relation("ClientDocuments")
+  clientEmails    InboxEmail[]     @relation("InboxEmailClient")
+
   // Acesso ao sistema e módulos habilitados
   // Padrão ligado desde 2026-08-26: todo cliente entra e enxerga o sistema com
   // os módulos do plano dele. Quem restringe é o plano, não estes campos — que
@@ -3842,6 +3849,15 @@ model InboxEmail {
   ticket   Ticket? @relation(fields: [ticketId], references: [id], onDelete: SetNull)
   ticketId String?
 
+  // Cliente (empresa da carteira) a que o email pertence. Automático pelo
+  // email/domínio dos contatos do cliente (lib/client-email-link.ts) ou manual.
+  // clientLinkSource: AUTO | MANUAL | NONE (NONE = desligado à mão; a ligação
+  // automática não volta a ligar). clientMark: ACEITE | FATURAMENTO.
+  clientCompany    Company? @relation("InboxEmailClient", fields: [clientCompanyId], references: [id], onDelete: SetNull)
+  clientCompanyId  String?
+  clientLinkSource String?
+  clientMark       String?
+
   // Triagem IA (endpoint /api/email/inbox/ai-triage, cota do Assistente IA):
   // importância "ALTA" | "NORMAL" | "BAIXA" + resumo de 1 linha.
   aiImportance String?
@@ -3894,6 +3910,7 @@ model InboxEmail {
   @@index([companyId, seen])
   @@index([leadId])
   @@index([ticketId])
+  @@index([clientCompanyId, sentAt])
 }
 
 // Regra por remetente (blacklist/whitelist):
@@ -4643,6 +4660,40 @@ model Sale {
 
   notes String? @db.Text
 
+  // ─── Contrato: envio e ACEITE ─────────────────────────────────────────────
+  // "Assinado" deixou de ser um clique solto: só vale com o aceite registrado
+  // (onde, quando, quem). É o que responde "cadê o de acordo desse cliente?"
+  // sem procurar na caixa de email. Regra em src/lib/sale-contract.ts.
+  contractDocType     String? // CONTRATO | TERMO
+  contractDocument    ClientDocument? @relation("SaleContractDocument", fields: [contractDocumentId], references: [id], onDelete: SetNull)
+  contractDocumentId  String?
+  contractSentAt      DateTime? // quando foi enviado (contractAt guarda o último carimbo de status)
+  contractEndedAt     DateTime? // ENCERRADO
+  acceptanceType      String? // AUTENTIQUE | EMAIL | GOHUB | OUTRO
+  acceptanceUrl       String? // documento no Autentique, email de "de acordo"…
+  acceptedAt          DateTime?
+  acceptedByName      String?
+  acceptedByEmail     String?
+  acceptanceEmailId   String? // InboxEmail marcado como aceite (id solto: email apagado não apaga o aceite)
+  acceptanceRecordedBy String? // quem registrou no GoHub
+
+  // ─── Confirmação do faturamento ───────────────────────────────────────────
+  // Diferente de billingStatus (FATURADO = cobrança lançada): aqui é o "ok"
+  // de quem cuida do financeiro de que o combinado está certo e pode cobrar.
+  billingConfirmed           Boolean   @default(false)
+  billingConfirmedBy         String?
+  billingConfirmedAt         DateTime?
+  billingConfirmationUrl     String?
+  billingConfirmationEmailId String?
+  billingInstructions        String?   @db.Text // valor, forma, vencimento, recorrência, entrada, observações
+
+  // Serviços vendidos, estruturados: [{ serviceId?, name, level?, recurring,
+  // startAt?, durationMonths?, amountCents? }]. Reaproveitado na descrição do
+  // projeto criado pela esteira.
+  soldServices Json?
+
+  documents ClientDocument[] @relation("SaleDocuments")
+
   bonuses Bonus[]
   // Cobranças geradas quando a venda é marcada como faturada na esteira —
   // uma por parcela (venda à vista gera uma só).
@@ -5015,6 +5066,7 @@ model StorageObject {
   // ClientLibraryItem.storageObjectId (Cascade apaga o item junto).
   libraryCompanyId String?
   libraryItem      ClientLibraryItem?
+  clientDocument   ClientDocument?    @relation("ClientDocumentFile")
 
   // Anexo correspondente no ClickUp (tarefa espelhada): preenchido quando o
   // arquivo veio de lá ("Trazer do ClickUp") ou quando foi enviado pra lá.
@@ -5060,6 +5112,40 @@ model ClientLibraryItem {
   updatedAt       DateTime @updatedAt
 
   @@index([clientCompanyId, folder])
+}
+
+// Documento do relacionamento com o cliente: proposta, contrato, termo,
+// aditivo, briefing, entrega. Diferente da Biblioteca (ClientLibraryItem), que
+// é o que o CLIENTE vê no Meu Espaço — aqui é o arquivo interno da agência.
+// Link (Drive, Autentique…) ou arquivo no MinIO.
+model ClientDocument {
+  id              String  @id @default(cuid())
+  companyId       String // agência dona
+  clientCompanyId String
+  clientCompany   Company @relation("ClientDocuments", fields: [clientCompanyId], references: [id], onDelete: Cascade)
+
+  type  String // PROPOSTA | CONTRATO | TERMO | ADITIVO | BRIEFING | ENTREGA | OUTRO
+  title String
+  url   String?
+  notes String? @db.Text
+
+  storageObjectId String?        @unique
+  storageObject   StorageObject? @relation("ClientDocumentFile", fields: [storageObjectId], references: [id], onDelete: SetNull)
+
+  // Venda/contrato a que se refere (opcional).
+  sale   Sale?   @relation("SaleDocuments", fields: [saleId], references: [id], onDelete: SetNull)
+  saleId String?
+  contractOf Sale[] @relation("SaleContractDocument")
+
+  // Data do documento (envio/assinatura), que nem sempre é a do cadastro.
+  documentDate  DateTime?
+  createdById   String?
+  createdByName String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([clientCompanyId, createdAt])
+  @@index([saleId])
 }
 
 // ── OAuth do MCP (conector personalizado do claude.ai) ───────────────────────

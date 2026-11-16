@@ -32,7 +32,8 @@
     "test:email-open-tracking": "tsx scripts/test-email-open-tracking.ts",
     "test:bio-page": "tsx scripts/test-bio-page.ts",
     "test:pix-annual": "tsx scripts/test-pix-annual.ts",
-    "seed:pagina-demo": "tsx scripts/seed-pagina-demo.ts"
+    "seed:pagina-demo": "tsx scripts/seed-pagina-demo.ts",
+    "test:client-central": "tsx scripts/test-client-central.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"

@@ -6,6 +6,15 @@ import { useRouter } from "next/navigation";
 import { ListChecks, Building2, Plus, X, ExternalLink, Check, Pencil, Unlink, Trash2 } from "lucide-react";
 import FinanceiroTabs from "../FinanceiroTabs";
 import { brlFromCents } from "../lib";
+import SaleContractEditor from "@/components/sale-contract/SaleContractEditor";
+
+/** Mesma regra de src/lib/sale-contract.ts (productionBlocker), pra avisar antes do clique. */
+function productionBlock(s: EsteiraSale): string | null {
+  const falta: string[] = [];
+  if (!(s.contractStatus === "DISPENSADO" || (s.contractStatus === "ASSINADO" && s.acceptedAt))) falta.push("o aceite do contrato registrado");
+  if (!(s.billingConfirmed || s.billingStatus === "DISPENSADO")) falta.push("o faturamento confirmado");
+  return falta.length ? `Produção só é liberada com ${falta.join(" e ")}.` : null;
+}
 
 export interface EsteiraSale {
   id: string;
@@ -22,6 +31,10 @@ export interface EsteiraSale {
   contractStatus: string;
   billingStatus: string;
   productionStatus: string;
+  /** Aceite registrado (sem ele o contrato não fica "Aceito"). */
+  acceptedAt: string | null;
+  /** "Ok" do financeiro — junto com o aceite, libera a produção. */
+  billingConfirmed: boolean;
   /** Data da entrega — decide a competência da bonificação do pontual. */
   deliveredAt: string | null;
   /** Cobrança gerada ao faturar. null = ainda não faturada (ou sem cliente). */
@@ -63,8 +76,8 @@ const CHECKPOINTS = [
   {
     key: "contractStatus" as const,
     label: "Contrato",
-    options: ["PENDENTE", "ENVIADO", "ASSINADO", "DISPENSADO"],
-    done: ["ASSINADO", "DISPENSADO"],
+    options: ["PENDENTE", "ENVIADO", "ASSINADO", "ENCERRADO", "DISPENSADO"],
+    done: ["ASSINADO", "ENCERRADO", "DISPENSADO"],
   },
   {
     key: "billingStatus" as const,
@@ -87,7 +100,7 @@ const CHECKPOINTS = [
 // contrato pendente é "ainda não mandei", faturamento pendente é "a faturar",
 // produção pendente é "preciso encaminhar". Um rótulo só apagaria a diferença.
 const STATUS_LABEL: Record<string, Record<string, string>> = {
-  contractStatus: { PENDENTE: "Pendente", ENVIADO: "Enviado", ASSINADO: "Assinado", DISPENSADO: "Não se aplica" },
+  contractStatus: { PENDENTE: "Rascunho", ENVIADO: "Enviado", ASSINADO: "Aceito", ENCERRADO: "Encerrado", DISPENSADO: "Não se aplica" },
   billingStatus: { PENDENTE: "A faturar", FATURADO: "Faturado", DISPENSADO: "Não se aplica" },
   productionStatus: {
     PENDENTE: "A encaminhar", LIBERADO: "Em produção", ENTREGUE: "Entregue", DISPENSADO: "Não se aplica",
@@ -118,6 +131,8 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
   const [picked, setPicked] = useState("");
   const [busy, setBusy] = useState<string | null>(null);
   const [err, setErr] = useState("");
+  // Painel de contrato (aceite, confirmação do faturamento, serviços vendidos).
+  const [contractFor, setContractFor] = useState<string | null>(null);
   // Venda aguardando o vencimento antes de virar cobrança. Faturar sem
   // perguntar a data geraria uma fatura com vencimento chutado, que é o tipo
   // de dado errado que ninguém volta pra corrigir.
@@ -179,6 +194,8 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
         leadId: null,
         client: criada.clientCompany ?? null,
         contractStatus: criada.contractStatus,
+        acceptedAt: null,
+        billingConfirmed: false,
         billingStatus: criada.billingStatus,
         productionStatus: criada.productionStatus,
         deliveredAt: criada.deliveredAt ?? null,
@@ -243,6 +260,8 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
           ? {
               ...s,
               contractStatus: updated.contractStatus,
+              acceptedAt: updated.acceptedAt ?? null,
+              billingConfirmed: !!updated.billingConfirmed,
               billingStatus: updated.billingStatus,
               productionStatus: updated.productionStatus,
               deliveredAt: updated.deliveredAt ?? null,
@@ -640,6 +659,21 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
                           // Faturar não é só mudar um status: gera cobrança, e
                           // cobrança precisa de vencimento. Os outros
                           // checkpoints salvam direto.
+                          // "Aceito" exige o aceite registrado: abre o painel em vez de gravar.
+                          if (cp.key === "contractStatus" && e.target.value === "ASSINADO" && !s.acceptedAt) {
+                            setContractFor(s.id);
+                            return;
+                          }
+                          // Produção só com aceite + faturamento confirmado.
+                          if (
+                            cp.key === "productionStatus" &&
+                            (e.target.value === "LIBERADO" || e.target.value === "ENTREGUE") &&
+                            s.productionStatus === "PENDENTE" && productionBlock(s)
+                          ) {
+                            setErr(productionBlock(s)!);
+                            setContractFor(s.id);
+                            return;
+                          }
                           if (cp.key === "billingStatus" && e.target.value === "FATURADO" && s.invoices.length === 0) {
                             startBilling(s);
                             return;
@@ -669,6 +703,18 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
                     </label>
                   );
                 })}
+
+                <button
+                  onClick={() => setContractFor(s.id)}
+                  className={`text-[11px] px-2 py-1 rounded-md border ${
+                    s.acceptedAt && s.billingConfirmed
+                      ? "border-emerald-500/30 text-emerald-300"
+                      : "border-[#1e2d45] text-slate-400 hover:text-white"
+                  }`}
+                  title="Aceite, confirmação do faturamento e serviços vendidos"
+                >
+                  ✍️ Contrato{s.acceptedAt ? " · aceite ✓" : ""}{s.billingConfirmed ? " · fat. ✓" : ""}
+                </button>
 
                 {/* Data da entrega: é ela que decide em qual mês a venda aparece
                     na Bonificação. Editável porque marcar "Entregue" com atraso
@@ -997,6 +1043,35 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* Painel de contrato: aceite, faturamento confirmado, serviços vendidos */}
+      {contractFor && (
+        <div className="fixed inset-0 z-50 bg-black/60 flex items-start justify-center p-4 overflow-y-auto" onClick={() => { setContractFor(null); router.refresh(); }}>
+          <div className="bg-[#0f1623] border border-[#1e2d45] rounded-xl w-full max-w-2xl mt-10 p-5" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-white font-semibold text-sm">
+                ✍️ Contrato — {sales.find((x) => x.id === contractFor)?.title}
+              </h3>
+              <button onClick={() => { setContractFor(null); router.refresh(); }} className="text-slate-500 hover:text-white">
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+            <SaleContractEditor
+              saleId={contractFor}
+              onChanged={() => {
+                // Reflete na linha da esteira sem esperar o refresh.
+                fetch(`/api/financeiro/vendas/${contractFor}`).then((r) => r.json()).then((j) => {
+                  if (!j?.sale) return;
+                  setSales((prev) => prev.map((x) => x.id === contractFor
+                    ? { ...x, contractStatus: j.sale.contractStatus, acceptedAt: j.sale.acceptedAt, billingConfirmed: j.sale.billingConfirmed }
+                    : x));
+                  setErr("");
+                });
+              }}
+            />
+          </div>
         </div>
       )}
     </div>

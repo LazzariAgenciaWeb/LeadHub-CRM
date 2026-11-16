@@ -14,6 +14,7 @@ import CompanyContractedServices from "./CompanyContractedServices";
 import CompanyFinanceiro from "./CompanyFinanceiro";
 import CompanyFinanceHistory, { type FinanceLogItem } from "./CompanyFinanceHistory";
 import CompanyBillingNotes from "./CompanyBillingNotes";
+import ClientCentral, { type CentralView } from "./ClientCentral";
 import type { ClientRecordAccess } from "@/lib/permissions";
 
 interface Campaign {
@@ -159,7 +160,8 @@ const PROJECT_STATUS: Record<string, { label: string; cls: string }> = {
 const ESTEIRA_STEP: Record<string, { label: string; cls: string }> = {
   PENDENTE:   { label: "pendente",   cls: "text-amber-300 bg-amber-500/10" },
   ENVIADO:    { label: "enviado",    cls: "text-blue-300 bg-blue-500/10" },
-  ASSINADO:   { label: "assinado",   cls: "text-green-400 bg-green-500/10" },
+  ASSINADO:   { label: "aceito",     cls: "text-green-400 bg-green-500/10" },
+  ENCERRADO:  { label: "encerrado",  cls: "text-slate-400 bg-slate-500/10" },
   FATURADO:   { label: "faturado",   cls: "text-green-400 bg-green-500/10" },
   LIBERADO:   { label: "em produção",cls: "text-blue-300 bg-blue-500/10" },
   ENTREGUE:   { label: "entregue",   cls: "text-green-400 bg-green-500/10" },
@@ -177,6 +179,7 @@ const fmtBRL = (v: number) => `R$ ${v.toLocaleString("pt-BR", { minimumFractionD
 const isOverdue = (iso: string | null) => !!iso && new Date(iso).getTime() < Date.now();
 
 type TabId =
+  | "timeline" | "contratos" | "documentos" | "emails"
   | "servicos" | "cobrancas" | "historico"
   | "negociacoes" | "vendas" | "projetos" | "chamados"
   | "campanhas" | "contatos" | "cofre" | "integracoes" | "marketing" | "plano" | "conquistas"
@@ -187,6 +190,10 @@ type TabId =
 // `realSuperAdminOnly`: o super admin de verdade, impersonando ou não — pra
 // assunto da plataforma (plano/cobrança), que não é do painel do cliente.
 const TABS: { id: TabId; label: string; icon: string; superAdminOnly?: boolean; realSuperAdminOnly?: boolean }[] = [
+  { id: "timeline",     label: "Linha do tempo", icon: "🕰" },
+  { id: "contratos",    label: "Contrato & negociação", icon: "✍️" },
+  { id: "documentos",   label: "Documentos",   icon: "📎" },
+  { id: "emails",       label: "E-mails",      icon: "✉️" },
   { id: "servicos",     label: "Serviços contratados", icon: "📦" },
   { id: "cobrancas",    label: "Cobranças",    icon: "🧾" },
   { id: "historico",    label: "Histórico",    icon: "🕓" },
@@ -214,6 +221,7 @@ const TAB_ACCESS: Partial<Record<TabId, keyof ClientRecordAccess>> = {
   campanhas: "campanhas",
   cofre: "cofre",
 };
+const CENTRAL_TABS: TabId[] = ["timeline", "contratos", "documentos", "emails"];
 const TAB_BY_ID = Object.fromEntries(TABS.map((t) => [t.id, t])) as Record<TabId, (typeof TABS)[number]>;
 
 // Grupos de 1º nível. Grupo com >1 aba mostra uma barra de sub-abas embaixo;
@@ -224,6 +232,9 @@ const TAB_BY_ID = Object.fromEntries(TABS.map((t) => [t.id, t])) as Record<TabId
 // procura no cadastro. O painel dele (marketing, integrações, campanhas)
 // ficou agrupado em "Marketing".
 const GROUPS: { id: string; label: string; icon: string; tabIds: TabId[] }[] = [
+  // Central do Cliente: o que aconteceu com ele, da negociação à entrega, sem
+  // procurar em outro lugar. Só existe pra empresa-cliente (tem agência).
+  { id: "central",     label: "Central do cliente", icon: "📍", tabIds: ["timeline", "contratos", "documentos", "emails"] },
   { id: "financeiro",  label: "Financeiro",         icon: "💰", tabIds: ["servicos", "cobrancas", "historico"] },
   { id: "negociacoes", label: "Negociações",        icon: "🤝", tabIds: ["negociacoes", "vendas"] },
   { id: "projetos",    label: "Projetos",           icon: "🧩", tabIds: ["projetos"] },
@@ -255,6 +266,10 @@ export default function CompanyDetailTabs({
 }: Props) {
   // Counts for tab labels
   const counts: Record<TabId, number> = {
+    timeline:      0,
+    contratos:     0,
+    documentos:    0,
+    emails:        0,
     servicos:      contracted.length,
     // Só o que está em aberto: cobrança paga não é pendência, e o número na
     // aba serve pra dizer "tem coisa esperando aqui".
@@ -282,6 +297,9 @@ export default function CompanyDetailTabs({
     (!TAB_BY_ID[id].superAdminOnly || isSuperAdmin) &&
     (!TAB_BY_ID[id].realSuperAdminOnly || isRealSuperAdmin) &&
     (id !== "arquivos" || isClientCompany) &&
+    (!CENTRAL_TABS.includes(id) || isClientCompany) &&
+    // Contrato & negociação: quem não vê financeiro nem negociações não tem o que ver ali.
+    (id !== "contratos" || !access || access.financeiro || access.negociacoes) &&
     (!access || !TAB_ACCESS[id] || access[TAB_ACCESS[id]!]);
   const visibleGroups = GROUPS
     .map((g) => ({ ...g, tabs: g.tabIds.filter(isTabVisible) }))
@@ -295,6 +313,10 @@ export default function CompanyDetailTabs({
   // quebrado — o alvo deixou de ser um bloco na página e virou aba.
   useEffect(() => {
     const porAncora: Record<string, TabId> = {
+      "#linha-do-tempo": "timeline",
+      "#contrato": "contratos",
+      "#documentos": "documentos",
+      "#emails": "emails",
       "#financeiro": "cobrancas",
       "#servicos": "servicos",
       "#historico": "historico",
@@ -375,6 +397,11 @@ export default function CompanyDetailTabs({
               );
             })}
           </div>
+        )}
+
+        {/* ── Central do cliente ── */}
+        {CENTRAL_TABS.includes(activeTab) && (
+          <ClientCentral companyId={companyId} view={activeTab as CentralView} />
         )}
 
         {/* ── Serviços contratados ── */}

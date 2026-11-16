@@ -686,6 +686,11 @@ export type StorageObject = $Result.DefaultSelection<Prisma.$StorageObjectPayloa
  */
 export type ClientLibraryItem = $Result.DefaultSelection<Prisma.$ClientLibraryItemPayload>
 /**
+ * Model ClientDocument
+ * 
+ */
+export type ClientDocument = $Result.DefaultSelection<Prisma.$ClientDocumentPayload>
+/**
  * Model McpOAuthClient
  * 
  */
@@ -3129,6 +3134,16 @@ export class PrismaClient<
   get clientLibraryItem(): Prisma.ClientLibraryItemDelegate<ExtArgs>;
 
   /**
+   * `prisma.clientDocument`: Exposes CRUD operations for the **ClientDocument** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ClientDocuments
+    * const clientDocuments = await prisma.clientDocument.findMany()
+    * ```
+    */
+  get clientDocument(): Prisma.ClientDocumentDelegate<ExtArgs>;
+
+  /**
    * `prisma.mcpOAuthClient`: Exposes CRUD operations for the **McpOAuthClient** model.
     * Example usage:
     * ```ts
@@ -3841,6 +3856,7 @@ export namespace Prisma {
     TimesheetSignature: 'TimesheetSignature',
     StorageObject: 'StorageObject',
     ClientLibraryItem: 'ClientLibraryItem',
+    ClientDocument: 'ClientDocument',
     McpOAuthClient: 'McpOAuthClient',
     McpOAuthCode: 'McpOAuthCode',
     McpOAuthToken: 'McpOAuthToken',
@@ -3870,7 +3886,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "assistantNote" | "assistantDigestItem" | "assistantNoteEvent" | "assistantTurn" | "assistantPendingAction" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectTaskAdjustment" | "projectService" | "projectTaskEvent" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "blingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igAiReply" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "analyticsEventParamDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "emailDraft" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "billingSkip" | "financeLog" | "clientInvoice" | "sale" | "bonusClosure" | "bonus" | "monthlyTarget" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature" | "storageObject" | "clientLibraryItem" | "mcpOAuthClient" | "mcpOAuthCode" | "mcpOAuthToken" | "internalIp" | "assistantRule" | "caldavRequestLog" | "bioPage" | "bioBlock" | "bioQuestion" | "bioSubmission" | "bioProgress" | "bioEvent" | "bioDomain" | "loginHandoff"
+      modelProps: "user" | "assistantNote" | "assistantDigestItem" | "assistantNoteEvent" | "assistantTurn" | "assistantPendingAction" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectTaskAdjustment" | "projectService" | "projectTaskEvent" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "blingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igAiReply" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "analyticsEventParamDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "emailDraft" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "billingSkip" | "financeLog" | "clientInvoice" | "sale" | "bonusClosure" | "bonus" | "monthlyTarget" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature" | "storageObject" | "clientLibraryItem" | "clientDocument" | "mcpOAuthClient" | "mcpOAuthCode" | "mcpOAuthToken" | "internalIp" | "assistantRule" | "caldavRequestLog" | "bioPage" | "bioBlock" | "bioQuestion" | "bioSubmission" | "bioProgress" | "bioEvent" | "bioDomain" | "loginHandoff"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -13184,6 +13200,76 @@ export namespace Prisma {
           }
         }
       }
+      ClientDocument: {
+        payload: Prisma.$ClientDocumentPayload<ExtArgs>
+        fields: Prisma.ClientDocumentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ClientDocumentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientDocumentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ClientDocumentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientDocumentPayload>
+          }
+          findFirst: {
+            args: Prisma.ClientDocumentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientDocumentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ClientDocumentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientDocumentPayload>
+          }
+          findMany: {
+            args: Prisma.ClientDocumentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientDocumentPayload>[]
+          }
+          create: {
+            args: Prisma.ClientDocumentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientDocumentPayload>
+          }
+          createMany: {
+            args: Prisma.ClientDocumentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ClientDocumentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientDocumentPayload>[]
+          }
+          delete: {
+            args: Prisma.ClientDocumentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientDocumentPayload>
+          }
+          update: {
+            args: Prisma.ClientDocumentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientDocumentPayload>
+          }
+          deleteMany: {
+            args: Prisma.ClientDocumentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ClientDocumentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ClientDocumentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientDocumentPayload>
+          }
+          aggregate: {
+            args: Prisma.ClientDocumentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateClientDocument>
+          }
+          groupBy: {
+            args: Prisma.ClientDocumentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ClientDocumentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ClientDocumentCountArgs<ExtArgs>
+            result: $Utils.Optional<ClientDocumentCountAggregateOutputType> | number
+          }
+        }
+      }
       McpOAuthClient: {
         payload: Prisma.$McpOAuthClientPayload<ExtArgs>
         fields: Prisma.McpOAuthClientFieldRefs
@@ -14720,6 +14806,8 @@ export namespace Prisma {
    */
 
   export type CompanyCountOutputType = {
+    clientDocuments: number
+    clientEmails: number
     subCompanies: number
     users: number
     userScores: number
@@ -14811,6 +14899,8 @@ export namespace Prisma {
   }
 
   export type CompanyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    clientDocuments?: boolean | CompanyCountOutputTypeCountClientDocumentsArgs
+    clientEmails?: boolean | CompanyCountOutputTypeCountClientEmailsArgs
     subCompanies?: boolean | CompanyCountOutputTypeCountSubCompaniesArgs
     users?: boolean | CompanyCountOutputTypeCountUsersArgs
     userScores?: boolean | CompanyCountOutputTypeCountUserScoresArgs
@@ -14910,6 +15000,20 @@ export namespace Prisma {
      * Select specific fields to fetch from the CompanyCountOutputType
      */
     select?: CompanyCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountClientDocumentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ClientDocumentWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountClientEmailsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InboxEmailWhereInput
   }
 
   /**
@@ -17030,11 +17134,13 @@ export namespace Prisma {
    */
 
   export type SaleCountOutputType = {
+    documents: number
     bonuses: number
     invoices: number
   }
 
   export type SaleCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    documents?: boolean | SaleCountOutputTypeCountDocumentsArgs
     bonuses?: boolean | SaleCountOutputTypeCountBonusesArgs
     invoices?: boolean | SaleCountOutputTypeCountInvoicesArgs
   }
@@ -17048,6 +17154,13 @@ export namespace Prisma {
      * Select specific fields to fetch from the SaleCountOutputType
      */
     select?: SaleCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * SaleCountOutputType without action
+   */
+  export type SaleCountOutputTypeCountDocumentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ClientDocumentWhereInput
   }
 
   /**
@@ -17102,6 +17215,37 @@ export namespace Prisma {
    */
   export type VideoCategoryCountOutputTypeCountReleasesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: VideoCategoryReleaseWhereInput
+  }
+
+
+  /**
+   * Count Type ClientDocumentCountOutputType
+   */
+
+  export type ClientDocumentCountOutputType = {
+    contractOf: number
+  }
+
+  export type ClientDocumentCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contractOf?: boolean | ClientDocumentCountOutputTypeCountContractOfArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ClientDocumentCountOutputType without action
+   */
+  export type ClientDocumentCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientDocumentCountOutputType
+     */
+    select?: ClientDocumentCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ClientDocumentCountOutputType without action
+   */
+  export type ClientDocumentCountOutputTypeCountContractOfArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SaleWhereInput
   }
 
 
@@ -28341,6 +28485,8 @@ export namespace Prisma {
     document: string | null
     blingContactId: string | null
     billingNotes: string | null
+    driveFolderUrl: string | null
+    clickupListUrl: string | null
     hasSystemAccess: boolean | null
     fullSystemAccess: boolean | null
     moduleWhatsapp: boolean | null
@@ -28390,6 +28536,8 @@ export namespace Prisma {
     document: string | null
     blingContactId: string | null
     billingNotes: string | null
+    driveFolderUrl: string | null
+    clickupListUrl: string | null
     hasSystemAccess: boolean | null
     fullSystemAccess: boolean | null
     moduleWhatsapp: boolean | null
@@ -28439,6 +28587,8 @@ export namespace Prisma {
     document: number
     blingContactId: number
     billingNotes: number
+    driveFolderUrl: number
+    clickupListUrl: number
     hasSystemAccess: number
     fullSystemAccess: number
     moduleWhatsapp: number
@@ -28500,6 +28650,8 @@ export namespace Prisma {
     document?: true
     blingContactId?: true
     billingNotes?: true
+    driveFolderUrl?: true
+    clickupListUrl?: true
     hasSystemAccess?: true
     fullSystemAccess?: true
     moduleWhatsapp?: true
@@ -28549,6 +28701,8 @@ export namespace Prisma {
     document?: true
     blingContactId?: true
     billingNotes?: true
+    driveFolderUrl?: true
+    clickupListUrl?: true
     hasSystemAccess?: true
     fullSystemAccess?: true
     moduleWhatsapp?: true
@@ -28598,6 +28752,8 @@ export namespace Prisma {
     document?: true
     blingContactId?: true
     billingNotes?: true
+    driveFolderUrl?: true
+    clickupListUrl?: true
     hasSystemAccess?: true
     fullSystemAccess?: true
     moduleWhatsapp?: true
@@ -28734,6 +28890,8 @@ export namespace Prisma {
     document: string | null
     blingContactId: string | null
     billingNotes: string | null
+    driveFolderUrl: string | null
+    clickupListUrl: string | null
     hasSystemAccess: boolean
     fullSystemAccess: boolean
     moduleWhatsapp: boolean
@@ -28802,6 +28960,8 @@ export namespace Prisma {
     document?: boolean
     blingContactId?: boolean
     billingNotes?: boolean
+    driveFolderUrl?: boolean
+    clickupListUrl?: boolean
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -28832,6 +28992,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: boolean
+    clientDocuments?: boolean | Company$clientDocumentsArgs<ExtArgs>
+    clientEmails?: boolean | Company$clientEmailsArgs<ExtArgs>
     parentCompany?: boolean | Company$parentCompanyArgs<ExtArgs>
     subCompanies?: boolean | Company$subCompaniesArgs<ExtArgs>
     users?: boolean | Company$usersArgs<ExtArgs>
@@ -28946,6 +29108,8 @@ export namespace Prisma {
     document?: boolean
     blingContactId?: boolean
     billingNotes?: boolean
+    driveFolderUrl?: boolean
+    clickupListUrl?: boolean
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -28996,6 +29160,8 @@ export namespace Prisma {
     document?: boolean
     blingContactId?: boolean
     billingNotes?: boolean
+    driveFolderUrl?: boolean
+    clickupListUrl?: boolean
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -29029,6 +29195,8 @@ export namespace Prisma {
   }
 
   export type CompanyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    clientDocuments?: boolean | Company$clientDocumentsArgs<ExtArgs>
+    clientEmails?: boolean | Company$clientEmailsArgs<ExtArgs>
     parentCompany?: boolean | Company$parentCompanyArgs<ExtArgs>
     subCompanies?: boolean | Company$subCompaniesArgs<ExtArgs>
     users?: boolean | Company$usersArgs<ExtArgs>
@@ -29132,6 +29300,8 @@ export namespace Prisma {
   export type $CompanyPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Company"
     objects: {
+      clientDocuments: Prisma.$ClientDocumentPayload<ExtArgs>[]
+      clientEmails: Prisma.$InboxEmailPayload<ExtArgs>[]
       parentCompany: Prisma.$CompanyPayload<ExtArgs> | null
       subCompanies: Prisma.$CompanyPayload<ExtArgs>[]
       users: Prisma.$UserPayload<ExtArgs>[]
@@ -29244,6 +29414,8 @@ export namespace Prisma {
       document: string | null
       blingContactId: string | null
       billingNotes: string | null
+      driveFolderUrl: string | null
+      clickupListUrl: string | null
       hasSystemAccess: boolean
       fullSystemAccess: boolean
       moduleWhatsapp: boolean
@@ -29638,6 +29810,8 @@ export namespace Prisma {
    */
   export interface Prisma__CompanyClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    clientDocuments<T extends Company$clientDocumentsArgs<ExtArgs> = {}>(args?: Subset<T, Company$clientDocumentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClientDocumentPayload<ExtArgs>, T, "findMany"> | Null>
+    clientEmails<T extends Company$clientEmailsArgs<ExtArgs> = {}>(args?: Subset<T, Company$clientEmailsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InboxEmailPayload<ExtArgs>, T, "findMany"> | Null>
     parentCompany<T extends Company$parentCompanyArgs<ExtArgs> = {}>(args?: Subset<T, Company$parentCompanyArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     subCompanies<T extends Company$subCompaniesArgs<ExtArgs> = {}>(args?: Subset<T, Company$subCompaniesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findMany"> | Null>
     users<T extends Company$usersArgs<ExtArgs> = {}>(args?: Subset<T, Company$usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany"> | Null>
@@ -29777,6 +29951,8 @@ export namespace Prisma {
     readonly document: FieldRef<"Company", 'String'>
     readonly blingContactId: FieldRef<"Company", 'String'>
     readonly billingNotes: FieldRef<"Company", 'String'>
+    readonly driveFolderUrl: FieldRef<"Company", 'String'>
+    readonly clickupListUrl: FieldRef<"Company", 'String'>
     readonly hasSystemAccess: FieldRef<"Company", 'Boolean'>
     readonly fullSystemAccess: FieldRef<"Company", 'Boolean'>
     readonly moduleWhatsapp: FieldRef<"Company", 'Boolean'>
@@ -30122,6 +30298,46 @@ export namespace Prisma {
      * Filter which Companies to delete
      */
     where?: CompanyWhereInput
+  }
+
+  /**
+   * Company.clientDocuments
+   */
+  export type Company$clientDocumentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientDocument
+     */
+    select?: ClientDocumentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientDocumentInclude<ExtArgs> | null
+    where?: ClientDocumentWhereInput
+    orderBy?: ClientDocumentOrderByWithRelationInput | ClientDocumentOrderByWithRelationInput[]
+    cursor?: ClientDocumentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ClientDocumentScalarFieldEnum | ClientDocumentScalarFieldEnum[]
+  }
+
+  /**
+   * Company.clientEmails
+   */
+  export type Company$clientEmailsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InboxEmail
+     */
+    select?: InboxEmailSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InboxEmailInclude<ExtArgs> | null
+    where?: InboxEmailWhereInput
+    orderBy?: InboxEmailOrderByWithRelationInput | InboxEmailOrderByWithRelationInput[]
+    cursor?: InboxEmailWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InboxEmailScalarFieldEnum | InboxEmailScalarFieldEnum[]
   }
 
   /**
@@ -127885,6 +128101,9 @@ export namespace Prisma {
     inReplyTo: string | null
     leadId: string | null
     ticketId: string | null
+    clientCompanyId: string | null
+    clientLinkSource: string | null
+    clientMark: string | null
     aiImportance: string | null
     aiSummary: string | null
     suspicious: boolean | null
@@ -127920,6 +128139,9 @@ export namespace Prisma {
     inReplyTo: string | null
     leadId: string | null
     ticketId: string | null
+    clientCompanyId: string | null
+    clientLinkSource: string | null
+    clientMark: string | null
     aiImportance: string | null
     aiSummary: string | null
     suspicious: boolean | null
@@ -127955,6 +128177,9 @@ export namespace Prisma {
     inReplyTo: number
     leadId: number
     ticketId: number
+    clientCompanyId: number
+    clientLinkSource: number
+    clientMark: number
     aiImportance: number
     aiSummary: number
     suspicious: number
@@ -128003,6 +128228,9 @@ export namespace Prisma {
     inReplyTo?: true
     leadId?: true
     ticketId?: true
+    clientCompanyId?: true
+    clientLinkSource?: true
+    clientMark?: true
     aiImportance?: true
     aiSummary?: true
     suspicious?: true
@@ -128038,6 +128266,9 @@ export namespace Prisma {
     inReplyTo?: true
     leadId?: true
     ticketId?: true
+    clientCompanyId?: true
+    clientLinkSource?: true
+    clientMark?: true
     aiImportance?: true
     aiSummary?: true
     suspicious?: true
@@ -128073,6 +128304,9 @@ export namespace Prisma {
     inReplyTo?: true
     leadId?: true
     ticketId?: true
+    clientCompanyId?: true
+    clientLinkSource?: true
+    clientMark?: true
     aiImportance?: true
     aiSummary?: true
     suspicious?: true
@@ -128196,6 +128430,9 @@ export namespace Prisma {
     inReplyTo: string | null
     leadId: string | null
     ticketId: string | null
+    clientCompanyId: string | null
+    clientLinkSource: string | null
+    clientMark: string | null
     aiImportance: string | null
     aiSummary: string | null
     suspicious: boolean
@@ -128251,6 +128488,9 @@ export namespace Prisma {
     inReplyTo?: boolean
     leadId?: boolean
     ticketId?: boolean
+    clientCompanyId?: boolean
+    clientLinkSource?: boolean
+    clientMark?: boolean
     aiImportance?: boolean
     aiSummary?: boolean
     suspicious?: boolean
@@ -128269,6 +128509,7 @@ export namespace Prisma {
     account?: boolean | InboxEmail$accountArgs<ExtArgs>
     lead?: boolean | InboxEmail$leadArgs<ExtArgs>
     ticket?: boolean | InboxEmail$ticketArgs<ExtArgs>
+    clientCompany?: boolean | InboxEmail$clientCompanyArgs<ExtArgs>
     tags?: boolean | InboxEmail$tagsArgs<ExtArgs>
     attachments?: boolean | InboxEmail$attachmentsArgs<ExtArgs>
     _count?: boolean | InboxEmailCountOutputTypeDefaultArgs<ExtArgs>
@@ -128294,6 +128535,9 @@ export namespace Prisma {
     inReplyTo?: boolean
     leadId?: boolean
     ticketId?: boolean
+    clientCompanyId?: boolean
+    clientLinkSource?: boolean
+    clientMark?: boolean
     aiImportance?: boolean
     aiSummary?: boolean
     suspicious?: boolean
@@ -128312,6 +128556,7 @@ export namespace Prisma {
     account?: boolean | InboxEmail$accountArgs<ExtArgs>
     lead?: boolean | InboxEmail$leadArgs<ExtArgs>
     ticket?: boolean | InboxEmail$ticketArgs<ExtArgs>
+    clientCompany?: boolean | InboxEmail$clientCompanyArgs<ExtArgs>
   }, ExtArgs["result"]["inboxEmail"]>
 
   export type InboxEmailSelectScalar = {
@@ -128334,6 +128579,9 @@ export namespace Prisma {
     inReplyTo?: boolean
     leadId?: boolean
     ticketId?: boolean
+    clientCompanyId?: boolean
+    clientLinkSource?: boolean
+    clientMark?: boolean
     aiImportance?: boolean
     aiSummary?: boolean
     suspicious?: boolean
@@ -128355,6 +128603,7 @@ export namespace Prisma {
     account?: boolean | InboxEmail$accountArgs<ExtArgs>
     lead?: boolean | InboxEmail$leadArgs<ExtArgs>
     ticket?: boolean | InboxEmail$ticketArgs<ExtArgs>
+    clientCompany?: boolean | InboxEmail$clientCompanyArgs<ExtArgs>
     tags?: boolean | InboxEmail$tagsArgs<ExtArgs>
     attachments?: boolean | InboxEmail$attachmentsArgs<ExtArgs>
     _count?: boolean | InboxEmailCountOutputTypeDefaultArgs<ExtArgs>
@@ -128364,6 +128613,7 @@ export namespace Prisma {
     account?: boolean | InboxEmail$accountArgs<ExtArgs>
     lead?: boolean | InboxEmail$leadArgs<ExtArgs>
     ticket?: boolean | InboxEmail$ticketArgs<ExtArgs>
+    clientCompany?: boolean | InboxEmail$clientCompanyArgs<ExtArgs>
   }
 
   export type $InboxEmailPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -128373,6 +128623,7 @@ export namespace Prisma {
       account: Prisma.$EmailAccountPayload<ExtArgs> | null
       lead: Prisma.$LeadPayload<ExtArgs> | null
       ticket: Prisma.$TicketPayload<ExtArgs> | null
+      clientCompany: Prisma.$CompanyPayload<ExtArgs> | null
       tags: Prisma.$InboxEmailTagPayload<ExtArgs>[]
       attachments: Prisma.$InboxEmailAttachmentPayload<ExtArgs>[]
     }
@@ -128396,6 +128647,9 @@ export namespace Prisma {
       inReplyTo: string | null
       leadId: string | null
       ticketId: string | null
+      clientCompanyId: string | null
+      clientLinkSource: string | null
+      clientMark: string | null
       aiImportance: string | null
       aiSummary: string | null
       suspicious: boolean
@@ -128778,6 +129032,7 @@ export namespace Prisma {
     account<T extends InboxEmail$accountArgs<ExtArgs> = {}>(args?: Subset<T, InboxEmail$accountArgs<ExtArgs>>): Prisma__EmailAccountClient<$Result.GetResult<Prisma.$EmailAccountPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     lead<T extends InboxEmail$leadArgs<ExtArgs> = {}>(args?: Subset<T, InboxEmail$leadArgs<ExtArgs>>): Prisma__LeadClient<$Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     ticket<T extends InboxEmail$ticketArgs<ExtArgs> = {}>(args?: Subset<T, InboxEmail$ticketArgs<ExtArgs>>): Prisma__TicketClient<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    clientCompany<T extends InboxEmail$clientCompanyArgs<ExtArgs> = {}>(args?: Subset<T, InboxEmail$clientCompanyArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     tags<T extends InboxEmail$tagsArgs<ExtArgs> = {}>(args?: Subset<T, InboxEmail$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InboxEmailTagPayload<ExtArgs>, T, "findMany"> | Null>
     attachments<T extends InboxEmail$attachmentsArgs<ExtArgs> = {}>(args?: Subset<T, InboxEmail$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InboxEmailAttachmentPayload<ExtArgs>, T, "findMany"> | Null>
     /**
@@ -128828,6 +129083,9 @@ export namespace Prisma {
     readonly inReplyTo: FieldRef<"InboxEmail", 'String'>
     readonly leadId: FieldRef<"InboxEmail", 'String'>
     readonly ticketId: FieldRef<"InboxEmail", 'String'>
+    readonly clientCompanyId: FieldRef<"InboxEmail", 'String'>
+    readonly clientLinkSource: FieldRef<"InboxEmail", 'String'>
+    readonly clientMark: FieldRef<"InboxEmail", 'String'>
     readonly aiImportance: FieldRef<"InboxEmail", 'String'>
     readonly aiSummary: FieldRef<"InboxEmail", 'String'>
     readonly suspicious: FieldRef<"InboxEmail", 'Boolean'>
@@ -129202,6 +129460,21 @@ export namespace Prisma {
      */
     include?: TicketInclude<ExtArgs> | null
     where?: TicketWhereInput
+  }
+
+  /**
+   * InboxEmail.clientCompany
+   */
+  export type InboxEmail$clientCompanyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Company
+     */
+    select?: CompanySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyInclude<ExtArgs> | null
+    where?: CompanyWhereInput
   }
 
   /**
@@ -148391,6 +148664,23 @@ export namespace Prisma {
     releasedAt: Date | null
     deliveredAt: Date | null
     notes: string | null
+    contractDocType: string | null
+    contractDocumentId: string | null
+    contractSentAt: Date | null
+    contractEndedAt: Date | null
+    acceptanceType: string | null
+    acceptanceUrl: string | null
+    acceptedAt: Date | null
+    acceptedByName: string | null
+    acceptedByEmail: string | null
+    acceptanceEmailId: string | null
+    acceptanceRecordedBy: string | null
+    billingConfirmed: boolean | null
+    billingConfirmedBy: string | null
+    billingConfirmedAt: Date | null
+    billingConfirmationUrl: string | null
+    billingConfirmationEmailId: string | null
+    billingInstructions: string | null
     projectId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -148419,6 +148709,23 @@ export namespace Prisma {
     releasedAt: Date | null
     deliveredAt: Date | null
     notes: string | null
+    contractDocType: string | null
+    contractDocumentId: string | null
+    contractSentAt: Date | null
+    contractEndedAt: Date | null
+    acceptanceType: string | null
+    acceptanceUrl: string | null
+    acceptedAt: Date | null
+    acceptedByName: string | null
+    acceptedByEmail: string | null
+    acceptanceEmailId: string | null
+    acceptanceRecordedBy: string | null
+    billingConfirmed: boolean | null
+    billingConfirmedBy: string | null
+    billingConfirmedAt: Date | null
+    billingConfirmationUrl: string | null
+    billingConfirmationEmailId: string | null
+    billingInstructions: string | null
     projectId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -148447,6 +148754,24 @@ export namespace Prisma {
     releasedAt: number
     deliveredAt: number
     notes: number
+    contractDocType: number
+    contractDocumentId: number
+    contractSentAt: number
+    contractEndedAt: number
+    acceptanceType: number
+    acceptanceUrl: number
+    acceptedAt: number
+    acceptedByName: number
+    acceptedByEmail: number
+    acceptanceEmailId: number
+    acceptanceRecordedBy: number
+    billingConfirmed: number
+    billingConfirmedBy: number
+    billingConfirmedAt: number
+    billingConfirmationUrl: number
+    billingConfirmationEmailId: number
+    billingInstructions: number
+    soldServices: number
     projectId: number
     createdAt: number
     updatedAt: number
@@ -148485,6 +148810,23 @@ export namespace Prisma {
     releasedAt?: true
     deliveredAt?: true
     notes?: true
+    contractDocType?: true
+    contractDocumentId?: true
+    contractSentAt?: true
+    contractEndedAt?: true
+    acceptanceType?: true
+    acceptanceUrl?: true
+    acceptedAt?: true
+    acceptedByName?: true
+    acceptedByEmail?: true
+    acceptanceEmailId?: true
+    acceptanceRecordedBy?: true
+    billingConfirmed?: true
+    billingConfirmedBy?: true
+    billingConfirmedAt?: true
+    billingConfirmationUrl?: true
+    billingConfirmationEmailId?: true
+    billingInstructions?: true
     projectId?: true
     createdAt?: true
     updatedAt?: true
@@ -148513,6 +148855,23 @@ export namespace Prisma {
     releasedAt?: true
     deliveredAt?: true
     notes?: true
+    contractDocType?: true
+    contractDocumentId?: true
+    contractSentAt?: true
+    contractEndedAt?: true
+    acceptanceType?: true
+    acceptanceUrl?: true
+    acceptedAt?: true
+    acceptedByName?: true
+    acceptedByEmail?: true
+    acceptanceEmailId?: true
+    acceptanceRecordedBy?: true
+    billingConfirmed?: true
+    billingConfirmedBy?: true
+    billingConfirmedAt?: true
+    billingConfirmationUrl?: true
+    billingConfirmationEmailId?: true
+    billingInstructions?: true
     projectId?: true
     createdAt?: true
     updatedAt?: true
@@ -148541,6 +148900,24 @@ export namespace Prisma {
     releasedAt?: true
     deliveredAt?: true
     notes?: true
+    contractDocType?: true
+    contractDocumentId?: true
+    contractSentAt?: true
+    contractEndedAt?: true
+    acceptanceType?: true
+    acceptanceUrl?: true
+    acceptedAt?: true
+    acceptedByName?: true
+    acceptedByEmail?: true
+    acceptanceEmailId?: true
+    acceptanceRecordedBy?: true
+    billingConfirmed?: true
+    billingConfirmedBy?: true
+    billingConfirmedAt?: true
+    billingConfirmationUrl?: true
+    billingConfirmationEmailId?: true
+    billingInstructions?: true
+    soldServices?: true
     projectId?: true
     createdAt?: true
     updatedAt?: true
@@ -148656,6 +149033,24 @@ export namespace Prisma {
     releasedAt: Date | null
     deliveredAt: Date | null
     notes: string | null
+    contractDocType: string | null
+    contractDocumentId: string | null
+    contractSentAt: Date | null
+    contractEndedAt: Date | null
+    acceptanceType: string | null
+    acceptanceUrl: string | null
+    acceptedAt: Date | null
+    acceptedByName: string | null
+    acceptedByEmail: string | null
+    acceptanceEmailId: string | null
+    acceptanceRecordedBy: string | null
+    billingConfirmed: boolean
+    billingConfirmedBy: string | null
+    billingConfirmedAt: Date | null
+    billingConfirmationUrl: string | null
+    billingConfirmationEmailId: string | null
+    billingInstructions: string | null
+    soldServices: JsonValue | null
     projectId: string | null
     createdAt: Date
     updatedAt: Date
@@ -148703,12 +149098,32 @@ export namespace Prisma {
     releasedAt?: boolean
     deliveredAt?: boolean
     notes?: boolean
+    contractDocType?: boolean
+    contractDocumentId?: boolean
+    contractSentAt?: boolean
+    contractEndedAt?: boolean
+    acceptanceType?: boolean
+    acceptanceUrl?: boolean
+    acceptedAt?: boolean
+    acceptedByName?: boolean
+    acceptedByEmail?: boolean
+    acceptanceEmailId?: boolean
+    acceptanceRecordedBy?: boolean
+    billingConfirmed?: boolean
+    billingConfirmedBy?: boolean
+    billingConfirmedAt?: boolean
+    billingConfirmationUrl?: boolean
+    billingConfirmationEmailId?: boolean
+    billingInstructions?: boolean
+    soldServices?: boolean
     projectId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     lead?: boolean | Sale$leadArgs<ExtArgs>
     clientCompany?: boolean | Sale$clientCompanyArgs<ExtArgs>
+    contractDocument?: boolean | Sale$contractDocumentArgs<ExtArgs>
+    documents?: boolean | Sale$documentsArgs<ExtArgs>
     bonuses?: boolean | Sale$bonusesArgs<ExtArgs>
     invoices?: boolean | Sale$invoicesArgs<ExtArgs>
     project?: boolean | Sale$projectArgs<ExtArgs>
@@ -148738,12 +149153,31 @@ export namespace Prisma {
     releasedAt?: boolean
     deliveredAt?: boolean
     notes?: boolean
+    contractDocType?: boolean
+    contractDocumentId?: boolean
+    contractSentAt?: boolean
+    contractEndedAt?: boolean
+    acceptanceType?: boolean
+    acceptanceUrl?: boolean
+    acceptedAt?: boolean
+    acceptedByName?: boolean
+    acceptedByEmail?: boolean
+    acceptanceEmailId?: boolean
+    acceptanceRecordedBy?: boolean
+    billingConfirmed?: boolean
+    billingConfirmedBy?: boolean
+    billingConfirmedAt?: boolean
+    billingConfirmationUrl?: boolean
+    billingConfirmationEmailId?: boolean
+    billingInstructions?: boolean
+    soldServices?: boolean
     projectId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     lead?: boolean | Sale$leadArgs<ExtArgs>
     clientCompany?: boolean | Sale$clientCompanyArgs<ExtArgs>
+    contractDocument?: boolean | Sale$contractDocumentArgs<ExtArgs>
     project?: boolean | Sale$projectArgs<ExtArgs>
   }, ExtArgs["result"]["sale"]>
 
@@ -148770,6 +149204,24 @@ export namespace Prisma {
     releasedAt?: boolean
     deliveredAt?: boolean
     notes?: boolean
+    contractDocType?: boolean
+    contractDocumentId?: boolean
+    contractSentAt?: boolean
+    contractEndedAt?: boolean
+    acceptanceType?: boolean
+    acceptanceUrl?: boolean
+    acceptedAt?: boolean
+    acceptedByName?: boolean
+    acceptedByEmail?: boolean
+    acceptanceEmailId?: boolean
+    acceptanceRecordedBy?: boolean
+    billingConfirmed?: boolean
+    billingConfirmedBy?: boolean
+    billingConfirmedAt?: boolean
+    billingConfirmationUrl?: boolean
+    billingConfirmationEmailId?: boolean
+    billingInstructions?: boolean
+    soldServices?: boolean
     projectId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -148779,6 +149231,8 @@ export namespace Prisma {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     lead?: boolean | Sale$leadArgs<ExtArgs>
     clientCompany?: boolean | Sale$clientCompanyArgs<ExtArgs>
+    contractDocument?: boolean | Sale$contractDocumentArgs<ExtArgs>
+    documents?: boolean | Sale$documentsArgs<ExtArgs>
     bonuses?: boolean | Sale$bonusesArgs<ExtArgs>
     invoices?: boolean | Sale$invoicesArgs<ExtArgs>
     project?: boolean | Sale$projectArgs<ExtArgs>
@@ -148788,6 +149242,7 @@ export namespace Prisma {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     lead?: boolean | Sale$leadArgs<ExtArgs>
     clientCompany?: boolean | Sale$clientCompanyArgs<ExtArgs>
+    contractDocument?: boolean | Sale$contractDocumentArgs<ExtArgs>
     project?: boolean | Sale$projectArgs<ExtArgs>
   }
 
@@ -148797,6 +149252,8 @@ export namespace Prisma {
       company: Prisma.$CompanyPayload<ExtArgs>
       lead: Prisma.$LeadPayload<ExtArgs> | null
       clientCompany: Prisma.$CompanyPayload<ExtArgs> | null
+      contractDocument: Prisma.$ClientDocumentPayload<ExtArgs> | null
+      documents: Prisma.$ClientDocumentPayload<ExtArgs>[]
       bonuses: Prisma.$BonusPayload<ExtArgs>[]
       invoices: Prisma.$ClientInvoicePayload<ExtArgs>[]
       project: Prisma.$SetorClickupListPayload<ExtArgs> | null
@@ -148824,6 +149281,24 @@ export namespace Prisma {
       releasedAt: Date | null
       deliveredAt: Date | null
       notes: string | null
+      contractDocType: string | null
+      contractDocumentId: string | null
+      contractSentAt: Date | null
+      contractEndedAt: Date | null
+      acceptanceType: string | null
+      acceptanceUrl: string | null
+      acceptedAt: Date | null
+      acceptedByName: string | null
+      acceptedByEmail: string | null
+      acceptanceEmailId: string | null
+      acceptanceRecordedBy: string | null
+      billingConfirmed: boolean
+      billingConfirmedBy: string | null
+      billingConfirmedAt: Date | null
+      billingConfirmationUrl: string | null
+      billingConfirmationEmailId: string | null
+      billingInstructions: string | null
+      soldServices: Prisma.JsonValue | null
       projectId: string | null
       createdAt: Date
       updatedAt: Date
@@ -149194,6 +149669,8 @@ export namespace Prisma {
     company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     lead<T extends Sale$leadArgs<ExtArgs> = {}>(args?: Subset<T, Sale$leadArgs<ExtArgs>>): Prisma__LeadClient<$Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     clientCompany<T extends Sale$clientCompanyArgs<ExtArgs> = {}>(args?: Subset<T, Sale$clientCompanyArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    contractDocument<T extends Sale$contractDocumentArgs<ExtArgs> = {}>(args?: Subset<T, Sale$contractDocumentArgs<ExtArgs>>): Prisma__ClientDocumentClient<$Result.GetResult<Prisma.$ClientDocumentPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    documents<T extends Sale$documentsArgs<ExtArgs> = {}>(args?: Subset<T, Sale$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClientDocumentPayload<ExtArgs>, T, "findMany"> | Null>
     bonuses<T extends Sale$bonusesArgs<ExtArgs> = {}>(args?: Subset<T, Sale$bonusesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BonusPayload<ExtArgs>, T, "findMany"> | Null>
     invoices<T extends Sale$invoicesArgs<ExtArgs> = {}>(args?: Subset<T, Sale$invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClientInvoicePayload<ExtArgs>, T, "findMany"> | Null>
     project<T extends Sale$projectArgs<ExtArgs> = {}>(args?: Subset<T, Sale$projectArgs<ExtArgs>>): Prisma__SetorClickupListClient<$Result.GetResult<Prisma.$SetorClickupListPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
@@ -149248,6 +149725,24 @@ export namespace Prisma {
     readonly releasedAt: FieldRef<"Sale", 'DateTime'>
     readonly deliveredAt: FieldRef<"Sale", 'DateTime'>
     readonly notes: FieldRef<"Sale", 'String'>
+    readonly contractDocType: FieldRef<"Sale", 'String'>
+    readonly contractDocumentId: FieldRef<"Sale", 'String'>
+    readonly contractSentAt: FieldRef<"Sale", 'DateTime'>
+    readonly contractEndedAt: FieldRef<"Sale", 'DateTime'>
+    readonly acceptanceType: FieldRef<"Sale", 'String'>
+    readonly acceptanceUrl: FieldRef<"Sale", 'String'>
+    readonly acceptedAt: FieldRef<"Sale", 'DateTime'>
+    readonly acceptedByName: FieldRef<"Sale", 'String'>
+    readonly acceptedByEmail: FieldRef<"Sale", 'String'>
+    readonly acceptanceEmailId: FieldRef<"Sale", 'String'>
+    readonly acceptanceRecordedBy: FieldRef<"Sale", 'String'>
+    readonly billingConfirmed: FieldRef<"Sale", 'Boolean'>
+    readonly billingConfirmedBy: FieldRef<"Sale", 'String'>
+    readonly billingConfirmedAt: FieldRef<"Sale", 'DateTime'>
+    readonly billingConfirmationUrl: FieldRef<"Sale", 'String'>
+    readonly billingConfirmationEmailId: FieldRef<"Sale", 'String'>
+    readonly billingInstructions: FieldRef<"Sale", 'String'>
+    readonly soldServices: FieldRef<"Sale", 'Json'>
     readonly projectId: FieldRef<"Sale", 'String'>
     readonly createdAt: FieldRef<"Sale", 'DateTime'>
     readonly updatedAt: FieldRef<"Sale", 'DateTime'>
@@ -149596,6 +150091,41 @@ export namespace Prisma {
      */
     include?: CompanyInclude<ExtArgs> | null
     where?: CompanyWhereInput
+  }
+
+  /**
+   * Sale.contractDocument
+   */
+  export type Sale$contractDocumentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientDocument
+     */
+    select?: ClientDocumentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientDocumentInclude<ExtArgs> | null
+    where?: ClientDocumentWhereInput
+  }
+
+  /**
+   * Sale.documents
+   */
+  export type Sale$documentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientDocument
+     */
+    select?: ClientDocumentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientDocumentInclude<ExtArgs> | null
+    where?: ClientDocumentWhereInput
+    orderBy?: ClientDocumentOrderByWithRelationInput | ClientDocumentOrderByWithRelationInput[]
+    cursor?: ClientDocumentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ClientDocumentScalarFieldEnum | ClientDocumentScalarFieldEnum[]
   }
 
   /**
@@ -161257,6 +161787,7 @@ export namespace Prisma {
     ticketMessage?: boolean | StorageObject$ticketMessageArgs<ExtArgs>
     projectTask?: boolean | StorageObject$projectTaskArgs<ExtArgs>
     libraryItem?: boolean | StorageObject$libraryItemArgs<ExtArgs>
+    clientDocument?: boolean | StorageObject$clientDocumentArgs<ExtArgs>
     uploadedBy?: boolean | StorageObject$uploadedByArgs<ExtArgs>
   }, ExtArgs["result"]["storageObject"]>
 
@@ -161309,6 +161840,7 @@ export namespace Prisma {
     ticketMessage?: boolean | StorageObject$ticketMessageArgs<ExtArgs>
     projectTask?: boolean | StorageObject$projectTaskArgs<ExtArgs>
     libraryItem?: boolean | StorageObject$libraryItemArgs<ExtArgs>
+    clientDocument?: boolean | StorageObject$clientDocumentArgs<ExtArgs>
     uploadedBy?: boolean | StorageObject$uploadedByArgs<ExtArgs>
   }
   export type StorageObjectIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -161327,6 +161859,7 @@ export namespace Prisma {
       ticketMessage: Prisma.$TicketMessagePayload<ExtArgs> | null
       projectTask: Prisma.$ProjectTaskPayload<ExtArgs> | null
       libraryItem: Prisma.$ClientLibraryItemPayload<ExtArgs> | null
+      clientDocument: Prisma.$ClientDocumentPayload<ExtArgs> | null
       uploadedBy: Prisma.$UserPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -161715,6 +162248,7 @@ export namespace Prisma {
     ticketMessage<T extends StorageObject$ticketMessageArgs<ExtArgs> = {}>(args?: Subset<T, StorageObject$ticketMessageArgs<ExtArgs>>): Prisma__TicketMessageClient<$Result.GetResult<Prisma.$TicketMessagePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     projectTask<T extends StorageObject$projectTaskArgs<ExtArgs> = {}>(args?: Subset<T, StorageObject$projectTaskArgs<ExtArgs>>): Prisma__ProjectTaskClient<$Result.GetResult<Prisma.$ProjectTaskPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     libraryItem<T extends StorageObject$libraryItemArgs<ExtArgs> = {}>(args?: Subset<T, StorageObject$libraryItemArgs<ExtArgs>>): Prisma__ClientLibraryItemClient<$Result.GetResult<Prisma.$ClientLibraryItemPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    clientDocument<T extends StorageObject$clientDocumentArgs<ExtArgs> = {}>(args?: Subset<T, StorageObject$clientDocumentArgs<ExtArgs>>): Prisma__ClientDocumentClient<$Result.GetResult<Prisma.$ClientDocumentPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     uploadedBy<T extends StorageObject$uploadedByArgs<ExtArgs> = {}>(args?: Subset<T, StorageObject$uploadedByArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -162136,6 +162670,21 @@ export namespace Prisma {
      */
     include?: ClientLibraryItemInclude<ExtArgs> | null
     where?: ClientLibraryItemWhereInput
+  }
+
+  /**
+   * StorageObject.clientDocument
+   */
+  export type StorageObject$clientDocumentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientDocument
+     */
+    select?: ClientDocumentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientDocumentInclude<ExtArgs> | null
+    where?: ClientDocumentWhereInput
   }
 
   /**
@@ -163215,6 +163764,1115 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ClientLibraryItemInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ClientDocument
+   */
+
+  export type AggregateClientDocument = {
+    _count: ClientDocumentCountAggregateOutputType | null
+    _min: ClientDocumentMinAggregateOutputType | null
+    _max: ClientDocumentMaxAggregateOutputType | null
+  }
+
+  export type ClientDocumentMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    clientCompanyId: string | null
+    type: string | null
+    title: string | null
+    url: string | null
+    notes: string | null
+    storageObjectId: string | null
+    saleId: string | null
+    documentDate: Date | null
+    createdById: string | null
+    createdByName: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ClientDocumentMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    clientCompanyId: string | null
+    type: string | null
+    title: string | null
+    url: string | null
+    notes: string | null
+    storageObjectId: string | null
+    saleId: string | null
+    documentDate: Date | null
+    createdById: string | null
+    createdByName: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ClientDocumentCountAggregateOutputType = {
+    id: number
+    companyId: number
+    clientCompanyId: number
+    type: number
+    title: number
+    url: number
+    notes: number
+    storageObjectId: number
+    saleId: number
+    documentDate: number
+    createdById: number
+    createdByName: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ClientDocumentMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    clientCompanyId?: true
+    type?: true
+    title?: true
+    url?: true
+    notes?: true
+    storageObjectId?: true
+    saleId?: true
+    documentDate?: true
+    createdById?: true
+    createdByName?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ClientDocumentMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    clientCompanyId?: true
+    type?: true
+    title?: true
+    url?: true
+    notes?: true
+    storageObjectId?: true
+    saleId?: true
+    documentDate?: true
+    createdById?: true
+    createdByName?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ClientDocumentCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    clientCompanyId?: true
+    type?: true
+    title?: true
+    url?: true
+    notes?: true
+    storageObjectId?: true
+    saleId?: true
+    documentDate?: true
+    createdById?: true
+    createdByName?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ClientDocumentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ClientDocument to aggregate.
+     */
+    where?: ClientDocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ClientDocuments to fetch.
+     */
+    orderBy?: ClientDocumentOrderByWithRelationInput | ClientDocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ClientDocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ClientDocuments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ClientDocuments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ClientDocuments
+    **/
+    _count?: true | ClientDocumentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ClientDocumentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ClientDocumentMaxAggregateInputType
+  }
+
+  export type GetClientDocumentAggregateType<T extends ClientDocumentAggregateArgs> = {
+        [P in keyof T & keyof AggregateClientDocument]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateClientDocument[P]>
+      : GetScalarType<T[P], AggregateClientDocument[P]>
+  }
+
+
+
+
+  export type ClientDocumentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ClientDocumentWhereInput
+    orderBy?: ClientDocumentOrderByWithAggregationInput | ClientDocumentOrderByWithAggregationInput[]
+    by: ClientDocumentScalarFieldEnum[] | ClientDocumentScalarFieldEnum
+    having?: ClientDocumentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ClientDocumentCountAggregateInputType | true
+    _min?: ClientDocumentMinAggregateInputType
+    _max?: ClientDocumentMaxAggregateInputType
+  }
+
+  export type ClientDocumentGroupByOutputType = {
+    id: string
+    companyId: string
+    clientCompanyId: string
+    type: string
+    title: string
+    url: string | null
+    notes: string | null
+    storageObjectId: string | null
+    saleId: string | null
+    documentDate: Date | null
+    createdById: string | null
+    createdByName: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: ClientDocumentCountAggregateOutputType | null
+    _min: ClientDocumentMinAggregateOutputType | null
+    _max: ClientDocumentMaxAggregateOutputType | null
+  }
+
+  type GetClientDocumentGroupByPayload<T extends ClientDocumentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ClientDocumentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ClientDocumentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ClientDocumentGroupByOutputType[P]>
+            : GetScalarType<T[P], ClientDocumentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ClientDocumentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    clientCompanyId?: boolean
+    type?: boolean
+    title?: boolean
+    url?: boolean
+    notes?: boolean
+    storageObjectId?: boolean
+    saleId?: boolean
+    documentDate?: boolean
+    createdById?: boolean
+    createdByName?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    clientCompany?: boolean | CompanyDefaultArgs<ExtArgs>
+    storageObject?: boolean | ClientDocument$storageObjectArgs<ExtArgs>
+    sale?: boolean | ClientDocument$saleArgs<ExtArgs>
+    contractOf?: boolean | ClientDocument$contractOfArgs<ExtArgs>
+    _count?: boolean | ClientDocumentCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["clientDocument"]>
+
+  export type ClientDocumentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    clientCompanyId?: boolean
+    type?: boolean
+    title?: boolean
+    url?: boolean
+    notes?: boolean
+    storageObjectId?: boolean
+    saleId?: boolean
+    documentDate?: boolean
+    createdById?: boolean
+    createdByName?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    clientCompany?: boolean | CompanyDefaultArgs<ExtArgs>
+    storageObject?: boolean | ClientDocument$storageObjectArgs<ExtArgs>
+    sale?: boolean | ClientDocument$saleArgs<ExtArgs>
+  }, ExtArgs["result"]["clientDocument"]>
+
+  export type ClientDocumentSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    clientCompanyId?: boolean
+    type?: boolean
+    title?: boolean
+    url?: boolean
+    notes?: boolean
+    storageObjectId?: boolean
+    saleId?: boolean
+    documentDate?: boolean
+    createdById?: boolean
+    createdByName?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ClientDocumentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    clientCompany?: boolean | CompanyDefaultArgs<ExtArgs>
+    storageObject?: boolean | ClientDocument$storageObjectArgs<ExtArgs>
+    sale?: boolean | ClientDocument$saleArgs<ExtArgs>
+    contractOf?: boolean | ClientDocument$contractOfArgs<ExtArgs>
+    _count?: boolean | ClientDocumentCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ClientDocumentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    clientCompany?: boolean | CompanyDefaultArgs<ExtArgs>
+    storageObject?: boolean | ClientDocument$storageObjectArgs<ExtArgs>
+    sale?: boolean | ClientDocument$saleArgs<ExtArgs>
+  }
+
+  export type $ClientDocumentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ClientDocument"
+    objects: {
+      clientCompany: Prisma.$CompanyPayload<ExtArgs>
+      storageObject: Prisma.$StorageObjectPayload<ExtArgs> | null
+      sale: Prisma.$SalePayload<ExtArgs> | null
+      contractOf: Prisma.$SalePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      clientCompanyId: string
+      type: string
+      title: string
+      url: string | null
+      notes: string | null
+      storageObjectId: string | null
+      saleId: string | null
+      documentDate: Date | null
+      createdById: string | null
+      createdByName: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["clientDocument"]>
+    composites: {}
+  }
+
+  type ClientDocumentGetPayload<S extends boolean | null | undefined | ClientDocumentDefaultArgs> = $Result.GetResult<Prisma.$ClientDocumentPayload, S>
+
+  type ClientDocumentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<ClientDocumentFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: ClientDocumentCountAggregateInputType | true
+    }
+
+  export interface ClientDocumentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ClientDocument'], meta: { name: 'ClientDocument' } }
+    /**
+     * Find zero or one ClientDocument that matches the filter.
+     * @param {ClientDocumentFindUniqueArgs} args - Arguments to find a ClientDocument
+     * @example
+     * // Get one ClientDocument
+     * const clientDocument = await prisma.clientDocument.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ClientDocumentFindUniqueArgs>(args: SelectSubset<T, ClientDocumentFindUniqueArgs<ExtArgs>>): Prisma__ClientDocumentClient<$Result.GetResult<Prisma.$ClientDocumentPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one ClientDocument that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {ClientDocumentFindUniqueOrThrowArgs} args - Arguments to find a ClientDocument
+     * @example
+     * // Get one ClientDocument
+     * const clientDocument = await prisma.clientDocument.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ClientDocumentFindUniqueOrThrowArgs>(args: SelectSubset<T, ClientDocumentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ClientDocumentClient<$Result.GetResult<Prisma.$ClientDocumentPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first ClientDocument that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClientDocumentFindFirstArgs} args - Arguments to find a ClientDocument
+     * @example
+     * // Get one ClientDocument
+     * const clientDocument = await prisma.clientDocument.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ClientDocumentFindFirstArgs>(args?: SelectSubset<T, ClientDocumentFindFirstArgs<ExtArgs>>): Prisma__ClientDocumentClient<$Result.GetResult<Prisma.$ClientDocumentPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first ClientDocument that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClientDocumentFindFirstOrThrowArgs} args - Arguments to find a ClientDocument
+     * @example
+     * // Get one ClientDocument
+     * const clientDocument = await prisma.clientDocument.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ClientDocumentFindFirstOrThrowArgs>(args?: SelectSubset<T, ClientDocumentFindFirstOrThrowArgs<ExtArgs>>): Prisma__ClientDocumentClient<$Result.GetResult<Prisma.$ClientDocumentPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more ClientDocuments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClientDocumentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ClientDocuments
+     * const clientDocuments = await prisma.clientDocument.findMany()
+     * 
+     * // Get first 10 ClientDocuments
+     * const clientDocuments = await prisma.clientDocument.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const clientDocumentWithIdOnly = await prisma.clientDocument.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ClientDocumentFindManyArgs>(args?: SelectSubset<T, ClientDocumentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClientDocumentPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a ClientDocument.
+     * @param {ClientDocumentCreateArgs} args - Arguments to create a ClientDocument.
+     * @example
+     * // Create one ClientDocument
+     * const ClientDocument = await prisma.clientDocument.create({
+     *   data: {
+     *     // ... data to create a ClientDocument
+     *   }
+     * })
+     * 
+     */
+    create<T extends ClientDocumentCreateArgs>(args: SelectSubset<T, ClientDocumentCreateArgs<ExtArgs>>): Prisma__ClientDocumentClient<$Result.GetResult<Prisma.$ClientDocumentPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many ClientDocuments.
+     * @param {ClientDocumentCreateManyArgs} args - Arguments to create many ClientDocuments.
+     * @example
+     * // Create many ClientDocuments
+     * const clientDocument = await prisma.clientDocument.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ClientDocumentCreateManyArgs>(args?: SelectSubset<T, ClientDocumentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ClientDocuments and returns the data saved in the database.
+     * @param {ClientDocumentCreateManyAndReturnArgs} args - Arguments to create many ClientDocuments.
+     * @example
+     * // Create many ClientDocuments
+     * const clientDocument = await prisma.clientDocument.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ClientDocuments and only return the `id`
+     * const clientDocumentWithIdOnly = await prisma.clientDocument.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ClientDocumentCreateManyAndReturnArgs>(args?: SelectSubset<T, ClientDocumentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClientDocumentPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a ClientDocument.
+     * @param {ClientDocumentDeleteArgs} args - Arguments to delete one ClientDocument.
+     * @example
+     * // Delete one ClientDocument
+     * const ClientDocument = await prisma.clientDocument.delete({
+     *   where: {
+     *     // ... filter to delete one ClientDocument
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ClientDocumentDeleteArgs>(args: SelectSubset<T, ClientDocumentDeleteArgs<ExtArgs>>): Prisma__ClientDocumentClient<$Result.GetResult<Prisma.$ClientDocumentPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one ClientDocument.
+     * @param {ClientDocumentUpdateArgs} args - Arguments to update one ClientDocument.
+     * @example
+     * // Update one ClientDocument
+     * const clientDocument = await prisma.clientDocument.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ClientDocumentUpdateArgs>(args: SelectSubset<T, ClientDocumentUpdateArgs<ExtArgs>>): Prisma__ClientDocumentClient<$Result.GetResult<Prisma.$ClientDocumentPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more ClientDocuments.
+     * @param {ClientDocumentDeleteManyArgs} args - Arguments to filter ClientDocuments to delete.
+     * @example
+     * // Delete a few ClientDocuments
+     * const { count } = await prisma.clientDocument.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ClientDocumentDeleteManyArgs>(args?: SelectSubset<T, ClientDocumentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ClientDocuments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClientDocumentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ClientDocuments
+     * const clientDocument = await prisma.clientDocument.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ClientDocumentUpdateManyArgs>(args: SelectSubset<T, ClientDocumentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ClientDocument.
+     * @param {ClientDocumentUpsertArgs} args - Arguments to update or create a ClientDocument.
+     * @example
+     * // Update or create a ClientDocument
+     * const clientDocument = await prisma.clientDocument.upsert({
+     *   create: {
+     *     // ... data to create a ClientDocument
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ClientDocument we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ClientDocumentUpsertArgs>(args: SelectSubset<T, ClientDocumentUpsertArgs<ExtArgs>>): Prisma__ClientDocumentClient<$Result.GetResult<Prisma.$ClientDocumentPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of ClientDocuments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClientDocumentCountArgs} args - Arguments to filter ClientDocuments to count.
+     * @example
+     * // Count the number of ClientDocuments
+     * const count = await prisma.clientDocument.count({
+     *   where: {
+     *     // ... the filter for the ClientDocuments we want to count
+     *   }
+     * })
+    **/
+    count<T extends ClientDocumentCountArgs>(
+      args?: Subset<T, ClientDocumentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ClientDocumentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ClientDocument.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClientDocumentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ClientDocumentAggregateArgs>(args: Subset<T, ClientDocumentAggregateArgs>): Prisma.PrismaPromise<GetClientDocumentAggregateType<T>>
+
+    /**
+     * Group by ClientDocument.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClientDocumentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ClientDocumentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ClientDocumentGroupByArgs['orderBy'] }
+        : { orderBy?: ClientDocumentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ClientDocumentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetClientDocumentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ClientDocument model
+   */
+  readonly fields: ClientDocumentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ClientDocument.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ClientDocumentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    clientCompany<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    storageObject<T extends ClientDocument$storageObjectArgs<ExtArgs> = {}>(args?: Subset<T, ClientDocument$storageObjectArgs<ExtArgs>>): Prisma__StorageObjectClient<$Result.GetResult<Prisma.$StorageObjectPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    sale<T extends ClientDocument$saleArgs<ExtArgs> = {}>(args?: Subset<T, ClientDocument$saleArgs<ExtArgs>>): Prisma__SaleClient<$Result.GetResult<Prisma.$SalePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    contractOf<T extends ClientDocument$contractOfArgs<ExtArgs> = {}>(args?: Subset<T, ClientDocument$contractOfArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SalePayload<ExtArgs>, T, "findMany"> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ClientDocument model
+   */ 
+  interface ClientDocumentFieldRefs {
+    readonly id: FieldRef<"ClientDocument", 'String'>
+    readonly companyId: FieldRef<"ClientDocument", 'String'>
+    readonly clientCompanyId: FieldRef<"ClientDocument", 'String'>
+    readonly type: FieldRef<"ClientDocument", 'String'>
+    readonly title: FieldRef<"ClientDocument", 'String'>
+    readonly url: FieldRef<"ClientDocument", 'String'>
+    readonly notes: FieldRef<"ClientDocument", 'String'>
+    readonly storageObjectId: FieldRef<"ClientDocument", 'String'>
+    readonly saleId: FieldRef<"ClientDocument", 'String'>
+    readonly documentDate: FieldRef<"ClientDocument", 'DateTime'>
+    readonly createdById: FieldRef<"ClientDocument", 'String'>
+    readonly createdByName: FieldRef<"ClientDocument", 'String'>
+    readonly createdAt: FieldRef<"ClientDocument", 'DateTime'>
+    readonly updatedAt: FieldRef<"ClientDocument", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ClientDocument findUnique
+   */
+  export type ClientDocumentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientDocument
+     */
+    select?: ClientDocumentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which ClientDocument to fetch.
+     */
+    where: ClientDocumentWhereUniqueInput
+  }
+
+  /**
+   * ClientDocument findUniqueOrThrow
+   */
+  export type ClientDocumentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientDocument
+     */
+    select?: ClientDocumentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which ClientDocument to fetch.
+     */
+    where: ClientDocumentWhereUniqueInput
+  }
+
+  /**
+   * ClientDocument findFirst
+   */
+  export type ClientDocumentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientDocument
+     */
+    select?: ClientDocumentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which ClientDocument to fetch.
+     */
+    where?: ClientDocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ClientDocuments to fetch.
+     */
+    orderBy?: ClientDocumentOrderByWithRelationInput | ClientDocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ClientDocuments.
+     */
+    cursor?: ClientDocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ClientDocuments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ClientDocuments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ClientDocuments.
+     */
+    distinct?: ClientDocumentScalarFieldEnum | ClientDocumentScalarFieldEnum[]
+  }
+
+  /**
+   * ClientDocument findFirstOrThrow
+   */
+  export type ClientDocumentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientDocument
+     */
+    select?: ClientDocumentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which ClientDocument to fetch.
+     */
+    where?: ClientDocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ClientDocuments to fetch.
+     */
+    orderBy?: ClientDocumentOrderByWithRelationInput | ClientDocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ClientDocuments.
+     */
+    cursor?: ClientDocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ClientDocuments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ClientDocuments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ClientDocuments.
+     */
+    distinct?: ClientDocumentScalarFieldEnum | ClientDocumentScalarFieldEnum[]
+  }
+
+  /**
+   * ClientDocument findMany
+   */
+  export type ClientDocumentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientDocument
+     */
+    select?: ClientDocumentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which ClientDocuments to fetch.
+     */
+    where?: ClientDocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ClientDocuments to fetch.
+     */
+    orderBy?: ClientDocumentOrderByWithRelationInput | ClientDocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ClientDocuments.
+     */
+    cursor?: ClientDocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ClientDocuments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ClientDocuments.
+     */
+    skip?: number
+    distinct?: ClientDocumentScalarFieldEnum | ClientDocumentScalarFieldEnum[]
+  }
+
+  /**
+   * ClientDocument create
+   */
+  export type ClientDocumentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientDocument
+     */
+    select?: ClientDocumentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientDocumentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ClientDocument.
+     */
+    data: XOR<ClientDocumentCreateInput, ClientDocumentUncheckedCreateInput>
+  }
+
+  /**
+   * ClientDocument createMany
+   */
+  export type ClientDocumentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ClientDocuments.
+     */
+    data: ClientDocumentCreateManyInput | ClientDocumentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ClientDocument createManyAndReturn
+   */
+  export type ClientDocumentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientDocument
+     */
+    select?: ClientDocumentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many ClientDocuments.
+     */
+    data: ClientDocumentCreateManyInput | ClientDocumentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientDocumentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ClientDocument update
+   */
+  export type ClientDocumentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientDocument
+     */
+    select?: ClientDocumentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientDocumentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ClientDocument.
+     */
+    data: XOR<ClientDocumentUpdateInput, ClientDocumentUncheckedUpdateInput>
+    /**
+     * Choose, which ClientDocument to update.
+     */
+    where: ClientDocumentWhereUniqueInput
+  }
+
+  /**
+   * ClientDocument updateMany
+   */
+  export type ClientDocumentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ClientDocuments.
+     */
+    data: XOR<ClientDocumentUpdateManyMutationInput, ClientDocumentUncheckedUpdateManyInput>
+    /**
+     * Filter which ClientDocuments to update
+     */
+    where?: ClientDocumentWhereInput
+  }
+
+  /**
+   * ClientDocument upsert
+   */
+  export type ClientDocumentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientDocument
+     */
+    select?: ClientDocumentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientDocumentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ClientDocument to update in case it exists.
+     */
+    where: ClientDocumentWhereUniqueInput
+    /**
+     * In case the ClientDocument found by the `where` argument doesn't exist, create a new ClientDocument with this data.
+     */
+    create: XOR<ClientDocumentCreateInput, ClientDocumentUncheckedCreateInput>
+    /**
+     * In case the ClientDocument was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ClientDocumentUpdateInput, ClientDocumentUncheckedUpdateInput>
+  }
+
+  /**
+   * ClientDocument delete
+   */
+  export type ClientDocumentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientDocument
+     */
+    select?: ClientDocumentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientDocumentInclude<ExtArgs> | null
+    /**
+     * Filter which ClientDocument to delete.
+     */
+    where: ClientDocumentWhereUniqueInput
+  }
+
+  /**
+   * ClientDocument deleteMany
+   */
+  export type ClientDocumentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ClientDocuments to delete
+     */
+    where?: ClientDocumentWhereInput
+  }
+
+  /**
+   * ClientDocument.storageObject
+   */
+  export type ClientDocument$storageObjectArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageObject
+     */
+    select?: StorageObjectSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageObjectInclude<ExtArgs> | null
+    where?: StorageObjectWhereInput
+  }
+
+  /**
+   * ClientDocument.sale
+   */
+  export type ClientDocument$saleArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Sale
+     */
+    select?: SaleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SaleInclude<ExtArgs> | null
+    where?: SaleWhereInput
+  }
+
+  /**
+   * ClientDocument.contractOf
+   */
+  export type ClientDocument$contractOfArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Sale
+     */
+    select?: SaleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SaleInclude<ExtArgs> | null
+    where?: SaleWhereInput
+    orderBy?: SaleOrderByWithRelationInput | SaleOrderByWithRelationInput[]
+    cursor?: SaleWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SaleScalarFieldEnum | SaleScalarFieldEnum[]
+  }
+
+  /**
+   * ClientDocument without action
+   */
+  export type ClientDocumentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientDocument
+     */
+    select?: ClientDocumentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientDocumentInclude<ExtArgs> | null
   }
 
 
@@ -177776,6 +179434,8 @@ export namespace Prisma {
     document: 'document',
     blingContactId: 'blingContactId',
     billingNotes: 'billingNotes',
+    driveFolderUrl: 'driveFolderUrl',
+    clickupListUrl: 'clickupListUrl',
     hasSystemAccess: 'hasSystemAccess',
     fullSystemAccess: 'fullSystemAccess',
     moduleWhatsapp: 'moduleWhatsapp',
@@ -179500,6 +181160,9 @@ export namespace Prisma {
     inReplyTo: 'inReplyTo',
     leadId: 'leadId',
     ticketId: 'ticketId',
+    clientCompanyId: 'clientCompanyId',
+    clientLinkSource: 'clientLinkSource',
+    clientMark: 'clientMark',
     aiImportance: 'aiImportance',
     aiSummary: 'aiSummary',
     suspicious: 'suspicious',
@@ -179872,6 +181535,24 @@ export namespace Prisma {
     releasedAt: 'releasedAt',
     deliveredAt: 'deliveredAt',
     notes: 'notes',
+    contractDocType: 'contractDocType',
+    contractDocumentId: 'contractDocumentId',
+    contractSentAt: 'contractSentAt',
+    contractEndedAt: 'contractEndedAt',
+    acceptanceType: 'acceptanceType',
+    acceptanceUrl: 'acceptanceUrl',
+    acceptedAt: 'acceptedAt',
+    acceptedByName: 'acceptedByName',
+    acceptedByEmail: 'acceptedByEmail',
+    acceptanceEmailId: 'acceptanceEmailId',
+    acceptanceRecordedBy: 'acceptanceRecordedBy',
+    billingConfirmed: 'billingConfirmed',
+    billingConfirmedBy: 'billingConfirmedBy',
+    billingConfirmedAt: 'billingConfirmedAt',
+    billingConfirmationUrl: 'billingConfirmationUrl',
+    billingConfirmationEmailId: 'billingConfirmationEmailId',
+    billingInstructions: 'billingInstructions',
+    soldServices: 'soldServices',
     projectId: 'projectId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -180087,6 +181768,26 @@ export namespace Prisma {
   };
 
   export type ClientLibraryItemScalarFieldEnum = (typeof ClientLibraryItemScalarFieldEnum)[keyof typeof ClientLibraryItemScalarFieldEnum]
+
+
+  export const ClientDocumentScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    clientCompanyId: 'clientCompanyId',
+    type: 'type',
+    title: 'title',
+    url: 'url',
+    notes: 'notes',
+    storageObjectId: 'storageObjectId',
+    saleId: 'saleId',
+    documentDate: 'documentDate',
+    createdById: 'createdById',
+    createdByName: 'createdByName',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ClientDocumentScalarFieldEnum = (typeof ClientDocumentScalarFieldEnum)[keyof typeof ClientDocumentScalarFieldEnum]
 
 
   export const McpOAuthClientScalarFieldEnum: {
@@ -182333,6 +184034,8 @@ export namespace Prisma {
     document?: StringNullableFilter<"Company"> | string | null
     blingContactId?: StringNullableFilter<"Company"> | string | null
     billingNotes?: StringNullableFilter<"Company"> | string | null
+    driveFolderUrl?: StringNullableFilter<"Company"> | string | null
+    clickupListUrl?: StringNullableFilter<"Company"> | string | null
     hasSystemAccess?: BoolFilter<"Company"> | boolean
     fullSystemAccess?: BoolFilter<"Company"> | boolean
     moduleWhatsapp?: BoolFilter<"Company"> | boolean
@@ -182363,6 +184066,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFilter<"Company"> | boolean
     triggerOnly?: BoolFilter<"Company"> | boolean
     webhookToken?: StringNullableFilter<"Company"> | string | null
+    clientDocuments?: ClientDocumentListRelationFilter
+    clientEmails?: InboxEmailListRelationFilter
     parentCompany?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
     subCompanies?: CompanyListRelationFilter
     users?: UserListRelationFilter
@@ -182476,6 +184181,8 @@ export namespace Prisma {
     document?: SortOrderInput | SortOrder
     blingContactId?: SortOrderInput | SortOrder
     billingNotes?: SortOrderInput | SortOrder
+    driveFolderUrl?: SortOrderInput | SortOrder
+    clickupListUrl?: SortOrderInput | SortOrder
     hasSystemAccess?: SortOrder
     fullSystemAccess?: SortOrder
     moduleWhatsapp?: SortOrder
@@ -182506,6 +184213,8 @@ export namespace Prisma {
     emailAutoSpam?: SortOrder
     triggerOnly?: SortOrder
     webhookToken?: SortOrderInput | SortOrder
+    clientDocuments?: ClientDocumentOrderByRelationAggregateInput
+    clientEmails?: InboxEmailOrderByRelationAggregateInput
     parentCompany?: CompanyOrderByWithRelationInput
     subCompanies?: CompanyOrderByRelationAggregateInput
     users?: UserOrderByRelationAggregateInput
@@ -182623,6 +184332,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Company"> | Date | string
     document?: StringNullableFilter<"Company"> | string | null
     billingNotes?: StringNullableFilter<"Company"> | string | null
+    driveFolderUrl?: StringNullableFilter<"Company"> | string | null
+    clickupListUrl?: StringNullableFilter<"Company"> | string | null
     hasSystemAccess?: BoolFilter<"Company"> | boolean
     fullSystemAccess?: BoolFilter<"Company"> | boolean
     moduleWhatsapp?: BoolFilter<"Company"> | boolean
@@ -182652,6 +184363,8 @@ export namespace Prisma {
     emailAiTriageAuto?: BoolFilter<"Company"> | boolean
     emailAutoSpam?: BoolFilter<"Company"> | boolean
     triggerOnly?: BoolFilter<"Company"> | boolean
+    clientDocuments?: ClientDocumentListRelationFilter
+    clientEmails?: InboxEmailListRelationFilter
     parentCompany?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
     subCompanies?: CompanyListRelationFilter
     users?: UserListRelationFilter
@@ -182765,6 +184478,8 @@ export namespace Prisma {
     document?: SortOrderInput | SortOrder
     blingContactId?: SortOrderInput | SortOrder
     billingNotes?: SortOrderInput | SortOrder
+    driveFolderUrl?: SortOrderInput | SortOrder
+    clickupListUrl?: SortOrderInput | SortOrder
     hasSystemAccess?: SortOrder
     fullSystemAccess?: SortOrder
     moduleWhatsapp?: SortOrder
@@ -182822,6 +184537,8 @@ export namespace Prisma {
     document?: StringNullableWithAggregatesFilter<"Company"> | string | null
     blingContactId?: StringNullableWithAggregatesFilter<"Company"> | string | null
     billingNotes?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    driveFolderUrl?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    clickupListUrl?: StringNullableWithAggregatesFilter<"Company"> | string | null
     hasSystemAccess?: BoolWithAggregatesFilter<"Company"> | boolean
     fullSystemAccess?: BoolWithAggregatesFilter<"Company"> | boolean
     moduleWhatsapp?: BoolWithAggregatesFilter<"Company"> | boolean
@@ -191765,6 +193482,9 @@ export namespace Prisma {
     inReplyTo?: StringNullableFilter<"InboxEmail"> | string | null
     leadId?: StringNullableFilter<"InboxEmail"> | string | null
     ticketId?: StringNullableFilter<"InboxEmail"> | string | null
+    clientCompanyId?: StringNullableFilter<"InboxEmail"> | string | null
+    clientLinkSource?: StringNullableFilter<"InboxEmail"> | string | null
+    clientMark?: StringNullableFilter<"InboxEmail"> | string | null
     aiImportance?: StringNullableFilter<"InboxEmail"> | string | null
     aiSummary?: StringNullableFilter<"InboxEmail"> | string | null
     suspicious?: BoolFilter<"InboxEmail"> | boolean
@@ -191783,6 +193503,7 @@ export namespace Prisma {
     account?: XOR<EmailAccountNullableRelationFilter, EmailAccountWhereInput> | null
     lead?: XOR<LeadNullableRelationFilter, LeadWhereInput> | null
     ticket?: XOR<TicketNullableRelationFilter, TicketWhereInput> | null
+    clientCompany?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
     tags?: InboxEmailTagListRelationFilter
     attachments?: InboxEmailAttachmentListRelationFilter
   }
@@ -191807,6 +193528,9 @@ export namespace Prisma {
     inReplyTo?: SortOrderInput | SortOrder
     leadId?: SortOrderInput | SortOrder
     ticketId?: SortOrderInput | SortOrder
+    clientCompanyId?: SortOrderInput | SortOrder
+    clientLinkSource?: SortOrderInput | SortOrder
+    clientMark?: SortOrderInput | SortOrder
     aiImportance?: SortOrderInput | SortOrder
     aiSummary?: SortOrderInput | SortOrder
     suspicious?: SortOrder
@@ -191825,6 +193549,7 @@ export namespace Prisma {
     account?: EmailAccountOrderByWithRelationInput
     lead?: LeadOrderByWithRelationInput
     ticket?: TicketOrderByWithRelationInput
+    clientCompany?: CompanyOrderByWithRelationInput
     tags?: InboxEmailTagOrderByRelationAggregateInput
     attachments?: InboxEmailAttachmentOrderByRelationAggregateInput
   }
@@ -191854,6 +193579,9 @@ export namespace Prisma {
     inReplyTo?: StringNullableFilter<"InboxEmail"> | string | null
     leadId?: StringNullableFilter<"InboxEmail"> | string | null
     ticketId?: StringNullableFilter<"InboxEmail"> | string | null
+    clientCompanyId?: StringNullableFilter<"InboxEmail"> | string | null
+    clientLinkSource?: StringNullableFilter<"InboxEmail"> | string | null
+    clientMark?: StringNullableFilter<"InboxEmail"> | string | null
     aiImportance?: StringNullableFilter<"InboxEmail"> | string | null
     aiSummary?: StringNullableFilter<"InboxEmail"> | string | null
     suspicious?: BoolFilter<"InboxEmail"> | boolean
@@ -191871,6 +193599,7 @@ export namespace Prisma {
     account?: XOR<EmailAccountNullableRelationFilter, EmailAccountWhereInput> | null
     lead?: XOR<LeadNullableRelationFilter, LeadWhereInput> | null
     ticket?: XOR<TicketNullableRelationFilter, TicketWhereInput> | null
+    clientCompany?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
     tags?: InboxEmailTagListRelationFilter
     attachments?: InboxEmailAttachmentListRelationFilter
   }, "id" | "trackToken" | "accountId_messageId">
@@ -191895,6 +193624,9 @@ export namespace Prisma {
     inReplyTo?: SortOrderInput | SortOrder
     leadId?: SortOrderInput | SortOrder
     ticketId?: SortOrderInput | SortOrder
+    clientCompanyId?: SortOrderInput | SortOrder
+    clientLinkSource?: SortOrderInput | SortOrder
+    clientMark?: SortOrderInput | SortOrder
     aiImportance?: SortOrderInput | SortOrder
     aiSummary?: SortOrderInput | SortOrder
     suspicious?: SortOrder
@@ -191939,6 +193671,9 @@ export namespace Prisma {
     inReplyTo?: StringNullableWithAggregatesFilter<"InboxEmail"> | string | null
     leadId?: StringNullableWithAggregatesFilter<"InboxEmail"> | string | null
     ticketId?: StringNullableWithAggregatesFilter<"InboxEmail"> | string | null
+    clientCompanyId?: StringNullableWithAggregatesFilter<"InboxEmail"> | string | null
+    clientLinkSource?: StringNullableWithAggregatesFilter<"InboxEmail"> | string | null
+    clientMark?: StringNullableWithAggregatesFilter<"InboxEmail"> | string | null
     aiImportance?: StringNullableWithAggregatesFilter<"InboxEmail"> | string | null
     aiSummary?: StringNullableWithAggregatesFilter<"InboxEmail"> | string | null
     suspicious?: BoolWithAggregatesFilter<"InboxEmail"> | boolean
@@ -193714,12 +195449,32 @@ export namespace Prisma {
     releasedAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
     deliveredAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
     notes?: StringNullableFilter<"Sale"> | string | null
+    contractDocType?: StringNullableFilter<"Sale"> | string | null
+    contractDocumentId?: StringNullableFilter<"Sale"> | string | null
+    contractSentAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
+    contractEndedAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
+    acceptanceType?: StringNullableFilter<"Sale"> | string | null
+    acceptanceUrl?: StringNullableFilter<"Sale"> | string | null
+    acceptedAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
+    acceptedByName?: StringNullableFilter<"Sale"> | string | null
+    acceptedByEmail?: StringNullableFilter<"Sale"> | string | null
+    acceptanceEmailId?: StringNullableFilter<"Sale"> | string | null
+    acceptanceRecordedBy?: StringNullableFilter<"Sale"> | string | null
+    billingConfirmed?: BoolFilter<"Sale"> | boolean
+    billingConfirmedBy?: StringNullableFilter<"Sale"> | string | null
+    billingConfirmedAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
+    billingConfirmationUrl?: StringNullableFilter<"Sale"> | string | null
+    billingConfirmationEmailId?: StringNullableFilter<"Sale"> | string | null
+    billingInstructions?: StringNullableFilter<"Sale"> | string | null
+    soldServices?: JsonNullableFilter<"Sale">
     projectId?: StringNullableFilter<"Sale"> | string | null
     createdAt?: DateTimeFilter<"Sale"> | Date | string
     updatedAt?: DateTimeFilter<"Sale"> | Date | string
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     lead?: XOR<LeadNullableRelationFilter, LeadWhereInput> | null
     clientCompany?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
+    contractDocument?: XOR<ClientDocumentNullableRelationFilter, ClientDocumentWhereInput> | null
+    documents?: ClientDocumentListRelationFilter
     bonuses?: BonusListRelationFilter
     invoices?: ClientInvoiceListRelationFilter
     project?: XOR<SetorClickupListNullableRelationFilter, SetorClickupListWhereInput> | null
@@ -193748,12 +195503,32 @@ export namespace Prisma {
     releasedAt?: SortOrderInput | SortOrder
     deliveredAt?: SortOrderInput | SortOrder
     notes?: SortOrderInput | SortOrder
+    contractDocType?: SortOrderInput | SortOrder
+    contractDocumentId?: SortOrderInput | SortOrder
+    contractSentAt?: SortOrderInput | SortOrder
+    contractEndedAt?: SortOrderInput | SortOrder
+    acceptanceType?: SortOrderInput | SortOrder
+    acceptanceUrl?: SortOrderInput | SortOrder
+    acceptedAt?: SortOrderInput | SortOrder
+    acceptedByName?: SortOrderInput | SortOrder
+    acceptedByEmail?: SortOrderInput | SortOrder
+    acceptanceEmailId?: SortOrderInput | SortOrder
+    acceptanceRecordedBy?: SortOrderInput | SortOrder
+    billingConfirmed?: SortOrder
+    billingConfirmedBy?: SortOrderInput | SortOrder
+    billingConfirmedAt?: SortOrderInput | SortOrder
+    billingConfirmationUrl?: SortOrderInput | SortOrder
+    billingConfirmationEmailId?: SortOrderInput | SortOrder
+    billingInstructions?: SortOrderInput | SortOrder
+    soldServices?: SortOrderInput | SortOrder
     projectId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     company?: CompanyOrderByWithRelationInput
     lead?: LeadOrderByWithRelationInput
     clientCompany?: CompanyOrderByWithRelationInput
+    contractDocument?: ClientDocumentOrderByWithRelationInput
+    documents?: ClientDocumentOrderByRelationAggregateInput
     bonuses?: BonusOrderByRelationAggregateInput
     invoices?: ClientInvoiceOrderByRelationAggregateInput
     project?: SetorClickupListOrderByWithRelationInput
@@ -193785,12 +195560,32 @@ export namespace Prisma {
     releasedAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
     deliveredAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
     notes?: StringNullableFilter<"Sale"> | string | null
+    contractDocType?: StringNullableFilter<"Sale"> | string | null
+    contractDocumentId?: StringNullableFilter<"Sale"> | string | null
+    contractSentAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
+    contractEndedAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
+    acceptanceType?: StringNullableFilter<"Sale"> | string | null
+    acceptanceUrl?: StringNullableFilter<"Sale"> | string | null
+    acceptedAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
+    acceptedByName?: StringNullableFilter<"Sale"> | string | null
+    acceptedByEmail?: StringNullableFilter<"Sale"> | string | null
+    acceptanceEmailId?: StringNullableFilter<"Sale"> | string | null
+    acceptanceRecordedBy?: StringNullableFilter<"Sale"> | string | null
+    billingConfirmed?: BoolFilter<"Sale"> | boolean
+    billingConfirmedBy?: StringNullableFilter<"Sale"> | string | null
+    billingConfirmedAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
+    billingConfirmationUrl?: StringNullableFilter<"Sale"> | string | null
+    billingConfirmationEmailId?: StringNullableFilter<"Sale"> | string | null
+    billingInstructions?: StringNullableFilter<"Sale"> | string | null
+    soldServices?: JsonNullableFilter<"Sale">
     projectId?: StringNullableFilter<"Sale"> | string | null
     createdAt?: DateTimeFilter<"Sale"> | Date | string
     updatedAt?: DateTimeFilter<"Sale"> | Date | string
     company?: XOR<CompanyRelationFilter, CompanyWhereInput>
     lead?: XOR<LeadNullableRelationFilter, LeadWhereInput> | null
     clientCompany?: XOR<CompanyNullableRelationFilter, CompanyWhereInput> | null
+    contractDocument?: XOR<ClientDocumentNullableRelationFilter, ClientDocumentWhereInput> | null
+    documents?: ClientDocumentListRelationFilter
     bonuses?: BonusListRelationFilter
     invoices?: ClientInvoiceListRelationFilter
     project?: XOR<SetorClickupListNullableRelationFilter, SetorClickupListWhereInput> | null
@@ -193819,6 +195614,24 @@ export namespace Prisma {
     releasedAt?: SortOrderInput | SortOrder
     deliveredAt?: SortOrderInput | SortOrder
     notes?: SortOrderInput | SortOrder
+    contractDocType?: SortOrderInput | SortOrder
+    contractDocumentId?: SortOrderInput | SortOrder
+    contractSentAt?: SortOrderInput | SortOrder
+    contractEndedAt?: SortOrderInput | SortOrder
+    acceptanceType?: SortOrderInput | SortOrder
+    acceptanceUrl?: SortOrderInput | SortOrder
+    acceptedAt?: SortOrderInput | SortOrder
+    acceptedByName?: SortOrderInput | SortOrder
+    acceptedByEmail?: SortOrderInput | SortOrder
+    acceptanceEmailId?: SortOrderInput | SortOrder
+    acceptanceRecordedBy?: SortOrderInput | SortOrder
+    billingConfirmed?: SortOrder
+    billingConfirmedBy?: SortOrderInput | SortOrder
+    billingConfirmedAt?: SortOrderInput | SortOrder
+    billingConfirmationUrl?: SortOrderInput | SortOrder
+    billingConfirmationEmailId?: SortOrderInput | SortOrder
+    billingInstructions?: SortOrderInput | SortOrder
+    soldServices?: SortOrderInput | SortOrder
     projectId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -193855,6 +195668,24 @@ export namespace Prisma {
     releasedAt?: DateTimeNullableWithAggregatesFilter<"Sale"> | Date | string | null
     deliveredAt?: DateTimeNullableWithAggregatesFilter<"Sale"> | Date | string | null
     notes?: StringNullableWithAggregatesFilter<"Sale"> | string | null
+    contractDocType?: StringNullableWithAggregatesFilter<"Sale"> | string | null
+    contractDocumentId?: StringNullableWithAggregatesFilter<"Sale"> | string | null
+    contractSentAt?: DateTimeNullableWithAggregatesFilter<"Sale"> | Date | string | null
+    contractEndedAt?: DateTimeNullableWithAggregatesFilter<"Sale"> | Date | string | null
+    acceptanceType?: StringNullableWithAggregatesFilter<"Sale"> | string | null
+    acceptanceUrl?: StringNullableWithAggregatesFilter<"Sale"> | string | null
+    acceptedAt?: DateTimeNullableWithAggregatesFilter<"Sale"> | Date | string | null
+    acceptedByName?: StringNullableWithAggregatesFilter<"Sale"> | string | null
+    acceptedByEmail?: StringNullableWithAggregatesFilter<"Sale"> | string | null
+    acceptanceEmailId?: StringNullableWithAggregatesFilter<"Sale"> | string | null
+    acceptanceRecordedBy?: StringNullableWithAggregatesFilter<"Sale"> | string | null
+    billingConfirmed?: BoolWithAggregatesFilter<"Sale"> | boolean
+    billingConfirmedBy?: StringNullableWithAggregatesFilter<"Sale"> | string | null
+    billingConfirmedAt?: DateTimeNullableWithAggregatesFilter<"Sale"> | Date | string | null
+    billingConfirmationUrl?: StringNullableWithAggregatesFilter<"Sale"> | string | null
+    billingConfirmationEmailId?: StringNullableWithAggregatesFilter<"Sale"> | string | null
+    billingInstructions?: StringNullableWithAggregatesFilter<"Sale"> | string | null
+    soldServices?: JsonNullableWithAggregatesFilter<"Sale">
     projectId?: StringNullableWithAggregatesFilter<"Sale"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Sale"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Sale"> | Date | string
@@ -194783,6 +196614,7 @@ export namespace Prisma {
     ticketMessage?: XOR<TicketMessageNullableRelationFilter, TicketMessageWhereInput> | null
     projectTask?: XOR<ProjectTaskNullableRelationFilter, ProjectTaskWhereInput> | null
     libraryItem?: XOR<ClientLibraryItemNullableRelationFilter, ClientLibraryItemWhereInput> | null
+    clientDocument?: XOR<ClientDocumentNullableRelationFilter, ClientDocumentWhereInput> | null
     uploadedBy?: XOR<UserNullableRelationFilter, UserWhereInput> | null
   }
 
@@ -194808,6 +196640,7 @@ export namespace Prisma {
     ticketMessage?: TicketMessageOrderByWithRelationInput
     projectTask?: ProjectTaskOrderByWithRelationInput
     libraryItem?: ClientLibraryItemOrderByWithRelationInput
+    clientDocument?: ClientDocumentOrderByWithRelationInput
     uploadedBy?: UserOrderByWithRelationInput
   }
 
@@ -194836,6 +196669,7 @@ export namespace Prisma {
     ticketMessage?: XOR<TicketMessageNullableRelationFilter, TicketMessageWhereInput> | null
     projectTask?: XOR<ProjectTaskNullableRelationFilter, ProjectTaskWhereInput> | null
     libraryItem?: XOR<ClientLibraryItemNullableRelationFilter, ClientLibraryItemWhereInput> | null
+    clientDocument?: XOR<ClientDocumentNullableRelationFilter, ClientDocumentWhereInput> | null
     uploadedBy?: XOR<UserNullableRelationFilter, UserWhereInput> | null
   }, "id" | "key">
 
@@ -194981,6 +196815,115 @@ export namespace Prisma {
     createdByName?: StringNullableWithAggregatesFilter<"ClientLibraryItem"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"ClientLibraryItem"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ClientLibraryItem"> | Date | string
+  }
+
+  export type ClientDocumentWhereInput = {
+    AND?: ClientDocumentWhereInput | ClientDocumentWhereInput[]
+    OR?: ClientDocumentWhereInput[]
+    NOT?: ClientDocumentWhereInput | ClientDocumentWhereInput[]
+    id?: StringFilter<"ClientDocument"> | string
+    companyId?: StringFilter<"ClientDocument"> | string
+    clientCompanyId?: StringFilter<"ClientDocument"> | string
+    type?: StringFilter<"ClientDocument"> | string
+    title?: StringFilter<"ClientDocument"> | string
+    url?: StringNullableFilter<"ClientDocument"> | string | null
+    notes?: StringNullableFilter<"ClientDocument"> | string | null
+    storageObjectId?: StringNullableFilter<"ClientDocument"> | string | null
+    saleId?: StringNullableFilter<"ClientDocument"> | string | null
+    documentDate?: DateTimeNullableFilter<"ClientDocument"> | Date | string | null
+    createdById?: StringNullableFilter<"ClientDocument"> | string | null
+    createdByName?: StringNullableFilter<"ClientDocument"> | string | null
+    createdAt?: DateTimeFilter<"ClientDocument"> | Date | string
+    updatedAt?: DateTimeFilter<"ClientDocument"> | Date | string
+    clientCompany?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    storageObject?: XOR<StorageObjectNullableRelationFilter, StorageObjectWhereInput> | null
+    sale?: XOR<SaleNullableRelationFilter, SaleWhereInput> | null
+    contractOf?: SaleListRelationFilter
+  }
+
+  export type ClientDocumentOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    clientCompanyId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    url?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    storageObjectId?: SortOrderInput | SortOrder
+    saleId?: SortOrderInput | SortOrder
+    documentDate?: SortOrderInput | SortOrder
+    createdById?: SortOrderInput | SortOrder
+    createdByName?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    clientCompany?: CompanyOrderByWithRelationInput
+    storageObject?: StorageObjectOrderByWithRelationInput
+    sale?: SaleOrderByWithRelationInput
+    contractOf?: SaleOrderByRelationAggregateInput
+  }
+
+  export type ClientDocumentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    storageObjectId?: string
+    AND?: ClientDocumentWhereInput | ClientDocumentWhereInput[]
+    OR?: ClientDocumentWhereInput[]
+    NOT?: ClientDocumentWhereInput | ClientDocumentWhereInput[]
+    companyId?: StringFilter<"ClientDocument"> | string
+    clientCompanyId?: StringFilter<"ClientDocument"> | string
+    type?: StringFilter<"ClientDocument"> | string
+    title?: StringFilter<"ClientDocument"> | string
+    url?: StringNullableFilter<"ClientDocument"> | string | null
+    notes?: StringNullableFilter<"ClientDocument"> | string | null
+    saleId?: StringNullableFilter<"ClientDocument"> | string | null
+    documentDate?: DateTimeNullableFilter<"ClientDocument"> | Date | string | null
+    createdById?: StringNullableFilter<"ClientDocument"> | string | null
+    createdByName?: StringNullableFilter<"ClientDocument"> | string | null
+    createdAt?: DateTimeFilter<"ClientDocument"> | Date | string
+    updatedAt?: DateTimeFilter<"ClientDocument"> | Date | string
+    clientCompany?: XOR<CompanyRelationFilter, CompanyWhereInput>
+    storageObject?: XOR<StorageObjectNullableRelationFilter, StorageObjectWhereInput> | null
+    sale?: XOR<SaleNullableRelationFilter, SaleWhereInput> | null
+    contractOf?: SaleListRelationFilter
+  }, "id" | "storageObjectId">
+
+  export type ClientDocumentOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    clientCompanyId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    url?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    storageObjectId?: SortOrderInput | SortOrder
+    saleId?: SortOrderInput | SortOrder
+    documentDate?: SortOrderInput | SortOrder
+    createdById?: SortOrderInput | SortOrder
+    createdByName?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ClientDocumentCountOrderByAggregateInput
+    _max?: ClientDocumentMaxOrderByAggregateInput
+    _min?: ClientDocumentMinOrderByAggregateInput
+  }
+
+  export type ClientDocumentScalarWhereWithAggregatesInput = {
+    AND?: ClientDocumentScalarWhereWithAggregatesInput | ClientDocumentScalarWhereWithAggregatesInput[]
+    OR?: ClientDocumentScalarWhereWithAggregatesInput[]
+    NOT?: ClientDocumentScalarWhereWithAggregatesInput | ClientDocumentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ClientDocument"> | string
+    companyId?: StringWithAggregatesFilter<"ClientDocument"> | string
+    clientCompanyId?: StringWithAggregatesFilter<"ClientDocument"> | string
+    type?: StringWithAggregatesFilter<"ClientDocument"> | string
+    title?: StringWithAggregatesFilter<"ClientDocument"> | string
+    url?: StringNullableWithAggregatesFilter<"ClientDocument"> | string | null
+    notes?: StringNullableWithAggregatesFilter<"ClientDocument"> | string | null
+    storageObjectId?: StringNullableWithAggregatesFilter<"ClientDocument"> | string | null
+    saleId?: StringNullableWithAggregatesFilter<"ClientDocument"> | string | null
+    documentDate?: DateTimeNullableWithAggregatesFilter<"ClientDocument"> | Date | string | null
+    createdById?: StringNullableWithAggregatesFilter<"ClientDocument"> | string | null
+    createdByName?: StringNullableWithAggregatesFilter<"ClientDocument"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"ClientDocument"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ClientDocument"> | Date | string
   }
 
   export type McpOAuthClientWhereInput = {
@@ -197395,6 +199338,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -197424,6 +199369,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -197537,6 +199484,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -197567,6 +199516,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -197679,6 +199630,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -197708,6 +199661,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -197821,6 +199776,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -197851,6 +199808,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -197963,6 +199922,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -198012,6 +199973,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -198060,6 +200023,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -208086,6 +210051,8 @@ export namespace Prisma {
     textBody?: string | null
     htmlBody?: string | null
     inReplyTo?: string | null
+    clientLinkSource?: string | null
+    clientMark?: string | null
     aiImportance?: string | null
     aiSummary?: string | null
     suspicious?: boolean
@@ -208104,6 +210071,7 @@ export namespace Prisma {
     account?: EmailAccountCreateNestedOneWithoutEmailsInput
     lead?: LeadCreateNestedOneWithoutInboxEmailsInput
     ticket?: TicketCreateNestedOneWithoutInboxEmailsInput
+    clientCompany?: CompanyCreateNestedOneWithoutClientEmailsInput
     tags?: InboxEmailTagCreateNestedManyWithoutEmailsInput
     attachments?: InboxEmailAttachmentCreateNestedManyWithoutEmailInput
   }
@@ -208128,6 +210096,9 @@ export namespace Prisma {
     inReplyTo?: string | null
     leadId?: string | null
     ticketId?: string | null
+    clientCompanyId?: string | null
+    clientLinkSource?: string | null
+    clientMark?: string | null
     aiImportance?: string | null
     aiSummary?: string | null
     suspicious?: boolean
@@ -208162,6 +210133,8 @@ export namespace Prisma {
     textBody?: NullableStringFieldUpdateOperationsInput | string | null
     htmlBody?: NullableStringFieldUpdateOperationsInput | string | null
     inReplyTo?: NullableStringFieldUpdateOperationsInput | string | null
+    clientLinkSource?: NullableStringFieldUpdateOperationsInput | string | null
+    clientMark?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
@@ -208180,6 +210153,7 @@ export namespace Prisma {
     account?: EmailAccountUpdateOneWithoutEmailsNestedInput
     lead?: LeadUpdateOneWithoutInboxEmailsNestedInput
     ticket?: TicketUpdateOneWithoutInboxEmailsNestedInput
+    clientCompany?: CompanyUpdateOneWithoutClientEmailsNestedInput
     tags?: InboxEmailTagUpdateManyWithoutEmailsNestedInput
     attachments?: InboxEmailAttachmentUpdateManyWithoutEmailNestedInput
   }
@@ -208204,6 +210178,9 @@ export namespace Prisma {
     inReplyTo?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientLinkSource?: NullableStringFieldUpdateOperationsInput | string | null
+    clientMark?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
@@ -208242,6 +210219,9 @@ export namespace Prisma {
     inReplyTo?: string | null
     leadId?: string | null
     ticketId?: string | null
+    clientCompanyId?: string | null
+    clientLinkSource?: string | null
+    clientMark?: string | null
     aiImportance?: string | null
     aiSummary?: string | null
     suspicious?: boolean
@@ -208274,6 +210254,8 @@ export namespace Prisma {
     textBody?: NullableStringFieldUpdateOperationsInput | string | null
     htmlBody?: NullableStringFieldUpdateOperationsInput | string | null
     inReplyTo?: NullableStringFieldUpdateOperationsInput | string | null
+    clientLinkSource?: NullableStringFieldUpdateOperationsInput | string | null
+    clientMark?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
@@ -208310,6 +210292,9 @@ export namespace Prisma {
     inReplyTo?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientLinkSource?: NullableStringFieldUpdateOperationsInput | string | null
+    clientMark?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
@@ -210291,11 +212276,30 @@ export namespace Prisma {
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
+    contractDocType?: string | null
+    contractSentAt?: Date | string | null
+    contractEndedAt?: Date | string | null
+    acceptanceType?: string | null
+    acceptanceUrl?: string | null
+    acceptedAt?: Date | string | null
+    acceptedByName?: string | null
+    acceptedByEmail?: string | null
+    acceptanceEmailId?: string | null
+    acceptanceRecordedBy?: string | null
+    billingConfirmed?: boolean
+    billingConfirmedBy?: string | null
+    billingConfirmedAt?: Date | string | null
+    billingConfirmationUrl?: string | null
+    billingConfirmationEmailId?: string | null
+    billingInstructions?: string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutSalesAsAgencyInput
     lead?: LeadCreateNestedOneWithoutSaleInput
     clientCompany?: CompanyCreateNestedOneWithoutSalesAsClientInput
+    contractDocument?: ClientDocumentCreateNestedOneWithoutContractOfInput
+    documents?: ClientDocumentCreateNestedManyWithoutSaleInput
     bonuses?: BonusCreateNestedManyWithoutSaleInput
     invoices?: ClientInvoiceCreateNestedManyWithoutSaleInput
     project?: SetorClickupListCreateNestedOneWithoutSalesInput
@@ -210324,9 +212328,28 @@ export namespace Prisma {
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
+    contractDocType?: string | null
+    contractDocumentId?: string | null
+    contractSentAt?: Date | string | null
+    contractEndedAt?: Date | string | null
+    acceptanceType?: string | null
+    acceptanceUrl?: string | null
+    acceptedAt?: Date | string | null
+    acceptedByName?: string | null
+    acceptedByEmail?: string | null
+    acceptanceEmailId?: string | null
+    acceptanceRecordedBy?: string | null
+    billingConfirmed?: boolean
+    billingConfirmedBy?: string | null
+    billingConfirmedAt?: Date | string | null
+    billingConfirmationUrl?: string | null
+    billingConfirmationEmailId?: string | null
+    billingInstructions?: string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
     projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    documents?: ClientDocumentUncheckedCreateNestedManyWithoutSaleInput
     bonuses?: BonusUncheckedCreateNestedManyWithoutSaleInput
     invoices?: ClientInvoiceUncheckedCreateNestedManyWithoutSaleInput
   }
@@ -210351,11 +212374,30 @@ export namespace Prisma {
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    contractDocType?: NullableStringFieldUpdateOperationsInput | string | null
+    contractSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    contractEndedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptanceType?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptedByName?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedByEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceRecordedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    billingConfirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingConfirmationUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmationEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutSalesAsAgencyNestedInput
     lead?: LeadUpdateOneWithoutSaleNestedInput
     clientCompany?: CompanyUpdateOneWithoutSalesAsClientNestedInput
+    contractDocument?: ClientDocumentUpdateOneWithoutContractOfNestedInput
+    documents?: ClientDocumentUpdateManyWithoutSaleNestedInput
     bonuses?: BonusUpdateManyWithoutSaleNestedInput
     invoices?: ClientInvoiceUpdateManyWithoutSaleNestedInput
     project?: SetorClickupListUpdateOneWithoutSalesNestedInput
@@ -210384,9 +212426,28 @@ export namespace Prisma {
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    contractDocType?: NullableStringFieldUpdateOperationsInput | string | null
+    contractDocumentId?: NullableStringFieldUpdateOperationsInput | string | null
+    contractSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    contractEndedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptanceType?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptedByName?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedByEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceRecordedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    billingConfirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingConfirmationUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmationEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
     projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    documents?: ClientDocumentUncheckedUpdateManyWithoutSaleNestedInput
     bonuses?: BonusUncheckedUpdateManyWithoutSaleNestedInput
     invoices?: ClientInvoiceUncheckedUpdateManyWithoutSaleNestedInput
   }
@@ -210414,6 +212475,24 @@ export namespace Prisma {
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
+    contractDocType?: string | null
+    contractDocumentId?: string | null
+    contractSentAt?: Date | string | null
+    contractEndedAt?: Date | string | null
+    acceptanceType?: string | null
+    acceptanceUrl?: string | null
+    acceptedAt?: Date | string | null
+    acceptedByName?: string | null
+    acceptedByEmail?: string | null
+    acceptanceEmailId?: string | null
+    acceptanceRecordedBy?: string | null
+    billingConfirmed?: boolean
+    billingConfirmedBy?: string | null
+    billingConfirmedAt?: Date | string | null
+    billingConfirmationUrl?: string | null
+    billingConfirmationEmailId?: string | null
+    billingInstructions?: string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
     projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -210439,6 +212518,23 @@ export namespace Prisma {
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    contractDocType?: NullableStringFieldUpdateOperationsInput | string | null
+    contractSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    contractEndedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptanceType?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptedByName?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedByEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceRecordedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    billingConfirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingConfirmationUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmationEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -210466,6 +212562,24 @@ export namespace Prisma {
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    contractDocType?: NullableStringFieldUpdateOperationsInput | string | null
+    contractDocumentId?: NullableStringFieldUpdateOperationsInput | string | null
+    contractSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    contractEndedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptanceType?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptedByName?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedByEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceRecordedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    billingConfirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingConfirmationUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmationEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
     projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -211419,6 +213533,7 @@ export namespace Prisma {
     ticketMessage?: TicketMessageCreateNestedOneWithoutAttachmentsInput
     projectTask?: ProjectTaskCreateNestedOneWithoutAttachmentsInput
     libraryItem?: ClientLibraryItemCreateNestedOneWithoutStorageObjectInput
+    clientDocument?: ClientDocumentCreateNestedOneWithoutStorageObjectInput
     uploadedBy?: UserCreateNestedOneWithoutUploadedFilesInput
   }
 
@@ -211440,6 +213555,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     libraryItem?: ClientLibraryItemUncheckedCreateNestedOneWithoutStorageObjectInput
+    clientDocument?: ClientDocumentUncheckedCreateNestedOneWithoutStorageObjectInput
   }
 
   export type StorageObjectUpdateInput = {
@@ -211459,6 +213575,7 @@ export namespace Prisma {
     ticketMessage?: TicketMessageUpdateOneWithoutAttachmentsNestedInput
     projectTask?: ProjectTaskUpdateOneWithoutAttachmentsNestedInput
     libraryItem?: ClientLibraryItemUpdateOneWithoutStorageObjectNestedInput
+    clientDocument?: ClientDocumentUpdateOneWithoutStorageObjectNestedInput
     uploadedBy?: UserUpdateOneWithoutUploadedFilesNestedInput
   }
 
@@ -211480,6 +213597,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     libraryItem?: ClientLibraryItemUncheckedUpdateOneWithoutStorageObjectNestedInput
+    clientDocument?: ClientDocumentUncheckedUpdateOneWithoutStorageObjectNestedInput
   }
 
   export type StorageObjectCreateManyInput = {
@@ -211638,6 +213756,126 @@ export namespace Prisma {
     url?: NullableStringFieldUpdateOperationsInput | string | null
     storageObjectId?: NullableStringFieldUpdateOperationsInput | string | null
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdByName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClientDocumentCreateInput = {
+    id?: string
+    companyId: string
+    type: string
+    title: string
+    url?: string | null
+    notes?: string | null
+    documentDate?: Date | string | null
+    createdById?: string | null
+    createdByName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    clientCompany: CompanyCreateNestedOneWithoutClientDocumentsInput
+    storageObject?: StorageObjectCreateNestedOneWithoutClientDocumentInput
+    sale?: SaleCreateNestedOneWithoutDocumentsInput
+    contractOf?: SaleCreateNestedManyWithoutContractDocumentInput
+  }
+
+  export type ClientDocumentUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    clientCompanyId: string
+    type: string
+    title: string
+    url?: string | null
+    notes?: string | null
+    storageObjectId?: string | null
+    saleId?: string | null
+    documentDate?: Date | string | null
+    createdById?: string | null
+    createdByName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    contractOf?: SaleUncheckedCreateNestedManyWithoutContractDocumentInput
+  }
+
+  export type ClientDocumentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    documentDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdByName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    clientCompany?: CompanyUpdateOneRequiredWithoutClientDocumentsNestedInput
+    storageObject?: StorageObjectUpdateOneWithoutClientDocumentNestedInput
+    sale?: SaleUpdateOneWithoutDocumentsNestedInput
+    contractOf?: SaleUpdateManyWithoutContractDocumentNestedInput
+  }
+
+  export type ClientDocumentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    clientCompanyId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    storageObjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    saleId?: NullableStringFieldUpdateOperationsInput | string | null
+    documentDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdByName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contractOf?: SaleUncheckedUpdateManyWithoutContractDocumentNestedInput
+  }
+
+  export type ClientDocumentCreateManyInput = {
+    id?: string
+    companyId: string
+    clientCompanyId: string
+    type: string
+    title: string
+    url?: string | null
+    notes?: string | null
+    storageObjectId?: string | null
+    saleId?: string | null
+    documentDate?: Date | string | null
+    createdById?: string | null
+    createdByName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ClientDocumentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    documentDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdByName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClientDocumentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    clientCompanyId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    storageObjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    saleId?: NullableStringFieldUpdateOperationsInput | string | null
+    documentDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
     createdByName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -214182,6 +216420,18 @@ export namespace Prisma {
     not?: NestedEnumModoAtendimentoFilter<$PrismaModel> | $Enums.ModoAtendimento
   }
 
+  export type ClientDocumentListRelationFilter = {
+    every?: ClientDocumentWhereInput
+    some?: ClientDocumentWhereInput
+    none?: ClientDocumentWhereInput
+  }
+
+  export type InboxEmailListRelationFilter = {
+    every?: InboxEmailWhereInput
+    some?: InboxEmailWhereInput
+    none?: InboxEmailWhereInput
+  }
+
   export type CompanyListRelationFilter = {
     every?: CompanyWhereInput
     some?: CompanyWhereInput
@@ -214263,12 +216513,6 @@ export namespace Prisma {
     every?: EmailAccountWhereInput
     some?: EmailAccountWhereInput
     none?: EmailAccountWhereInput
-  }
-
-  export type InboxEmailListRelationFilter = {
-    every?: InboxEmailWhereInput
-    some?: InboxEmailWhereInput
-    none?: InboxEmailWhereInput
   }
 
   export type InboxSenderRuleListRelationFilter = {
@@ -214609,6 +216853,14 @@ export namespace Prisma {
     none?: ClientLibraryItemWhereInput
   }
 
+  export type ClientDocumentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type InboxEmailOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type CompanyOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -214658,10 +216910,6 @@ export namespace Prisma {
   }
 
   export type EmailAccountOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type InboxEmailOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -214894,6 +217142,8 @@ export namespace Prisma {
     document?: SortOrder
     blingContactId?: SortOrder
     billingNotes?: SortOrder
+    driveFolderUrl?: SortOrder
+    clickupListUrl?: SortOrder
     hasSystemAccess?: SortOrder
     fullSystemAccess?: SortOrder
     moduleWhatsapp?: SortOrder
@@ -214948,6 +217198,8 @@ export namespace Prisma {
     document?: SortOrder
     blingContactId?: SortOrder
     billingNotes?: SortOrder
+    driveFolderUrl?: SortOrder
+    clickupListUrl?: SortOrder
     hasSystemAccess?: SortOrder
     fullSystemAccess?: SortOrder
     moduleWhatsapp?: SortOrder
@@ -214997,6 +217249,8 @@ export namespace Prisma {
     document?: SortOrder
     blingContactId?: SortOrder
     billingNotes?: SortOrder
+    driveFolderUrl?: SortOrder
+    clickupListUrl?: SortOrder
     hasSystemAccess?: SortOrder
     fullSystemAccess?: SortOrder
     moduleWhatsapp?: SortOrder
@@ -221314,6 +223568,9 @@ export namespace Prisma {
     inReplyTo?: SortOrder
     leadId?: SortOrder
     ticketId?: SortOrder
+    clientCompanyId?: SortOrder
+    clientLinkSource?: SortOrder
+    clientMark?: SortOrder
     aiImportance?: SortOrder
     aiSummary?: SortOrder
     suspicious?: SortOrder
@@ -221355,6 +223612,9 @@ export namespace Prisma {
     inReplyTo?: SortOrder
     leadId?: SortOrder
     ticketId?: SortOrder
+    clientCompanyId?: SortOrder
+    clientLinkSource?: SortOrder
+    clientMark?: SortOrder
     aiImportance?: SortOrder
     aiSummary?: SortOrder
     suspicious?: SortOrder
@@ -221390,6 +223650,9 @@ export namespace Prisma {
     inReplyTo?: SortOrder
     leadId?: SortOrder
     ticketId?: SortOrder
+    clientCompanyId?: SortOrder
+    clientLinkSource?: SortOrder
+    clientMark?: SortOrder
     aiImportance?: SortOrder
     aiSummary?: SortOrder
     suspicious?: SortOrder
@@ -222503,6 +224766,11 @@ export namespace Prisma {
     installments?: SortOrder
   }
 
+  export type ClientDocumentNullableRelationFilter = {
+    is?: ClientDocumentWhereInput | null
+    isNot?: ClientDocumentWhereInput | null
+  }
+
   export type SaleCountOrderByAggregateInput = {
     id?: SortOrder
     companyId?: SortOrder
@@ -222526,6 +224794,24 @@ export namespace Prisma {
     releasedAt?: SortOrder
     deliveredAt?: SortOrder
     notes?: SortOrder
+    contractDocType?: SortOrder
+    contractDocumentId?: SortOrder
+    contractSentAt?: SortOrder
+    contractEndedAt?: SortOrder
+    acceptanceType?: SortOrder
+    acceptanceUrl?: SortOrder
+    acceptedAt?: SortOrder
+    acceptedByName?: SortOrder
+    acceptedByEmail?: SortOrder
+    acceptanceEmailId?: SortOrder
+    acceptanceRecordedBy?: SortOrder
+    billingConfirmed?: SortOrder
+    billingConfirmedBy?: SortOrder
+    billingConfirmedAt?: SortOrder
+    billingConfirmationUrl?: SortOrder
+    billingConfirmationEmailId?: SortOrder
+    billingInstructions?: SortOrder
+    soldServices?: SortOrder
     projectId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -222558,6 +224844,23 @@ export namespace Prisma {
     releasedAt?: SortOrder
     deliveredAt?: SortOrder
     notes?: SortOrder
+    contractDocType?: SortOrder
+    contractDocumentId?: SortOrder
+    contractSentAt?: SortOrder
+    contractEndedAt?: SortOrder
+    acceptanceType?: SortOrder
+    acceptanceUrl?: SortOrder
+    acceptedAt?: SortOrder
+    acceptedByName?: SortOrder
+    acceptedByEmail?: SortOrder
+    acceptanceEmailId?: SortOrder
+    acceptanceRecordedBy?: SortOrder
+    billingConfirmed?: SortOrder
+    billingConfirmedBy?: SortOrder
+    billingConfirmedAt?: SortOrder
+    billingConfirmationUrl?: SortOrder
+    billingConfirmationEmailId?: SortOrder
+    billingInstructions?: SortOrder
     projectId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -222586,6 +224889,23 @@ export namespace Prisma {
     releasedAt?: SortOrder
     deliveredAt?: SortOrder
     notes?: SortOrder
+    contractDocType?: SortOrder
+    contractDocumentId?: SortOrder
+    contractSentAt?: SortOrder
+    contractEndedAt?: SortOrder
+    acceptanceType?: SortOrder
+    acceptanceUrl?: SortOrder
+    acceptedAt?: SortOrder
+    acceptedByName?: SortOrder
+    acceptedByEmail?: SortOrder
+    acceptanceEmailId?: SortOrder
+    acceptanceRecordedBy?: SortOrder
+    billingConfirmed?: SortOrder
+    billingConfirmedBy?: SortOrder
+    billingConfirmedAt?: SortOrder
+    billingConfirmationUrl?: SortOrder
+    billingConfirmationEmailId?: SortOrder
+    billingInstructions?: SortOrder
     projectId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -223327,6 +225647,57 @@ export namespace Prisma {
     url?: SortOrder
     storageObjectId?: SortOrder
     visibleToClient?: SortOrder
+    createdById?: SortOrder
+    createdByName?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ClientDocumentCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    clientCompanyId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    url?: SortOrder
+    notes?: SortOrder
+    storageObjectId?: SortOrder
+    saleId?: SortOrder
+    documentDate?: SortOrder
+    createdById?: SortOrder
+    createdByName?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ClientDocumentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    clientCompanyId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    url?: SortOrder
+    notes?: SortOrder
+    storageObjectId?: SortOrder
+    saleId?: SortOrder
+    documentDate?: SortOrder
+    createdById?: SortOrder
+    createdByName?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ClientDocumentMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    clientCompanyId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    url?: SortOrder
+    notes?: SortOrder
+    storageObjectId?: SortOrder
+    saleId?: SortOrder
+    documentDate?: SortOrder
     createdById?: SortOrder
     createdByName?: SortOrder
     createdAt?: SortOrder
@@ -226046,6 +228417,20 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutGoogleConnectionsInput, UserUpdateWithoutGoogleConnectionsInput>, UserUncheckedUpdateWithoutGoogleConnectionsInput>
   }
 
+  export type ClientDocumentCreateNestedManyWithoutClientCompanyInput = {
+    create?: XOR<ClientDocumentCreateWithoutClientCompanyInput, ClientDocumentUncheckedCreateWithoutClientCompanyInput> | ClientDocumentCreateWithoutClientCompanyInput[] | ClientDocumentUncheckedCreateWithoutClientCompanyInput[]
+    connectOrCreate?: ClientDocumentCreateOrConnectWithoutClientCompanyInput | ClientDocumentCreateOrConnectWithoutClientCompanyInput[]
+    createMany?: ClientDocumentCreateManyClientCompanyInputEnvelope
+    connect?: ClientDocumentWhereUniqueInput | ClientDocumentWhereUniqueInput[]
+  }
+
+  export type InboxEmailCreateNestedManyWithoutClientCompanyInput = {
+    create?: XOR<InboxEmailCreateWithoutClientCompanyInput, InboxEmailUncheckedCreateWithoutClientCompanyInput> | InboxEmailCreateWithoutClientCompanyInput[] | InboxEmailUncheckedCreateWithoutClientCompanyInput[]
+    connectOrCreate?: InboxEmailCreateOrConnectWithoutClientCompanyInput | InboxEmailCreateOrConnectWithoutClientCompanyInput[]
+    createMany?: InboxEmailCreateManyClientCompanyInputEnvelope
+    connect?: InboxEmailWhereUniqueInput | InboxEmailWhereUniqueInput[]
+  }
+
   export type CompanyCreateNestedOneWithoutSubCompaniesInput = {
     create?: XOR<CompanyCreateWithoutSubCompaniesInput, CompanyUncheckedCreateWithoutSubCompaniesInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutSubCompaniesInput
@@ -226696,6 +229081,20 @@ export namespace Prisma {
     connectOrCreate?: ClientLibraryItemCreateOrConnectWithoutClientCompanyInput | ClientLibraryItemCreateOrConnectWithoutClientCompanyInput[]
     createMany?: ClientLibraryItemCreateManyClientCompanyInputEnvelope
     connect?: ClientLibraryItemWhereUniqueInput | ClientLibraryItemWhereUniqueInput[]
+  }
+
+  export type ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput = {
+    create?: XOR<ClientDocumentCreateWithoutClientCompanyInput, ClientDocumentUncheckedCreateWithoutClientCompanyInput> | ClientDocumentCreateWithoutClientCompanyInput[] | ClientDocumentUncheckedCreateWithoutClientCompanyInput[]
+    connectOrCreate?: ClientDocumentCreateOrConnectWithoutClientCompanyInput | ClientDocumentCreateOrConnectWithoutClientCompanyInput[]
+    createMany?: ClientDocumentCreateManyClientCompanyInputEnvelope
+    connect?: ClientDocumentWhereUniqueInput | ClientDocumentWhereUniqueInput[]
+  }
+
+  export type InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput = {
+    create?: XOR<InboxEmailCreateWithoutClientCompanyInput, InboxEmailUncheckedCreateWithoutClientCompanyInput> | InboxEmailCreateWithoutClientCompanyInput[] | InboxEmailUncheckedCreateWithoutClientCompanyInput[]
+    connectOrCreate?: InboxEmailCreateOrConnectWithoutClientCompanyInput | InboxEmailCreateOrConnectWithoutClientCompanyInput[]
+    createMany?: InboxEmailCreateManyClientCompanyInputEnvelope
+    connect?: InboxEmailWhereUniqueInput | InboxEmailWhereUniqueInput[]
   }
 
   export type CompanyUncheckedCreateNestedManyWithoutParentCompanyInput = {
@@ -227350,6 +229749,34 @@ export namespace Prisma {
 
   export type EnumModoAtendimentoFieldUpdateOperationsInput = {
     set?: $Enums.ModoAtendimento
+  }
+
+  export type ClientDocumentUpdateManyWithoutClientCompanyNestedInput = {
+    create?: XOR<ClientDocumentCreateWithoutClientCompanyInput, ClientDocumentUncheckedCreateWithoutClientCompanyInput> | ClientDocumentCreateWithoutClientCompanyInput[] | ClientDocumentUncheckedCreateWithoutClientCompanyInput[]
+    connectOrCreate?: ClientDocumentCreateOrConnectWithoutClientCompanyInput | ClientDocumentCreateOrConnectWithoutClientCompanyInput[]
+    upsert?: ClientDocumentUpsertWithWhereUniqueWithoutClientCompanyInput | ClientDocumentUpsertWithWhereUniqueWithoutClientCompanyInput[]
+    createMany?: ClientDocumentCreateManyClientCompanyInputEnvelope
+    set?: ClientDocumentWhereUniqueInput | ClientDocumentWhereUniqueInput[]
+    disconnect?: ClientDocumentWhereUniqueInput | ClientDocumentWhereUniqueInput[]
+    delete?: ClientDocumentWhereUniqueInput | ClientDocumentWhereUniqueInput[]
+    connect?: ClientDocumentWhereUniqueInput | ClientDocumentWhereUniqueInput[]
+    update?: ClientDocumentUpdateWithWhereUniqueWithoutClientCompanyInput | ClientDocumentUpdateWithWhereUniqueWithoutClientCompanyInput[]
+    updateMany?: ClientDocumentUpdateManyWithWhereWithoutClientCompanyInput | ClientDocumentUpdateManyWithWhereWithoutClientCompanyInput[]
+    deleteMany?: ClientDocumentScalarWhereInput | ClientDocumentScalarWhereInput[]
+  }
+
+  export type InboxEmailUpdateManyWithoutClientCompanyNestedInput = {
+    create?: XOR<InboxEmailCreateWithoutClientCompanyInput, InboxEmailUncheckedCreateWithoutClientCompanyInput> | InboxEmailCreateWithoutClientCompanyInput[] | InboxEmailUncheckedCreateWithoutClientCompanyInput[]
+    connectOrCreate?: InboxEmailCreateOrConnectWithoutClientCompanyInput | InboxEmailCreateOrConnectWithoutClientCompanyInput[]
+    upsert?: InboxEmailUpsertWithWhereUniqueWithoutClientCompanyInput | InboxEmailUpsertWithWhereUniqueWithoutClientCompanyInput[]
+    createMany?: InboxEmailCreateManyClientCompanyInputEnvelope
+    set?: InboxEmailWhereUniqueInput | InboxEmailWhereUniqueInput[]
+    disconnect?: InboxEmailWhereUniqueInput | InboxEmailWhereUniqueInput[]
+    delete?: InboxEmailWhereUniqueInput | InboxEmailWhereUniqueInput[]
+    connect?: InboxEmailWhereUniqueInput | InboxEmailWhereUniqueInput[]
+    update?: InboxEmailUpdateWithWhereUniqueWithoutClientCompanyInput | InboxEmailUpdateWithWhereUniqueWithoutClientCompanyInput[]
+    updateMany?: InboxEmailUpdateManyWithWhereWithoutClientCompanyInput | InboxEmailUpdateManyWithWhereWithoutClientCompanyInput[]
+    deleteMany?: InboxEmailScalarWhereInput | InboxEmailScalarWhereInput[]
   }
 
   export type CompanyUpdateOneWithoutSubCompaniesNestedInput = {
@@ -228642,6 +231069,34 @@ export namespace Prisma {
     update?: ClientLibraryItemUpdateWithWhereUniqueWithoutClientCompanyInput | ClientLibraryItemUpdateWithWhereUniqueWithoutClientCompanyInput[]
     updateMany?: ClientLibraryItemUpdateManyWithWhereWithoutClientCompanyInput | ClientLibraryItemUpdateManyWithWhereWithoutClientCompanyInput[]
     deleteMany?: ClientLibraryItemScalarWhereInput | ClientLibraryItemScalarWhereInput[]
+  }
+
+  export type ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput = {
+    create?: XOR<ClientDocumentCreateWithoutClientCompanyInput, ClientDocumentUncheckedCreateWithoutClientCompanyInput> | ClientDocumentCreateWithoutClientCompanyInput[] | ClientDocumentUncheckedCreateWithoutClientCompanyInput[]
+    connectOrCreate?: ClientDocumentCreateOrConnectWithoutClientCompanyInput | ClientDocumentCreateOrConnectWithoutClientCompanyInput[]
+    upsert?: ClientDocumentUpsertWithWhereUniqueWithoutClientCompanyInput | ClientDocumentUpsertWithWhereUniqueWithoutClientCompanyInput[]
+    createMany?: ClientDocumentCreateManyClientCompanyInputEnvelope
+    set?: ClientDocumentWhereUniqueInput | ClientDocumentWhereUniqueInput[]
+    disconnect?: ClientDocumentWhereUniqueInput | ClientDocumentWhereUniqueInput[]
+    delete?: ClientDocumentWhereUniqueInput | ClientDocumentWhereUniqueInput[]
+    connect?: ClientDocumentWhereUniqueInput | ClientDocumentWhereUniqueInput[]
+    update?: ClientDocumentUpdateWithWhereUniqueWithoutClientCompanyInput | ClientDocumentUpdateWithWhereUniqueWithoutClientCompanyInput[]
+    updateMany?: ClientDocumentUpdateManyWithWhereWithoutClientCompanyInput | ClientDocumentUpdateManyWithWhereWithoutClientCompanyInput[]
+    deleteMany?: ClientDocumentScalarWhereInput | ClientDocumentScalarWhereInput[]
+  }
+
+  export type InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput = {
+    create?: XOR<InboxEmailCreateWithoutClientCompanyInput, InboxEmailUncheckedCreateWithoutClientCompanyInput> | InboxEmailCreateWithoutClientCompanyInput[] | InboxEmailUncheckedCreateWithoutClientCompanyInput[]
+    connectOrCreate?: InboxEmailCreateOrConnectWithoutClientCompanyInput | InboxEmailCreateOrConnectWithoutClientCompanyInput[]
+    upsert?: InboxEmailUpsertWithWhereUniqueWithoutClientCompanyInput | InboxEmailUpsertWithWhereUniqueWithoutClientCompanyInput[]
+    createMany?: InboxEmailCreateManyClientCompanyInputEnvelope
+    set?: InboxEmailWhereUniqueInput | InboxEmailWhereUniqueInput[]
+    disconnect?: InboxEmailWhereUniqueInput | InboxEmailWhereUniqueInput[]
+    delete?: InboxEmailWhereUniqueInput | InboxEmailWhereUniqueInput[]
+    connect?: InboxEmailWhereUniqueInput | InboxEmailWhereUniqueInput[]
+    update?: InboxEmailUpdateWithWhereUniqueWithoutClientCompanyInput | InboxEmailUpdateWithWhereUniqueWithoutClientCompanyInput[]
+    updateMany?: InboxEmailUpdateManyWithWhereWithoutClientCompanyInput | InboxEmailUpdateManyWithWhereWithoutClientCompanyInput[]
+    deleteMany?: InboxEmailScalarWhereInput | InboxEmailScalarWhereInput[]
   }
 
   export type CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput = {
@@ -235602,6 +238057,12 @@ export namespace Prisma {
     connect?: TicketWhereUniqueInput
   }
 
+  export type CompanyCreateNestedOneWithoutClientEmailsInput = {
+    create?: XOR<CompanyCreateWithoutClientEmailsInput, CompanyUncheckedCreateWithoutClientEmailsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutClientEmailsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
   export type InboxEmailTagCreateNestedManyWithoutEmailsInput = {
     create?: XOR<InboxEmailTagCreateWithoutEmailsInput, InboxEmailTagUncheckedCreateWithoutEmailsInput> | InboxEmailTagCreateWithoutEmailsInput[] | InboxEmailTagUncheckedCreateWithoutEmailsInput[]
     connectOrCreate?: InboxEmailTagCreateOrConnectWithoutEmailsInput | InboxEmailTagCreateOrConnectWithoutEmailsInput[]
@@ -235677,6 +238138,16 @@ export namespace Prisma {
     delete?: TicketWhereInput | boolean
     connect?: TicketWhereUniqueInput
     update?: XOR<XOR<TicketUpdateToOneWithWhereWithoutInboxEmailsInput, TicketUpdateWithoutInboxEmailsInput>, TicketUncheckedUpdateWithoutInboxEmailsInput>
+  }
+
+  export type CompanyUpdateOneWithoutClientEmailsNestedInput = {
+    create?: XOR<CompanyCreateWithoutClientEmailsInput, CompanyUncheckedCreateWithoutClientEmailsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutClientEmailsInput
+    upsert?: CompanyUpsertWithoutClientEmailsInput
+    disconnect?: CompanyWhereInput | boolean
+    delete?: CompanyWhereInput | boolean
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutClientEmailsInput, CompanyUpdateWithoutClientEmailsInput>, CompanyUncheckedUpdateWithoutClientEmailsInput>
   }
 
   export type InboxEmailTagUpdateManyWithoutEmailsNestedInput = {
@@ -236603,6 +239074,19 @@ export namespace Prisma {
     connect?: CompanyWhereUniqueInput
   }
 
+  export type ClientDocumentCreateNestedOneWithoutContractOfInput = {
+    create?: XOR<ClientDocumentCreateWithoutContractOfInput, ClientDocumentUncheckedCreateWithoutContractOfInput>
+    connectOrCreate?: ClientDocumentCreateOrConnectWithoutContractOfInput
+    connect?: ClientDocumentWhereUniqueInput
+  }
+
+  export type ClientDocumentCreateNestedManyWithoutSaleInput = {
+    create?: XOR<ClientDocumentCreateWithoutSaleInput, ClientDocumentUncheckedCreateWithoutSaleInput> | ClientDocumentCreateWithoutSaleInput[] | ClientDocumentUncheckedCreateWithoutSaleInput[]
+    connectOrCreate?: ClientDocumentCreateOrConnectWithoutSaleInput | ClientDocumentCreateOrConnectWithoutSaleInput[]
+    createMany?: ClientDocumentCreateManySaleInputEnvelope
+    connect?: ClientDocumentWhereUniqueInput | ClientDocumentWhereUniqueInput[]
+  }
+
   export type BonusCreateNestedManyWithoutSaleInput = {
     create?: XOR<BonusCreateWithoutSaleInput, BonusUncheckedCreateWithoutSaleInput> | BonusCreateWithoutSaleInput[] | BonusUncheckedCreateWithoutSaleInput[]
     connectOrCreate?: BonusCreateOrConnectWithoutSaleInput | BonusCreateOrConnectWithoutSaleInput[]
@@ -236621,6 +239105,13 @@ export namespace Prisma {
     create?: XOR<SetorClickupListCreateWithoutSalesInput, SetorClickupListUncheckedCreateWithoutSalesInput>
     connectOrCreate?: SetorClickupListCreateOrConnectWithoutSalesInput
     connect?: SetorClickupListWhereUniqueInput
+  }
+
+  export type ClientDocumentUncheckedCreateNestedManyWithoutSaleInput = {
+    create?: XOR<ClientDocumentCreateWithoutSaleInput, ClientDocumentUncheckedCreateWithoutSaleInput> | ClientDocumentCreateWithoutSaleInput[] | ClientDocumentUncheckedCreateWithoutSaleInput[]
+    connectOrCreate?: ClientDocumentCreateOrConnectWithoutSaleInput | ClientDocumentCreateOrConnectWithoutSaleInput[]
+    createMany?: ClientDocumentCreateManySaleInputEnvelope
+    connect?: ClientDocumentWhereUniqueInput | ClientDocumentWhereUniqueInput[]
   }
 
   export type BonusUncheckedCreateNestedManyWithoutSaleInput = {
@@ -236665,6 +239156,30 @@ export namespace Prisma {
     update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutSalesAsClientInput, CompanyUpdateWithoutSalesAsClientInput>, CompanyUncheckedUpdateWithoutSalesAsClientInput>
   }
 
+  export type ClientDocumentUpdateOneWithoutContractOfNestedInput = {
+    create?: XOR<ClientDocumentCreateWithoutContractOfInput, ClientDocumentUncheckedCreateWithoutContractOfInput>
+    connectOrCreate?: ClientDocumentCreateOrConnectWithoutContractOfInput
+    upsert?: ClientDocumentUpsertWithoutContractOfInput
+    disconnect?: ClientDocumentWhereInput | boolean
+    delete?: ClientDocumentWhereInput | boolean
+    connect?: ClientDocumentWhereUniqueInput
+    update?: XOR<XOR<ClientDocumentUpdateToOneWithWhereWithoutContractOfInput, ClientDocumentUpdateWithoutContractOfInput>, ClientDocumentUncheckedUpdateWithoutContractOfInput>
+  }
+
+  export type ClientDocumentUpdateManyWithoutSaleNestedInput = {
+    create?: XOR<ClientDocumentCreateWithoutSaleInput, ClientDocumentUncheckedCreateWithoutSaleInput> | ClientDocumentCreateWithoutSaleInput[] | ClientDocumentUncheckedCreateWithoutSaleInput[]
+    connectOrCreate?: ClientDocumentCreateOrConnectWithoutSaleInput | ClientDocumentCreateOrConnectWithoutSaleInput[]
+    upsert?: ClientDocumentUpsertWithWhereUniqueWithoutSaleInput | ClientDocumentUpsertWithWhereUniqueWithoutSaleInput[]
+    createMany?: ClientDocumentCreateManySaleInputEnvelope
+    set?: ClientDocumentWhereUniqueInput | ClientDocumentWhereUniqueInput[]
+    disconnect?: ClientDocumentWhereUniqueInput | ClientDocumentWhereUniqueInput[]
+    delete?: ClientDocumentWhereUniqueInput | ClientDocumentWhereUniqueInput[]
+    connect?: ClientDocumentWhereUniqueInput | ClientDocumentWhereUniqueInput[]
+    update?: ClientDocumentUpdateWithWhereUniqueWithoutSaleInput | ClientDocumentUpdateWithWhereUniqueWithoutSaleInput[]
+    updateMany?: ClientDocumentUpdateManyWithWhereWithoutSaleInput | ClientDocumentUpdateManyWithWhereWithoutSaleInput[]
+    deleteMany?: ClientDocumentScalarWhereInput | ClientDocumentScalarWhereInput[]
+  }
+
   export type BonusUpdateManyWithoutSaleNestedInput = {
     create?: XOR<BonusCreateWithoutSaleInput, BonusUncheckedCreateWithoutSaleInput> | BonusCreateWithoutSaleInput[] | BonusUncheckedCreateWithoutSaleInput[]
     connectOrCreate?: BonusCreateOrConnectWithoutSaleInput | BonusCreateOrConnectWithoutSaleInput[]
@@ -236701,6 +239216,20 @@ export namespace Prisma {
     delete?: SetorClickupListWhereInput | boolean
     connect?: SetorClickupListWhereUniqueInput
     update?: XOR<XOR<SetorClickupListUpdateToOneWithWhereWithoutSalesInput, SetorClickupListUpdateWithoutSalesInput>, SetorClickupListUncheckedUpdateWithoutSalesInput>
+  }
+
+  export type ClientDocumentUncheckedUpdateManyWithoutSaleNestedInput = {
+    create?: XOR<ClientDocumentCreateWithoutSaleInput, ClientDocumentUncheckedCreateWithoutSaleInput> | ClientDocumentCreateWithoutSaleInput[] | ClientDocumentUncheckedCreateWithoutSaleInput[]
+    connectOrCreate?: ClientDocumentCreateOrConnectWithoutSaleInput | ClientDocumentCreateOrConnectWithoutSaleInput[]
+    upsert?: ClientDocumentUpsertWithWhereUniqueWithoutSaleInput | ClientDocumentUpsertWithWhereUniqueWithoutSaleInput[]
+    createMany?: ClientDocumentCreateManySaleInputEnvelope
+    set?: ClientDocumentWhereUniqueInput | ClientDocumentWhereUniqueInput[]
+    disconnect?: ClientDocumentWhereUniqueInput | ClientDocumentWhereUniqueInput[]
+    delete?: ClientDocumentWhereUniqueInput | ClientDocumentWhereUniqueInput[]
+    connect?: ClientDocumentWhereUniqueInput | ClientDocumentWhereUniqueInput[]
+    update?: ClientDocumentUpdateWithWhereUniqueWithoutSaleInput | ClientDocumentUpdateWithWhereUniqueWithoutSaleInput[]
+    updateMany?: ClientDocumentUpdateManyWithWhereWithoutSaleInput | ClientDocumentUpdateManyWithWhereWithoutSaleInput[]
+    deleteMany?: ClientDocumentScalarWhereInput | ClientDocumentScalarWhereInput[]
   }
 
   export type BonusUncheckedUpdateManyWithoutSaleNestedInput = {
@@ -237191,6 +239720,12 @@ export namespace Prisma {
     connect?: ClientLibraryItemWhereUniqueInput
   }
 
+  export type ClientDocumentCreateNestedOneWithoutStorageObjectInput = {
+    create?: XOR<ClientDocumentCreateWithoutStorageObjectInput, ClientDocumentUncheckedCreateWithoutStorageObjectInput>
+    connectOrCreate?: ClientDocumentCreateOrConnectWithoutStorageObjectInput
+    connect?: ClientDocumentWhereUniqueInput
+  }
+
   export type UserCreateNestedOneWithoutUploadedFilesInput = {
     create?: XOR<UserCreateWithoutUploadedFilesInput, UserUncheckedCreateWithoutUploadedFilesInput>
     connectOrCreate?: UserCreateOrConnectWithoutUploadedFilesInput
@@ -237201,6 +239736,12 @@ export namespace Prisma {
     create?: XOR<ClientLibraryItemCreateWithoutStorageObjectInput, ClientLibraryItemUncheckedCreateWithoutStorageObjectInput>
     connectOrCreate?: ClientLibraryItemCreateOrConnectWithoutStorageObjectInput
     connect?: ClientLibraryItemWhereUniqueInput
+  }
+
+  export type ClientDocumentUncheckedCreateNestedOneWithoutStorageObjectInput = {
+    create?: XOR<ClientDocumentCreateWithoutStorageObjectInput, ClientDocumentUncheckedCreateWithoutStorageObjectInput>
+    connectOrCreate?: ClientDocumentCreateOrConnectWithoutStorageObjectInput
+    connect?: ClientDocumentWhereUniqueInput
   }
 
   export type CompanyUpdateOneRequiredWithoutStorageObjectsNestedInput = {
@@ -237251,6 +239792,16 @@ export namespace Prisma {
     update?: XOR<XOR<ClientLibraryItemUpdateToOneWithWhereWithoutStorageObjectInput, ClientLibraryItemUpdateWithoutStorageObjectInput>, ClientLibraryItemUncheckedUpdateWithoutStorageObjectInput>
   }
 
+  export type ClientDocumentUpdateOneWithoutStorageObjectNestedInput = {
+    create?: XOR<ClientDocumentCreateWithoutStorageObjectInput, ClientDocumentUncheckedCreateWithoutStorageObjectInput>
+    connectOrCreate?: ClientDocumentCreateOrConnectWithoutStorageObjectInput
+    upsert?: ClientDocumentUpsertWithoutStorageObjectInput
+    disconnect?: ClientDocumentWhereInput | boolean
+    delete?: ClientDocumentWhereInput | boolean
+    connect?: ClientDocumentWhereUniqueInput
+    update?: XOR<XOR<ClientDocumentUpdateToOneWithWhereWithoutStorageObjectInput, ClientDocumentUpdateWithoutStorageObjectInput>, ClientDocumentUncheckedUpdateWithoutStorageObjectInput>
+  }
+
   export type UserUpdateOneWithoutUploadedFilesNestedInput = {
     create?: XOR<UserCreateWithoutUploadedFilesInput, UserUncheckedCreateWithoutUploadedFilesInput>
     connectOrCreate?: UserCreateOrConnectWithoutUploadedFilesInput
@@ -237269,6 +239820,16 @@ export namespace Prisma {
     delete?: ClientLibraryItemWhereInput | boolean
     connect?: ClientLibraryItemWhereUniqueInput
     update?: XOR<XOR<ClientLibraryItemUpdateToOneWithWhereWithoutStorageObjectInput, ClientLibraryItemUpdateWithoutStorageObjectInput>, ClientLibraryItemUncheckedUpdateWithoutStorageObjectInput>
+  }
+
+  export type ClientDocumentUncheckedUpdateOneWithoutStorageObjectNestedInput = {
+    create?: XOR<ClientDocumentCreateWithoutStorageObjectInput, ClientDocumentUncheckedCreateWithoutStorageObjectInput>
+    connectOrCreate?: ClientDocumentCreateOrConnectWithoutStorageObjectInput
+    upsert?: ClientDocumentUpsertWithoutStorageObjectInput
+    disconnect?: ClientDocumentWhereInput | boolean
+    delete?: ClientDocumentWhereInput | boolean
+    connect?: ClientDocumentWhereUniqueInput
+    update?: XOR<XOR<ClientDocumentUpdateToOneWithWhereWithoutStorageObjectInput, ClientDocumentUpdateWithoutStorageObjectInput>, ClientDocumentUncheckedUpdateWithoutStorageObjectInput>
   }
 
   export type CompanyCreateNestedOneWithoutLibraryItemsInput = {
@@ -237299,6 +239860,94 @@ export namespace Prisma {
     delete?: StorageObjectWhereInput | boolean
     connect?: StorageObjectWhereUniqueInput
     update?: XOR<XOR<StorageObjectUpdateToOneWithWhereWithoutLibraryItemInput, StorageObjectUpdateWithoutLibraryItemInput>, StorageObjectUncheckedUpdateWithoutLibraryItemInput>
+  }
+
+  export type CompanyCreateNestedOneWithoutClientDocumentsInput = {
+    create?: XOR<CompanyCreateWithoutClientDocumentsInput, CompanyUncheckedCreateWithoutClientDocumentsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutClientDocumentsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type StorageObjectCreateNestedOneWithoutClientDocumentInput = {
+    create?: XOR<StorageObjectCreateWithoutClientDocumentInput, StorageObjectUncheckedCreateWithoutClientDocumentInput>
+    connectOrCreate?: StorageObjectCreateOrConnectWithoutClientDocumentInput
+    connect?: StorageObjectWhereUniqueInput
+  }
+
+  export type SaleCreateNestedOneWithoutDocumentsInput = {
+    create?: XOR<SaleCreateWithoutDocumentsInput, SaleUncheckedCreateWithoutDocumentsInput>
+    connectOrCreate?: SaleCreateOrConnectWithoutDocumentsInput
+    connect?: SaleWhereUniqueInput
+  }
+
+  export type SaleCreateNestedManyWithoutContractDocumentInput = {
+    create?: XOR<SaleCreateWithoutContractDocumentInput, SaleUncheckedCreateWithoutContractDocumentInput> | SaleCreateWithoutContractDocumentInput[] | SaleUncheckedCreateWithoutContractDocumentInput[]
+    connectOrCreate?: SaleCreateOrConnectWithoutContractDocumentInput | SaleCreateOrConnectWithoutContractDocumentInput[]
+    createMany?: SaleCreateManyContractDocumentInputEnvelope
+    connect?: SaleWhereUniqueInput | SaleWhereUniqueInput[]
+  }
+
+  export type SaleUncheckedCreateNestedManyWithoutContractDocumentInput = {
+    create?: XOR<SaleCreateWithoutContractDocumentInput, SaleUncheckedCreateWithoutContractDocumentInput> | SaleCreateWithoutContractDocumentInput[] | SaleUncheckedCreateWithoutContractDocumentInput[]
+    connectOrCreate?: SaleCreateOrConnectWithoutContractDocumentInput | SaleCreateOrConnectWithoutContractDocumentInput[]
+    createMany?: SaleCreateManyContractDocumentInputEnvelope
+    connect?: SaleWhereUniqueInput | SaleWhereUniqueInput[]
+  }
+
+  export type CompanyUpdateOneRequiredWithoutClientDocumentsNestedInput = {
+    create?: XOR<CompanyCreateWithoutClientDocumentsInput, CompanyUncheckedCreateWithoutClientDocumentsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutClientDocumentsInput
+    upsert?: CompanyUpsertWithoutClientDocumentsInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutClientDocumentsInput, CompanyUpdateWithoutClientDocumentsInput>, CompanyUncheckedUpdateWithoutClientDocumentsInput>
+  }
+
+  export type StorageObjectUpdateOneWithoutClientDocumentNestedInput = {
+    create?: XOR<StorageObjectCreateWithoutClientDocumentInput, StorageObjectUncheckedCreateWithoutClientDocumentInput>
+    connectOrCreate?: StorageObjectCreateOrConnectWithoutClientDocumentInput
+    upsert?: StorageObjectUpsertWithoutClientDocumentInput
+    disconnect?: StorageObjectWhereInput | boolean
+    delete?: StorageObjectWhereInput | boolean
+    connect?: StorageObjectWhereUniqueInput
+    update?: XOR<XOR<StorageObjectUpdateToOneWithWhereWithoutClientDocumentInput, StorageObjectUpdateWithoutClientDocumentInput>, StorageObjectUncheckedUpdateWithoutClientDocumentInput>
+  }
+
+  export type SaleUpdateOneWithoutDocumentsNestedInput = {
+    create?: XOR<SaleCreateWithoutDocumentsInput, SaleUncheckedCreateWithoutDocumentsInput>
+    connectOrCreate?: SaleCreateOrConnectWithoutDocumentsInput
+    upsert?: SaleUpsertWithoutDocumentsInput
+    disconnect?: SaleWhereInput | boolean
+    delete?: SaleWhereInput | boolean
+    connect?: SaleWhereUniqueInput
+    update?: XOR<XOR<SaleUpdateToOneWithWhereWithoutDocumentsInput, SaleUpdateWithoutDocumentsInput>, SaleUncheckedUpdateWithoutDocumentsInput>
+  }
+
+  export type SaleUpdateManyWithoutContractDocumentNestedInput = {
+    create?: XOR<SaleCreateWithoutContractDocumentInput, SaleUncheckedCreateWithoutContractDocumentInput> | SaleCreateWithoutContractDocumentInput[] | SaleUncheckedCreateWithoutContractDocumentInput[]
+    connectOrCreate?: SaleCreateOrConnectWithoutContractDocumentInput | SaleCreateOrConnectWithoutContractDocumentInput[]
+    upsert?: SaleUpsertWithWhereUniqueWithoutContractDocumentInput | SaleUpsertWithWhereUniqueWithoutContractDocumentInput[]
+    createMany?: SaleCreateManyContractDocumentInputEnvelope
+    set?: SaleWhereUniqueInput | SaleWhereUniqueInput[]
+    disconnect?: SaleWhereUniqueInput | SaleWhereUniqueInput[]
+    delete?: SaleWhereUniqueInput | SaleWhereUniqueInput[]
+    connect?: SaleWhereUniqueInput | SaleWhereUniqueInput[]
+    update?: SaleUpdateWithWhereUniqueWithoutContractDocumentInput | SaleUpdateWithWhereUniqueWithoutContractDocumentInput[]
+    updateMany?: SaleUpdateManyWithWhereWithoutContractDocumentInput | SaleUpdateManyWithWhereWithoutContractDocumentInput[]
+    deleteMany?: SaleScalarWhereInput | SaleScalarWhereInput[]
+  }
+
+  export type SaleUncheckedUpdateManyWithoutContractDocumentNestedInput = {
+    create?: XOR<SaleCreateWithoutContractDocumentInput, SaleUncheckedCreateWithoutContractDocumentInput> | SaleCreateWithoutContractDocumentInput[] | SaleUncheckedCreateWithoutContractDocumentInput[]
+    connectOrCreate?: SaleCreateOrConnectWithoutContractDocumentInput | SaleCreateOrConnectWithoutContractDocumentInput[]
+    upsert?: SaleUpsertWithWhereUniqueWithoutContractDocumentInput | SaleUpsertWithWhereUniqueWithoutContractDocumentInput[]
+    createMany?: SaleCreateManyContractDocumentInputEnvelope
+    set?: SaleWhereUniqueInput | SaleWhereUniqueInput[]
+    disconnect?: SaleWhereUniqueInput | SaleWhereUniqueInput[]
+    delete?: SaleWhereUniqueInput | SaleWhereUniqueInput[]
+    connect?: SaleWhereUniqueInput | SaleWhereUniqueInput[]
+    update?: SaleUpdateWithWhereUniqueWithoutContractDocumentInput | SaleUpdateWithWhereUniqueWithoutContractDocumentInput[]
+    updateMany?: SaleUpdateManyWithWhereWithoutContractDocumentInput | SaleUpdateManyWithWhereWithoutContractDocumentInput[]
+    deleteMany?: SaleScalarWhereInput | SaleScalarWhereInput[]
   }
 
   export type McpOAuthClientCreateredirectUrisInput = {
@@ -239381,6 +242030,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -239410,6 +242061,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     userScores?: UserScoreCreateNestedManyWithoutCompanyInput
@@ -239522,6 +242175,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -239552,6 +242207,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
@@ -241240,6 +243897,7 @@ export namespace Prisma {
     ticketMessage?: TicketMessageCreateNestedOneWithoutAttachmentsInput
     projectTask?: ProjectTaskCreateNestedOneWithoutAttachmentsInput
     libraryItem?: ClientLibraryItemCreateNestedOneWithoutStorageObjectInput
+    clientDocument?: ClientDocumentCreateNestedOneWithoutStorageObjectInput
   }
 
   export type StorageObjectUncheckedCreateWithoutUploadedByInput = {
@@ -241259,6 +243917,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     libraryItem?: ClientLibraryItemUncheckedCreateNestedOneWithoutStorageObjectInput
+    clientDocument?: ClientDocumentUncheckedCreateNestedOneWithoutStorageObjectInput
   }
 
   export type StorageObjectCreateOrConnectWithoutUploadedByInput = {
@@ -241467,6 +244126,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -241496,6 +244157,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
@@ -241608,6 +244271,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -241638,6 +244303,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
@@ -244061,6 +246728,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -244090,6 +246759,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -244202,6 +246873,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -244232,6 +246905,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -244494,6 +247169,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -244523,6 +247200,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -244635,6 +247314,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -244665,6 +247346,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -245728,6 +248411,140 @@ export namespace Prisma {
     assistantRules?: AssistantRuleUncheckedUpdateManyWithoutUserNestedInput
   }
 
+  export type ClientDocumentCreateWithoutClientCompanyInput = {
+    id?: string
+    companyId: string
+    type: string
+    title: string
+    url?: string | null
+    notes?: string | null
+    documentDate?: Date | string | null
+    createdById?: string | null
+    createdByName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    storageObject?: StorageObjectCreateNestedOneWithoutClientDocumentInput
+    sale?: SaleCreateNestedOneWithoutDocumentsInput
+    contractOf?: SaleCreateNestedManyWithoutContractDocumentInput
+  }
+
+  export type ClientDocumentUncheckedCreateWithoutClientCompanyInput = {
+    id?: string
+    companyId: string
+    type: string
+    title: string
+    url?: string | null
+    notes?: string | null
+    storageObjectId?: string | null
+    saleId?: string | null
+    documentDate?: Date | string | null
+    createdById?: string | null
+    createdByName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    contractOf?: SaleUncheckedCreateNestedManyWithoutContractDocumentInput
+  }
+
+  export type ClientDocumentCreateOrConnectWithoutClientCompanyInput = {
+    where: ClientDocumentWhereUniqueInput
+    create: XOR<ClientDocumentCreateWithoutClientCompanyInput, ClientDocumentUncheckedCreateWithoutClientCompanyInput>
+  }
+
+  export type ClientDocumentCreateManyClientCompanyInputEnvelope = {
+    data: ClientDocumentCreateManyClientCompanyInput | ClientDocumentCreateManyClientCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type InboxEmailCreateWithoutClientCompanyInput = {
+    id?: string
+    direction: $Enums.InboxEmailDirection
+    folder?: $Enums.InboxEmailFolder
+    messageId?: string | null
+    imapUid?: number | null
+    fromEmail: string
+    fromName?: string | null
+    toEmail: string
+    ccEmail?: string | null
+    bccEmail?: string | null
+    subject?: string
+    snippet?: string
+    textBody?: string | null
+    htmlBody?: string | null
+    inReplyTo?: string | null
+    clientLinkSource?: string | null
+    clientMark?: string | null
+    aiImportance?: string | null
+    aiSummary?: string | null
+    suspicious?: boolean
+    suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
+    aiLocked?: boolean
+    caseId?: string | null
+    seen?: boolean
+    sentAt: Date | string
+    trackToken?: string | null
+    openedAt?: Date | string | null
+    lastOpenedAt?: Date | string | null
+    openCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutInboxEmailsInput
+    account?: EmailAccountCreateNestedOneWithoutEmailsInput
+    lead?: LeadCreateNestedOneWithoutInboxEmailsInput
+    ticket?: TicketCreateNestedOneWithoutInboxEmailsInput
+    tags?: InboxEmailTagCreateNestedManyWithoutEmailsInput
+    attachments?: InboxEmailAttachmentCreateNestedManyWithoutEmailInput
+  }
+
+  export type InboxEmailUncheckedCreateWithoutClientCompanyInput = {
+    id?: string
+    companyId: string
+    accountId?: string | null
+    direction: $Enums.InboxEmailDirection
+    folder?: $Enums.InboxEmailFolder
+    messageId?: string | null
+    imapUid?: number | null
+    fromEmail: string
+    fromName?: string | null
+    toEmail: string
+    ccEmail?: string | null
+    bccEmail?: string | null
+    subject?: string
+    snippet?: string
+    textBody?: string | null
+    htmlBody?: string | null
+    inReplyTo?: string | null
+    leadId?: string | null
+    ticketId?: string | null
+    clientLinkSource?: string | null
+    clientMark?: string | null
+    aiImportance?: string | null
+    aiSummary?: string | null
+    suspicious?: boolean
+    suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
+    aiLocked?: boolean
+    caseId?: string | null
+    seen?: boolean
+    sentAt: Date | string
+    trackToken?: string | null
+    openedAt?: Date | string | null
+    lastOpenedAt?: Date | string | null
+    openCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tags?: InboxEmailTagUncheckedCreateNestedManyWithoutEmailsInput
+    attachments?: InboxEmailAttachmentUncheckedCreateNestedManyWithoutEmailInput
+  }
+
+  export type InboxEmailCreateOrConnectWithoutClientCompanyInput = {
+    where: InboxEmailWhereUniqueInput
+    create: XOR<InboxEmailCreateWithoutClientCompanyInput, InboxEmailUncheckedCreateWithoutClientCompanyInput>
+  }
+
+  export type InboxEmailCreateManyClientCompanyInputEnvelope = {
+    data: InboxEmailCreateManyClientCompanyInput | InboxEmailCreateManyClientCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CompanyCreateWithoutSubCompaniesInput = {
     id?: string
     name: string
@@ -245745,6 +248562,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -245774,6 +248593,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     users?: UserCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreCreateNestedManyWithoutCompanyInput
@@ -245886,6 +248707,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -245916,6 +248739,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
@@ -246032,6 +248857,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -246061,6 +248888,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreCreateNestedManyWithoutCompanyInput
@@ -246173,6 +249002,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -246202,6 +249033,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -247308,6 +250141,8 @@ export namespace Prisma {
     textBody?: string | null
     htmlBody?: string | null
     inReplyTo?: string | null
+    clientLinkSource?: string | null
+    clientMark?: string | null
     aiImportance?: string | null
     aiSummary?: string | null
     suspicious?: boolean
@@ -247325,6 +250160,7 @@ export namespace Prisma {
     account?: EmailAccountCreateNestedOneWithoutEmailsInput
     lead?: LeadCreateNestedOneWithoutInboxEmailsInput
     ticket?: TicketCreateNestedOneWithoutInboxEmailsInput
+    clientCompany?: CompanyCreateNestedOneWithoutClientEmailsInput
     tags?: InboxEmailTagCreateNestedManyWithoutEmailsInput
     attachments?: InboxEmailAttachmentCreateNestedManyWithoutEmailInput
   }
@@ -247348,6 +250184,9 @@ export namespace Prisma {
     inReplyTo?: string | null
     leadId?: string | null
     ticketId?: string | null
+    clientCompanyId?: string | null
+    clientLinkSource?: string | null
+    clientMark?: string | null
     aiImportance?: string | null
     aiSummary?: string | null
     suspicious?: boolean
@@ -248052,10 +250891,29 @@ export namespace Prisma {
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
+    contractDocType?: string | null
+    contractSentAt?: Date | string | null
+    contractEndedAt?: Date | string | null
+    acceptanceType?: string | null
+    acceptanceUrl?: string | null
+    acceptedAt?: Date | string | null
+    acceptedByName?: string | null
+    acceptedByEmail?: string | null
+    acceptanceEmailId?: string | null
+    acceptanceRecordedBy?: string | null
+    billingConfirmed?: boolean
+    billingConfirmedBy?: string | null
+    billingConfirmedAt?: Date | string | null
+    billingConfirmationUrl?: string | null
+    billingConfirmationEmailId?: string | null
+    billingInstructions?: string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     lead?: LeadCreateNestedOneWithoutSaleInput
     clientCompany?: CompanyCreateNestedOneWithoutSalesAsClientInput
+    contractDocument?: ClientDocumentCreateNestedOneWithoutContractOfInput
+    documents?: ClientDocumentCreateNestedManyWithoutSaleInput
     bonuses?: BonusCreateNestedManyWithoutSaleInput
     invoices?: ClientInvoiceCreateNestedManyWithoutSaleInput
     project?: SetorClickupListCreateNestedOneWithoutSalesInput
@@ -248083,9 +250941,28 @@ export namespace Prisma {
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
+    contractDocType?: string | null
+    contractDocumentId?: string | null
+    contractSentAt?: Date | string | null
+    contractEndedAt?: Date | string | null
+    acceptanceType?: string | null
+    acceptanceUrl?: string | null
+    acceptedAt?: Date | string | null
+    acceptedByName?: string | null
+    acceptedByEmail?: string | null
+    acceptanceEmailId?: string | null
+    acceptanceRecordedBy?: string | null
+    billingConfirmed?: boolean
+    billingConfirmedBy?: string | null
+    billingConfirmedAt?: Date | string | null
+    billingConfirmationUrl?: string | null
+    billingConfirmationEmailId?: string | null
+    billingInstructions?: string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
     projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    documents?: ClientDocumentUncheckedCreateNestedManyWithoutSaleInput
     bonuses?: BonusUncheckedCreateNestedManyWithoutSaleInput
     invoices?: ClientInvoiceUncheckedCreateNestedManyWithoutSaleInput
   }
@@ -248120,10 +250997,29 @@ export namespace Prisma {
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
+    contractDocType?: string | null
+    contractSentAt?: Date | string | null
+    contractEndedAt?: Date | string | null
+    acceptanceType?: string | null
+    acceptanceUrl?: string | null
+    acceptedAt?: Date | string | null
+    acceptedByName?: string | null
+    acceptedByEmail?: string | null
+    acceptanceEmailId?: string | null
+    acceptanceRecordedBy?: string | null
+    billingConfirmed?: boolean
+    billingConfirmedBy?: string | null
+    billingConfirmedAt?: Date | string | null
+    billingConfirmationUrl?: string | null
+    billingConfirmationEmailId?: string | null
+    billingInstructions?: string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutSalesAsAgencyInput
     lead?: LeadCreateNestedOneWithoutSaleInput
+    contractDocument?: ClientDocumentCreateNestedOneWithoutContractOfInput
+    documents?: ClientDocumentCreateNestedManyWithoutSaleInput
     bonuses?: BonusCreateNestedManyWithoutSaleInput
     invoices?: ClientInvoiceCreateNestedManyWithoutSaleInput
     project?: SetorClickupListCreateNestedOneWithoutSalesInput
@@ -248151,9 +251047,28 @@ export namespace Prisma {
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
+    contractDocType?: string | null
+    contractDocumentId?: string | null
+    contractSentAt?: Date | string | null
+    contractEndedAt?: Date | string | null
+    acceptanceType?: string | null
+    acceptanceUrl?: string | null
+    acceptedAt?: Date | string | null
+    acceptedByName?: string | null
+    acceptedByEmail?: string | null
+    acceptanceEmailId?: string | null
+    acceptanceRecordedBy?: string | null
+    billingConfirmed?: boolean
+    billingConfirmedBy?: string | null
+    billingConfirmedAt?: Date | string | null
+    billingConfirmationUrl?: string | null
+    billingConfirmationEmailId?: string | null
+    billingInstructions?: string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
     projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    documents?: ClientDocumentUncheckedCreateNestedManyWithoutSaleInput
     bonuses?: BonusUncheckedCreateNestedManyWithoutSaleInput
     invoices?: ClientInvoiceUncheckedCreateNestedManyWithoutSaleInput
   }
@@ -250460,6 +253375,7 @@ export namespace Prisma {
     ticketMessage?: TicketMessageCreateNestedOneWithoutAttachmentsInput
     projectTask?: ProjectTaskCreateNestedOneWithoutAttachmentsInput
     libraryItem?: ClientLibraryItemCreateNestedOneWithoutStorageObjectInput
+    clientDocument?: ClientDocumentCreateNestedOneWithoutStorageObjectInput
     uploadedBy?: UserCreateNestedOneWithoutUploadedFilesInput
   }
 
@@ -250480,6 +253396,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     libraryItem?: ClientLibraryItemUncheckedCreateNestedOneWithoutStorageObjectInput
+    clientDocument?: ClientDocumentUncheckedCreateNestedOneWithoutStorageObjectInput
   }
 
   export type StorageObjectCreateOrConnectWithoutCompanyInput = {
@@ -250532,6 +253449,100 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ClientDocumentUpsertWithWhereUniqueWithoutClientCompanyInput = {
+    where: ClientDocumentWhereUniqueInput
+    update: XOR<ClientDocumentUpdateWithoutClientCompanyInput, ClientDocumentUncheckedUpdateWithoutClientCompanyInput>
+    create: XOR<ClientDocumentCreateWithoutClientCompanyInput, ClientDocumentUncheckedCreateWithoutClientCompanyInput>
+  }
+
+  export type ClientDocumentUpdateWithWhereUniqueWithoutClientCompanyInput = {
+    where: ClientDocumentWhereUniqueInput
+    data: XOR<ClientDocumentUpdateWithoutClientCompanyInput, ClientDocumentUncheckedUpdateWithoutClientCompanyInput>
+  }
+
+  export type ClientDocumentUpdateManyWithWhereWithoutClientCompanyInput = {
+    where: ClientDocumentScalarWhereInput
+    data: XOR<ClientDocumentUpdateManyMutationInput, ClientDocumentUncheckedUpdateManyWithoutClientCompanyInput>
+  }
+
+  export type ClientDocumentScalarWhereInput = {
+    AND?: ClientDocumentScalarWhereInput | ClientDocumentScalarWhereInput[]
+    OR?: ClientDocumentScalarWhereInput[]
+    NOT?: ClientDocumentScalarWhereInput | ClientDocumentScalarWhereInput[]
+    id?: StringFilter<"ClientDocument"> | string
+    companyId?: StringFilter<"ClientDocument"> | string
+    clientCompanyId?: StringFilter<"ClientDocument"> | string
+    type?: StringFilter<"ClientDocument"> | string
+    title?: StringFilter<"ClientDocument"> | string
+    url?: StringNullableFilter<"ClientDocument"> | string | null
+    notes?: StringNullableFilter<"ClientDocument"> | string | null
+    storageObjectId?: StringNullableFilter<"ClientDocument"> | string | null
+    saleId?: StringNullableFilter<"ClientDocument"> | string | null
+    documentDate?: DateTimeNullableFilter<"ClientDocument"> | Date | string | null
+    createdById?: StringNullableFilter<"ClientDocument"> | string | null
+    createdByName?: StringNullableFilter<"ClientDocument"> | string | null
+    createdAt?: DateTimeFilter<"ClientDocument"> | Date | string
+    updatedAt?: DateTimeFilter<"ClientDocument"> | Date | string
+  }
+
+  export type InboxEmailUpsertWithWhereUniqueWithoutClientCompanyInput = {
+    where: InboxEmailWhereUniqueInput
+    update: XOR<InboxEmailUpdateWithoutClientCompanyInput, InboxEmailUncheckedUpdateWithoutClientCompanyInput>
+    create: XOR<InboxEmailCreateWithoutClientCompanyInput, InboxEmailUncheckedCreateWithoutClientCompanyInput>
+  }
+
+  export type InboxEmailUpdateWithWhereUniqueWithoutClientCompanyInput = {
+    where: InboxEmailWhereUniqueInput
+    data: XOR<InboxEmailUpdateWithoutClientCompanyInput, InboxEmailUncheckedUpdateWithoutClientCompanyInput>
+  }
+
+  export type InboxEmailUpdateManyWithWhereWithoutClientCompanyInput = {
+    where: InboxEmailScalarWhereInput
+    data: XOR<InboxEmailUpdateManyMutationInput, InboxEmailUncheckedUpdateManyWithoutClientCompanyInput>
+  }
+
+  export type InboxEmailScalarWhereInput = {
+    AND?: InboxEmailScalarWhereInput | InboxEmailScalarWhereInput[]
+    OR?: InboxEmailScalarWhereInput[]
+    NOT?: InboxEmailScalarWhereInput | InboxEmailScalarWhereInput[]
+    id?: StringFilter<"InboxEmail"> | string
+    companyId?: StringFilter<"InboxEmail"> | string
+    accountId?: StringNullableFilter<"InboxEmail"> | string | null
+    direction?: EnumInboxEmailDirectionFilter<"InboxEmail"> | $Enums.InboxEmailDirection
+    folder?: EnumInboxEmailFolderFilter<"InboxEmail"> | $Enums.InboxEmailFolder
+    messageId?: StringNullableFilter<"InboxEmail"> | string | null
+    imapUid?: IntNullableFilter<"InboxEmail"> | number | null
+    fromEmail?: StringFilter<"InboxEmail"> | string
+    fromName?: StringNullableFilter<"InboxEmail"> | string | null
+    toEmail?: StringFilter<"InboxEmail"> | string
+    ccEmail?: StringNullableFilter<"InboxEmail"> | string | null
+    bccEmail?: StringNullableFilter<"InboxEmail"> | string | null
+    subject?: StringFilter<"InboxEmail"> | string
+    snippet?: StringFilter<"InboxEmail"> | string
+    textBody?: StringNullableFilter<"InboxEmail"> | string | null
+    htmlBody?: StringNullableFilter<"InboxEmail"> | string | null
+    inReplyTo?: StringNullableFilter<"InboxEmail"> | string | null
+    leadId?: StringNullableFilter<"InboxEmail"> | string | null
+    ticketId?: StringNullableFilter<"InboxEmail"> | string | null
+    clientCompanyId?: StringNullableFilter<"InboxEmail"> | string | null
+    clientLinkSource?: StringNullableFilter<"InboxEmail"> | string | null
+    clientMark?: StringNullableFilter<"InboxEmail"> | string | null
+    aiImportance?: StringNullableFilter<"InboxEmail"> | string | null
+    aiSummary?: StringNullableFilter<"InboxEmail"> | string | null
+    suspicious?: BoolFilter<"InboxEmail"> | boolean
+    suspiciousReasons?: StringNullableListFilter<"InboxEmail">
+    aiLocked?: BoolFilter<"InboxEmail"> | boolean
+    caseId?: StringNullableFilter<"InboxEmail"> | string | null
+    seen?: BoolFilter<"InboxEmail"> | boolean
+    sentAt?: DateTimeFilter<"InboxEmail"> | Date | string
+    trackToken?: StringNullableFilter<"InboxEmail"> | string | null
+    openedAt?: DateTimeNullableFilter<"InboxEmail"> | Date | string | null
+    lastOpenedAt?: DateTimeNullableFilter<"InboxEmail"> | Date | string | null
+    openCount?: IntFilter<"InboxEmail"> | number
+    createdAt?: DateTimeFilter<"InboxEmail"> | Date | string
+    updatedAt?: DateTimeFilter<"InboxEmail"> | Date | string
+  }
+
   export type CompanyUpsertWithoutSubCompaniesInput = {
     update: XOR<CompanyUpdateWithoutSubCompaniesInput, CompanyUncheckedUpdateWithoutSubCompaniesInput>
     create: XOR<CompanyCreateWithoutSubCompaniesInput, CompanyUncheckedCreateWithoutSubCompaniesInput>
@@ -250560,6 +253571,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -250589,6 +253602,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
@@ -250701,6 +253716,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -250731,6 +253748,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
@@ -250861,6 +253880,8 @@ export namespace Prisma {
     document?: StringNullableFilter<"Company"> | string | null
     blingContactId?: StringNullableFilter<"Company"> | string | null
     billingNotes?: StringNullableFilter<"Company"> | string | null
+    driveFolderUrl?: StringNullableFilter<"Company"> | string | null
+    clickupListUrl?: StringNullableFilter<"Company"> | string | null
     hasSystemAccess?: BoolFilter<"Company"> | boolean
     fullSystemAccess?: BoolFilter<"Company"> | boolean
     moduleWhatsapp?: BoolFilter<"Company"> | boolean
@@ -251514,45 +254535,6 @@ export namespace Prisma {
     data: XOR<InboxEmailUpdateManyMutationInput, InboxEmailUncheckedUpdateManyWithoutCompanyInput>
   }
 
-  export type InboxEmailScalarWhereInput = {
-    AND?: InboxEmailScalarWhereInput | InboxEmailScalarWhereInput[]
-    OR?: InboxEmailScalarWhereInput[]
-    NOT?: InboxEmailScalarWhereInput | InboxEmailScalarWhereInput[]
-    id?: StringFilter<"InboxEmail"> | string
-    companyId?: StringFilter<"InboxEmail"> | string
-    accountId?: StringNullableFilter<"InboxEmail"> | string | null
-    direction?: EnumInboxEmailDirectionFilter<"InboxEmail"> | $Enums.InboxEmailDirection
-    folder?: EnumInboxEmailFolderFilter<"InboxEmail"> | $Enums.InboxEmailFolder
-    messageId?: StringNullableFilter<"InboxEmail"> | string | null
-    imapUid?: IntNullableFilter<"InboxEmail"> | number | null
-    fromEmail?: StringFilter<"InboxEmail"> | string
-    fromName?: StringNullableFilter<"InboxEmail"> | string | null
-    toEmail?: StringFilter<"InboxEmail"> | string
-    ccEmail?: StringNullableFilter<"InboxEmail"> | string | null
-    bccEmail?: StringNullableFilter<"InboxEmail"> | string | null
-    subject?: StringFilter<"InboxEmail"> | string
-    snippet?: StringFilter<"InboxEmail"> | string
-    textBody?: StringNullableFilter<"InboxEmail"> | string | null
-    htmlBody?: StringNullableFilter<"InboxEmail"> | string | null
-    inReplyTo?: StringNullableFilter<"InboxEmail"> | string | null
-    leadId?: StringNullableFilter<"InboxEmail"> | string | null
-    ticketId?: StringNullableFilter<"InboxEmail"> | string | null
-    aiImportance?: StringNullableFilter<"InboxEmail"> | string | null
-    aiSummary?: StringNullableFilter<"InboxEmail"> | string | null
-    suspicious?: BoolFilter<"InboxEmail"> | boolean
-    suspiciousReasons?: StringNullableListFilter<"InboxEmail">
-    aiLocked?: BoolFilter<"InboxEmail"> | boolean
-    caseId?: StringNullableFilter<"InboxEmail"> | string | null
-    seen?: BoolFilter<"InboxEmail"> | boolean
-    sentAt?: DateTimeFilter<"InboxEmail"> | Date | string
-    trackToken?: StringNullableFilter<"InboxEmail"> | string | null
-    openedAt?: DateTimeNullableFilter<"InboxEmail"> | Date | string | null
-    lastOpenedAt?: DateTimeNullableFilter<"InboxEmail"> | Date | string | null
-    openCount?: IntFilter<"InboxEmail"> | number
-    createdAt?: DateTimeFilter<"InboxEmail"> | Date | string
-    updatedAt?: DateTimeFilter<"InboxEmail"> | Date | string
-  }
-
   export type InboxSenderRuleUpsertWithWhereUniqueWithoutCompanyInput = {
     where: InboxSenderRuleWhereUniqueInput
     update: XOR<InboxSenderRuleUpdateWithoutCompanyInput, InboxSenderRuleUncheckedUpdateWithoutCompanyInput>
@@ -252000,6 +254982,24 @@ export namespace Prisma {
     releasedAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
     deliveredAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
     notes?: StringNullableFilter<"Sale"> | string | null
+    contractDocType?: StringNullableFilter<"Sale"> | string | null
+    contractDocumentId?: StringNullableFilter<"Sale"> | string | null
+    contractSentAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
+    contractEndedAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
+    acceptanceType?: StringNullableFilter<"Sale"> | string | null
+    acceptanceUrl?: StringNullableFilter<"Sale"> | string | null
+    acceptedAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
+    acceptedByName?: StringNullableFilter<"Sale"> | string | null
+    acceptedByEmail?: StringNullableFilter<"Sale"> | string | null
+    acceptanceEmailId?: StringNullableFilter<"Sale"> | string | null
+    acceptanceRecordedBy?: StringNullableFilter<"Sale"> | string | null
+    billingConfirmed?: BoolFilter<"Sale"> | boolean
+    billingConfirmedBy?: StringNullableFilter<"Sale"> | string | null
+    billingConfirmedAt?: DateTimeNullableFilter<"Sale"> | Date | string | null
+    billingConfirmationUrl?: StringNullableFilter<"Sale"> | string | null
+    billingConfirmationEmailId?: StringNullableFilter<"Sale"> | string | null
+    billingInstructions?: StringNullableFilter<"Sale"> | string | null
+    soldServices?: JsonNullableFilter<"Sale">
     projectId?: StringNullableFilter<"Sale"> | string | null
     createdAt?: DateTimeFilter<"Sale"> | Date | string
     updatedAt?: DateTimeFilter<"Sale"> | Date | string
@@ -253879,6 +256879,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -253908,6 +256910,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -254020,6 +257024,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -254050,6 +257056,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -254477,6 +257485,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -254506,6 +257516,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -254618,6 +257630,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -254648,6 +257662,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -254864,6 +257880,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -254893,6 +257911,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -255005,6 +258025,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -255035,6 +258057,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -255379,6 +258403,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -255408,6 +258434,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -255520,6 +258548,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -255550,6 +258580,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -255809,6 +258841,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -255838,6 +258872,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -255950,6 +258986,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -255980,6 +259018,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -256435,10 +259475,29 @@ export namespace Prisma {
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
+    contractDocType?: string | null
+    contractSentAt?: Date | string | null
+    contractEndedAt?: Date | string | null
+    acceptanceType?: string | null
+    acceptanceUrl?: string | null
+    acceptedAt?: Date | string | null
+    acceptedByName?: string | null
+    acceptedByEmail?: string | null
+    acceptanceEmailId?: string | null
+    acceptanceRecordedBy?: string | null
+    billingConfirmed?: boolean
+    billingConfirmedBy?: string | null
+    billingConfirmedAt?: Date | string | null
+    billingConfirmationUrl?: string | null
+    billingConfirmationEmailId?: string | null
+    billingInstructions?: string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutSalesAsAgencyInput
     clientCompany?: CompanyCreateNestedOneWithoutSalesAsClientInput
+    contractDocument?: ClientDocumentCreateNestedOneWithoutContractOfInput
+    documents?: ClientDocumentCreateNestedManyWithoutSaleInput
     bonuses?: BonusCreateNestedManyWithoutSaleInput
     invoices?: ClientInvoiceCreateNestedManyWithoutSaleInput
     project?: SetorClickupListCreateNestedOneWithoutSalesInput
@@ -256466,9 +259525,28 @@ export namespace Prisma {
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
+    contractDocType?: string | null
+    contractDocumentId?: string | null
+    contractSentAt?: Date | string | null
+    contractEndedAt?: Date | string | null
+    acceptanceType?: string | null
+    acceptanceUrl?: string | null
+    acceptedAt?: Date | string | null
+    acceptedByName?: string | null
+    acceptedByEmail?: string | null
+    acceptanceEmailId?: string | null
+    acceptanceRecordedBy?: string | null
+    billingConfirmed?: boolean
+    billingConfirmedBy?: string | null
+    billingConfirmedAt?: Date | string | null
+    billingConfirmationUrl?: string | null
+    billingConfirmationEmailId?: string | null
+    billingInstructions?: string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
     projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    documents?: ClientDocumentUncheckedCreateNestedManyWithoutSaleInput
     bonuses?: BonusUncheckedCreateNestedManyWithoutSaleInput
     invoices?: ClientInvoiceUncheckedCreateNestedManyWithoutSaleInput
   }
@@ -256760,6 +259838,8 @@ export namespace Prisma {
     textBody?: string | null
     htmlBody?: string | null
     inReplyTo?: string | null
+    clientLinkSource?: string | null
+    clientMark?: string | null
     aiImportance?: string | null
     aiSummary?: string | null
     suspicious?: boolean
@@ -256777,6 +259857,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutInboxEmailsInput
     account?: EmailAccountCreateNestedOneWithoutEmailsInput
     ticket?: TicketCreateNestedOneWithoutInboxEmailsInput
+    clientCompany?: CompanyCreateNestedOneWithoutClientEmailsInput
     tags?: InboxEmailTagCreateNestedManyWithoutEmailsInput
     attachments?: InboxEmailAttachmentCreateNestedManyWithoutEmailInput
   }
@@ -256800,6 +259881,9 @@ export namespace Prisma {
     htmlBody?: string | null
     inReplyTo?: string | null
     ticketId?: string | null
+    clientCompanyId?: string | null
+    clientLinkSource?: string | null
+    clientMark?: string | null
     aiImportance?: string | null
     aiSummary?: string | null
     suspicious?: boolean
@@ -256856,6 +259940,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -256885,6 +259971,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -256997,6 +260085,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -257027,6 +260117,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -257461,10 +260553,29 @@ export namespace Prisma {
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    contractDocType?: NullableStringFieldUpdateOperationsInput | string | null
+    contractSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    contractEndedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptanceType?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptedByName?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedByEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceRecordedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    billingConfirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingConfirmationUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmationEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutSalesAsAgencyNestedInput
     clientCompany?: CompanyUpdateOneWithoutSalesAsClientNestedInput
+    contractDocument?: ClientDocumentUpdateOneWithoutContractOfNestedInput
+    documents?: ClientDocumentUpdateManyWithoutSaleNestedInput
     bonuses?: BonusUpdateManyWithoutSaleNestedInput
     invoices?: ClientInvoiceUpdateManyWithoutSaleNestedInput
     project?: SetorClickupListUpdateOneWithoutSalesNestedInput
@@ -257492,9 +260603,28 @@ export namespace Prisma {
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    contractDocType?: NullableStringFieldUpdateOperationsInput | string | null
+    contractDocumentId?: NullableStringFieldUpdateOperationsInput | string | null
+    contractSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    contractEndedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptanceType?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptedByName?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedByEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceRecordedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    billingConfirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingConfirmationUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmationEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
     projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    documents?: ClientDocumentUncheckedUpdateManyWithoutSaleNestedInput
     bonuses?: BonusUncheckedUpdateManyWithoutSaleNestedInput
     invoices?: ClientInvoiceUncheckedUpdateManyWithoutSaleNestedInput
   }
@@ -257699,6 +260829,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -257728,6 +260860,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -257840,6 +260974,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -257870,6 +261006,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -258017,6 +261155,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -258046,6 +261186,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -258158,6 +261300,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -258188,6 +261332,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -258655,6 +261801,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -258684,6 +261832,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -258796,6 +261946,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -258826,6 +261978,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -258979,6 +262133,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -259008,6 +262164,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -259120,6 +262278,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -259150,6 +262310,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -259629,6 +262791,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -259658,6 +262822,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -259770,6 +262936,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -259800,6 +262968,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -259953,6 +263123,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -259982,6 +263154,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -260094,6 +263268,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -260124,6 +263300,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -260251,6 +263429,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -260280,6 +263460,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -260392,6 +263574,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -260422,6 +263606,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -260578,6 +263764,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -260607,6 +263795,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -260719,6 +263909,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -260749,6 +263941,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -261034,6 +264228,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -261063,6 +264259,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -261175,6 +264373,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -261205,6 +264405,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -261747,6 +264949,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -261776,6 +264980,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -261888,6 +265094,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -261918,6 +265126,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -262595,6 +265805,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -262624,6 +265836,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -262736,6 +265950,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -262766,6 +265982,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -262893,6 +266111,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -262922,6 +266142,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -263034,6 +266256,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -263064,6 +266288,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -263175,6 +266401,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -263204,6 +266432,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -263316,6 +266546,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -263346,6 +266578,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -263608,6 +266842,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -263637,6 +266873,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -263749,6 +266987,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -263779,6 +267019,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -264166,6 +267408,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -264195,6 +267439,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -264307,6 +267553,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -264337,6 +267585,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -264923,6 +268173,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -264952,6 +268204,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -265064,6 +268318,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -265094,6 +268350,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -265293,6 +268551,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -265322,6 +268582,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -265434,6 +268696,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -265464,6 +268728,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -266034,6 +269300,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -266063,6 +269331,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -266175,6 +269445,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -266205,6 +269477,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -266789,6 +270063,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -266818,6 +270094,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -266930,6 +270208,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -266960,6 +270240,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -267128,6 +270410,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -267157,6 +270441,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -267269,6 +270555,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -267299,6 +270587,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -267710,6 +271000,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -267739,6 +271031,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -267851,6 +271145,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -267881,6 +271177,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -268557,6 +271855,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -268586,6 +271886,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -268698,6 +272000,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -268728,6 +272032,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -269373,6 +272679,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -269402,6 +272710,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -269514,6 +272824,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -269544,6 +272856,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -269974,6 +273288,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -270003,6 +273319,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -270115,6 +273433,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -270145,6 +273465,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -270256,6 +273578,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -270285,6 +273609,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -270397,6 +273723,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -270427,6 +273755,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -270678,6 +274008,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -270707,6 +274039,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -270819,6 +274153,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -270849,6 +274185,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -271351,6 +274689,8 @@ export namespace Prisma {
     textBody?: string | null
     htmlBody?: string | null
     inReplyTo?: string | null
+    clientLinkSource?: string | null
+    clientMark?: string | null
     aiImportance?: string | null
     aiSummary?: string | null
     suspicious?: boolean
@@ -271368,6 +274708,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutInboxEmailsInput
     account?: EmailAccountCreateNestedOneWithoutEmailsInput
     lead?: LeadCreateNestedOneWithoutInboxEmailsInput
+    clientCompany?: CompanyCreateNestedOneWithoutClientEmailsInput
     tags?: InboxEmailTagCreateNestedManyWithoutEmailsInput
     attachments?: InboxEmailAttachmentCreateNestedManyWithoutEmailInput
   }
@@ -271391,6 +274732,9 @@ export namespace Prisma {
     htmlBody?: string | null
     inReplyTo?: string | null
     leadId?: string | null
+    clientCompanyId?: string | null
+    clientLinkSource?: string | null
+    clientMark?: string | null
     aiImportance?: string | null
     aiSummary?: string | null
     suspicious?: boolean
@@ -271435,6 +274779,7 @@ export namespace Prisma {
     ticketMessage?: TicketMessageCreateNestedOneWithoutAttachmentsInput
     projectTask?: ProjectTaskCreateNestedOneWithoutAttachmentsInput
     libraryItem?: ClientLibraryItemCreateNestedOneWithoutStorageObjectInput
+    clientDocument?: ClientDocumentCreateNestedOneWithoutStorageObjectInput
     uploadedBy?: UserCreateNestedOneWithoutUploadedFilesInput
   }
 
@@ -271455,6 +274800,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     libraryItem?: ClientLibraryItemUncheckedCreateNestedOneWithoutStorageObjectInput
+    clientDocument?: ClientDocumentUncheckedCreateNestedOneWithoutStorageObjectInput
   }
 
   export type StorageObjectCreateOrConnectWithoutTicketInput = {
@@ -271495,6 +274841,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -271524,6 +274872,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -271636,6 +274986,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -271666,6 +275018,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -271929,6 +275283,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -271958,6 +275314,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -272070,6 +275428,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -272100,6 +275460,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -272683,6 +276045,7 @@ export namespace Prisma {
     ticket?: TicketCreateNestedOneWithoutAttachmentsInput
     projectTask?: ProjectTaskCreateNestedOneWithoutAttachmentsInput
     libraryItem?: ClientLibraryItemCreateNestedOneWithoutStorageObjectInput
+    clientDocument?: ClientDocumentCreateNestedOneWithoutStorageObjectInput
     uploadedBy?: UserCreateNestedOneWithoutUploadedFilesInput
   }
 
@@ -272703,6 +276066,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     libraryItem?: ClientLibraryItemUncheckedCreateNestedOneWithoutStorageObjectInput
+    clientDocument?: ClientDocumentUncheckedCreateNestedOneWithoutStorageObjectInput
   }
 
   export type StorageObjectCreateOrConnectWithoutTicketMessageInput = {
@@ -272817,6 +276181,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -272846,6 +276212,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -272958,6 +276326,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -272988,6 +276358,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -273453,6 +276825,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -273482,6 +276856,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -273594,6 +276970,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -273624,6 +277002,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -274241,6 +277621,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -274270,6 +277652,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -274382,6 +277766,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -274412,6 +277798,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -274966,11 +278354,30 @@ export namespace Prisma {
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
+    contractDocType?: string | null
+    contractSentAt?: Date | string | null
+    contractEndedAt?: Date | string | null
+    acceptanceType?: string | null
+    acceptanceUrl?: string | null
+    acceptedAt?: Date | string | null
+    acceptedByName?: string | null
+    acceptedByEmail?: string | null
+    acceptanceEmailId?: string | null
+    acceptanceRecordedBy?: string | null
+    billingConfirmed?: boolean
+    billingConfirmedBy?: string | null
+    billingConfirmedAt?: Date | string | null
+    billingConfirmationUrl?: string | null
+    billingConfirmationEmailId?: string | null
+    billingInstructions?: string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutSalesAsAgencyInput
     lead?: LeadCreateNestedOneWithoutSaleInput
     clientCompany?: CompanyCreateNestedOneWithoutSalesAsClientInput
+    contractDocument?: ClientDocumentCreateNestedOneWithoutContractOfInput
+    documents?: ClientDocumentCreateNestedManyWithoutSaleInput
     bonuses?: BonusCreateNestedManyWithoutSaleInput
     invoices?: ClientInvoiceCreateNestedManyWithoutSaleInput
   }
@@ -274998,8 +278405,27 @@ export namespace Prisma {
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
+    contractDocType?: string | null
+    contractDocumentId?: string | null
+    contractSentAt?: Date | string | null
+    contractEndedAt?: Date | string | null
+    acceptanceType?: string | null
+    acceptanceUrl?: string | null
+    acceptedAt?: Date | string | null
+    acceptedByName?: string | null
+    acceptedByEmail?: string | null
+    acceptanceEmailId?: string | null
+    acceptanceRecordedBy?: string | null
+    billingConfirmed?: boolean
+    billingConfirmedBy?: string | null
+    billingConfirmedAt?: Date | string | null
+    billingConfirmationUrl?: string | null
+    billingConfirmationEmailId?: string | null
+    billingInstructions?: string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
+    documents?: ClientDocumentUncheckedCreateNestedManyWithoutSaleInput
     bonuses?: BonusUncheckedCreateNestedManyWithoutSaleInput
     invoices?: ClientInvoiceUncheckedCreateNestedManyWithoutSaleInput
   }
@@ -275187,6 +278613,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -275216,6 +278644,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -275328,6 +278758,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -275358,6 +278790,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -276207,6 +279641,7 @@ export namespace Prisma {
     ticket?: TicketCreateNestedOneWithoutAttachmentsInput
     ticketMessage?: TicketMessageCreateNestedOneWithoutAttachmentsInput
     libraryItem?: ClientLibraryItemCreateNestedOneWithoutStorageObjectInput
+    clientDocument?: ClientDocumentCreateNestedOneWithoutStorageObjectInput
     uploadedBy?: UserCreateNestedOneWithoutUploadedFilesInput
   }
 
@@ -276227,6 +279662,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     libraryItem?: ClientLibraryItemUncheckedCreateNestedOneWithoutStorageObjectInput
+    clientDocument?: ClientDocumentUncheckedCreateNestedOneWithoutStorageObjectInput
   }
 
   export type StorageObjectCreateOrConnectWithoutProjectTaskInput = {
@@ -280526,6 +283962,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -280555,6 +283993,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -280667,6 +284107,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -280697,6 +284139,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -280874,6 +284318,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -280903,6 +284349,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -281015,6 +284463,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -281045,6 +284495,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -281378,6 +284830,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -281407,6 +284861,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -281519,6 +284975,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -281549,6 +285007,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -281727,6 +285187,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -281756,6 +285218,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -281868,6 +285332,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -281898,6 +285364,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -282009,6 +285477,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -282038,6 +285508,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -282150,6 +285622,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -282180,6 +285654,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -282341,6 +285817,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -282370,6 +285848,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -282482,6 +285962,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -282512,6 +285994,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -282670,6 +286154,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -282699,6 +286185,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -282811,6 +286299,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -282841,6 +286331,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -283005,6 +286497,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -283034,6 +286528,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -283146,6 +286642,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -283176,6 +286674,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -283287,6 +286787,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -283316,6 +286818,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -283428,6 +286932,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -283458,6 +286964,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -283585,6 +287093,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -283614,6 +287124,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -283726,6 +287238,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -283756,6 +287270,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -283867,6 +287383,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -283896,6 +287414,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -284008,6 +287528,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -284038,6 +287560,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -284165,6 +287689,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -284194,6 +287720,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -284306,6 +287834,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -284336,6 +287866,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -284447,6 +287979,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -284476,6 +288010,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -284588,6 +288124,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -284618,6 +288156,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -284745,6 +288285,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -284774,6 +288316,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -284886,6 +288430,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -284916,6 +288462,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -285027,6 +288575,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -285056,6 +288606,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -285168,6 +288720,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -285198,6 +288752,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -285325,6 +288881,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -285354,6 +288912,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -285466,6 +289026,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -285496,6 +289058,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -285607,6 +289171,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -285636,6 +289202,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -285748,6 +289316,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -285778,6 +289348,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -286229,6 +289801,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -286258,6 +289832,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -286370,6 +289946,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -286400,6 +289978,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -286591,6 +290171,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -286620,6 +290202,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -286732,6 +290316,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -286762,6 +290348,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -287036,6 +290624,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -287065,6 +290655,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -287177,6 +290769,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -287207,6 +290801,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -287405,6 +291001,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -287434,6 +291032,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -287546,6 +291146,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -287576,6 +291178,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -287817,6 +291421,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -287846,6 +291452,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -287958,6 +291566,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -287988,6 +291598,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -288225,6 +291837,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -288254,6 +291868,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -288366,6 +291982,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -288396,6 +292014,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -288637,6 +292257,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -288666,6 +292288,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -288778,6 +292402,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -288808,6 +292434,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -289045,6 +292673,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -289074,6 +292704,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -289186,6 +292818,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -289216,6 +292850,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -289561,6 +293197,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -289590,6 +293228,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -289702,6 +293342,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -289732,6 +293374,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -290181,6 +293825,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -290210,6 +293856,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -290322,6 +293970,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -290352,6 +294002,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -290479,6 +294131,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -290508,6 +294162,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -290620,6 +294276,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -290650,6 +294308,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -290761,6 +294421,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -290790,6 +294452,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -290902,6 +294566,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -290932,6 +294598,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -291059,6 +294727,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -291088,6 +294758,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -291200,6 +294872,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -291230,6 +294904,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -291341,6 +295017,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -291370,6 +295048,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -291482,6 +295162,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -291512,6 +295194,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -291639,6 +295323,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -291668,6 +295354,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -291780,6 +295468,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -291810,6 +295500,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -291921,6 +295613,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -291950,6 +295644,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -292062,6 +295758,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -292092,6 +295790,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -292219,6 +295919,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -292248,6 +295950,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -292360,6 +296064,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -292390,6 +296096,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -292501,6 +296209,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -292530,6 +296240,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -292642,6 +296354,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -292672,6 +296386,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -292799,6 +296515,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -292828,6 +296546,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -292940,6 +296660,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -292970,6 +296692,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -293081,6 +296805,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -293110,6 +296836,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -293222,6 +296950,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -293252,6 +296982,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -293379,6 +297111,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -293408,6 +297142,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -293520,6 +297256,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -293550,6 +297288,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -293661,6 +297401,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -293690,6 +297432,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -293802,6 +297546,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -293832,6 +297578,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -293959,6 +297707,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -293988,6 +297738,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -294100,6 +297852,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -294130,6 +297884,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -294241,6 +297997,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -294270,6 +298028,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -294382,6 +298142,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -294412,6 +298174,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -294539,6 +298303,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -294568,6 +298334,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -294680,6 +298448,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -294710,6 +298480,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -294821,6 +298593,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -294850,6 +298624,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -294962,6 +298738,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -294992,6 +298770,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -295119,6 +298899,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -295148,6 +298930,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -295260,6 +299044,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -295290,6 +299076,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -295401,6 +299189,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -295430,6 +299220,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -295542,6 +299334,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -295572,6 +299366,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -295699,6 +299495,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -295728,6 +299526,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -295840,6 +299640,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -295870,6 +299672,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -295981,6 +299785,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -296010,6 +299816,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -296122,6 +299930,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -296152,6 +299962,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -296279,6 +300091,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -296308,6 +300122,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -296420,6 +300236,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -296450,6 +300268,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -296561,6 +300381,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -296590,6 +300412,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -296702,6 +300526,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -296732,6 +300558,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -296859,6 +300687,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -296888,6 +300718,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -297000,6 +300832,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -297030,6 +300864,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -297141,6 +300977,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -297170,6 +301008,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -297282,6 +301122,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -297312,6 +301154,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -297439,6 +301283,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -297468,6 +301314,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -297580,6 +301428,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -297610,6 +301460,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -297721,6 +301573,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -297750,6 +301604,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -297862,6 +301718,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -297892,6 +301750,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -298019,6 +301879,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -298048,6 +301910,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -298160,6 +302024,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -298190,6 +302056,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -298301,6 +302169,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -298330,6 +302200,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -298442,6 +302314,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -298472,6 +302346,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -298599,6 +302475,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -298628,6 +302506,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -298740,6 +302620,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -298770,6 +302652,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -298881,6 +302765,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -298910,6 +302796,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -299022,6 +302910,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -299052,6 +302942,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -299179,6 +303071,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -299208,6 +303102,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -299320,6 +303216,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -299350,6 +303248,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -299461,6 +303361,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -299490,6 +303392,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -299602,6 +303506,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -299632,6 +303538,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -299759,6 +303667,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -299788,6 +303698,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -299900,6 +303812,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -299930,6 +303844,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -300041,6 +303957,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -300070,6 +303988,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -300182,6 +304102,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -300212,6 +304134,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -300339,6 +304263,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -300368,6 +304294,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -300480,6 +304408,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -300510,6 +304440,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -300621,6 +304553,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -300650,6 +304584,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -300762,6 +304698,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -300792,6 +304730,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -300943,6 +304883,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -300972,6 +304914,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -301084,6 +305028,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -301114,6 +305060,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -301312,6 +305260,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -301341,6 +305291,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -301453,6 +305405,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -301483,6 +305437,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -301646,6 +305602,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -301675,6 +305633,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -301787,6 +305747,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -301817,6 +305779,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -302079,6 +306043,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -302108,6 +306074,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -302220,6 +306188,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -302250,6 +306220,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -302549,6 +306521,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -302578,6 +306552,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -302690,6 +306666,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -302720,6 +306698,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -303003,6 +306983,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -303032,6 +307014,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -303144,6 +307128,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -303174,6 +307160,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
@@ -303442,6 +307430,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -303471,6 +307461,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -303583,6 +307575,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -303613,6 +307607,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
@@ -303859,6 +307855,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -303888,6 +307886,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -304000,6 +308000,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -304030,6 +308032,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -304298,6 +308302,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -304327,6 +308333,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -304439,6 +308447,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -304469,6 +308479,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -304715,6 +308727,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -304744,6 +308758,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -304856,6 +308872,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -304886,6 +308904,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -305154,6 +309174,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -305183,6 +309205,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -305295,6 +309319,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -305325,6 +309351,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -305436,6 +309464,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -305465,6 +309495,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -305577,6 +309609,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -305607,6 +309641,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -305734,6 +309770,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -305763,6 +309801,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -305875,6 +309915,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -305905,6 +309947,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -306568,6 +310612,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -306597,6 +310643,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -306709,6 +310757,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -306739,6 +310789,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -306866,6 +310918,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -306895,6 +310949,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -307007,6 +311063,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -307037,6 +311095,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -307148,6 +311208,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -307177,6 +311239,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -307289,6 +311353,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -307319,6 +311385,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -307508,6 +311576,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -307537,6 +311607,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -307649,6 +311721,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -307679,6 +311753,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -307833,6 +311909,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -307862,6 +311940,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -307974,6 +312054,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -308004,6 +312086,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -308489,6 +312573,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -308518,6 +312604,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -308630,6 +312718,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -308660,6 +312750,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -309493,6 +313585,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -309522,6 +313616,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -309634,6 +313730,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -309664,6 +313762,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -309791,6 +313891,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -309820,6 +313922,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -309932,6 +314036,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -309962,6 +314068,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -310073,6 +314181,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -310102,6 +314212,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -310214,6 +314326,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -310244,6 +314358,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -310359,6 +314475,8 @@ export namespace Prisma {
     textBody?: string | null
     htmlBody?: string | null
     inReplyTo?: string | null
+    clientLinkSource?: string | null
+    clientMark?: string | null
     aiImportance?: string | null
     aiSummary?: string | null
     suspicious?: boolean
@@ -310376,6 +314494,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutInboxEmailsInput
     lead?: LeadCreateNestedOneWithoutInboxEmailsInput
     ticket?: TicketCreateNestedOneWithoutInboxEmailsInput
+    clientCompany?: CompanyCreateNestedOneWithoutClientEmailsInput
     tags?: InboxEmailTagCreateNestedManyWithoutEmailsInput
     attachments?: InboxEmailAttachmentCreateNestedManyWithoutEmailInput
   }
@@ -310399,6 +314518,9 @@ export namespace Prisma {
     inReplyTo?: string | null
     leadId?: string | null
     ticketId?: string | null
+    clientCompanyId?: string | null
+    clientLinkSource?: string | null
+    clientMark?: string | null
     aiImportance?: string | null
     aiSummary?: string | null
     suspicious?: boolean
@@ -310477,6 +314599,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -310506,6 +314630,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -310618,6 +314744,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -310648,6 +314776,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -310791,6 +314921,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -310820,6 +314952,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -310932,6 +315066,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -310962,6 +315098,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -311332,6 +315470,301 @@ export namespace Prisma {
     create: XOR<TicketCreateWithoutInboxEmailsInput, TicketUncheckedCreateWithoutInboxEmailsInput>
   }
 
+  export type CompanyCreateWithoutClientEmailsInput = {
+    id?: string
+    name: string
+    tradeName?: string | null
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    brandColor?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
+    billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
+    hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeCreateNestedManyWithoutCompanyInput
+    emailAccounts?: EmailAccountCreateNestedManyWithoutCompanyInput
+    inboxEmails?: InboxEmailCreateNestedManyWithoutCompanyInput
+    inboxSenderRules?: InboxSenderRuleCreateNestedManyWithoutCompanyInput
+    inboxEmailTags?: InboxEmailTagCreateNestedManyWithoutCompanyInput
+    emailDrafts?: EmailDraftCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
+    monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
+    bonusClosures?: BonusClosureCreateNestedManyWithoutCompanyInput
+    salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
+    salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
+    adSearchTermDailies?: AdSearchTermDailyCreateNestedManyWithoutCompanyInput
+    adCreatives?: AdCreativeCreateNestedManyWithoutCompanyInput
+    adCreativeDailies?: AdCreativeDailyCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
+    couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
+    services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
+    timePunches?: TimePunchCreateNestedManyWithoutCompanyInput
+    workScheduleDays?: WorkScheduleDayCreateNestedManyWithoutCompanyInput
+    timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
+    punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
+    timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutClientEmailsInput = {
+    id?: string
+    name: string
+    tradeName?: string | null
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    brandColor?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
+    billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
+    hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    parentCompanyId?: string | null
+    emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigUncheckedCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignUncheckedCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedCreateNestedManyWithoutCompanyInput
+    emailAccounts?: EmailAccountUncheckedCreateNestedManyWithoutCompanyInput
+    inboxEmails?: InboxEmailUncheckedCreateNestedManyWithoutCompanyInput
+    inboxSenderRules?: InboxSenderRuleUncheckedCreateNestedManyWithoutCompanyInput
+    inboxEmailTags?: InboxEmailTagUncheckedCreateNestedManyWithoutCompanyInput
+    emailDrafts?: EmailDraftUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
+    bonusClosures?: BonusClosureUncheckedCreateNestedManyWithoutCompanyInput
+    salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
+    salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
+    adSearchTermDailies?: AdSearchTermDailyUncheckedCreateNestedManyWithoutCompanyInput
+    adCreatives?: AdCreativeUncheckedCreateNestedManyWithoutCompanyInput
+    adCreativeDailies?: AdCreativeDailyUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
+    couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
+    services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
+    timePunches?: TimePunchUncheckedCreateNestedManyWithoutCompanyInput
+    workScheduleDays?: WorkScheduleDayUncheckedCreateNestedManyWithoutCompanyInput
+    timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
+    punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
+    timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutClientEmailsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutClientEmailsInput, CompanyUncheckedCreateWithoutClientEmailsInput>
+  }
+
   export type InboxEmailTagCreateWithoutEmailsInput = {
     id?: string
     name: string
@@ -311409,6 +315842,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -311438,6 +315873,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -311550,6 +315987,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -311580,6 +316019,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -311963,6 +316404,307 @@ export namespace Prisma {
     attachments?: StorageObjectUncheckedUpdateManyWithoutTicketNestedInput
   }
 
+  export type CompanyUpsertWithoutClientEmailsInput = {
+    update: XOR<CompanyUpdateWithoutClientEmailsInput, CompanyUncheckedUpdateWithoutClientEmailsInput>
+    create: XOR<CompanyCreateWithoutClientEmailsInput, CompanyUncheckedCreateWithoutClientEmailsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutClientEmailsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutClientEmailsInput, CompanyUncheckedUpdateWithoutClientEmailsInput>
+  }
+
+  export type CompanyUpdateWithoutClientEmailsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUpdateManyWithoutCompanyNestedInput
+    emailAccounts?: EmailAccountUpdateManyWithoutCompanyNestedInput
+    inboxEmails?: InboxEmailUpdateManyWithoutCompanyNestedInput
+    inboxSenderRules?: InboxSenderRuleUpdateManyWithoutCompanyNestedInput
+    inboxEmailTags?: InboxEmailTagUpdateManyWithoutCompanyNestedInput
+    emailDrafts?: EmailDraftUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
+    monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
+    bonusClosures?: BonusClosureUpdateManyWithoutCompanyNestedInput
+    salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
+    salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
+    adSearchTermDailies?: AdSearchTermDailyUpdateManyWithoutCompanyNestedInput
+    adCreatives?: AdCreativeUpdateManyWithoutCompanyNestedInput
+    adCreativeDailies?: AdCreativeDailyUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
+    couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
+    timePunches?: TimePunchUpdateManyWithoutCompanyNestedInput
+    workScheduleDays?: WorkScheduleDayUpdateManyWithoutCompanyNestedInput
+    timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
+    punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
+    timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutClientEmailsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedUpdateManyWithoutCompanyNestedInput
+    emailAccounts?: EmailAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    inboxEmails?: InboxEmailUncheckedUpdateManyWithoutCompanyNestedInput
+    inboxSenderRules?: InboxSenderRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    inboxEmailTags?: InboxEmailTagUncheckedUpdateManyWithoutCompanyNestedInput
+    emailDrafts?: EmailDraftUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
+    bonusClosures?: BonusClosureUncheckedUpdateManyWithoutCompanyNestedInput
+    salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
+    salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    adSearchTermDailies?: AdSearchTermDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    adCreatives?: AdCreativeUncheckedUpdateManyWithoutCompanyNestedInput
+    adCreativeDailies?: AdCreativeDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
+    couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
+    timePunches?: TimePunchUncheckedUpdateManyWithoutCompanyNestedInput
+    workScheduleDays?: WorkScheduleDayUncheckedUpdateManyWithoutCompanyNestedInput
+    timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
+    punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
+    timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
+  }
+
   export type InboxEmailTagUpsertWithWhereUniqueWithoutEmailsInput = {
     where: InboxEmailTagWhereUniqueInput
     update: XOR<InboxEmailTagUpdateWithoutEmailsInput, InboxEmailTagUncheckedUpdateWithoutEmailsInput>
@@ -312025,6 +316767,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -312054,6 +316798,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -312166,6 +316912,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -312196,6 +316944,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -312323,6 +317073,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -312352,6 +317104,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -312464,6 +317218,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -312494,6 +317250,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -312605,6 +317363,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -312634,6 +317394,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -312746,6 +317508,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -312776,6 +317540,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -312903,6 +317669,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -312932,6 +317700,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -313044,6 +317814,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -313074,6 +317846,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -313184,6 +317958,8 @@ export namespace Prisma {
     textBody?: string | null
     htmlBody?: string | null
     inReplyTo?: string | null
+    clientLinkSource?: string | null
+    clientMark?: string | null
     aiImportance?: string | null
     aiSummary?: string | null
     suspicious?: boolean
@@ -313202,6 +317978,7 @@ export namespace Prisma {
     account?: EmailAccountCreateNestedOneWithoutEmailsInput
     lead?: LeadCreateNestedOneWithoutInboxEmailsInput
     ticket?: TicketCreateNestedOneWithoutInboxEmailsInput
+    clientCompany?: CompanyCreateNestedOneWithoutClientEmailsInput
     tags?: InboxEmailTagCreateNestedManyWithoutEmailsInput
   }
 
@@ -313225,6 +318002,9 @@ export namespace Prisma {
     inReplyTo?: string | null
     leadId?: string | null
     ticketId?: string | null
+    clientCompanyId?: string | null
+    clientLinkSource?: string | null
+    clientMark?: string | null
     aiImportance?: string | null
     aiSummary?: string | null
     suspicious?: boolean
@@ -313274,6 +318054,8 @@ export namespace Prisma {
     textBody?: NullableStringFieldUpdateOperationsInput | string | null
     htmlBody?: NullableStringFieldUpdateOperationsInput | string | null
     inReplyTo?: NullableStringFieldUpdateOperationsInput | string | null
+    clientLinkSource?: NullableStringFieldUpdateOperationsInput | string | null
+    clientMark?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
@@ -313292,6 +318074,7 @@ export namespace Prisma {
     account?: EmailAccountUpdateOneWithoutEmailsNestedInput
     lead?: LeadUpdateOneWithoutInboxEmailsNestedInput
     ticket?: TicketUpdateOneWithoutInboxEmailsNestedInput
+    clientCompany?: CompanyUpdateOneWithoutClientEmailsNestedInput
     tags?: InboxEmailTagUpdateManyWithoutEmailsNestedInput
   }
 
@@ -313315,6 +318098,9 @@ export namespace Prisma {
     inReplyTo?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientLinkSource?: NullableStringFieldUpdateOperationsInput | string | null
+    clientMark?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
@@ -313349,6 +318135,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -313378,6 +318166,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -313490,6 +318280,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -313520,6 +318312,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -313635,6 +318429,8 @@ export namespace Prisma {
     textBody?: string | null
     htmlBody?: string | null
     inReplyTo?: string | null
+    clientLinkSource?: string | null
+    clientMark?: string | null
     aiImportance?: string | null
     aiSummary?: string | null
     suspicious?: boolean
@@ -313653,6 +318449,7 @@ export namespace Prisma {
     account?: EmailAccountCreateNestedOneWithoutEmailsInput
     lead?: LeadCreateNestedOneWithoutInboxEmailsInput
     ticket?: TicketCreateNestedOneWithoutInboxEmailsInput
+    clientCompany?: CompanyCreateNestedOneWithoutClientEmailsInput
     attachments?: InboxEmailAttachmentCreateNestedManyWithoutEmailInput
   }
 
@@ -313676,6 +318473,9 @@ export namespace Prisma {
     inReplyTo?: string | null
     leadId?: string | null
     ticketId?: string | null
+    clientCompanyId?: string | null
+    clientLinkSource?: string | null
+    clientMark?: string | null
     aiImportance?: string | null
     aiSummary?: string | null
     suspicious?: boolean
@@ -313726,6 +318526,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -313755,6 +318557,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -313867,6 +318671,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -313897,6 +318703,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -314024,6 +318832,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -314053,6 +318863,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -314165,6 +318977,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -314195,6 +319009,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -314322,6 +319138,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -314351,6 +319169,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -314463,6 +319283,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -314493,6 +319315,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -314604,6 +319428,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -314633,6 +319459,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -314745,6 +319573,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -314775,6 +319605,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -314902,6 +319734,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -314931,6 +319765,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -315043,6 +319879,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -315073,6 +319911,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -315267,6 +320107,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -315296,6 +320138,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -315408,6 +320252,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -315438,6 +320284,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -315612,6 +320460,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -315641,6 +320491,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -315753,6 +320605,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -315783,6 +320637,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -315894,6 +320750,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -315923,6 +320781,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -316035,6 +320895,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -316065,6 +320927,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -316622,6 +321486,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -316651,6 +321517,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -316763,6 +321631,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -316793,6 +321663,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -317324,6 +322196,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -317353,6 +322227,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -317465,6 +322341,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -317495,6 +322373,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -317667,6 +322547,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -317696,6 +322578,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -317808,6 +322692,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -317838,6 +322724,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -318348,6 +323236,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -318377,6 +323267,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -318489,6 +323381,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -318519,6 +323413,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -318741,6 +323637,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -318770,6 +323668,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -318882,6 +323782,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -318912,6 +323814,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -319124,6 +324028,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -319153,6 +324059,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -319265,6 +324173,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -319295,6 +324205,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -319612,6 +324524,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -319641,6 +324555,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -319753,6 +324669,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -319783,6 +324701,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -319942,6 +324862,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -319971,6 +324893,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -320083,6 +325007,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -320113,6 +325039,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -320486,6 +325414,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -320515,6 +325445,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -320627,6 +325559,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -320657,6 +325591,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -321096,6 +326032,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -321125,6 +326063,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -321237,6 +326177,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -321267,6 +326209,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -321447,11 +326391,30 @@ export namespace Prisma {
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
+    contractDocType?: string | null
+    contractSentAt?: Date | string | null
+    contractEndedAt?: Date | string | null
+    acceptanceType?: string | null
+    acceptanceUrl?: string | null
+    acceptedAt?: Date | string | null
+    acceptedByName?: string | null
+    acceptedByEmail?: string | null
+    acceptanceEmailId?: string | null
+    acceptanceRecordedBy?: string | null
+    billingConfirmed?: boolean
+    billingConfirmedBy?: string | null
+    billingConfirmedAt?: Date | string | null
+    billingConfirmationUrl?: string | null
+    billingConfirmationEmailId?: string | null
+    billingInstructions?: string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutSalesAsAgencyInput
     lead?: LeadCreateNestedOneWithoutSaleInput
     clientCompany?: CompanyCreateNestedOneWithoutSalesAsClientInput
+    contractDocument?: ClientDocumentCreateNestedOneWithoutContractOfInput
+    documents?: ClientDocumentCreateNestedManyWithoutSaleInput
     bonuses?: BonusCreateNestedManyWithoutSaleInput
     project?: SetorClickupListCreateNestedOneWithoutSalesInput
   }
@@ -321479,9 +326442,28 @@ export namespace Prisma {
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
+    contractDocType?: string | null
+    contractDocumentId?: string | null
+    contractSentAt?: Date | string | null
+    contractEndedAt?: Date | string | null
+    acceptanceType?: string | null
+    acceptanceUrl?: string | null
+    acceptedAt?: Date | string | null
+    acceptedByName?: string | null
+    acceptedByEmail?: string | null
+    acceptanceEmailId?: string | null
+    acceptanceRecordedBy?: string | null
+    billingConfirmed?: boolean
+    billingConfirmedBy?: string | null
+    billingConfirmedAt?: Date | string | null
+    billingConfirmationUrl?: string | null
+    billingConfirmationEmailId?: string | null
+    billingInstructions?: string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
     projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    documents?: ClientDocumentUncheckedCreateNestedManyWithoutSaleInput
     bonuses?: BonusUncheckedCreateNestedManyWithoutSaleInput
   }
 
@@ -321518,6 +326500,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -321547,6 +326531,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -321659,6 +326645,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -321689,6 +326677,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -321881,11 +326871,30 @@ export namespace Prisma {
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    contractDocType?: NullableStringFieldUpdateOperationsInput | string | null
+    contractSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    contractEndedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptanceType?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptedByName?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedByEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceRecordedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    billingConfirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingConfirmationUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmationEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutSalesAsAgencyNestedInput
     lead?: LeadUpdateOneWithoutSaleNestedInput
     clientCompany?: CompanyUpdateOneWithoutSalesAsClientNestedInput
+    contractDocument?: ClientDocumentUpdateOneWithoutContractOfNestedInput
+    documents?: ClientDocumentUpdateManyWithoutSaleNestedInput
     bonuses?: BonusUpdateManyWithoutSaleNestedInput
     project?: SetorClickupListUpdateOneWithoutSalesNestedInput
   }
@@ -321913,9 +326922,28 @@ export namespace Prisma {
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    contractDocType?: NullableStringFieldUpdateOperationsInput | string | null
+    contractDocumentId?: NullableStringFieldUpdateOperationsInput | string | null
+    contractSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    contractEndedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptanceType?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptedByName?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedByEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceRecordedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    billingConfirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingConfirmationUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmationEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
     projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    documents?: ClientDocumentUncheckedUpdateManyWithoutSaleNestedInput
     bonuses?: BonusUncheckedUpdateManyWithoutSaleNestedInput
   }
 
@@ -321936,6 +326964,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -321965,6 +326995,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -322077,6 +327109,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -322107,6 +327141,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -322362,6 +327398,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -322391,6 +327429,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -322503,6 +327543,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -322533,6 +327575,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -322630,6 +327674,89 @@ export namespace Prisma {
   export type CompanyCreateOrConnectWithoutSalesAsClientInput = {
     where: CompanyWhereUniqueInput
     create: XOR<CompanyCreateWithoutSalesAsClientInput, CompanyUncheckedCreateWithoutSalesAsClientInput>
+  }
+
+  export type ClientDocumentCreateWithoutContractOfInput = {
+    id?: string
+    companyId: string
+    type: string
+    title: string
+    url?: string | null
+    notes?: string | null
+    documentDate?: Date | string | null
+    createdById?: string | null
+    createdByName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    clientCompany: CompanyCreateNestedOneWithoutClientDocumentsInput
+    storageObject?: StorageObjectCreateNestedOneWithoutClientDocumentInput
+    sale?: SaleCreateNestedOneWithoutDocumentsInput
+  }
+
+  export type ClientDocumentUncheckedCreateWithoutContractOfInput = {
+    id?: string
+    companyId: string
+    clientCompanyId: string
+    type: string
+    title: string
+    url?: string | null
+    notes?: string | null
+    storageObjectId?: string | null
+    saleId?: string | null
+    documentDate?: Date | string | null
+    createdById?: string | null
+    createdByName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ClientDocumentCreateOrConnectWithoutContractOfInput = {
+    where: ClientDocumentWhereUniqueInput
+    create: XOR<ClientDocumentCreateWithoutContractOfInput, ClientDocumentUncheckedCreateWithoutContractOfInput>
+  }
+
+  export type ClientDocumentCreateWithoutSaleInput = {
+    id?: string
+    companyId: string
+    type: string
+    title: string
+    url?: string | null
+    notes?: string | null
+    documentDate?: Date | string | null
+    createdById?: string | null
+    createdByName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    clientCompany: CompanyCreateNestedOneWithoutClientDocumentsInput
+    storageObject?: StorageObjectCreateNestedOneWithoutClientDocumentInput
+    contractOf?: SaleCreateNestedManyWithoutContractDocumentInput
+  }
+
+  export type ClientDocumentUncheckedCreateWithoutSaleInput = {
+    id?: string
+    companyId: string
+    clientCompanyId: string
+    type: string
+    title: string
+    url?: string | null
+    notes?: string | null
+    storageObjectId?: string | null
+    documentDate?: Date | string | null
+    createdById?: string | null
+    createdByName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    contractOf?: SaleUncheckedCreateNestedManyWithoutContractDocumentInput
+  }
+
+  export type ClientDocumentCreateOrConnectWithoutSaleInput = {
+    where: ClientDocumentWhereUniqueInput
+    create: XOR<ClientDocumentCreateWithoutSaleInput, ClientDocumentUncheckedCreateWithoutSaleInput>
+  }
+
+  export type ClientDocumentCreateManySaleInputEnvelope = {
+    data: ClientDocumentCreateManySaleInput | ClientDocumentCreateManySaleInput[]
+    skipDuplicates?: boolean
   }
 
   export type BonusCreateWithoutSaleInput = {
@@ -322839,6 +327966,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -322868,6 +327997,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -322980,6 +328111,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -323010,6 +328143,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -323277,6 +328412,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -323306,6 +328443,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -323418,6 +328557,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -323448,6 +328589,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -323540,6 +328683,67 @@ export namespace Prisma {
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
+  }
+
+  export type ClientDocumentUpsertWithoutContractOfInput = {
+    update: XOR<ClientDocumentUpdateWithoutContractOfInput, ClientDocumentUncheckedUpdateWithoutContractOfInput>
+    create: XOR<ClientDocumentCreateWithoutContractOfInput, ClientDocumentUncheckedCreateWithoutContractOfInput>
+    where?: ClientDocumentWhereInput
+  }
+
+  export type ClientDocumentUpdateToOneWithWhereWithoutContractOfInput = {
+    where?: ClientDocumentWhereInput
+    data: XOR<ClientDocumentUpdateWithoutContractOfInput, ClientDocumentUncheckedUpdateWithoutContractOfInput>
+  }
+
+  export type ClientDocumentUpdateWithoutContractOfInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    documentDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdByName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    clientCompany?: CompanyUpdateOneRequiredWithoutClientDocumentsNestedInput
+    storageObject?: StorageObjectUpdateOneWithoutClientDocumentNestedInput
+    sale?: SaleUpdateOneWithoutDocumentsNestedInput
+  }
+
+  export type ClientDocumentUncheckedUpdateWithoutContractOfInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    clientCompanyId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    storageObjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    saleId?: NullableStringFieldUpdateOperationsInput | string | null
+    documentDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdByName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClientDocumentUpsertWithWhereUniqueWithoutSaleInput = {
+    where: ClientDocumentWhereUniqueInput
+    update: XOR<ClientDocumentUpdateWithoutSaleInput, ClientDocumentUncheckedUpdateWithoutSaleInput>
+    create: XOR<ClientDocumentCreateWithoutSaleInput, ClientDocumentUncheckedCreateWithoutSaleInput>
+  }
+
+  export type ClientDocumentUpdateWithWhereUniqueWithoutSaleInput = {
+    where: ClientDocumentWhereUniqueInput
+    data: XOR<ClientDocumentUpdateWithoutSaleInput, ClientDocumentUncheckedUpdateWithoutSaleInput>
+  }
+
+  export type ClientDocumentUpdateManyWithWhereWithoutSaleInput = {
+    where: ClientDocumentScalarWhereInput
+    data: XOR<ClientDocumentUpdateManyMutationInput, ClientDocumentUncheckedUpdateManyWithoutSaleInput>
   }
 
   export type BonusUpsertWithWhereUniqueWithoutSaleInput = {
@@ -323684,6 +328888,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -323713,6 +328919,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -323825,6 +329033,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -323855,6 +329065,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -323982,6 +329194,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -324011,6 +329225,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -324123,6 +329339,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -324153,6 +329371,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -324264,6 +329484,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -324293,6 +329515,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -324405,6 +329629,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -324435,6 +329661,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -324554,11 +329782,30 @@ export namespace Prisma {
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
+    contractDocType?: string | null
+    contractSentAt?: Date | string | null
+    contractEndedAt?: Date | string | null
+    acceptanceType?: string | null
+    acceptanceUrl?: string | null
+    acceptedAt?: Date | string | null
+    acceptedByName?: string | null
+    acceptedByEmail?: string | null
+    acceptanceEmailId?: string | null
+    acceptanceRecordedBy?: string | null
+    billingConfirmed?: boolean
+    billingConfirmedBy?: string | null
+    billingConfirmedAt?: Date | string | null
+    billingConfirmationUrl?: string | null
+    billingConfirmationEmailId?: string | null
+    billingInstructions?: string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     company: CompanyCreateNestedOneWithoutSalesAsAgencyInput
     lead?: LeadCreateNestedOneWithoutSaleInput
     clientCompany?: CompanyCreateNestedOneWithoutSalesAsClientInput
+    contractDocument?: ClientDocumentCreateNestedOneWithoutContractOfInput
+    documents?: ClientDocumentCreateNestedManyWithoutSaleInput
     invoices?: ClientInvoiceCreateNestedManyWithoutSaleInput
     project?: SetorClickupListCreateNestedOneWithoutSalesInput
   }
@@ -324586,9 +329833,28 @@ export namespace Prisma {
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
+    contractDocType?: string | null
+    contractDocumentId?: string | null
+    contractSentAt?: Date | string | null
+    contractEndedAt?: Date | string | null
+    acceptanceType?: string | null
+    acceptanceUrl?: string | null
+    acceptedAt?: Date | string | null
+    acceptedByName?: string | null
+    acceptedByEmail?: string | null
+    acceptanceEmailId?: string | null
+    acceptanceRecordedBy?: string | null
+    billingConfirmed?: boolean
+    billingConfirmedBy?: string | null
+    billingConfirmedAt?: Date | string | null
+    billingConfirmationUrl?: string | null
+    billingConfirmationEmailId?: string | null
+    billingInstructions?: string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
     projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    documents?: ClientDocumentUncheckedCreateNestedManyWithoutSaleInput
     invoices?: ClientInvoiceUncheckedCreateNestedManyWithoutSaleInput
   }
 
@@ -324821,6 +330087,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -324850,6 +330118,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -324962,6 +330232,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -324992,6 +330264,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -325117,11 +330391,30 @@ export namespace Prisma {
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    contractDocType?: NullableStringFieldUpdateOperationsInput | string | null
+    contractSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    contractEndedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptanceType?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptedByName?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedByEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceRecordedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    billingConfirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingConfirmationUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmationEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutSalesAsAgencyNestedInput
     lead?: LeadUpdateOneWithoutSaleNestedInput
     clientCompany?: CompanyUpdateOneWithoutSalesAsClientNestedInput
+    contractDocument?: ClientDocumentUpdateOneWithoutContractOfNestedInput
+    documents?: ClientDocumentUpdateManyWithoutSaleNestedInput
     invoices?: ClientInvoiceUpdateManyWithoutSaleNestedInput
     project?: SetorClickupListUpdateOneWithoutSalesNestedInput
   }
@@ -325149,9 +330442,28 @@ export namespace Prisma {
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    contractDocType?: NullableStringFieldUpdateOperationsInput | string | null
+    contractDocumentId?: NullableStringFieldUpdateOperationsInput | string | null
+    contractSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    contractEndedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptanceType?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptedByName?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedByEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceRecordedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    billingConfirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingConfirmationUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmationEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
     projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    documents?: ClientDocumentUncheckedUpdateManyWithoutSaleNestedInput
     invoices?: ClientInvoiceUncheckedUpdateManyWithoutSaleNestedInput
   }
 
@@ -325380,6 +330692,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -325409,6 +330723,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -325521,6 +330837,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -325551,6 +330869,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -325678,6 +330998,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -325707,6 +331029,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -325819,6 +331143,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -325849,6 +331175,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -325960,6 +331288,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -325989,6 +331319,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -326101,6 +331433,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -326131,6 +331465,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -326316,6 +331652,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -326345,6 +331683,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -326457,6 +331797,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -326487,6 +331829,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -326684,6 +332028,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -326713,6 +332059,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -326825,6 +332173,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -326855,6 +332205,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -327025,6 +332377,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -327054,6 +332408,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -327166,6 +332522,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -327196,6 +332554,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -327387,6 +332747,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -327416,6 +332778,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -327528,6 +332892,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -327558,6 +332924,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -327820,6 +333188,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -327849,6 +333219,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -327961,6 +333333,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -327991,6 +333365,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -328243,6 +333619,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -328272,6 +333650,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -328384,6 +333764,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -328414,6 +333796,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -328676,6 +334060,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -328705,6 +334091,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -328817,6 +334205,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -328847,6 +334237,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -329099,6 +334491,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -329128,6 +334522,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -329240,6 +334636,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -329270,6 +334668,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -329667,6 +335067,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -329696,6 +335098,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -329808,6 +335212,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -329838,6 +335244,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -330231,6 +335639,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -330260,6 +335670,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -330372,6 +335784,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -330402,6 +335816,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -330799,6 +336215,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -330828,6 +336246,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -330940,6 +336360,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -330970,6 +336392,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -331363,6 +336787,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -331392,6 +336818,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -331504,6 +336932,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -331534,6 +336964,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -331796,6 +337228,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -331825,6 +337259,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -331937,6 +337373,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -331967,6 +337405,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -332219,6 +337659,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -332248,6 +337690,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -332360,6 +337804,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -332390,6 +337836,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -332717,6 +338165,45 @@ export namespace Prisma {
     create: XOR<ClientLibraryItemCreateWithoutStorageObjectInput, ClientLibraryItemUncheckedCreateWithoutStorageObjectInput>
   }
 
+  export type ClientDocumentCreateWithoutStorageObjectInput = {
+    id?: string
+    companyId: string
+    type: string
+    title: string
+    url?: string | null
+    notes?: string | null
+    documentDate?: Date | string | null
+    createdById?: string | null
+    createdByName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    clientCompany: CompanyCreateNestedOneWithoutClientDocumentsInput
+    sale?: SaleCreateNestedOneWithoutDocumentsInput
+    contractOf?: SaleCreateNestedManyWithoutContractDocumentInput
+  }
+
+  export type ClientDocumentUncheckedCreateWithoutStorageObjectInput = {
+    id?: string
+    companyId: string
+    clientCompanyId: string
+    type: string
+    title: string
+    url?: string | null
+    notes?: string | null
+    saleId?: string | null
+    documentDate?: Date | string | null
+    createdById?: string | null
+    createdByName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    contractOf?: SaleUncheckedCreateNestedManyWithoutContractDocumentInput
+  }
+
+  export type ClientDocumentCreateOrConnectWithoutStorageObjectInput = {
+    where: ClientDocumentWhereUniqueInput
+    create: XOR<ClientDocumentCreateWithoutStorageObjectInput, ClientDocumentUncheckedCreateWithoutStorageObjectInput>
+  }
+
   export type UserCreateWithoutUploadedFilesInput = {
     id?: string
     name: string
@@ -332880,6 +338367,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -332909,6 +338398,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -333021,6 +338512,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -333051,6 +338544,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -333397,6 +338892,51 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ClientDocumentUpsertWithoutStorageObjectInput = {
+    update: XOR<ClientDocumentUpdateWithoutStorageObjectInput, ClientDocumentUncheckedUpdateWithoutStorageObjectInput>
+    create: XOR<ClientDocumentCreateWithoutStorageObjectInput, ClientDocumentUncheckedCreateWithoutStorageObjectInput>
+    where?: ClientDocumentWhereInput
+  }
+
+  export type ClientDocumentUpdateToOneWithWhereWithoutStorageObjectInput = {
+    where?: ClientDocumentWhereInput
+    data: XOR<ClientDocumentUpdateWithoutStorageObjectInput, ClientDocumentUncheckedUpdateWithoutStorageObjectInput>
+  }
+
+  export type ClientDocumentUpdateWithoutStorageObjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    documentDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdByName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    clientCompany?: CompanyUpdateOneRequiredWithoutClientDocumentsNestedInput
+    sale?: SaleUpdateOneWithoutDocumentsNestedInput
+    contractOf?: SaleUpdateManyWithoutContractDocumentNestedInput
+  }
+
+  export type ClientDocumentUncheckedUpdateWithoutStorageObjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    clientCompanyId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    saleId?: NullableStringFieldUpdateOperationsInput | string | null
+    documentDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdByName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contractOf?: SaleUncheckedUpdateManyWithoutContractDocumentNestedInput
+  }
+
   export type UserUpsertWithoutUploadedFilesInput = {
     update: XOR<UserUpdateWithoutUploadedFilesInput, UserUncheckedUpdateWithoutUploadedFilesInput>
     create: XOR<UserCreateWithoutUploadedFilesInput, UserUncheckedCreateWithoutUploadedFilesInput>
@@ -333555,6 +339095,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -333584,6 +339126,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -333696,6 +339240,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -333726,6 +339272,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -333841,6 +339389,7 @@ export namespace Prisma {
     ticket?: TicketCreateNestedOneWithoutAttachmentsInput
     ticketMessage?: TicketMessageCreateNestedOneWithoutAttachmentsInput
     projectTask?: ProjectTaskCreateNestedOneWithoutAttachmentsInput
+    clientDocument?: ClientDocumentCreateNestedOneWithoutStorageObjectInput
     uploadedBy?: UserCreateNestedOneWithoutUploadedFilesInput
   }
 
@@ -333861,6 +339410,7 @@ export namespace Prisma {
     uploadedById?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    clientDocument?: ClientDocumentUncheckedCreateNestedOneWithoutStorageObjectInput
   }
 
   export type StorageObjectCreateOrConnectWithoutLibraryItemInput = {
@@ -333896,6 +339446,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -333925,6 +339477,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -334037,6 +339591,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -334067,6 +339623,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -334188,6 +339746,7 @@ export namespace Prisma {
     ticket?: TicketUpdateOneWithoutAttachmentsNestedInput
     ticketMessage?: TicketMessageUpdateOneWithoutAttachmentsNestedInput
     projectTask?: ProjectTaskUpdateOneWithoutAttachmentsNestedInput
+    clientDocument?: ClientDocumentUpdateOneWithoutStorageObjectNestedInput
     uploadedBy?: UserUpdateOneWithoutUploadedFilesNestedInput
   }
 
@@ -334208,6 +339767,1029 @@ export namespace Prisma {
     uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    clientDocument?: ClientDocumentUncheckedUpdateOneWithoutStorageObjectNestedInput
+  }
+
+  export type CompanyCreateWithoutClientDocumentsInput = {
+    id?: string
+    name: string
+    tradeName?: string | null
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    brandColor?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
+    billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
+    hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeCreateNestedManyWithoutCompanyInput
+    emailAccounts?: EmailAccountCreateNestedManyWithoutCompanyInput
+    inboxEmails?: InboxEmailCreateNestedManyWithoutCompanyInput
+    inboxSenderRules?: InboxSenderRuleCreateNestedManyWithoutCompanyInput
+    inboxEmailTags?: InboxEmailTagCreateNestedManyWithoutCompanyInput
+    emailDrafts?: EmailDraftCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
+    monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
+    bonusClosures?: BonusClosureCreateNestedManyWithoutCompanyInput
+    salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
+    salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
+    adSearchTermDailies?: AdSearchTermDailyCreateNestedManyWithoutCompanyInput
+    adCreatives?: AdCreativeCreateNestedManyWithoutCompanyInput
+    adCreativeDailies?: AdCreativeDailyCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
+    couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
+    services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
+    timePunches?: TimePunchCreateNestedManyWithoutCompanyInput
+    workScheduleDays?: WorkScheduleDayCreateNestedManyWithoutCompanyInput
+    timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
+    punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
+    timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutClientDocumentsInput = {
+    id?: string
+    name: string
+    tradeName?: string | null
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    brandColor?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
+    billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
+    hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    parentCompanyId?: string | null
+    emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigUncheckedCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignUncheckedCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedCreateNestedManyWithoutCompanyInput
+    emailAccounts?: EmailAccountUncheckedCreateNestedManyWithoutCompanyInput
+    inboxEmails?: InboxEmailUncheckedCreateNestedManyWithoutCompanyInput
+    inboxSenderRules?: InboxSenderRuleUncheckedCreateNestedManyWithoutCompanyInput
+    inboxEmailTags?: InboxEmailTagUncheckedCreateNestedManyWithoutCompanyInput
+    emailDrafts?: EmailDraftUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
+    bonusClosures?: BonusClosureUncheckedCreateNestedManyWithoutCompanyInput
+    salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
+    salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
+    adSearchTermDailies?: AdSearchTermDailyUncheckedCreateNestedManyWithoutCompanyInput
+    adCreatives?: AdCreativeUncheckedCreateNestedManyWithoutCompanyInput
+    adCreativeDailies?: AdCreativeDailyUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
+    couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
+    services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
+    timePunches?: TimePunchUncheckedCreateNestedManyWithoutCompanyInput
+    workScheduleDays?: WorkScheduleDayUncheckedCreateNestedManyWithoutCompanyInput
+    timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
+    punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
+    timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutClientDocumentsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutClientDocumentsInput, CompanyUncheckedCreateWithoutClientDocumentsInput>
+  }
+
+  export type StorageObjectCreateWithoutClientDocumentInput = {
+    id?: string
+    bucket: string
+    key: string
+    fileName: string
+    mimeType: string
+    size?: number
+    status?: string
+    libraryCompanyId?: string | null
+    clickupAttachmentId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutStorageObjectsInput
+    ticket?: TicketCreateNestedOneWithoutAttachmentsInput
+    ticketMessage?: TicketMessageCreateNestedOneWithoutAttachmentsInput
+    projectTask?: ProjectTaskCreateNestedOneWithoutAttachmentsInput
+    libraryItem?: ClientLibraryItemCreateNestedOneWithoutStorageObjectInput
+    uploadedBy?: UserCreateNestedOneWithoutUploadedFilesInput
+  }
+
+  export type StorageObjectUncheckedCreateWithoutClientDocumentInput = {
+    id?: string
+    companyId: string
+    bucket: string
+    key: string
+    fileName: string
+    mimeType: string
+    size?: number
+    status?: string
+    ticketId?: string | null
+    ticketMessageId?: string | null
+    projectTaskId?: string | null
+    libraryCompanyId?: string | null
+    clickupAttachmentId?: string | null
+    uploadedById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    libraryItem?: ClientLibraryItemUncheckedCreateNestedOneWithoutStorageObjectInput
+  }
+
+  export type StorageObjectCreateOrConnectWithoutClientDocumentInput = {
+    where: StorageObjectWhereUniqueInput
+    create: XOR<StorageObjectCreateWithoutClientDocumentInput, StorageObjectUncheckedCreateWithoutClientDocumentInput>
+  }
+
+  export type SaleCreateWithoutDocumentsInput = {
+    id?: string
+    title: string
+    valueCents?: number
+    kind?: string
+    closedAt: Date | string
+    sellerId?: string | null
+    sellerName?: string | null
+    responsibleId?: string | null
+    responsibleName?: string | null
+    clickupTaskId?: string | null
+    contractStatus?: string
+    contractAt?: Date | string | null
+    billingStatus?: string
+    billedAt?: Date | string | null
+    productionStatus?: string
+    bonusEligible?: boolean
+    releasedAt?: Date | string | null
+    deliveredAt?: Date | string | null
+    notes?: string | null
+    contractDocType?: string | null
+    contractSentAt?: Date | string | null
+    contractEndedAt?: Date | string | null
+    acceptanceType?: string | null
+    acceptanceUrl?: string | null
+    acceptedAt?: Date | string | null
+    acceptedByName?: string | null
+    acceptedByEmail?: string | null
+    acceptanceEmailId?: string | null
+    acceptanceRecordedBy?: string | null
+    billingConfirmed?: boolean
+    billingConfirmedBy?: string | null
+    billingConfirmedAt?: Date | string | null
+    billingConfirmationUrl?: string | null
+    billingConfirmationEmailId?: string | null
+    billingInstructions?: string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutSalesAsAgencyInput
+    lead?: LeadCreateNestedOneWithoutSaleInput
+    clientCompany?: CompanyCreateNestedOneWithoutSalesAsClientInput
+    contractDocument?: ClientDocumentCreateNestedOneWithoutContractOfInput
+    bonuses?: BonusCreateNestedManyWithoutSaleInput
+    invoices?: ClientInvoiceCreateNestedManyWithoutSaleInput
+    project?: SetorClickupListCreateNestedOneWithoutSalesInput
+  }
+
+  export type SaleUncheckedCreateWithoutDocumentsInput = {
+    id?: string
+    companyId: string
+    leadId?: string | null
+    clientCompanyId?: string | null
+    title: string
+    valueCents?: number
+    kind?: string
+    closedAt: Date | string
+    sellerId?: string | null
+    sellerName?: string | null
+    responsibleId?: string | null
+    responsibleName?: string | null
+    clickupTaskId?: string | null
+    contractStatus?: string
+    contractAt?: Date | string | null
+    billingStatus?: string
+    billedAt?: Date | string | null
+    productionStatus?: string
+    bonusEligible?: boolean
+    releasedAt?: Date | string | null
+    deliveredAt?: Date | string | null
+    notes?: string | null
+    contractDocType?: string | null
+    contractDocumentId?: string | null
+    contractSentAt?: Date | string | null
+    contractEndedAt?: Date | string | null
+    acceptanceType?: string | null
+    acceptanceUrl?: string | null
+    acceptedAt?: Date | string | null
+    acceptedByName?: string | null
+    acceptedByEmail?: string | null
+    acceptanceEmailId?: string | null
+    acceptanceRecordedBy?: string | null
+    billingConfirmed?: boolean
+    billingConfirmedBy?: string | null
+    billingConfirmedAt?: Date | string | null
+    billingConfirmationUrl?: string | null
+    billingConfirmationEmailId?: string | null
+    billingInstructions?: string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
+    projectId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    bonuses?: BonusUncheckedCreateNestedManyWithoutSaleInput
+    invoices?: ClientInvoiceUncheckedCreateNestedManyWithoutSaleInput
+  }
+
+  export type SaleCreateOrConnectWithoutDocumentsInput = {
+    where: SaleWhereUniqueInput
+    create: XOR<SaleCreateWithoutDocumentsInput, SaleUncheckedCreateWithoutDocumentsInput>
+  }
+
+  export type SaleCreateWithoutContractDocumentInput = {
+    id?: string
+    title: string
+    valueCents?: number
+    kind?: string
+    closedAt: Date | string
+    sellerId?: string | null
+    sellerName?: string | null
+    responsibleId?: string | null
+    responsibleName?: string | null
+    clickupTaskId?: string | null
+    contractStatus?: string
+    contractAt?: Date | string | null
+    billingStatus?: string
+    billedAt?: Date | string | null
+    productionStatus?: string
+    bonusEligible?: boolean
+    releasedAt?: Date | string | null
+    deliveredAt?: Date | string | null
+    notes?: string | null
+    contractDocType?: string | null
+    contractSentAt?: Date | string | null
+    contractEndedAt?: Date | string | null
+    acceptanceType?: string | null
+    acceptanceUrl?: string | null
+    acceptedAt?: Date | string | null
+    acceptedByName?: string | null
+    acceptedByEmail?: string | null
+    acceptanceEmailId?: string | null
+    acceptanceRecordedBy?: string | null
+    billingConfirmed?: boolean
+    billingConfirmedBy?: string | null
+    billingConfirmedAt?: Date | string | null
+    billingConfirmationUrl?: string | null
+    billingConfirmationEmailId?: string | null
+    billingInstructions?: string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutSalesAsAgencyInput
+    lead?: LeadCreateNestedOneWithoutSaleInput
+    clientCompany?: CompanyCreateNestedOneWithoutSalesAsClientInput
+    documents?: ClientDocumentCreateNestedManyWithoutSaleInput
+    bonuses?: BonusCreateNestedManyWithoutSaleInput
+    invoices?: ClientInvoiceCreateNestedManyWithoutSaleInput
+    project?: SetorClickupListCreateNestedOneWithoutSalesInput
+  }
+
+  export type SaleUncheckedCreateWithoutContractDocumentInput = {
+    id?: string
+    companyId: string
+    leadId?: string | null
+    clientCompanyId?: string | null
+    title: string
+    valueCents?: number
+    kind?: string
+    closedAt: Date | string
+    sellerId?: string | null
+    sellerName?: string | null
+    responsibleId?: string | null
+    responsibleName?: string | null
+    clickupTaskId?: string | null
+    contractStatus?: string
+    contractAt?: Date | string | null
+    billingStatus?: string
+    billedAt?: Date | string | null
+    productionStatus?: string
+    bonusEligible?: boolean
+    releasedAt?: Date | string | null
+    deliveredAt?: Date | string | null
+    notes?: string | null
+    contractDocType?: string | null
+    contractSentAt?: Date | string | null
+    contractEndedAt?: Date | string | null
+    acceptanceType?: string | null
+    acceptanceUrl?: string | null
+    acceptedAt?: Date | string | null
+    acceptedByName?: string | null
+    acceptedByEmail?: string | null
+    acceptanceEmailId?: string | null
+    acceptanceRecordedBy?: string | null
+    billingConfirmed?: boolean
+    billingConfirmedBy?: string | null
+    billingConfirmedAt?: Date | string | null
+    billingConfirmationUrl?: string | null
+    billingConfirmationEmailId?: string | null
+    billingInstructions?: string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
+    projectId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    documents?: ClientDocumentUncheckedCreateNestedManyWithoutSaleInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutSaleInput
+    invoices?: ClientInvoiceUncheckedCreateNestedManyWithoutSaleInput
+  }
+
+  export type SaleCreateOrConnectWithoutContractDocumentInput = {
+    where: SaleWhereUniqueInput
+    create: XOR<SaleCreateWithoutContractDocumentInput, SaleUncheckedCreateWithoutContractDocumentInput>
+  }
+
+  export type SaleCreateManyContractDocumentInputEnvelope = {
+    data: SaleCreateManyContractDocumentInput | SaleCreateManyContractDocumentInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CompanyUpsertWithoutClientDocumentsInput = {
+    update: XOR<CompanyUpdateWithoutClientDocumentsInput, CompanyUncheckedUpdateWithoutClientDocumentsInput>
+    create: XOR<CompanyCreateWithoutClientDocumentsInput, CompanyUncheckedCreateWithoutClientDocumentsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutClientDocumentsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutClientDocumentsInput, CompanyUncheckedUpdateWithoutClientDocumentsInput>
+  }
+
+  export type CompanyUpdateWithoutClientDocumentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUpdateManyWithoutCompanyNestedInput
+    emailAccounts?: EmailAccountUpdateManyWithoutCompanyNestedInput
+    inboxEmails?: InboxEmailUpdateManyWithoutCompanyNestedInput
+    inboxSenderRules?: InboxSenderRuleUpdateManyWithoutCompanyNestedInput
+    inboxEmailTags?: InboxEmailTagUpdateManyWithoutCompanyNestedInput
+    emailDrafts?: EmailDraftUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
+    monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
+    bonusClosures?: BonusClosureUpdateManyWithoutCompanyNestedInput
+    salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
+    salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
+    adSearchTermDailies?: AdSearchTermDailyUpdateManyWithoutCompanyNestedInput
+    adCreatives?: AdCreativeUpdateManyWithoutCompanyNestedInput
+    adCreativeDailies?: AdCreativeDailyUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
+    couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
+    timePunches?: TimePunchUpdateManyWithoutCompanyNestedInput
+    workScheduleDays?: WorkScheduleDayUpdateManyWithoutCompanyNestedInput
+    timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
+    punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
+    timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutClientDocumentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedUpdateManyWithoutCompanyNestedInput
+    emailAccounts?: EmailAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    inboxEmails?: InboxEmailUncheckedUpdateManyWithoutCompanyNestedInput
+    inboxSenderRules?: InboxSenderRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    inboxEmailTags?: InboxEmailTagUncheckedUpdateManyWithoutCompanyNestedInput
+    emailDrafts?: EmailDraftUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
+    bonusClosures?: BonusClosureUncheckedUpdateManyWithoutCompanyNestedInput
+    salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
+    salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    adSearchTermDailies?: AdSearchTermDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    adCreatives?: AdCreativeUncheckedUpdateManyWithoutCompanyNestedInput
+    adCreativeDailies?: AdCreativeDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
+    couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
+    timePunches?: TimePunchUncheckedUpdateManyWithoutCompanyNestedInput
+    workScheduleDays?: WorkScheduleDayUncheckedUpdateManyWithoutCompanyNestedInput
+    timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
+    punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
+    timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
+  }
+
+  export type StorageObjectUpsertWithoutClientDocumentInput = {
+    update: XOR<StorageObjectUpdateWithoutClientDocumentInput, StorageObjectUncheckedUpdateWithoutClientDocumentInput>
+    create: XOR<StorageObjectCreateWithoutClientDocumentInput, StorageObjectUncheckedCreateWithoutClientDocumentInput>
+    where?: StorageObjectWhereInput
+  }
+
+  export type StorageObjectUpdateToOneWithWhereWithoutClientDocumentInput = {
+    where?: StorageObjectWhereInput
+    data: XOR<StorageObjectUpdateWithoutClientDocumentInput, StorageObjectUncheckedUpdateWithoutClientDocumentInput>
+  }
+
+  export type StorageObjectUpdateWithoutClientDocumentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bucket?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupAttachmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutStorageObjectsNestedInput
+    ticket?: TicketUpdateOneWithoutAttachmentsNestedInput
+    ticketMessage?: TicketMessageUpdateOneWithoutAttachmentsNestedInput
+    projectTask?: ProjectTaskUpdateOneWithoutAttachmentsNestedInput
+    libraryItem?: ClientLibraryItemUpdateOneWithoutStorageObjectNestedInput
+    uploadedBy?: UserUpdateOneWithoutUploadedFilesNestedInput
+  }
+
+  export type StorageObjectUncheckedUpdateWithoutClientDocumentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    bucket?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    ticketId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    libraryCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupAttachmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    libraryItem?: ClientLibraryItemUncheckedUpdateOneWithoutStorageObjectNestedInput
+  }
+
+  export type SaleUpsertWithoutDocumentsInput = {
+    update: XOR<SaleUpdateWithoutDocumentsInput, SaleUncheckedUpdateWithoutDocumentsInput>
+    create: XOR<SaleCreateWithoutDocumentsInput, SaleUncheckedCreateWithoutDocumentsInput>
+    where?: SaleWhereInput
+  }
+
+  export type SaleUpdateToOneWithWhereWithoutDocumentsInput = {
+    where?: SaleWhereInput
+    data: XOR<SaleUpdateWithoutDocumentsInput, SaleUncheckedUpdateWithoutDocumentsInput>
+  }
+
+  export type SaleUpdateWithoutDocumentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    valueCents?: IntFieldUpdateOperationsInput | number
+    kind?: StringFieldUpdateOperationsInput | string
+    closedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sellerId?: NullableStringFieldUpdateOperationsInput | string | null
+    sellerName?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleName?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    contractStatus?: StringFieldUpdateOperationsInput | string
+    contractAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingStatus?: StringFieldUpdateOperationsInput | string
+    billedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    productionStatus?: StringFieldUpdateOperationsInput | string
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
+    releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    contractDocType?: NullableStringFieldUpdateOperationsInput | string | null
+    contractSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    contractEndedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptanceType?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptedByName?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedByEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceRecordedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    billingConfirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingConfirmationUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmationEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutSalesAsAgencyNestedInput
+    lead?: LeadUpdateOneWithoutSaleNestedInput
+    clientCompany?: CompanyUpdateOneWithoutSalesAsClientNestedInput
+    contractDocument?: ClientDocumentUpdateOneWithoutContractOfNestedInput
+    bonuses?: BonusUpdateManyWithoutSaleNestedInput
+    invoices?: ClientInvoiceUpdateManyWithoutSaleNestedInput
+    project?: SetorClickupListUpdateOneWithoutSalesNestedInput
+  }
+
+  export type SaleUncheckedUpdateWithoutDocumentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    valueCents?: IntFieldUpdateOperationsInput | number
+    kind?: StringFieldUpdateOperationsInput | string
+    closedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sellerId?: NullableStringFieldUpdateOperationsInput | string | null
+    sellerName?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleName?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    contractStatus?: StringFieldUpdateOperationsInput | string
+    contractAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingStatus?: StringFieldUpdateOperationsInput | string
+    billedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    productionStatus?: StringFieldUpdateOperationsInput | string
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
+    releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    contractDocType?: NullableStringFieldUpdateOperationsInput | string | null
+    contractDocumentId?: NullableStringFieldUpdateOperationsInput | string | null
+    contractSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    contractEndedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptanceType?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptedByName?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedByEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceRecordedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    billingConfirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingConfirmationUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmationEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bonuses?: BonusUncheckedUpdateManyWithoutSaleNestedInput
+    invoices?: ClientInvoiceUncheckedUpdateManyWithoutSaleNestedInput
+  }
+
+  export type SaleUpsertWithWhereUniqueWithoutContractDocumentInput = {
+    where: SaleWhereUniqueInput
+    update: XOR<SaleUpdateWithoutContractDocumentInput, SaleUncheckedUpdateWithoutContractDocumentInput>
+    create: XOR<SaleCreateWithoutContractDocumentInput, SaleUncheckedCreateWithoutContractDocumentInput>
+  }
+
+  export type SaleUpdateWithWhereUniqueWithoutContractDocumentInput = {
+    where: SaleWhereUniqueInput
+    data: XOR<SaleUpdateWithoutContractDocumentInput, SaleUncheckedUpdateWithoutContractDocumentInput>
+  }
+
+  export type SaleUpdateManyWithWhereWithoutContractDocumentInput = {
+    where: SaleScalarWhereInput
+    data: XOR<SaleUpdateManyMutationInput, SaleUncheckedUpdateManyWithoutContractDocumentInput>
   }
 
   export type McpOAuthCodeCreateWithoutClientInput = {
@@ -334722,6 +341304,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -334751,6 +341335,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
     parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
     subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
     users?: UserCreateNestedManyWithoutCompanyInput
@@ -334863,6 +341449,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -334893,6 +341481,8 @@ export namespace Prisma {
     emailAutoSpam?: boolean
     triggerOnly?: boolean
     webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
     subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
@@ -335414,6 +342004,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -335443,6 +342035,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
@@ -335555,6 +342149,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -335585,6 +342181,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -339836,6 +346434,7 @@ export namespace Prisma {
     ticketMessage?: TicketMessageUpdateOneWithoutAttachmentsNestedInput
     projectTask?: ProjectTaskUpdateOneWithoutAttachmentsNestedInput
     libraryItem?: ClientLibraryItemUpdateOneWithoutStorageObjectNestedInput
+    clientDocument?: ClientDocumentUpdateOneWithoutStorageObjectNestedInput
   }
 
   export type StorageObjectUncheckedUpdateWithoutUploadedByInput = {
@@ -339855,6 +346454,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     libraryItem?: ClientLibraryItemUncheckedUpdateOneWithoutStorageObjectNestedInput
+    clientDocument?: ClientDocumentUncheckedUpdateOneWithoutStorageObjectNestedInput
   }
 
   export type StorageObjectUncheckedUpdateManyWithoutUploadedByInput = {
@@ -340098,6 +346698,60 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ClientDocumentCreateManyClientCompanyInput = {
+    id?: string
+    companyId: string
+    type: string
+    title: string
+    url?: string | null
+    notes?: string | null
+    storageObjectId?: string | null
+    saleId?: string | null
+    documentDate?: Date | string | null
+    createdById?: string | null
+    createdByName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InboxEmailCreateManyClientCompanyInput = {
+    id?: string
+    companyId: string
+    accountId?: string | null
+    direction: $Enums.InboxEmailDirection
+    folder?: $Enums.InboxEmailFolder
+    messageId?: string | null
+    imapUid?: number | null
+    fromEmail: string
+    fromName?: string | null
+    toEmail: string
+    ccEmail?: string | null
+    bccEmail?: string | null
+    subject?: string
+    snippet?: string
+    textBody?: string | null
+    htmlBody?: string | null
+    inReplyTo?: string | null
+    leadId?: string | null
+    ticketId?: string | null
+    clientLinkSource?: string | null
+    clientMark?: string | null
+    aiImportance?: string | null
+    aiSummary?: string | null
+    suspicious?: boolean
+    suspiciousReasons?: InboxEmailCreatesuspiciousReasonsInput | string[]
+    aiLocked?: boolean
+    caseId?: string | null
+    seen?: boolean
+    sentAt: Date | string
+    trackToken?: string | null
+    openedAt?: Date | string | null
+    lastOpenedAt?: Date | string | null
+    openCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type CompanyCreateManyParentCompanyInput = {
     id?: string
     name: string
@@ -340115,6 +346769,8 @@ export namespace Prisma {
     document?: string | null
     blingContactId?: string | null
     billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
     hasSystemAccess?: boolean
     fullSystemAccess?: boolean
     moduleWhatsapp?: boolean
@@ -340473,6 +347129,9 @@ export namespace Prisma {
     inReplyTo?: string | null
     leadId?: string | null
     ticketId?: string | null
+    clientCompanyId?: string | null
+    clientLinkSource?: string | null
+    clientMark?: string | null
     aiImportance?: string | null
     aiSummary?: string | null
     suspicious?: boolean
@@ -340744,6 +347403,24 @@ export namespace Prisma {
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
+    contractDocType?: string | null
+    contractDocumentId?: string | null
+    contractSentAt?: Date | string | null
+    contractEndedAt?: Date | string | null
+    acceptanceType?: string | null
+    acceptanceUrl?: string | null
+    acceptedAt?: Date | string | null
+    acceptedByName?: string | null
+    acceptedByEmail?: string | null
+    acceptanceEmailId?: string | null
+    acceptanceRecordedBy?: string | null
+    billingConfirmed?: boolean
+    billingConfirmedBy?: string | null
+    billingConfirmedAt?: Date | string | null
+    billingConfirmationUrl?: string | null
+    billingConfirmationEmailId?: string | null
+    billingInstructions?: string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
     projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -340771,6 +347448,24 @@ export namespace Prisma {
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
+    contractDocType?: string | null
+    contractDocumentId?: string | null
+    contractSentAt?: Date | string | null
+    contractEndedAt?: Date | string | null
+    acceptanceType?: string | null
+    acceptanceUrl?: string | null
+    acceptedAt?: Date | string | null
+    acceptedByName?: string | null
+    acceptedByEmail?: string | null
+    acceptanceEmailId?: string | null
+    acceptanceRecordedBy?: string | null
+    billingConfirmed?: boolean
+    billingConfirmedBy?: string | null
+    billingConfirmedAt?: Date | string | null
+    billingConfirmationUrl?: string | null
+    billingConfirmationEmailId?: string | null
+    billingInstructions?: string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
     projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -341573,6 +348268,174 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type ClientDocumentUpdateWithoutClientCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    documentDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdByName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    storageObject?: StorageObjectUpdateOneWithoutClientDocumentNestedInput
+    sale?: SaleUpdateOneWithoutDocumentsNestedInput
+    contractOf?: SaleUpdateManyWithoutContractDocumentNestedInput
+  }
+
+  export type ClientDocumentUncheckedUpdateWithoutClientCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    storageObjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    saleId?: NullableStringFieldUpdateOperationsInput | string | null
+    documentDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdByName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contractOf?: SaleUncheckedUpdateManyWithoutContractDocumentNestedInput
+  }
+
+  export type ClientDocumentUncheckedUpdateManyWithoutClientCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    storageObjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    saleId?: NullableStringFieldUpdateOperationsInput | string | null
+    documentDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdByName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InboxEmailUpdateWithoutClientCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    direction?: EnumInboxEmailDirectionFieldUpdateOperationsInput | $Enums.InboxEmailDirection
+    folder?: EnumInboxEmailFolderFieldUpdateOperationsInput | $Enums.InboxEmailFolder
+    messageId?: NullableStringFieldUpdateOperationsInput | string | null
+    imapUid?: NullableIntFieldUpdateOperationsInput | number | null
+    fromEmail?: StringFieldUpdateOperationsInput | string
+    fromName?: NullableStringFieldUpdateOperationsInput | string | null
+    toEmail?: StringFieldUpdateOperationsInput | string
+    ccEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    bccEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    subject?: StringFieldUpdateOperationsInput | string
+    snippet?: StringFieldUpdateOperationsInput | string
+    textBody?: NullableStringFieldUpdateOperationsInput | string | null
+    htmlBody?: NullableStringFieldUpdateOperationsInput | string | null
+    inReplyTo?: NullableStringFieldUpdateOperationsInput | string | null
+    clientLinkSource?: NullableStringFieldUpdateOperationsInput | string | null
+    clientMark?: NullableStringFieldUpdateOperationsInput | string | null
+    aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
+    aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    suspicious?: BoolFieldUpdateOperationsInput | boolean
+    suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
+    aiLocked?: BoolFieldUpdateOperationsInput | boolean
+    caseId?: NullableStringFieldUpdateOperationsInput | string | null
+    seen?: BoolFieldUpdateOperationsInput | boolean
+    sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    trackToken?: NullableStringFieldUpdateOperationsInput | string | null
+    openedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastOpenedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    openCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutInboxEmailsNestedInput
+    account?: EmailAccountUpdateOneWithoutEmailsNestedInput
+    lead?: LeadUpdateOneWithoutInboxEmailsNestedInput
+    ticket?: TicketUpdateOneWithoutInboxEmailsNestedInput
+    tags?: InboxEmailTagUpdateManyWithoutEmailsNestedInput
+    attachments?: InboxEmailAttachmentUpdateManyWithoutEmailNestedInput
+  }
+
+  export type InboxEmailUncheckedUpdateWithoutClientCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    direction?: EnumInboxEmailDirectionFieldUpdateOperationsInput | $Enums.InboxEmailDirection
+    folder?: EnumInboxEmailFolderFieldUpdateOperationsInput | $Enums.InboxEmailFolder
+    messageId?: NullableStringFieldUpdateOperationsInput | string | null
+    imapUid?: NullableIntFieldUpdateOperationsInput | number | null
+    fromEmail?: StringFieldUpdateOperationsInput | string
+    fromName?: NullableStringFieldUpdateOperationsInput | string | null
+    toEmail?: StringFieldUpdateOperationsInput | string
+    ccEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    bccEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    subject?: StringFieldUpdateOperationsInput | string
+    snippet?: StringFieldUpdateOperationsInput | string
+    textBody?: NullableStringFieldUpdateOperationsInput | string | null
+    htmlBody?: NullableStringFieldUpdateOperationsInput | string | null
+    inReplyTo?: NullableStringFieldUpdateOperationsInput | string | null
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientLinkSource?: NullableStringFieldUpdateOperationsInput | string | null
+    clientMark?: NullableStringFieldUpdateOperationsInput | string | null
+    aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
+    aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    suspicious?: BoolFieldUpdateOperationsInput | boolean
+    suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
+    aiLocked?: BoolFieldUpdateOperationsInput | boolean
+    caseId?: NullableStringFieldUpdateOperationsInput | string | null
+    seen?: BoolFieldUpdateOperationsInput | boolean
+    sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    trackToken?: NullableStringFieldUpdateOperationsInput | string | null
+    openedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastOpenedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    openCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tags?: InboxEmailTagUncheckedUpdateManyWithoutEmailsNestedInput
+    attachments?: InboxEmailAttachmentUncheckedUpdateManyWithoutEmailNestedInput
+  }
+
+  export type InboxEmailUncheckedUpdateManyWithoutClientCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    direction?: EnumInboxEmailDirectionFieldUpdateOperationsInput | $Enums.InboxEmailDirection
+    folder?: EnumInboxEmailFolderFieldUpdateOperationsInput | $Enums.InboxEmailFolder
+    messageId?: NullableStringFieldUpdateOperationsInput | string | null
+    imapUid?: NullableIntFieldUpdateOperationsInput | number | null
+    fromEmail?: StringFieldUpdateOperationsInput | string
+    fromName?: NullableStringFieldUpdateOperationsInput | string | null
+    toEmail?: StringFieldUpdateOperationsInput | string
+    ccEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    bccEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    subject?: StringFieldUpdateOperationsInput | string
+    snippet?: StringFieldUpdateOperationsInput | string
+    textBody?: NullableStringFieldUpdateOperationsInput | string | null
+    htmlBody?: NullableStringFieldUpdateOperationsInput | string | null
+    inReplyTo?: NullableStringFieldUpdateOperationsInput | string | null
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    ticketId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientLinkSource?: NullableStringFieldUpdateOperationsInput | string | null
+    clientMark?: NullableStringFieldUpdateOperationsInput | string | null
+    aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
+    aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    suspicious?: BoolFieldUpdateOperationsInput | boolean
+    suspiciousReasons?: InboxEmailUpdatesuspiciousReasonsInput | string[]
+    aiLocked?: BoolFieldUpdateOperationsInput | boolean
+    caseId?: NullableStringFieldUpdateOperationsInput | string | null
+    seen?: BoolFieldUpdateOperationsInput | boolean
+    sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    trackToken?: NullableStringFieldUpdateOperationsInput | string | null
+    openedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastOpenedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    openCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type CompanyUpdateWithoutParentCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -341590,6 +348453,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -341619,6 +348484,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
     users?: UserUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
@@ -341731,6 +348598,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -341760,6 +348629,8 @@ export namespace Prisma {
     emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
     triggerOnly?: BoolFieldUpdateOperationsInput | boolean
     webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
     subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
@@ -341872,6 +348743,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
     billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
     hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
     moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
@@ -342993,6 +349866,8 @@ export namespace Prisma {
     textBody?: NullableStringFieldUpdateOperationsInput | string | null
     htmlBody?: NullableStringFieldUpdateOperationsInput | string | null
     inReplyTo?: NullableStringFieldUpdateOperationsInput | string | null
+    clientLinkSource?: NullableStringFieldUpdateOperationsInput | string | null
+    clientMark?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
@@ -343010,6 +349885,7 @@ export namespace Prisma {
     account?: EmailAccountUpdateOneWithoutEmailsNestedInput
     lead?: LeadUpdateOneWithoutInboxEmailsNestedInput
     ticket?: TicketUpdateOneWithoutInboxEmailsNestedInput
+    clientCompany?: CompanyUpdateOneWithoutClientEmailsNestedInput
     tags?: InboxEmailTagUpdateManyWithoutEmailsNestedInput
     attachments?: InboxEmailAttachmentUpdateManyWithoutEmailNestedInput
   }
@@ -343033,6 +349909,9 @@ export namespace Prisma {
     inReplyTo?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientLinkSource?: NullableStringFieldUpdateOperationsInput | string | null
+    clientMark?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
@@ -343070,6 +349949,9 @@ export namespace Prisma {
     inReplyTo?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientLinkSource?: NullableStringFieldUpdateOperationsInput | string | null
+    clientMark?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
@@ -343845,10 +350727,29 @@ export namespace Prisma {
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    contractDocType?: NullableStringFieldUpdateOperationsInput | string | null
+    contractSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    contractEndedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptanceType?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptedByName?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedByEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceRecordedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    billingConfirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingConfirmationUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmationEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lead?: LeadUpdateOneWithoutSaleNestedInput
     clientCompany?: CompanyUpdateOneWithoutSalesAsClientNestedInput
+    contractDocument?: ClientDocumentUpdateOneWithoutContractOfNestedInput
+    documents?: ClientDocumentUpdateManyWithoutSaleNestedInput
     bonuses?: BonusUpdateManyWithoutSaleNestedInput
     invoices?: ClientInvoiceUpdateManyWithoutSaleNestedInput
     project?: SetorClickupListUpdateOneWithoutSalesNestedInput
@@ -343876,9 +350777,28 @@ export namespace Prisma {
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    contractDocType?: NullableStringFieldUpdateOperationsInput | string | null
+    contractDocumentId?: NullableStringFieldUpdateOperationsInput | string | null
+    contractSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    contractEndedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptanceType?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptedByName?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedByEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceRecordedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    billingConfirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingConfirmationUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmationEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
     projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    documents?: ClientDocumentUncheckedUpdateManyWithoutSaleNestedInput
     bonuses?: BonusUncheckedUpdateManyWithoutSaleNestedInput
     invoices?: ClientInvoiceUncheckedUpdateManyWithoutSaleNestedInput
   }
@@ -343905,6 +350825,24 @@ export namespace Prisma {
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    contractDocType?: NullableStringFieldUpdateOperationsInput | string | null
+    contractDocumentId?: NullableStringFieldUpdateOperationsInput | string | null
+    contractSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    contractEndedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptanceType?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptedByName?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedByEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceRecordedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    billingConfirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingConfirmationUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmationEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
     projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -343930,10 +350868,29 @@ export namespace Prisma {
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    contractDocType?: NullableStringFieldUpdateOperationsInput | string | null
+    contractSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    contractEndedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptanceType?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptedByName?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedByEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceRecordedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    billingConfirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingConfirmationUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmationEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutSalesAsAgencyNestedInput
     lead?: LeadUpdateOneWithoutSaleNestedInput
+    contractDocument?: ClientDocumentUpdateOneWithoutContractOfNestedInput
+    documents?: ClientDocumentUpdateManyWithoutSaleNestedInput
     bonuses?: BonusUpdateManyWithoutSaleNestedInput
     invoices?: ClientInvoiceUpdateManyWithoutSaleNestedInput
     project?: SetorClickupListUpdateOneWithoutSalesNestedInput
@@ -343961,9 +350918,28 @@ export namespace Prisma {
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    contractDocType?: NullableStringFieldUpdateOperationsInput | string | null
+    contractDocumentId?: NullableStringFieldUpdateOperationsInput | string | null
+    contractSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    contractEndedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptanceType?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptedByName?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedByEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceRecordedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    billingConfirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingConfirmationUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmationEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
     projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    documents?: ClientDocumentUncheckedUpdateManyWithoutSaleNestedInput
     bonuses?: BonusUncheckedUpdateManyWithoutSaleNestedInput
     invoices?: ClientInvoiceUncheckedUpdateManyWithoutSaleNestedInput
   }
@@ -343990,6 +350966,24 @@ export namespace Prisma {
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    contractDocType?: NullableStringFieldUpdateOperationsInput | string | null
+    contractDocumentId?: NullableStringFieldUpdateOperationsInput | string | null
+    contractSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    contractEndedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptanceType?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptedByName?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedByEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceRecordedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    billingConfirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingConfirmationUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmationEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
     projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -346363,6 +353357,7 @@ export namespace Prisma {
     ticketMessage?: TicketMessageUpdateOneWithoutAttachmentsNestedInput
     projectTask?: ProjectTaskUpdateOneWithoutAttachmentsNestedInput
     libraryItem?: ClientLibraryItemUpdateOneWithoutStorageObjectNestedInput
+    clientDocument?: ClientDocumentUpdateOneWithoutStorageObjectNestedInput
     uploadedBy?: UserUpdateOneWithoutUploadedFilesNestedInput
   }
 
@@ -346383,6 +353378,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     libraryItem?: ClientLibraryItemUncheckedUpdateOneWithoutStorageObjectNestedInput
+    clientDocument?: ClientDocumentUncheckedUpdateOneWithoutStorageObjectNestedInput
   }
 
   export type StorageObjectUncheckedUpdateManyWithoutCompanyInput = {
@@ -347377,6 +354373,9 @@ export namespace Prisma {
     htmlBody?: string | null
     inReplyTo?: string | null
     ticketId?: string | null
+    clientCompanyId?: string | null
+    clientLinkSource?: string | null
+    clientMark?: string | null
     aiImportance?: string | null
     aiSummary?: string | null
     suspicious?: boolean
@@ -347829,6 +354828,8 @@ export namespace Prisma {
     textBody?: NullableStringFieldUpdateOperationsInput | string | null
     htmlBody?: NullableStringFieldUpdateOperationsInput | string | null
     inReplyTo?: NullableStringFieldUpdateOperationsInput | string | null
+    clientLinkSource?: NullableStringFieldUpdateOperationsInput | string | null
+    clientMark?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
@@ -347846,6 +354847,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutInboxEmailsNestedInput
     account?: EmailAccountUpdateOneWithoutEmailsNestedInput
     ticket?: TicketUpdateOneWithoutInboxEmailsNestedInput
+    clientCompany?: CompanyUpdateOneWithoutClientEmailsNestedInput
     tags?: InboxEmailTagUpdateManyWithoutEmailsNestedInput
     attachments?: InboxEmailAttachmentUpdateManyWithoutEmailNestedInput
   }
@@ -347869,6 +354871,9 @@ export namespace Prisma {
     htmlBody?: NullableStringFieldUpdateOperationsInput | string | null
     inReplyTo?: NullableStringFieldUpdateOperationsInput | string | null
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientLinkSource?: NullableStringFieldUpdateOperationsInput | string | null
+    clientMark?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
@@ -347906,6 +354911,9 @@ export namespace Prisma {
     htmlBody?: NullableStringFieldUpdateOperationsInput | string | null
     inReplyTo?: NullableStringFieldUpdateOperationsInput | string | null
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientLinkSource?: NullableStringFieldUpdateOperationsInput | string | null
+    clientMark?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
@@ -349033,6 +356041,9 @@ export namespace Prisma {
     htmlBody?: string | null
     inReplyTo?: string | null
     leadId?: string | null
+    clientCompanyId?: string | null
+    clientLinkSource?: string | null
+    clientMark?: string | null
     aiImportance?: string | null
     aiSummary?: string | null
     suspicious?: boolean
@@ -349175,6 +356186,8 @@ export namespace Prisma {
     textBody?: NullableStringFieldUpdateOperationsInput | string | null
     htmlBody?: NullableStringFieldUpdateOperationsInput | string | null
     inReplyTo?: NullableStringFieldUpdateOperationsInput | string | null
+    clientLinkSource?: NullableStringFieldUpdateOperationsInput | string | null
+    clientMark?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
@@ -349192,6 +356205,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutInboxEmailsNestedInput
     account?: EmailAccountUpdateOneWithoutEmailsNestedInput
     lead?: LeadUpdateOneWithoutInboxEmailsNestedInput
+    clientCompany?: CompanyUpdateOneWithoutClientEmailsNestedInput
     tags?: InboxEmailTagUpdateManyWithoutEmailsNestedInput
     attachments?: InboxEmailAttachmentUpdateManyWithoutEmailNestedInput
   }
@@ -349215,6 +356229,9 @@ export namespace Prisma {
     htmlBody?: NullableStringFieldUpdateOperationsInput | string | null
     inReplyTo?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientLinkSource?: NullableStringFieldUpdateOperationsInput | string | null
+    clientMark?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
@@ -349252,6 +356269,9 @@ export namespace Prisma {
     htmlBody?: NullableStringFieldUpdateOperationsInput | string | null
     inReplyTo?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientLinkSource?: NullableStringFieldUpdateOperationsInput | string | null
+    clientMark?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
@@ -349284,6 +356304,7 @@ export namespace Prisma {
     ticketMessage?: TicketMessageUpdateOneWithoutAttachmentsNestedInput
     projectTask?: ProjectTaskUpdateOneWithoutAttachmentsNestedInput
     libraryItem?: ClientLibraryItemUpdateOneWithoutStorageObjectNestedInput
+    clientDocument?: ClientDocumentUpdateOneWithoutStorageObjectNestedInput
     uploadedBy?: UserUpdateOneWithoutUploadedFilesNestedInput
   }
 
@@ -349304,6 +356325,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     libraryItem?: ClientLibraryItemUncheckedUpdateOneWithoutStorageObjectNestedInput
+    clientDocument?: ClientDocumentUncheckedUpdateOneWithoutStorageObjectNestedInput
   }
 
   export type StorageObjectUncheckedUpdateManyWithoutTicketInput = {
@@ -349358,6 +356380,7 @@ export namespace Prisma {
     ticket?: TicketUpdateOneWithoutAttachmentsNestedInput
     projectTask?: ProjectTaskUpdateOneWithoutAttachmentsNestedInput
     libraryItem?: ClientLibraryItemUpdateOneWithoutStorageObjectNestedInput
+    clientDocument?: ClientDocumentUpdateOneWithoutStorageObjectNestedInput
     uploadedBy?: UserUpdateOneWithoutUploadedFilesNestedInput
   }
 
@@ -349378,6 +356401,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     libraryItem?: ClientLibraryItemUncheckedUpdateOneWithoutStorageObjectNestedInput
+    clientDocument?: ClientDocumentUncheckedUpdateOneWithoutStorageObjectNestedInput
   }
 
   export type StorageObjectUncheckedUpdateManyWithoutTicketMessageInput = {
@@ -350059,6 +357083,24 @@ export namespace Prisma {
     releasedAt?: Date | string | null
     deliveredAt?: Date | string | null
     notes?: string | null
+    contractDocType?: string | null
+    contractDocumentId?: string | null
+    contractSentAt?: Date | string | null
+    contractEndedAt?: Date | string | null
+    acceptanceType?: string | null
+    acceptanceUrl?: string | null
+    acceptedAt?: Date | string | null
+    acceptedByName?: string | null
+    acceptedByEmail?: string | null
+    acceptanceEmailId?: string | null
+    acceptanceRecordedBy?: string | null
+    billingConfirmed?: boolean
+    billingConfirmedBy?: string | null
+    billingConfirmedAt?: Date | string | null
+    billingConfirmationUrl?: string | null
+    billingConfirmationEmailId?: string | null
+    billingInstructions?: string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -350554,11 +357596,30 @@ export namespace Prisma {
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    contractDocType?: NullableStringFieldUpdateOperationsInput | string | null
+    contractSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    contractEndedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptanceType?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptedByName?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedByEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceRecordedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    billingConfirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingConfirmationUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmationEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompanyUpdateOneRequiredWithoutSalesAsAgencyNestedInput
     lead?: LeadUpdateOneWithoutSaleNestedInput
     clientCompany?: CompanyUpdateOneWithoutSalesAsClientNestedInput
+    contractDocument?: ClientDocumentUpdateOneWithoutContractOfNestedInput
+    documents?: ClientDocumentUpdateManyWithoutSaleNestedInput
     bonuses?: BonusUpdateManyWithoutSaleNestedInput
     invoices?: ClientInvoiceUpdateManyWithoutSaleNestedInput
   }
@@ -350586,8 +357647,27 @@ export namespace Prisma {
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    contractDocType?: NullableStringFieldUpdateOperationsInput | string | null
+    contractDocumentId?: NullableStringFieldUpdateOperationsInput | string | null
+    contractSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    contractEndedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptanceType?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptedByName?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedByEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceRecordedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    billingConfirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingConfirmationUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmationEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    documents?: ClientDocumentUncheckedUpdateManyWithoutSaleNestedInput
     bonuses?: BonusUncheckedUpdateManyWithoutSaleNestedInput
     invoices?: ClientInvoiceUncheckedUpdateManyWithoutSaleNestedInput
   }
@@ -350615,6 +357695,24 @@ export namespace Prisma {
     releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    contractDocType?: NullableStringFieldUpdateOperationsInput | string | null
+    contractDocumentId?: NullableStringFieldUpdateOperationsInput | string | null
+    contractSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    contractEndedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptanceType?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptedByName?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedByEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceRecordedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    billingConfirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingConfirmationUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmationEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -350834,6 +357932,7 @@ export namespace Prisma {
     ticket?: TicketUpdateOneWithoutAttachmentsNestedInput
     ticketMessage?: TicketMessageUpdateOneWithoutAttachmentsNestedInput
     libraryItem?: ClientLibraryItemUpdateOneWithoutStorageObjectNestedInput
+    clientDocument?: ClientDocumentUpdateOneWithoutStorageObjectNestedInput
     uploadedBy?: UserUpdateOneWithoutUploadedFilesNestedInput
   }
 
@@ -350854,6 +357953,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     libraryItem?: ClientLibraryItemUncheckedUpdateOneWithoutStorageObjectNestedInput
+    clientDocument?: ClientDocumentUncheckedUpdateOneWithoutStorageObjectNestedInput
   }
 
   export type StorageObjectUncheckedUpdateManyWithoutProjectTaskInput = {
@@ -352593,6 +359693,9 @@ export namespace Prisma {
     inReplyTo?: string | null
     leadId?: string | null
     ticketId?: string | null
+    clientCompanyId?: string | null
+    clientLinkSource?: string | null
+    clientMark?: string | null
     aiImportance?: string | null
     aiSummary?: string | null
     suspicious?: boolean
@@ -352631,6 +359734,8 @@ export namespace Prisma {
     textBody?: NullableStringFieldUpdateOperationsInput | string | null
     htmlBody?: NullableStringFieldUpdateOperationsInput | string | null
     inReplyTo?: NullableStringFieldUpdateOperationsInput | string | null
+    clientLinkSource?: NullableStringFieldUpdateOperationsInput | string | null
+    clientMark?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
@@ -352648,6 +359753,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutInboxEmailsNestedInput
     lead?: LeadUpdateOneWithoutInboxEmailsNestedInput
     ticket?: TicketUpdateOneWithoutInboxEmailsNestedInput
+    clientCompany?: CompanyUpdateOneWithoutClientEmailsNestedInput
     tags?: InboxEmailTagUpdateManyWithoutEmailsNestedInput
     attachments?: InboxEmailAttachmentUpdateManyWithoutEmailNestedInput
   }
@@ -352671,6 +359777,9 @@ export namespace Prisma {
     inReplyTo?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientLinkSource?: NullableStringFieldUpdateOperationsInput | string | null
+    clientMark?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
@@ -352708,6 +359817,9 @@ export namespace Prisma {
     inReplyTo?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientLinkSource?: NullableStringFieldUpdateOperationsInput | string | null
+    clientMark?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
@@ -352818,6 +359930,8 @@ export namespace Prisma {
     textBody?: NullableStringFieldUpdateOperationsInput | string | null
     htmlBody?: NullableStringFieldUpdateOperationsInput | string | null
     inReplyTo?: NullableStringFieldUpdateOperationsInput | string | null
+    clientLinkSource?: NullableStringFieldUpdateOperationsInput | string | null
+    clientMark?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
@@ -352836,6 +359950,7 @@ export namespace Prisma {
     account?: EmailAccountUpdateOneWithoutEmailsNestedInput
     lead?: LeadUpdateOneWithoutInboxEmailsNestedInput
     ticket?: TicketUpdateOneWithoutInboxEmailsNestedInput
+    clientCompany?: CompanyUpdateOneWithoutClientEmailsNestedInput
     attachments?: InboxEmailAttachmentUpdateManyWithoutEmailNestedInput
   }
 
@@ -352859,6 +359974,9 @@ export namespace Prisma {
     inReplyTo?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientLinkSource?: NullableStringFieldUpdateOperationsInput | string | null
+    clientMark?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
@@ -352896,6 +360014,9 @@ export namespace Prisma {
     inReplyTo?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
     ticketId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientLinkSource?: NullableStringFieldUpdateOperationsInput | string | null
+    clientMark?: NullableStringFieldUpdateOperationsInput | string | null
     aiImportance?: NullableStringFieldUpdateOperationsInput | string | null
     aiSummary?: NullableStringFieldUpdateOperationsInput | string | null
     suspicious?: BoolFieldUpdateOperationsInput | boolean
@@ -353502,6 +360623,22 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ClientDocumentCreateManySaleInput = {
+    id?: string
+    companyId: string
+    clientCompanyId: string
+    type: string
+    title: string
+    url?: string | null
+    notes?: string | null
+    storageObjectId?: string | null
+    documentDate?: Date | string | null
+    createdById?: string | null
+    createdByName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type BonusCreateManySaleInput = {
     id?: string
     companyId: string
@@ -353536,6 +360673,56 @@ export namespace Prisma {
     installments?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type ClientDocumentUpdateWithoutSaleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    documentDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdByName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    clientCompany?: CompanyUpdateOneRequiredWithoutClientDocumentsNestedInput
+    storageObject?: StorageObjectUpdateOneWithoutClientDocumentNestedInput
+    contractOf?: SaleUpdateManyWithoutContractDocumentNestedInput
+  }
+
+  export type ClientDocumentUncheckedUpdateWithoutSaleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    clientCompanyId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    storageObjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    documentDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdByName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contractOf?: SaleUncheckedUpdateManyWithoutContractDocumentNestedInput
+  }
+
+  export type ClientDocumentUncheckedUpdateManyWithoutSaleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    clientCompanyId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    storageObjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    documentDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdByName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BonusUpdateWithoutSaleInput = {
@@ -353720,6 +360907,192 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SaleCreateManyContractDocumentInput = {
+    id?: string
+    companyId: string
+    leadId?: string | null
+    clientCompanyId?: string | null
+    title: string
+    valueCents?: number
+    kind?: string
+    closedAt: Date | string
+    sellerId?: string | null
+    sellerName?: string | null
+    responsibleId?: string | null
+    responsibleName?: string | null
+    clickupTaskId?: string | null
+    contractStatus?: string
+    contractAt?: Date | string | null
+    billingStatus?: string
+    billedAt?: Date | string | null
+    productionStatus?: string
+    bonusEligible?: boolean
+    releasedAt?: Date | string | null
+    deliveredAt?: Date | string | null
+    notes?: string | null
+    contractDocType?: string | null
+    contractSentAt?: Date | string | null
+    contractEndedAt?: Date | string | null
+    acceptanceType?: string | null
+    acceptanceUrl?: string | null
+    acceptedAt?: Date | string | null
+    acceptedByName?: string | null
+    acceptedByEmail?: string | null
+    acceptanceEmailId?: string | null
+    acceptanceRecordedBy?: string | null
+    billingConfirmed?: boolean
+    billingConfirmedBy?: string | null
+    billingConfirmedAt?: Date | string | null
+    billingConfirmationUrl?: string | null
+    billingConfirmationEmailId?: string | null
+    billingInstructions?: string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
+    projectId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SaleUpdateWithoutContractDocumentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    valueCents?: IntFieldUpdateOperationsInput | number
+    kind?: StringFieldUpdateOperationsInput | string
+    closedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sellerId?: NullableStringFieldUpdateOperationsInput | string | null
+    sellerName?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleName?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    contractStatus?: StringFieldUpdateOperationsInput | string
+    contractAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingStatus?: StringFieldUpdateOperationsInput | string
+    billedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    productionStatus?: StringFieldUpdateOperationsInput | string
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
+    releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    contractDocType?: NullableStringFieldUpdateOperationsInput | string | null
+    contractSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    contractEndedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptanceType?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptedByName?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedByEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceRecordedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    billingConfirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingConfirmationUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmationEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutSalesAsAgencyNestedInput
+    lead?: LeadUpdateOneWithoutSaleNestedInput
+    clientCompany?: CompanyUpdateOneWithoutSalesAsClientNestedInput
+    documents?: ClientDocumentUpdateManyWithoutSaleNestedInput
+    bonuses?: BonusUpdateManyWithoutSaleNestedInput
+    invoices?: ClientInvoiceUpdateManyWithoutSaleNestedInput
+    project?: SetorClickupListUpdateOneWithoutSalesNestedInput
+  }
+
+  export type SaleUncheckedUpdateWithoutContractDocumentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    valueCents?: IntFieldUpdateOperationsInput | number
+    kind?: StringFieldUpdateOperationsInput | string
+    closedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sellerId?: NullableStringFieldUpdateOperationsInput | string | null
+    sellerName?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleName?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    contractStatus?: StringFieldUpdateOperationsInput | string
+    contractAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingStatus?: StringFieldUpdateOperationsInput | string
+    billedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    productionStatus?: StringFieldUpdateOperationsInput | string
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
+    releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    contractDocType?: NullableStringFieldUpdateOperationsInput | string | null
+    contractSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    contractEndedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptanceType?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptedByName?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedByEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceRecordedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    billingConfirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingConfirmationUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmationEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    documents?: ClientDocumentUncheckedUpdateManyWithoutSaleNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutSaleNestedInput
+    invoices?: ClientInvoiceUncheckedUpdateManyWithoutSaleNestedInput
+  }
+
+  export type SaleUncheckedUpdateManyWithoutContractDocumentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    valueCents?: IntFieldUpdateOperationsInput | number
+    kind?: StringFieldUpdateOperationsInput | string
+    closedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sellerId?: NullableStringFieldUpdateOperationsInput | string | null
+    sellerName?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleName?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    contractStatus?: StringFieldUpdateOperationsInput | string
+    contractAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingStatus?: StringFieldUpdateOperationsInput | string
+    billedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    productionStatus?: StringFieldUpdateOperationsInput | string
+    bonusEligible?: BoolFieldUpdateOperationsInput | boolean
+    releasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    contractDocType?: NullableStringFieldUpdateOperationsInput | string | null
+    contractSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    contractEndedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptanceType?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    acceptedByName?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedByEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptanceRecordedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    billingConfirmedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billingConfirmationUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    billingConfirmationEmailId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    soldServices?: NullableJsonNullValueInput | InputJsonValue
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type McpOAuthCodeCreateManyClientInput = {
@@ -354384,6 +361757,10 @@ export namespace Prisma {
      */
     export type VideoCategoryCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = VideoCategoryCountOutputTypeDefaultArgs<ExtArgs>
     /**
+     * @deprecated Use ClientDocumentCountOutputTypeDefaultArgs instead
+     */
+    export type ClientDocumentCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ClientDocumentCountOutputTypeDefaultArgs<ExtArgs>
+    /**
      * @deprecated Use McpOAuthClientCountOutputTypeDefaultArgs instead
      */
     export type McpOAuthClientCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = McpOAuthClientCountOutputTypeDefaultArgs<ExtArgs>
@@ -354923,6 +362300,10 @@ export namespace Prisma {
      * @deprecated Use ClientLibraryItemDefaultArgs instead
      */
     export type ClientLibraryItemArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ClientLibraryItemDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ClientDocumentDefaultArgs instead
+     */
+    export type ClientDocumentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ClientDocumentDefaultArgs<ExtArgs>
     /**
      * @deprecated Use McpOAuthClientDefaultArgs instead
      */

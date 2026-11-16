@@ -5,8 +5,12 @@ import { findOrCreateClientCompany } from "@/lib/client-company";
 import { can } from "@/lib/permissions";
 import { logFinance } from "@/lib/finance-log";
 import { moverBonificacaoDaVenda, competencia, type ResultadoRedatacao } from "@/lib/sale-delivery";
+import {
+  ContractError, clearAcceptance, confirmBilling, markContractSent, normalizeSoldServices,
+  productionBlocker, recordAcceptance, unconfirmBilling, describeSoldServices, type SoldService,
+} from "@/lib/sale-contract";
 
-const CONTRACT = ["PENDENTE", "ENVIADO", "ASSINADO", "DISPENSADO"];
+const CONTRACT = ["PENDENTE", "ENVIADO", "ASSINADO", "ENCERRADO", "DISPENSADO"];
 const BILLING = ["PENDENTE", "FATURADO", "DISPENSADO"];
 const PRODUCTION = ["PENDENTE", "LIBERADO", "ENTREGUE", "DISPENSADO"];
 
@@ -20,9 +24,57 @@ function stamp(next: string | undefined, current: string, at: Date | null) {
   return next === "PENDENTE" ? { at: null } : { at: at ?? new Date() };
 }
 
+// GET /api/financeiro/vendas/[id] — contrato da venda (aceite, faturamento,
+// serviços vendidos) + documentos do cliente e catálogo, pro painel de contrato.
+export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const session = await getEffectiveSession();
+  if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+  const role = (session.user as any)?.role as string;
+  const isAdmin = role === "SUPER_ADMIN" || role === "ADMIN";
+  if (!isAdmin && !can(session, "canViewFinanceiro")) {
+    return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
+  }
+  const agencyId = (session.user as any)?.companyId as string | undefined;
+  const { id } = await params;
+  const sale = await prisma.sale.findUnique({
+    where: { id },
+    include: {
+      clientCompany: { select: { id: true, name: true } },
+      project: { select: { id: true, name: true, status: true } },
+      lead: { select: { id: true, name: true, pipeline: true } },
+    },
+  });
+  if (!sale) return NextResponse.json({ error: "Venda não encontrada" }, { status: 404 });
+  if (role !== "SUPER_ADMIN" && sale.companyId !== agencyId) {
+    return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
+  }
+  const [documents, catalog] = await Promise.all([
+    sale.clientCompanyId
+      ? prisma.clientDocument.findMany({
+          where: { clientCompanyId: sale.clientCompanyId },
+          orderBy: { createdAt: "desc" },
+          select: { id: true, type: true, title: true, url: true, saleId: true, storageObjectId: true, createdAt: true },
+        })
+      : Promise.resolve([]),
+    prisma.service.findMany({
+      where: { companyId: sale.companyId },
+      orderBy: [{ order: "asc" }, { name: "asc" }],
+      select: { id: true, name: true },
+    }),
+  ]);
+  return NextResponse.json({
+    sale,
+    documents,
+    catalog,
+    productionBlocker: productionBlocker(sale),
+  });
+}
+
 // PATCH /api/financeiro/vendas/[id]
 // Body: { contractStatus?, billingStatus?, productionStatus?, deliveredAt?,
-//         clientCompanyId?, newClientName?, kind?, notes? }
+//         clientCompanyId?, newClientName?, kind?, notes?,
+//         acceptance?, clearAcceptance?, contractSent?, billingConfirm?,
+//         unconfirmBilling?, billingInstructions?, soldServices? }
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
@@ -37,16 +89,73 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   const agencyId = (session.user as any)?.companyId as string | undefined;
 
   const { id } = await params;
-  const sale = await prisma.sale.findUnique({ where: { id } });
-  if (!sale) return NextResponse.json({ error: "Venda não encontrada" }, { status: 404 });
+  const found = await prisma.sale.findUnique({ where: { id } });
+  if (!found) return NextResponse.json({ error: "Venda não encontrada" }, { status: 404 });
 
   // A venda é da agência. SUPER_ADMIN sem empresa própria enxerga todas.
-  if (role !== "SUPER_ADMIN" && sale.companyId !== agencyId) {
+  if (role !== "SUPER_ADMIN" && found.companyId !== agencyId) {
     return NextResponse.json({ error: "Sem permissão" }, { status: 403 });
   }
 
   const body = await req.json().catch(() => ({}));
   const data: Record<string, unknown> = {};
+
+  // ── Ações do contrato (aceite, envio, confirmação de faturamento) ────────
+  // Rodam ANTES do resto e pela mesma lib das ferramentas do Claude, pra que
+  // a regra seja uma só. Depois a venda é relida: a trava de produção abaixo
+  // enxerga o aceite registrado nesta mesma requisição.
+  const actor = { session };
+  const scope = found.companyId;
+  try {
+    if (body?.clearAcceptance) await clearAcceptance(id, scope, actor);
+    if (body?.unconfirmBilling) await unconfirmBilling(id, scope, actor);
+    if (body?.contractSent) {
+      await markContractSent(id, {
+        sentAt: body.contractSent.sentAt ? new Date(String(body.contractSent.sentAt)) : null,
+        contractDocType: body.contractSent.contractDocType ?? null,
+        contractDocumentId: body.contractSent.contractDocumentId ?? null,
+      }, scope, actor);
+    }
+    if (body?.acceptance) {
+      const a = body.acceptance;
+      await recordAcceptance(id, {
+        acceptanceType: String(a.acceptanceType ?? ""),
+        acceptanceUrl: a.acceptanceUrl ?? null,
+        acceptedAt: a.acceptedAt ? new Date(String(a.acceptedAt)) : null,
+        acceptedByName: a.acceptedByName ?? null,
+        acceptedByEmail: a.acceptedByEmail ?? null,
+        emailId: a.emailId ?? null,
+        contractDocType: a.contractDocType ?? null,
+        contractDocumentId: a.contractDocumentId ?? null,
+      }, scope, actor);
+    }
+    if (body?.billingConfirm) {
+      const b = body.billingConfirm;
+      await confirmBilling(id, {
+        confirmedBy: b.confirmedBy ?? null,
+        confirmationUrl: b.confirmationUrl ?? null,
+        confirmedAt: b.confirmedAt ? new Date(String(b.confirmedAt)) : null,
+        emailId: b.emailId ?? null,
+        instructions: b.instructions ?? null,
+      }, scope, actor);
+    }
+  } catch (e) {
+    if (e instanceof ContractError) return NextResponse.json({ error: e.message }, { status: e.status });
+    throw e;
+  }
+  if (body?.billingInstructions !== undefined) {
+    data.billingInstructions = body.billingInstructions ? String(body.billingInstructions).slice(0, 5000) : null;
+  }
+  if (body?.soldServices !== undefined) {
+    try {
+      data.soldServices = normalizeSoldServices(body.soldServices);
+    } catch (e) {
+      if (e instanceof ContractError) return NextResponse.json({ error: e.message }, { status: 400 });
+      throw e;
+    }
+  }
+
+  const sale = (await prisma.sale.findUnique({ where: { id } }))!;
 
   const contractStatus = body?.contractStatus as string | undefined;
   const billingStatus = body?.billingStatus as string | undefined;
@@ -54,9 +163,35 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
   if (contractStatus !== undefined) {
     if (!CONTRACT.includes(contractStatus)) return NextResponse.json({ error: "Status de contrato inválido" }, { status: 400 });
+    // "Aceito" sem aceite registrado era o furo: o checkbox dizia assinado e
+    // ninguém achava o documento. Agora o aceite vem antes (body.acceptance).
+    if (contractStatus === "ASSINADO" && sale.contractStatus !== "ASSINADO" && !sale.acceptedAt) {
+      return NextResponse.json(
+        { error: "Contrato só fica aceito com o aceite registrado (tipo, link, data e quem aceitou).", needsAcceptance: true },
+        { status: 400 },
+      );
+    }
     data.contractStatus = contractStatus;
     const s = stamp(contractStatus, sale.contractStatus, sale.contractAt);
     if ("at" in s) data.contractAt = s.at;
+    if (contractStatus === "ENVIADO" && !sale.contractSentAt) data.contractSentAt = new Date();
+    if (contractStatus === "ENCERRADO") data.contractEndedAt = sale.contractEndedAt ?? new Date();
+    else if (sale.contractEndedAt) data.contractEndedAt = null;
+  }
+
+  // ── Trava: produção só com aceite + faturamento confirmado ───────────────
+  if (
+    productionStatus !== undefined &&
+    (productionStatus === "LIBERADO" || productionStatus === "ENTREGUE") &&
+    sale.productionStatus !== "LIBERADO" && sale.productionStatus !== "ENTREGUE"
+  ) {
+    const blocker = productionBlocker({
+      contractStatus: (data.contractStatus as string | undefined) ?? sale.contractStatus,
+      acceptedAt: sale.acceptedAt,
+      billingStatus: billingStatus ?? sale.billingStatus,
+      billingConfirmed: sale.billingConfirmed,
+    });
+    if (blocker) return NextResponse.json({ error: blocker, productionBlocked: true }, { status: 400 });
   }
   if (billingStatus !== undefined) {
     if (!BILLING.includes(billingStatus)) return NextResponse.json({ error: "Status de faturamento inválido" }, { status: 400 });
@@ -158,7 +293,15 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
         clientCompanyId: (data.clientCompanyId as string | undefined) ?? sale.clientCompanyId,
         // Entra já em produção: o gatilho de criar foi liberar a produção.
         status: "EM_ANDAMENTO",
-        description: `Entrega da venda "${sale.title}" (${(sale.valueCents / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}).`,
+        // Serviços vendidos entram no projeto: o escopo nasce com o que foi
+        // vendido, em vez de ser redigitado.
+        description: [
+          `Entrega da venda "${sale.title}" (${(sale.valueCents / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}).`,
+          Array.isArray(sale.soldServices) && sale.soldServices.length
+            ? `\nServiços vendidos:\n${describeSoldServices(sale.soldServices as unknown as SoldService[])}`
+            : "",
+          sale.billingInstructions ? `\nCobrança: ${sale.billingInstructions}` : "",
+        ].join(""),
       },
       select: { id: true },
     });
@@ -214,6 +357,16 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       project: { select: { id: true, name: true, status: true, taskCount: true, taskCompleted: true } },
     },
   });
+
+  if (productionStatus === "LIBERADO" && sale.productionStatus !== "LIBERADO") {
+    await logFinance({
+      companyId: sale.companyId, clientCompanyId: updated.clientCompanyId, entity: "CONTRATO", entityId: id,
+      action: "PRODUCAO_LIBERADA",
+      description: updated.project ? `Produção liberada — projeto "${updated.project.name}"` : "Produção liberada",
+      meta: { venda: sale.title, projectId: updated.project?.id ?? null },
+      session,
+    });
+  }
 
   // ── Data de entrega mudou de mês → bonificação acompanha ─────────────────
   // Ver src/lib/sale-delivery.ts: move os lançamentos não pagos pra nova

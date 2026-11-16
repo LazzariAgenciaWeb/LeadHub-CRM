@@ -25,6 +25,7 @@ import { scanEmailThreats } from "./email-threat-scan";
 import { htmlToPlainText, looksLikeHtml, sanitizeSignatureHtml } from "./html-sanitize";
 import { pickSenderRule, senderRuleCandidates } from "./email-trust";
 import { newTrackToken, injectOpenPixel } from "./email-open-tracking";
+import { resolveClientForEmail, extractAddresses } from "./client-email-link";
 import type { EmailAccount, InboxEmailFolder } from "@/generated/prisma";
 
 export interface EmailAccountInput {
@@ -436,12 +437,25 @@ async function storeMessage(
     if (empresa?.emailAutoSpam) folder = "SPAM";
   }
 
+  // Cliente da carteira (conversa → chamado → lead da venda → endereço/domínio).
+  // Recebido: quem manda é o cliente. Enviado: os destinatários são.
+  const clientCompanyId = await resolveClientForEmail(companyId, {
+    inReplyTo,
+    leadId: link.leadId,
+    ticketId: link.ticketId,
+    addresses: direction === "IN"
+      ? [fromEmail]
+      : extractAddresses(toText, Array.isArray(parsed.cc) ? parsed.cc.map((c) => c.text).join(", ") : parsed.cc?.text),
+  });
+
   const created = await prisma.inboxEmail.create({
     data: {
       companyId,
       accountId,
       direction,
       folder,
+      clientCompanyId,
+      clientLinkSource: clientCompanyId ? "AUTO" : null,
       suspicious,
       suspiciousReasons: suspiciousReasons.slice(0, 6),
       messageId,
@@ -951,10 +965,19 @@ export async function sendInboxEmail(companyId: string, input: SendInboxEmailInp
     fromName = sent.fromName;
   }
 
+  const clientCompanyId = await resolveClientForEmail(companyId, {
+    replyToId: input.replyToId ?? null,
+    leadId,
+    ticketId,
+    addresses: extractAddresses(input.to, input.cc),
+  });
+
   const record = await prisma.inboxEmail.create({
     data: {
       companyId,
       accountId: account?.id ?? null,
+      clientCompanyId,
+      clientLinkSource: clientCompanyId ? "AUTO" : null,
       direction: "OUT",
       folder: "SENT" as InboxEmailFolder,
       messageId,
