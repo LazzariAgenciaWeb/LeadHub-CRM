@@ -146,7 +146,8 @@ interface CompanyContactInfo {
   name: string | null;
   role: string;
   hasAccess: boolean;
-  company: { id: string; name: string };
+  /** null = cliente indefinido (só o nome do contato/grupo está guardado). */
+  company: { id: string; name: string } | null;
 }
 
 interface Conversation {
@@ -959,6 +960,11 @@ export default function WhatsappManager({
   const [sendingNewConv, setSendingNewConv] = useState(false);
   const [newConvError, setNewConvError] = useState<string | null>(null);
 
+  // Cliente sugerido pra conversa sem cliente (contato/grupo cadastrado num
+  // cliente, chamado, venda, nome do grupo). Um clique liga.
+  const [clientSuggestion, setClientSuggestion] = useState<{ phone: string; clientId: string; clientName: string; reasons: string[]; strong: boolean } | null>(null);
+  const [acceptingSuggestion, setAcceptingSuggestion] = useState(false);
+
   // Atribuir grupo a empresa
   const [showGroupCompany, setShowGroupCompany] = useState(false);
   const [groupCompanySearch, setGroupCompanySearch] = useState("");
@@ -1312,6 +1318,52 @@ export default function WhatsappManager({
     return () => cancelAnimationFrame(raf);
   }, [selectedConv?.phone]);
 
+  // Sugestão de cliente pra conversa sem cliente.
+  useEffect(() => {
+    setClientSuggestion(null);
+    if (!selectedConv || selectedConv.companyContact?.company) return;
+    const phone = selectedConv.phone;
+    let cancel = false;
+    const params = new URLSearchParams({ phone });
+    if (selectedConv.companyId) params.set("companyId", selectedConv.companyId);
+    fetch(`/api/whatsapp/conversation-client?${params}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (cancel || !d?.suggestion) return;
+        setClientSuggestion({ phone, ...d.suggestion });
+      })
+      .catch(() => {});
+    return () => { cancel = true; };
+  }, [selectedConv?.phone, selectedConv?.companyContact?.company?.id]);
+
+  async function linkSelectedConvToClient(clientId: string, extra: { name?: string | null; role?: string } = {}) {
+    if (!selectedConv) return false;
+    const res = await fetch("/api/whatsapp/conversation-client", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ phone: selectedConv.phone, companyId: selectedConv.companyId, clientCompanyId: clientId, ...extra }),
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      alert(err.error ?? "Erro ao ligar ao cliente");
+      return false;
+    }
+    const { contact } = await res.json();
+    setSelectedConv((prev) => prev && prev.phone === selectedConv.phone
+      ? { ...prev, companyContact: { id: contact.id, name: contact.name, role: contact.role, hasAccess: contact.hasAccess, company: contact.company } }
+      : prev);
+    setClientSuggestion(null);
+    router.refresh();
+    return true;
+  }
+
+  async function acceptClientSuggestion() {
+    if (!clientSuggestion) return;
+    setAcceptingSuggestion(true);
+    await linkSelectedConvToClient(clientSuggestion.clientId);
+    setAcceptingSuggestion(false);
+  }
+
   // Mantém o chip de status do header sincronizado com a lista atualizada do server.
   // Sem isso, "Pegar/Finalizar/Reabrir" no header ficava com valor diferente do
   // chip da lista (que recebe dados frescos via router.refresh).
@@ -1510,7 +1562,7 @@ export default function WhatsappManager({
         const q = search.toLowerCase();
         const matchName = c.lead?.name?.toLowerCase().includes(q) || c.companyContact?.name?.toLowerCase().includes(q);
         const matchPhone = c.phone.includes(q);
-        const matchCompany = c.companyContact?.company.name.toLowerCase().includes(q);
+        const matchCompany = c.companyContact?.company?.name.toLowerCase().includes(q);
         if (!matchName && !matchPhone && !matchCompany) return false;
       }
       // Filtro de instância
@@ -1543,7 +1595,7 @@ export default function WhatsappManager({
           // IA: a última resposta nossa foi do agente de IA e ninguém humano
           // assumiu ainda (conversa não fechada) → precisa de atenção.
           case "AI":          if (!c.lastOutboundByAI || cStatus === "CLOSED") return false; break;
-          case "CLIENTS":     if (!c.companyContact) return false; break;
+          case "CLIENTS":     if (!c.companyContact?.company) return false; break;
           case "NO_LEAD":     if (c.lead?.pipeline) return false; break;
           // Minhas conversas: atribuídas a mim e ainda abertas (não fechadas)
           case "MINE":        if (assigneeId !== currentUserId || cStatus === "CLOSED") return false; break;
@@ -1647,7 +1699,7 @@ export default function WhatsappManager({
       if (cStatus === "CLOSED")      counts.RESOLVED++;
       if (hasReturn)                 counts.SCHEDULED++;
       if (c.lastOutboundByAI && !isClosed) counts.AI++;
-      if (c.companyContact)          counts.CLIENTS++;
+      if (c.companyContact?.company) counts.CLIENTS++;
       if (!c.lead?.pipeline)         counts.NO_LEAD++;
       if (!isClosed && assigneeId === currentUserId) counts.MINE++;
       if (!isClosed && !assigneeId && !setorId)      counts.UNASSIGNED++;
@@ -2842,37 +2894,17 @@ export default function WhatsappManager({
   async function handleAddAsContact() {
     if (!selectedConv || !addContactForm.companyId) return;
     setSavingContact(true);
-
-    // Se já tem empresa vinculada e é diferente → remove vínculo anterior antes de criar novo
-    if (
-      selectedConv.companyContact &&
-      selectedConv.companyContact.company.id !== addContactForm.companyId
-    ) {
-      await fetch(
-        `/api/companies/${selectedConv.companyContact.company.id}/contacts/${selectedConv.companyContact.id}`,
-        { method: "DELETE" }
-      );
-    }
-
-    const res = await fetch(`/api/companies/${addContactForm.companyId}/contacts`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        phone: selectedConv.phone,
-        name: addContactForm.contactName || selectedConv.lead?.name || null,
-        role: addContactForm.role,
-        isGroup: false,
-      }),
+    // O endpoint cadastra o número no cliente escolhido e tira de qualquer
+    // outro cliente da agência — as próximas mensagens já caem certo.
+    const ok = await linkSelectedConvToClient(addContactForm.companyId, {
+      name: addContactForm.contactName || selectedConv.lead?.name || null,
+      role: addContactForm.role,
     });
-    if (res.ok) {
+    if (ok) {
       setShowAddCompany(false);
       setAddContactForm({ companyId: "", companyName: "", contactName: "", role: "CONTACT" });
       setCompanyResults([]);
       setCompanySearch("");
-      router.refresh();
-    } else {
-      const err = await res.json();
-      alert(err.error ?? "Erro ao adicionar contato");
     }
     setSavingContact(false);
   }
@@ -3762,7 +3794,7 @@ export default function WhatsappManager({
                                     <Hourglass className="w-3 h-3 text-yellow-400" strokeWidth={2.5} />
                                   </span>
                                 )}
-                                {conv.companyContact && (
+                                {conv.companyContact?.company && (
                                   <span title={`Cliente: ${conv.companyContact.company.name}`} className="flex-shrink-0">
                                     <Star className="w-3 h-3 text-amber-400 fill-amber-400/30" strokeWidth={2.5} />
                                   </span>
@@ -3771,13 +3803,13 @@ export default function WhatsappManager({
                               {(conv.lead?.name || conv.companyContact?.name) && !conv.phone.includes("@g.us") && (
                                 <div className="text-slate-600 text-[10px] leading-tight">{formatPhone(conv.phone)}</div>
                               )}
-                              {conv.companyContact && (
+                              {conv.companyContact?.company && (
                                 <div className="text-amber-400/70 text-[10px] leading-tight truncate">
                                   🏢 {conv.companyContact.company.name}
                                 </div>
                               )}
-                              {conv.phone.includes("@g.us") && !conv.companyContact && (
-                                <div className="text-slate-700 text-[10px] leading-tight">Sem empresa</div>
+                              {!conv.companyContact?.company && (conv.phone.includes("@g.us") || (conv.companyContact && !conv.lead)) && (
+                                <div className="text-slate-600 text-[10px] leading-tight italic">🏢 Cliente indefinido</div>
                               )}
 
                               {/* Chip de status da Conversation (Sprint 3) */}
@@ -4503,12 +4535,41 @@ export default function WhatsappManager({
                 </div>
               )}
 
+              {/* Sugestão de cliente (conversa sem cliente) */}
+              {!selectedConv.companyContact?.company && clientSuggestion?.phone === selectedConv.phone && (
+                <div className="px-5 py-2.5 border-b border-[#1e2d45] bg-amber-500/5 flex-shrink-0 flex items-center gap-3">
+                  <div className="min-w-0 flex-1">
+                    <p className="text-amber-300 text-xs">
+                      🏢 Cliente indefinido — parece ser <span className="font-semibold">{clientSuggestion.clientName}</span>
+                    </p>
+                    <p className="text-slate-500 text-[10px] truncate">Por quê: {clientSuggestion.reasons.join(" · ")}</p>
+                  </div>
+                  <button
+                    onClick={acceptClientSuggestion}
+                    disabled={acceptingSuggestion}
+                    className="px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-white text-xs font-semibold disabled:opacity-50 flex-shrink-0"
+                  >
+                    {acceptingSuggestion ? "Ligando..." : "Aceitar"}
+                  </button>
+                  <button
+                    onClick={() => {
+                      if (selectedConv.phone.includes("@g.us")) { setShowGroupCompany(true); setGroupCompanySearch(""); setGroupCompanyResults([]); setAssignGroupError(null); }
+                      else { setShowAddCompany(true); setAddContactForm({ companyId: "", companyName: "", contactName: "", role: "CONTACT" }); setCompanySearch(""); setCompanyResults([]); }
+                    }}
+                    className="px-2 py-1.5 rounded-lg text-slate-400 hover:text-white text-xs flex-shrink-0"
+                  >
+                    Outro cliente
+                  </button>
+                  <button onClick={() => setClientSuggestion(null)} className="text-slate-600 hover:text-slate-300 text-xs flex-shrink-0" title="Dispensar">✕</button>
+                </div>
+              )}
+
               {/* Painel: Atribuir grupo a empresa */}
               {showGroupCompany && selectedConv.phone.includes("@g.us") && (
                 <div className="px-5 py-4 border-b border-[#1e2d45] bg-indigo-500/5 flex-shrink-0">
                   <div className="flex items-center justify-between mb-3">
                     <p className="text-indigo-300 text-xs font-semibold">
-                      🏢 {selectedConv.companyContact ? `Empresa atual: ${selectedConv.companyContact.company.name}` : "Atribuir grupo a uma empresa"}
+                      🏢 {selectedConv.companyContact?.company ? `Cliente atual: ${selectedConv.companyContact.company.name}` : "Atribuir grupo a um cliente"}
                     </p>
                     <button onClick={() => { setShowGroupCompany(false); setGroupCompanySearch(""); setGroupCompanyResults([]); setAssignGroupError(null); }} className="text-slate-600 hover:text-slate-300 text-xs">✕</button>
                   </div>
@@ -4580,8 +4641,8 @@ export default function WhatsappManager({
               {showAddCompany && (
                 <div className="px-5 py-4 border-b border-[#1e2d45] bg-amber-500/5 flex-shrink-0">
                   <p className="text-amber-400 text-xs font-semibold mb-3">
-                    {selectedConv.companyContact
-                      ? `🏢 Mudar empresa (atual: ${selectedConv.companyContact.company.name})`
+                    {selectedConv.companyContact?.company
+                      ? `🏢 Mudar cliente (atual: ${selectedConv.companyContact.company.name})`
                       : "⭐ Vincular como cliente de uma empresa"}
                   </p>
 
@@ -4674,7 +4735,7 @@ export default function WhatsappManager({
                           disabled={savingContact}
                           className="px-4 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-white text-xs font-semibold disabled:opacity-50"
                         >
-                          {savingContact ? "Salvando..." : (selectedConv.companyContact ? "🏢 Confirmar mudança" : "⭐ Confirmar como cliente")}
+                          {savingContact ? "Salvando..." : (selectedConv.companyContact?.company ? "🏢 Confirmar mudança" : "⭐ Confirmar como cliente")}
                         </button>
                         <button onClick={() => setShowAddCompany(false)} className="px-3 py-1.5 rounded-lg bg-white/5 text-slate-400 text-xs hover:text-white">
                           Cancelar
@@ -6244,7 +6305,7 @@ export default function WhatsappManager({
                                     onClick={() => { setShowAddCompany(true); setShowConvertForm(false); setShowTicketForm(false); setShowOportunidadeForm(false); setShowLinkProspect(false); setShowActionsMenu(false); setAddContactForm({ companyId: "", companyName: "", contactName: "", role: "CONTACT" }); setCompanySearch(""); setCompanyResults([]); }}
                                     className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
                                   >
-                                    {selectedConv.companyContact
+                                    {selectedConv.companyContact?.company
                                       ? <><Building2 className="w-4 h-4 text-amber-400" strokeWidth={2.25} /> Mudar empresa</>
                                       : <><Star      className="w-4 h-4 text-amber-400 fill-amber-400/30" strokeWidth={2.25} /> É Cliente</>}
                                   </button>
@@ -6322,7 +6383,7 @@ export default function WhatsappManager({
                                     className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-slate-300 hover:bg-white/5 hover:text-white transition-colors text-left"
                                   >
                                     <Building2 className="w-4 h-4 text-amber-400" strokeWidth={2.25} />
-                                    {selectedConv.companyContact ? "Mudar empresa" : "Atribuir empresa"}
+                                    {selectedConv.companyContact?.company ? "Mudar cliente" : "Atribuir cliente"}
                                   </button>
                                 )}
                                 <button

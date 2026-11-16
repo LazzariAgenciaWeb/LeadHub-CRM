@@ -12,17 +12,18 @@
 import { prisma } from "./prisma";
 import { isImpersonating } from "./effective-session";
 import type { ClientRecordAccess } from "./permissions";
+import { phoneKeys } from "./conversation-client";
 import { ACCEPTANCE_LABEL, CONTRACT_STATUS_LABEL, productionBlocker, type SoldService } from "./sale-contract";
 
 export const TIMELINE_TYPES = [
   "LEAD", "PROPOSTA", "VENDA", "CONTRATO", "FATURAMENTO", "COBRANCA",
-  "PROJETO", "CHAMADO", "EMAIL", "DOCUMENTO", "NOTA",
+  "PROJETO", "CHAMADO", "WHATSAPP", "EMAIL", "DOCUMENTO", "NOTA",
 ] as const;
 export type TimelineType = (typeof TIMELINE_TYPES)[number];
 
 export const TIMELINE_LABEL: Record<TimelineType, string> = {
   LEAD: "Lead", PROPOSTA: "Proposta", VENDA: "Venda", CONTRATO: "Contrato", FATURAMENTO: "Faturamento",
-  COBRANCA: "Cobrança", PROJETO: "Projeto", CHAMADO: "Chamado", EMAIL: "E-mail", DOCUMENTO: "Documento", NOTA: "Anotação",
+  COBRANCA: "Cobrança", PROJETO: "Projeto", CHAMADO: "Chamado", WHATSAPP: "WhatsApp", EMAIL: "E-mail", DOCUMENTO: "Documento", NOTA: "Anotação",
 };
 
 export interface TimelineEvent {
@@ -65,6 +66,7 @@ function allowedTypes(access?: ClientRecordAccess | null): Set<TimelineType> {
   if (access.financeiro) { s.add("CONTRATO"); s.add("FATURAMENTO"); s.add("COBRANCA"); }
   if (access.projetos || access.financeiro) s.add("PROJETO");
   if (access.chamados) s.add("CHAMADO");
+  if (access.chamados || access.negociacoes) s.add("WHATSAPP");
   return s;
 }
 
@@ -88,7 +90,7 @@ export async function buildClientTimeline(
   const want = (t: TimelineType) => allowed.has(t) && (!opts.types?.length || opts.types.includes(t));
   const now = new Date();
 
-  const [sales, documents, invoices, projects, tickets, emails, notes] = await Promise.all([
+  const [sales, documents, invoices, projects, tickets, emails, notes, conversations] = await Promise.all([
     want("LEAD") || want("VENDA") || want("CONTRATO") || want("FATURAMENTO") || want("PROJETO")
       ? prisma.sale.findMany({
           where: { clientCompanyId: clientId, companyId: agencyId },
@@ -140,6 +142,7 @@ export async function buildClientTimeline(
           take: 100,
         })
       : Promise.resolve([]),
+    want("WHATSAPP") ? clientConversations(clientId, agencyId) : Promise.resolve([]),
   ]);
 
   const ev: TimelineEvent[] = [];
@@ -219,6 +222,15 @@ export async function buildClientTimeline(
       summary: (e.aiSummary || e.snippet || "").slice(0, 200) || null,
       by: e.direction === "IN" ? e.fromName || e.fromEmail : null,
       link: `/emails?email=${e.id}`,
+    });
+  }
+
+  for (const c of conversations) {
+    push({
+      at: c.lastMessageAt, type: "WHATSAPP",
+      title: `${c.isGroup ? "Grupo" : "Conversa"} no WhatsApp: ${c.name ?? c.phone}`,
+      summary: c.lastMessageBody ? c.lastMessageBody.slice(0, 200) : null,
+      link: `/whatsapp?abrir=${encodeURIComponent(c.phone)}`,
     });
   }
 
@@ -311,4 +323,27 @@ function describeActivity(type: string, meta: unknown): string {
   };
   const base = label[type] ?? type.toLowerCase();
   return de || para ? `${base}: ${de ?? "—"} → ${para ?? "—"}` : base;
+}
+
+/**
+ * Conversas do WhatsApp da agência com os contatos/grupos cadastrados no
+ * cliente (número com as variações 55/9º dígito; grupo pelo JID exato).
+ */
+export async function clientConversations(clientId: string, agencyId: string) {
+  const contacts = await prisma.companyContact.findMany({
+    where: { companyId: clientId },
+    select: { phone: true, name: true, isGroup: true },
+  });
+  if (contacts.length === 0) return [];
+  const keys = [...new Set(contacts.flatMap((c) => phoneKeys(c.phone)))];
+  const convs = await prisma.conversation.findMany({
+    where: { companyId: agencyId, phone: { in: keys }, syncBlocked: false },
+    select: { id: true, phone: true, isGroup: true, lastMessageAt: true, lastMessageBody: true },
+    orderBy: { lastMessageAt: { sort: "desc", nulls: "last" } },
+    take: 100,
+  });
+  return convs.map((c) => {
+    const contact = contacts.find((k) => phoneKeys(k.phone).includes(c.phone));
+    return { ...c, isGroup: c.isGroup || c.phone.includes("@g.us"), name: contact?.name ?? null };
+  });
 }

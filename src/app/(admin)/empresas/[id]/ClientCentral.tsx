@@ -52,6 +52,7 @@ const TYPE_META: Record<string, { label: string; icon: string; cls: string }> = 
   COBRANCA: { label: "Cobrança", icon: "🧾", cls: "text-amber-200" },
   PROJETO: { label: "Projeto", icon: "🧩", cls: "text-indigo-300" },
   CHAMADO: { label: "Chamado", icon: "🎫", cls: "text-orange-300" },
+  WHATSAPP: { label: "WhatsApp", icon: "💬", cls: "text-green-300" },
   EMAIL: { label: "E-mail", icon: "✉️", cls: "text-sky-300" },
   DOCUMENTO: { label: "Documento", icon: "📎", cls: "text-slate-300" },
   NOTA: { label: "Anotação", icon: "🗒", cls: "text-slate-300" },

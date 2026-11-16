@@ -2,10 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { assertModule } from "@/lib/billing";
+import { LinkError, linkConversationToClient } from "@/lib/conversation-client";
 
 // PATCH /api/whatsapp/group-company
 // Body: { groupJid, targetCompanyId }
-// Move o CompanyContact do grupo para a empresa alvo
+// Liga o grupo ao cliente alvo (sub-empresa da agência)
 export async function PATCH(req: NextRequest) {
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
@@ -21,32 +22,24 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json({ error: "targetCompanyId obrigatório" }, { status: 400 });
   }
 
-  const isGroup = groupJid.includes("@g.us");
-
-  // Buscar contato existente (em qualquer empresa)
-  const existing = await prisma.companyContact.findFirst({
-    where: { phone: groupJid },
-  });
-
-  // Já está na empresa alvo — nada a fazer
-  if (existing?.companyId === targetCompanyId) {
-    return NextResponse.json({ ok: true });
+  // Agência dona da carteira: a do usuário; super admin fora de impersonação
+  // usa a mãe do cliente alvo. O alvo PRECISA ser cliente dessa agência —
+  // antes este endpoint apagava o contato do grupo em qualquer empresa e
+  // aceitava a própria agência como "cliente".
+  const role = (session.user as any).role as string;
+  const target = await prisma.company.findUnique({ where: { id: targetCompanyId }, select: { parentCompanyId: true } });
+  const agencyId = role === "SUPER_ADMIN" ? target?.parentCompanyId : (session.user as any).companyId;
+  if (!agencyId || target?.parentCompanyId !== agencyId) {
+    return NextResponse.json({ error: "Escolha um cliente da carteira (não a própria empresa)" }, { status: 400 });
   }
 
-  const contactName = existing?.name ?? null;
-
-  // Se existia em outra empresa, remover de lá
-  if (existing) {
-    await prisma.companyContact.delete({ where: { id: existing.id } });
+  let contact;
+  try {
+    contact = await linkConversationToClient(agencyId, { phone: groupJid, isGroup: true }, targetCompanyId);
+  } catch (e) {
+    if (e instanceof LinkError) return NextResponse.json({ error: e.message }, { status: 400 });
+    throw e;
   }
-
-  // Criar (ou garantir) na empresa alvo
-  const contact = await prisma.companyContact.upsert({
-    where: { companyId_phone: { companyId: targetCompanyId, phone: groupJid } },
-    create: { phone: groupJid, name: contactName, isGroup, companyId: targetCompanyId },
-    update: { isGroup, ...(contactName ? { name: contactName } : {}) },
-    include: { company: { select: { id: true, name: true } } },
-  });
 
   return NextResponse.json({ ok: true, contact });
 }

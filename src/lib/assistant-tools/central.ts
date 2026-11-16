@@ -306,7 +306,7 @@ export const anexarDocumento: ToolDef<{ clientCompanyId: string; tipo: string; l
 export const linhaDoTempoCliente: ToolDef<{ clientCompanyId: string; desde?: string; tipos?: string[]; limite?: number }> = {
   name: "linha_do_tempo_cliente",
   description:
-    `Linha do tempo do cliente, do mais recente pro mais antigo: lead, proposta, venda, contrato enviado/aceito, faturamento confirmado, cobranças (lançada/paga/atrasada), projeto criado/liberado/entregue, chamados, emails marcados ou importantes, documentos e suas anotações. Cada evento com data, tipo, resumo, quem fez e link. Filtre por tipos (${TIMELINE_TYPES.join(", ")}) e desde (ISO).`,
+    `Linha do tempo do cliente, do mais recente pro mais antigo: lead, proposta, venda, contrato enviado/aceito, faturamento confirmado, cobranças (lançada/paga/atrasada), projeto criado/liberado/entregue, chamados, conversas do WhatsApp (contatos/grupos do cliente), emails marcados ou importantes, documentos e suas anotações. Cada evento com data, tipo, resumo, quem fez e link. Filtre por tipos (${TIMELINE_TYPES.join(", ")}) e desde (ISO).`,
   input_schema: {
     type: "object",
     properties: {

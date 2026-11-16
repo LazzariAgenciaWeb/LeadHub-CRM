@@ -33,7 +33,9 @@
     "test:bio-page": "tsx scripts/test-bio-page.ts",
     "test:pix-annual": "tsx scripts/test-pix-annual.ts",
     "seed:pagina-demo": "tsx scripts/seed-pagina-demo.ts",
-    "test:client-central": "tsx scripts/test-client-central.ts"
+    "test:client-central": "tsx scripts/test-client-central.ts",
+    "test:conversation-client": "tsx scripts/test-conversation-client.ts",
+    "fix:conversation-clients": "tsx scripts/fix-conversation-clients.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"

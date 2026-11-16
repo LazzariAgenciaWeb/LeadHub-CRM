@@ -39,7 +39,12 @@ export type ConversationExtras = {
     name: string | null;
     role: string | null;
     hasAccess: boolean;
-    company: { id: string; name: string };
+    /**
+     * Cliente (sub-empresa) dono deste número/grupo. null = cliente
+     * indefinido: só existe o cache de nome na própria empresa da conversa
+     * (o webhook grava um por contato/grupo pra guardar o pushName).
+     */
+    company: { id: string; name: string } | null;
   } | null;
   /** Última mensagem NOSSA saiu do agente de IA (rawPayload.autoAgent). */
   lastOutboundByAI: boolean;
@@ -119,7 +124,7 @@ export async function enrichConversations(convs: ConvRef[]): Promise<Map<string,
       select: {
         id: true, name: true, role: true, hasAccess: true,
         phone: true, companyId: true,
-        company: { select: { id: true, name: true, parentCompanyId: true } },
+        company: { select: { id: true, name: true, tradeName: true, parentCompanyId: true } },
       },
     }),
   ]);
@@ -138,11 +143,13 @@ export async function enrichConversations(convs: ConvRef[]): Promise<Map<string,
       ? (({ conversationId: _c, phone: _p, companyId: _e, ...rest }) => rest)(leadRow)
       : null;
 
-    // Contato: o da própria empresa ganha do de uma sub-empresa.
+    // Cliente = contato numa SUB-EMPRESA. O contato da própria empresa da
+    // conversa é só o cache de nome do webhook — antes ele ganhava e todo
+    // grupo de cliente aparecia como a própria agência.
     const doTelefone = contacts.filter((c) => c.phone === conv.phone);
-    const contactRow =
-      doTelefone.find((c) => c.companyId === conv.companyId) ??
-      doTelefone.find((c) => c.company.parentCompanyId === conv.companyId);
+    const clientRow = doTelefone.find((c) => c.company.parentCompanyId === conv.companyId);
+    const ownRow = doTelefone.find((c) => c.companyId === conv.companyId);
+    const contactRow = clientRow ?? ownRow;
 
     out.set(conv.id, {
       lastMsg: row?.receivedAt
@@ -158,10 +165,12 @@ export async function enrichConversations(convs: ConvRef[]): Promise<Map<string,
       companyContact: contactRow
         ? {
             id: contactRow.id,
-            name: contactRow.name,
+            name: clientRow?.name || ownRow?.name || null,
             role: contactRow.role,
             hasAccess: contactRow.hasAccess,
-            company: { id: contactRow.company.id, name: contactRow.company.name },
+            company: clientRow
+              ? { id: clientRow.company.id, name: clientRow.company.tradeName || clientRow.company.name }
+              : null,
           }
         : null,
       lastOutboundByAI: !!row?.autoAgent,
