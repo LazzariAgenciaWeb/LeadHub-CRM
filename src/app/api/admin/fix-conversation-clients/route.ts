@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { getEffectiveSession, isImpersonating } from "@/lib/effective-session";
 import { applyConversationClientFix, formatPlan, planConversationClientFix } from "@/lib/conversation-client";
 
 /**
@@ -15,31 +16,36 @@ import { applyConversationClientFix, formatPlan, planConversationClientFix } fro
  *   ("?" na simulação = só pelo nome parcial; pule com skip ou onlyStrong)
  *
  * Sem companyId: todas as agências (empresas com clientes na carteira).
- * Acesso: apenas SUPER_ADMIN real (sem impersonação). Idempotente.
+ * Acesso: SUPER_ADMIN (todas ou companyId); ADMIN só a própria agência. Idempotente.
  */
-
-async function guard() {
-  const session = await getServerSession(authOptions);
-  if (!session || (session.user as any)?.role !== "SUPER_ADMIN") {
-    return NextResponse.json({ error: "Apenas SUPER_ADMIN" }, { status: 403 });
-  }
-  return null;
-}
 
 async function agencies(companyId: string | null) {
   if (companyId) return [companyId];
-  const rows = await prisma.company.findMany({
-    where: { subCompanies: { some: {} } },
-    select: { id: true },
-  });
+  const rows = await prisma.company.findMany({ where: { subCompanies: { some: {} } }, select: { id: true } });
   return rows.map((r) => r.id);
 }
 
+/**
+ * SUPER_ADMIN fora de impersonação: qualquer agência (ou todas). ADMIN — ou
+ * super admin impersonando — só a própria empresa.
+ */
+async function scope(requested: string | null): Promise<{ ids: string[] } | { error: NextResponse }> {
+  const real = await getServerSession(authOptions);
+  const eff = await getEffectiveSession();
+  const realRole = (real?.user as { role?: string } | undefined)?.role;
+  if (realRole === "SUPER_ADMIN" && eff && !isImpersonating(eff)) return { ids: await agencies(requested) };
+  const u = eff?.user as { role?: string; companyId?: string } | undefined;
+  if (!u?.companyId || (u.role !== "ADMIN" && realRole !== "SUPER_ADMIN")) {
+    return { error: NextResponse.json({ error: "Apenas administradores" }, { status: 403 }) };
+  }
+  return { ids: [u.companyId] };
+}
+
 export async function GET(req: NextRequest) {
-  const denied = await guard();
-  if (denied) return denied;
   const sp = req.nextUrl.searchParams;
-  const ids = await agencies(sp.get("companyId"));
+  const sc = await scope(sp.get("companyId"));
+  if ("error" in sc) return sc.error;
+  const ids = sc.ids;
   const plans = [];
   for (const id of ids) plans.push(await planConversationClientFix(id));
   if (sp.get("format") === "json") return NextResponse.json({ dryRun: true, plans });
@@ -48,11 +54,11 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const denied = await guard();
-  if (denied) return denied;
   const body = await req.json().catch(() => ({}));
   if (body.apply !== true) return NextResponse.json({ error: "Envie { apply: true } para gravar. Para simular use GET." }, { status: 400 });
-  const ids = await agencies(body.companyId ?? null);
+  const sc = await scope(body.companyId ?? null);
+  if ("error" in sc) return sc.error;
+  const ids = sc.ids;
   const result = [];
   for (const id of ids) {
     const plan = await planConversationClientFix(id);
