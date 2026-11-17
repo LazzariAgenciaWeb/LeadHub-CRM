@@ -88,7 +88,7 @@ export default async function LancamentosPage({
       },
       orderBy: { valueCents: "desc" },
       select: {
-        id: true, title: true, valueCents: true, kind: true, billingStatus: true,
+        id: true, title: true, valueCents: true, kind: true, billingStatus: true, clientCompanyId: true,
         clientCompany: { select: { name: true, tradeName: true } },
         invoices: { select: { status: true, amountCents: true } },
       },
@@ -130,6 +130,7 @@ export default async function LancamentosPage({
       take: 100,
       select: {
         id: true, title: true, valueCents: true, kind: true, closedAt: true, billingStatus: true,
+        clientCompanyId: true,
         clientCompany: { select: { name: true, tradeName: true } },
       },
     }),
@@ -147,6 +148,15 @@ export default async function LancamentosPage({
   const devidos = ativos.filter((c) => dueInMonth(c, month) && !ignoradosIds.has(c.id));
   const pendentes = devidos.filter((c) => !faturadoPorContrato.has(c.id));
 
+  // Venda RECORRENTE não é cobrada pela própria venda: a cobrança nasce do
+  // contrato do cliente, todo mês, pela fila acima. Com contrato recorrente
+  // ativo no cliente, ela está coberta — cobrá-la aqui como "sem cobrança" era
+  // falso alarme. Sem contrato, a pendência é outra: falta cadastrá-lo.
+  const clientesComContrato = new Set(ativos.map((c) => c.clientCompanyId));
+  const coberta = (s: { kind: string; clientCompanyId: string | null }) =>
+    s.kind === "RECORRENTE" && !!s.clientCompanyId && clientesComContrato.has(s.clientCompanyId);
+  const faltaContrato = (s: { kind: string; clientCompanyId: string | null }) =>
+    s.kind === "RECORRENTE" && !!s.clientCompanyId && !clientesComContrato.has(s.clientCompanyId);
 
   const data: LancamentosData = {
     month,
@@ -192,10 +202,10 @@ export default async function LancamentosPage({
       // Parcelada só conta como paga quando TODAS as parcelas foram pagas —
       // 3 de 12 não é "pago", é andamento.
       pago: s.invoices.length > 0 && s.invoices.every((i) => i.status === "PAGO"),
-      marcadoSemCobranca: s.billingStatus === "FATURADO" && s.invoices.length === 0,
+      marcadoSemCobranca: s.billingStatus === "FATURADO" && s.invoices.length === 0 && !coberta(s),
     })),
     pontualAFaturarCents: vendasDoMes
-      .filter((s) => s.invoices.length === 0)
+      .filter((s) => s.invoices.length === 0 && !coberta(s))
       .reduce((n, s) => n + s.valueCents, 0),
     aReceber: aReceber.map((i) => ({
       id: i.id,
@@ -212,6 +222,7 @@ export default async function LancamentosPage({
       vencida: i.dueDate < from,
     })),
     vendasAtrasadas: vendasAtrasadas
+      .filter((s) => !coberta(s))
       .map((s) => ({
         id: s.id,
         title: s.title,
@@ -221,7 +232,9 @@ export default async function LancamentosPage({
         closedAt: s.closedAt.toISOString(),
         // Marcada como faturada na esteira mas sem cobrança gerada: pendência
         // com causa diferente (faltou vincular o cliente).
-        marcadoSemCobranca: s.billingStatus === "FATURADO",
+        marcadoSemCobranca: s.billingStatus === "FATURADO" && !faltaContrato(s),
+        clienteId: s.clientCompanyId,
+        faltaContrato: faltaContrato(s),
       })),
   };
 

@@ -10,7 +10,7 @@
  */
 import { prisma } from "@/lib/prisma";
 import { upsertSaleFromWonLead } from "@/lib/sales";
-import { productionBlocker, recordAcceptance, markContractSent, ContractError } from "@/lib/sale-contract";
+import { productionBlocker, recordAcceptance, markContractSent, ContractError, validateAcceptance, saleDetalhamento, mergeDetalhamento } from "@/lib/sale-contract";
 import { resolveClientForEmail, linkPastEmailsForClient, clientForAddresses } from "@/lib/client-email-link";
 import { buildClientTimeline } from "@/lib/client-central";
 import { getTool, type ToolContext } from "@/lib/assistant-tools/registry";
@@ -67,6 +67,23 @@ async function main() {
     // Travas
     const semProva = await recordAcceptance(sale.id, { acceptanceType: "EMAIL" }, agency.id, { name: "t" }).then(() => false).catch((e) => e instanceof ContractError);
     ok("aceite sem link/quem aceitou é recusado", semProva);
+    ok("aceite por WhatsApp vale sem link, com quem aceitou", validateAcceptance({ acceptanceType: "WHATSAPP", acceptedByName: "Maria" }) === null);
+    ok("aceite por WhatsApp ainda exige quem aceitou", validateAcceptance({ acceptanceType: "WHATSAPP" }) !== null);
+    ok("produção liberada quando o contrato não se aplica", productionBlocker({ contractStatus: "DISPENSADO", acceptedAt: null, billingStatus: "PENDENTE", billingConfirmed: true }) === null);
+
+    // Detalhamento gerado da venda: checklist por serviço, sem duplicar nem apagar.
+    const escopo = {
+      title: "Site + Redes", valueCents: 390000, billingInstructions: "50% na entrada", notes: null, responsibleName: "Ana",
+      soldServices: [{ name: "Criação de Sites", recurring: false }, { name: "Gestão de Redes", level: "Plus", recurring: true }],
+    };
+    const det = saleDetalhamento(escopo);
+    ok("detalhamento: um item de checklist por serviço", det.split("\n").filter((l) => l.startsWith("- [ ] ")).length === 2 && det.includes("- [ ] Gestão de Redes (Plus) · recorrente"));
+    ok("detalhamento: cobrança combinada e responsável", det.includes("### Cobrança combinada\n50% na entrada") && det.includes("Responsável: Ana"));
+    ok("detalhamento: venda sem serviços vira um item com o título", saleDetalhamento({ ...escopo, soldServices: null }).includes("- [ ] Site + Redes"));
+    const junto = mergeDetalhamento("Escopo escrito pela equipe", escopo);
+    ok("detalhamento: acrescenta sem apagar o que existe", junto.startsWith("Escopo escrito pela equipe") && junto.includes("## Venda: Site + Redes"));
+    ok("detalhamento: vincular de novo não duplica", mergeDetalhamento(junto, escopo) === junto);
+
     const s1 = (await prisma.sale.findUnique({ where: { id: sale.id } }))!;
     ok("produção travada antes do aceite", !!productionBlocker(s1));
     const cedo = await tool("liberar_producao", { contratoId: sale.id, nomeProjeto: "Site Cliente Teste" }, ctx);

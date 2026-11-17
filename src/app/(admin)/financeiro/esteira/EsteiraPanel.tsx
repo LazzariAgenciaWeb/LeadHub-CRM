@@ -149,6 +149,9 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
   const [projetoFor, setProjetoFor] = useState<string | null>(null);
   const [projetoPick, setProjetoPick] = useState("");
   const [projetoNovo, setProjetoNovo] = useState("");
+  // "liberar" = veio do seletor de Produção (vincula E libera); "vincular" =
+  // botão avulso, só liga o projeto — pra venda que já foi liberada sem ele.
+  const [projetoModo, setProjetoModo] = useState<"liberar" | "vincular">("liberar");
   // Venda manual: o trabalho que já estava em aberto ANTES do sistema não tem
   // lead — sem esta entrada, a migração ficava fora da esteira pra sempre.
   const [novaAberta, setNovaAberta] = useState(false);
@@ -683,6 +686,7 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
                           // projeto na hora — e já grava o status junto.
                           if (cp.key === "productionStatus" && e.target.value === "LIBERADO" && !s.project) {
                             setProjetoFor(s.id);
+                            setProjetoModo("liberar");
                             setProjetoPick("");
                             setProjetoNovo(s.title);
                             setErr("");
@@ -841,8 +845,9 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
                 return (
                   <div className="mt-3 pt-3 border-t border-[#1e2d45]">
                     <p className="text-xs text-slate-400 mb-2">
-                      Onde esta entrega vai acontecer? O detalhe do trabalho fica no projeto —
-                      aqui a esteira só acompanha até entregar e liberar a bonificação.
+                      {projetoModo === "liberar" ? "Onde esta entrega vai acontecer?" : "Qual projeto entrega esta venda?"}{" "}
+                      O detalhe do trabalho fica no projeto — aqui a esteira só acompanha até
+                      entregar e liberar a bonificação.
                     </p>
                     <div className="flex items-end gap-2 flex-wrap">
                       <label className="flex flex-col gap-1">
@@ -873,7 +878,7 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
                         disabled={busy === s.id || (!projetoPick && !projetoNovo.trim())}
                         onClick={() =>
                           patch(s.id, {
-                            productionStatus: "LIBERADO",
+                            ...(projetoModo === "liberar" ? { productionStatus: "LIBERADO" } : {}),
                             ...(projetoPick
                               ? { projectId: projetoPick }
                               : { newProjectName: projetoNovo.trim() }),
@@ -882,16 +887,20 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
                         className="px-3 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 disabled:opacity-40 text-white text-sm flex items-center gap-1.5"
                       >
                         <Check className="w-3.5 h-3.5" />
-                        {projetoPick ? "Vincular e liberar" : "Criar projeto e liberar"}
+                        {projetoModo === "liberar"
+                          ? (projetoPick ? "Vincular e liberar" : "Criar projeto e liberar")
+                          : (projetoPick ? "Vincular projeto" : "Criar e vincular projeto")}
                       </button>
                       {/* Liberar sem projeto continua possível — não travamos o
                           fluxo por causa do cadastro. */}
-                      <button
-                        onClick={() => patch(s.id, { productionStatus: "LIBERADO" })}
-                        className="px-2 py-2 text-slate-500 hover:text-slate-300 text-xs"
-                      >
-                        Liberar sem projeto
-                      </button>
+                      {projetoModo === "liberar" && (
+                        <button
+                          onClick={() => patch(s.id, { productionStatus: "LIBERADO" })}
+                          className="px-2 py-2 text-slate-500 hover:text-slate-300 text-xs"
+                        >
+                          Liberar sem projeto
+                        </button>
+                      )}
                       <button
                         onClick={() => { setProjetoFor(null); setProjetoNovo(""); setProjetoPick(""); }}
                         className="px-2 py-2 text-slate-500 hover:text-white text-sm"
@@ -902,6 +911,24 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
                   </div>
                 );
               })()}
+
+              {/* Sem projeto: o vínculo só era oferecido no instante de liberar a
+                  produção. Quem liberou "sem projeto" (ou pela Central/assistente)
+                  ficava sem caminho pra ligar depois — este botão é esse caminho. */}
+              {!s.project && projetoFor !== s.id && s.productionStatus !== "DISPENSADO" && (
+                <button
+                  onClick={() => {
+                    setProjetoFor(s.id);
+                    setProjetoModo("vincular");
+                    setProjetoPick("");
+                    setProjetoNovo(s.title);
+                    setErr("");
+                  }}
+                  className="mt-2 inline-flex items-center gap-1 px-2 py-0.5 rounded border border-dashed border-[#1e2d45] text-[11px] text-slate-400 hover:text-white hover:border-indigo-500/40"
+                >
+                  📁 Vincular projeto
+                </button>
+              )}
 
               {/* Projeto vinculado: andamento + link pra conferir a entrega */}
               {s.project && (

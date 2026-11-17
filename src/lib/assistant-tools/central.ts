@@ -3,7 +3,7 @@ import { logFinance } from "@/lib/finance-log";
 import { getUserPermissions } from "@/lib/user-permissions";
 import {
   ACCEPTANCE_TYPES, ACCEPTANCE_LABEL, CONTRACT_STATUS_LABEL, ContractError, confirmBilling,
-  describeSoldServices, markContractSent, productionBlocker, recordAcceptance, type SoldService,
+  saleDetalhamento, mergeDetalhamento, markContractSent, productionBlocker, recordAcceptance,
 } from "@/lib/sale-contract";
 import { buildClientTimeline, TIMELINE_LABEL, TIMELINE_TYPES, type TimelineType } from "@/lib/client-central";
 import { setEmailClient } from "@/lib/client-email-link";
@@ -75,7 +75,7 @@ export const registrarAceite: ToolDef<{
 }> = {
   name: "registrar_aceite",
   description:
-    "Registra o ACEITE do contrato/termo de uma venda: tipo (AUTENTIQUE | EMAIL | GOHUB | OUTRO), link do comprovante, data e quem aceitou ('Nome <email>'). Com isso o contrato passa a Aceito — sem aceite registrado ele não fica aceito. Se o aceite veio por email da caixa, passe emailId: link, data e remetente saem do próprio email e ele fica marcado como 'aceite' no cliente.",
+    "Registra o ACEITE do contrato/termo de uma venda: tipo (AUTENTIQUE | EMAIL | WHATSAPP | GOHUB | OUTRO), link do comprovante (dispensado no WHATSAPP), data e quem aceitou ('Nome <email>'). Com isso o contrato passa a Aceito — sem aceite registrado ele não fica aceito. Se o aceite veio por email da caixa, passe emailId: link, data e remetente saem do próprio email e ele fica marcado como 'aceite' no cliente.",
   mutating: true,
   input_schema: {
     type: "object",
@@ -181,22 +181,20 @@ export const liberarProducao: ToolDef<{ contratoId: string; projetoId?: string; 
 
     let projectId = sale.projectId;
     if (i.projetoId) {
-      const p = await prisma.setorClickupList.findFirst({ where: { id: i.projetoId, setor: { companyId: ctx.companyId } }, select: { id: true } });
+      const p = await prisma.setorClickupList.findFirst({ where: { id: i.projetoId, setor: { companyId: ctx.companyId } }, select: { id: true, description: true } });
       if (!p) return fail("Projeto não encontrado nesta empresa.");
+      if (p.id !== sale.projectId) {
+        await prisma.setorClickupList.update({ where: { id: p.id }, data: { description: mergeDetalhamento(p.description, sale) } });
+      }
       projectId = p.id;
     } else if (!projectId) {
       const nome = (i.nomeProjeto ?? "").trim() || sale.title;
       const setor = await prisma.setor.findFirst({ where: { companyId: ctx.companyId }, orderBy: { createdAt: "asc" }, select: { id: true } });
       if (!setor) return fail("Nenhum setor cadastrado — crie um setor antes de abrir projetos.");
-      const servicos = Array.isArray(sale.soldServices) ? (sale.soldServices as unknown as SoldService[]) : [];
       const p = await prisma.setorClickupList.create({
         data: {
           setorId: setor.id, name: nome, clientCompanyId: sale.clientCompanyId, status: "EM_ANDAMENTO",
-          description: [
-            `Entrega da venda "${sale.title}".`,
-            servicos.length ? `\nServiços vendidos:\n${describeSoldServices(servicos)}` : "",
-            sale.billingInstructions ? `\nCobrança: ${sale.billingInstructions}` : "",
-          ].join(""),
+          description: saleDetalhamento(sale),
         },
         select: { id: true },
       });

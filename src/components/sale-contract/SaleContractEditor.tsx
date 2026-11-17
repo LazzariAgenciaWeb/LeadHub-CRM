@@ -53,7 +53,7 @@ interface Payload {
 }
 
 const ACCEPTANCE = [
-  ["EMAIL", "E-mail de \"de acordo\""], ["AUTENTIQUE", "Autentique"], ["GOHUB", "GoHub"], ["OUTRO", "Outro"],
+  ["EMAIL", "E-mail de \"de acordo\""], ["WHATSAPP", "WhatsApp"], ["AUTENTIQUE", "Autentique"], ["GOHUB", "GoHub"], ["OUTRO", "Outro"],
 ] as const;
 const ACCEPTANCE_LABEL: Record<string, string> = Object.fromEntries(ACCEPTANCE);
 const CONTRACT_LABEL: Record<string, string> = {
@@ -201,8 +201,8 @@ export default function SaleContractEditor({
               <label className="flex flex-col gap-1 text-[10px] text-slate-500">Data do aceite
                 <input type="date" className={input} max={today()} value={acc.date} onChange={(e) => setAcc({ ...acc, date: e.target.value })} />
               </label>
-              <label className="flex flex-col gap-1 text-[10px] text-slate-500 sm:col-span-2">Link do aceite (Autentique, e-mail…)
-                <input className={input} placeholder="https://…" value={acc.url} onChange={(e) => setAcc({ ...acc, url: e.target.value })} />
+              <label className="flex flex-col gap-1 text-[10px] text-slate-500 sm:col-span-2">{acc.type === "WHATSAPP" ? "Link ou observação (opcional)" : "Link do aceite (Autentique, e-mail…)"}
+                <input className={input} placeholder={acc.type === "WHATSAPP" ? "ex.: confirmou no grupo do cliente" : "https://…"} value={acc.url} onChange={(e) => setAcc({ ...acc, url: e.target.value })} />
               </label>
               <label className="flex flex-col gap-1 text-[10px] text-slate-500">Aceito por (nome)
                 <input className={input} value={acc.name} onChange={(e) => setAcc({ ...acc, name: e.target.value })} />
@@ -225,7 +225,19 @@ export default function SaleContractEditor({
               </p>
             </div>
           ) : (
-            <button className={`${btnGhost} mt-2`} onClick={() => setOpen("aceite")}>Registrar aceite</button>
+            s.contractStatus === "DISPENSADO" ? (
+              <div className="text-[12px] text-slate-400 mt-1.5 flex items-center gap-2 flex-wrap">
+                <span>Sem contrato nesta venda — aceite não se aplica.</span>
+                <button disabled={busy} className="text-[11px] text-slate-500 hover:text-white underline" onClick={() => patch({ contractStatus: "PENDENTE" }, "Contrato voltou a rascunho.")}>desfazer</button>
+              </div>
+            ) : (
+              <div className="flex flex-wrap gap-2 mt-2">
+                <button className={btnGhost} onClick={() => setOpen("aceite")}>Registrar aceite</button>
+                <button disabled={busy} className={btnGhost} title="Venda sem contrato nem termo: libera a produção sem pedir aceite" onClick={() => patch({ contractStatus: "DISPENSADO" }, "Marcado: sem contrato (não se aplica).")}>
+                  Não tem contrato (não se aplica)
+                </button>
+              </div>
+            )
           )
         ) : <p className="text-[11px] text-slate-500 mt-1">Sem aceite registrado.</p>}
       </section>

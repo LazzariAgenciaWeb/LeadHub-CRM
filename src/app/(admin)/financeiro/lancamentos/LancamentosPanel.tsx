@@ -51,6 +51,9 @@ export interface LancamentosData {
   vendasAtrasadas: {
     id: string; title: string; cliente: string | null;
     amountCents: number; kind: string; closedAt: string; marcadoSemCobranca: boolean;
+    clienteId: string | null;
+    /** Venda recorrente de cliente sem contrato recorrente ativo cadastrado. */
+    faltaContrato: boolean;
   }[];
 }
 
@@ -306,6 +309,18 @@ export default function LancamentosPanel({ data }: { data: LancamentosData }) {
                       <span className="text-amber-400" title="Marcada como faturada na esteira, mas sem cobrança gerada">
                         {" · ⚠ marcada sem cobrança"}
                       </span>
+                    )}
+                    {s.faltaContrato && s.clienteId && (
+                      <>
+                        {" · "}
+                        <Link
+                          href={`/empresas/${s.clienteId}#financeiro`}
+                          className="text-amber-400 hover:underline"
+                          title="Venda recorrente é cobrada pelo contrato do cliente, todo mês. Este cliente não tem contrato recorrente ativo — cadastre em Serviços contratados."
+                        >
+                          ⚠ falta cadastrar o contrato recorrente no cliente
+                        </Link>
+                      </>
                     )}
                   </div>
                 </div>

@@ -15,12 +15,12 @@
 import { prisma } from "./prisma";
 import { logFinance } from "./finance-log";
 
-export const ACCEPTANCE_TYPES = ["AUTENTIQUE", "EMAIL", "GOHUB", "OUTRO"] as const;
+export const ACCEPTANCE_TYPES = ["AUTENTIQUE", "EMAIL", "WHATSAPP", "GOHUB", "OUTRO"] as const;
 export const CONTRACT_DOC_TYPES = ["CONTRATO", "TERMO"] as const;
 export const DOCUMENT_TYPES = ["PROPOSTA", "CONTRATO", "TERMO", "ADITIVO", "BRIEFING", "ENTREGA", "OUTRO"] as const;
 
 export const ACCEPTANCE_LABEL: Record<string, string> = {
-  AUTENTIQUE: "Autentique", EMAIL: "E-mail", GOHUB: "GoHub", OUTRO: "Outro",
+  AUTENTIQUE: "Autentique", EMAIL: "E-mail", WHATSAPP: "WhatsApp", GOHUB: "GoHub", OUTRO: "Outro",
 };
 
 /** Status de contrato como o usuário lê (o banco mantém os valores antigos). */
@@ -79,7 +79,9 @@ export function validateAcceptance(i: AcceptanceInput): string | null {
   if (!ACCEPTANCE_TYPES.includes(i.acceptanceType as any)) {
     return `Tipo de aceite inválido. Use: ${ACCEPTANCE_TYPES.join(", ")}.`;
   }
-  if (!i.acceptanceUrl?.trim() && !i.emailId) {
+  // "De acordo" por WhatsApp não tem endereço pra apontar: vale com data e
+  // quem aceitou. Os outros tipos continuam exigindo o comprovante.
+  if (i.acceptanceType !== "WHATSAPP" && !i.acceptanceUrl?.trim() && !i.emailId) {
     return "Informe o link do aceite (documento no Autentique, e-mail de \"de acordo\"…).";
   }
   if (!i.acceptedByName?.trim() && !i.acceptedByEmail?.trim()) {
@@ -389,4 +391,52 @@ export function describeSoldServices(list: SoldService[]): string {
       return `- ${partes.join(" · ")}`;
     })
     .join("\n");
+}
+
+// ─── Detalhamento do projeto a partir da venda ──────────────────────────────
+
+export interface SaleScopeFields {
+  title: string;
+  valueCents: number;
+  soldServices: unknown;
+  billingInstructions: string | null;
+  notes: string | null;
+  responsibleName: string | null;
+}
+
+const scopeHeading = (title: string) => `## Venda: ${title.trim()}`;
+
+/**
+ * Bloco de detalhamento que a venda entrega ao projeto: o que foi vendido,
+ * já como CHECKLIST (um item por serviço), pra equipe distribuir e marcar.
+ * É markdown leve — o mesmo formato do botão Detalhamento do projeto.
+ */
+export function saleDetalhamento(sale: SaleScopeFields): string {
+  const servicos = Array.isArray(sale.soldServices) ? (sale.soldServices as SoldService[]) : [];
+  const valor = (sale.valueCents / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+  const itens = servicos.length
+    ? describeSoldServices(servicos).split("\n").map((l) => l.replace(/^- /, "- [ ] "))
+    : [`- [ ] ${sale.title.trim()}`];
+  return [
+    scopeHeading(sale.title),
+    `Valor da venda: ${valor}${sale.responsibleName ? ` · Responsável: ${sale.responsibleName}` : ""}`,
+    "",
+    "### O que foi vendido",
+    ...itens,
+    ...(servicos.length ? [] : ["", "_Sem serviços detalhados na venda — descreva aqui o que precisa ser feito._"]),
+    ...(sale.billingInstructions?.trim() ? ["", "### Cobrança combinada", sale.billingInstructions.trim()] : []),
+    ...(sale.notes?.trim() ? ["", "### Observações da venda", sale.notes.trim()] : []),
+  ].join("\n");
+}
+
+/**
+ * Junta o bloco da venda ao detalhamento que o projeto já tem. Nunca apaga o
+ * que a equipe escreveu: acrescenta no fim, e só se esta venda ainda não
+ * estiver lá (vincular, desvincular e vincular de novo não duplica).
+ */
+export function mergeDetalhamento(existing: string | null | undefined, sale: SaleScopeFields): string {
+  const atual = (existing ?? "").trim();
+  if (atual.includes(scopeHeading(sale.title))) return atual;
+  const bloco = saleDetalhamento(sale);
+  return atual ? `${atual}\n\n---\n\n${bloco}` : bloco;
 }

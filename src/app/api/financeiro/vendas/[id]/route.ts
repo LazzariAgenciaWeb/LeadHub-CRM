@@ -7,7 +7,7 @@ import { logFinance } from "@/lib/finance-log";
 import { moverBonificacaoDaVenda, competencia, type ResultadoRedatacao } from "@/lib/sale-delivery";
 import {
   ContractError, clearAcceptance, confirmBilling, markContractSent, normalizeSoldServices,
-  productionBlocker, recordAcceptance, unconfirmBilling, describeSoldServices, type SoldService,
+  productionBlocker, recordAcceptance, unconfirmBilling, saleDetalhamento, mergeDetalhamento,
 } from "@/lib/sale-contract";
 
 const CONTRACT = ["PENDENTE", "ENVIADO", "ASSINADO", "ENCERRADO", "DISPENSADO"];
@@ -251,16 +251,33 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   // existe, ou criar um novo já amarrado ao cliente da venda. O detalhe do
   // trabalho vive lá; aqui fica só o elo pra acompanhar e, na entrega,
   // bonificar.
+  // Serviços/observações podem ter vindo nesta mesma requisição.
+  const escopoDaVenda = () => ({
+    title: sale.title,
+    valueCents: sale.valueCents,
+    soldServices: data.soldServices !== undefined ? data.soldServices : sale.soldServices,
+    billingInstructions: data.billingInstructions !== undefined ? (data.billingInstructions as string | null) : sale.billingInstructions,
+    notes: sale.notes,
+    responsibleName: sale.responsibleName,
+  });
   if (body?.projectId !== undefined) {
     if (!body.projectId) {
       data.projectId = null;
     } else {
       const p = await prisma.setorClickupList.findFirst({
         where: { id: String(body.projectId), setor: { companyId: sale.companyId } },
-        select: { id: true },
+        select: { id: true, description: true },
       });
       if (!p) return NextResponse.json({ error: "Projeto não encontrado nesta empresa" }, { status: 400 });
       data.projectId = p.id;
+      // Projeto existente também recebe o escopo da venda — acrescentado ao
+      // detalhamento, sem apagar o que a equipe já escreveu lá.
+      if (p.id !== sale.projectId) {
+        await prisma.setorClickupList.update({
+          where: { id: p.id },
+          data: { description: mergeDetalhamento(p.description, escopoDaVenda()) },
+        });
+      }
     }
   } else if (body?.newProjectName) {
     const nome = String(body.newProjectName).trim();
@@ -295,13 +312,9 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
         status: "EM_ANDAMENTO",
         // Serviços vendidos entram no projeto: o escopo nasce com o que foi
         // vendido, em vez de ser redigitado.
-        description: [
-          `Entrega da venda "${sale.title}" (${(sale.valueCents / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}).`,
-          Array.isArray(sale.soldServices) && sale.soldServices.length
-            ? `\nServiços vendidos:\n${describeSoldServices(sale.soldServices as unknown as SoldService[])}`
-            : "",
-          sale.billingInstructions ? `\nCobrança: ${sale.billingInstructions}` : "",
-        ].join(""),
+        // O detalhamento nasce com o que foi vendido, em checklist, pronto
+        // pra equipe distribuir — em vez de ser redigitado.
+        description: saleDetalhamento(escopoDaVenda()),
       },
       select: { id: true },
     });
