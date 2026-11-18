@@ -6,6 +6,7 @@ import MeuEspacoInteracoes from "./MeuEspacoInteracoes";
 import ProjetosServicos from "./ProjetosServicos";
 import { clientComments } from "@/lib/checklist";
 import { hasModule } from "@/lib/permissions";
+import { PORTAL_FINANCEIRO_ATIVO } from "@/lib/portal-flags";
 import { assertModule } from "@/lib/billing";
 import { visibleCategoriesWhere } from "@/lib/videos";
 import { startOfMonth } from "@/lib/bio-page-stats";
@@ -324,7 +325,7 @@ export default async function MeuEspacoPage() {
               </div>
             </Link>
           )}
-          {(() => {
+          {PORTAL_FINANCEIRO_ATIVO && (() => {
             const openTotal = invoicesRaw.filter((v) => v.status === "ABERTO").reduce((s, v) => s + v.amountCents, 0);
             return (
               <Link href="/meu-espaco/financeiro" className="prod">

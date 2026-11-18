@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import { PORTAL_FINANCEIRO_ATIVO } from "@/lib/portal-flags";
 
 export const dynamic = "force-dynamic";
 
@@ -9,6 +10,8 @@ const brl = (c: number) => (c / 100).toLocaleString("pt-BR", { style: "currency"
 const fmtD = (d: Date) => d.toLocaleDateString("pt-BR");
 
 export default async function FinanceiroPage() {
+  // Página desligada (ver portal-flags.ts): quem tiver o link salvo volta pra home do portal.
+  if (!PORTAL_FINANCEIRO_ATIVO) redirect("/meu-espaco");
   const session = await getEffectiveSession();
   const companyId = (session?.user as any)?.companyId as string | undefined;
   const role = (session?.user as any)?.role as string | undefined;

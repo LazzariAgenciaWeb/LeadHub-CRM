@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { signOut } from "next-auth/react";
 import { LogOut, LayoutGrid } from "lucide-react";
+import { PORTAL_FINANCEIRO_ATIVO } from "@/lib/portal-flags";
 
 /**
  * Casca da ÁREA DO CLIENTE — usada quando o usuário logado é de uma empresa
@@ -30,7 +31,9 @@ export default function ClientShell({
         </Link>
         <nav className="cshnav">
           <Link href="/meu-espaco" className="cshlink">Meu espaço</Link>
-          <Link href="/meu-espaco/financeiro" className="cshlink">Financeiro</Link>
+          {PORTAL_FINANCEIRO_ATIVO && (
+            <Link href="/meu-espaco/financeiro" className="cshlink">Financeiro</Link>
+          )}
           <Link href="/meu-espaco/arquivos" className="cshlink">Arquivos</Link>
           {showMarketing && (
             <Link href="/meu-espaco/marketing" className="cshlink">Marketing</Link>
