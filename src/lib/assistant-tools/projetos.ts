@@ -157,7 +157,7 @@ export const listarTarefasProjeto: ToolDef<{
 }> = {
   name: "listar_tarefas_projeto",
   description:
-    "Lista tarefas de projeto. Com projetoId: as tarefas daquele projeto. Sem projetoId: em todos os projetos da empresa, filtrando por responsável — assigneeId='claude' traz as tarefas DESPACHADAS PRO CLAUDE (IA) pra ele executar; ou um id de listar_usuarios. Informe ao menos projetoId, assigneeId ou query. Outros filtros: etapa (etapaId), status (abertas | concluidas | todas — default abertas), trecho do título (query), prazo máximo (venceAte, ISO 8601), etiqueta (ex.: Reels). Retorna id, título, cliente, projeto, etapa, etiquetas, status, responsável, prazo, link da tarefa no GoHub, link do ClickUp, começo da descrição e os 3 últimos comentários (com autor e data — o pedido do Diego costuma vir num comentário; use listar_comentarios_tarefa_projeto pra ver todos).",
+    "Lista tarefas de projeto. Com projetoId: as tarefas daquele projeto. Sem projetoId: em todos os projetos da empresa, filtrando por responsável — assigneeId='claude' traz as tarefas DESPACHADAS PRO CLAUDE (IA) pra ele executar; ou um id de listar_usuarios. Informe ao menos projetoId, assigneeId, query ou etiqueta. Outros filtros: etapa (etapaId), status (abertas | concluidas | todas — default abertas), trecho do título (query), prazo máximo (venceAte, ISO 8601), etiqueta (ex.: Reels). Retorna id, título, cliente, projeto, etapa, etiquetas, status, responsável, prazo, link da tarefa no GoHub, link do ClickUp, começo da descrição e os 3 últimos comentários (com autor e data — o pedido do Diego costuma vir num comentário; use listar_comentarios_tarefa_projeto pra ver todos).",
   input_schema: {
     type: "object",
     properties: {
@@ -171,8 +171,8 @@ export const listarTarefasProjeto: ToolDef<{
     },
   },
   run: async (input, ctx) => {
-    if (!input.projetoId && !input.assigneeId && !input.query) {
-      return fail("Informe projetoId, assigneeId (ex.: 'claude') ou query.");
+    if (!input.projetoId && !input.assigneeId && !input.query && !input.etiqueta) {
+      return fail("Informe projetoId, assigneeId (ex.: 'claude'), query ou etiqueta.");
     }
     const project = input.projetoId ? await loadProject(input.projetoId, ctx.companyId) : null;
     if (input.projetoId && !project) return fail("Projeto não encontrado. Use listar_projetos pra conferir o projetoId.");
@@ -189,6 +189,20 @@ export const listarTarefasProjeto: ToolDef<{
     const venceAte = input.venceAte ? parseDate(input.venceAte) : null;
     if (input.venceAte && !venceAte) return fail("venceAte inválido — use ISO 8601 (ex.: 2026-11-30T23:59:00-03:00).");
 
+    // Etiqueta: acha no banco as grafias já gravadas que batem (sem diferenciar
+    // maiúscula/acento — "reels" acha "Reels") e filtra por elas. Filtrar depois
+    // do take perdia tarefa em projeto grande.
+    const etiqueta = normalizeTags(input.etiqueta ?? "")[0] ?? null;
+    let grafias: string[] = [];
+    if (etiqueta) {
+      const comTag = await prisma.projectTask.findMany({
+        where:  { ...(project ? { projectId: project.id } : { project: { setor: { companyId: ctx.companyId } } }), NOT: { tags: { isEmpty: true } } },
+        select: { tags: true },
+      });
+      grafias = Array.from(new Set(comTag.flatMap((t) => t.tags).filter((x) => sameTag(x, etiqueta))));
+      if (grafias.length === 0) return ok(`Nenhuma tarefa com a etiqueta "${etiqueta}".`, { data: [] });
+    }
+
     const paraClaude = isClaude(input.assigneeId);
     const status = input.status ?? "abertas";
     const rows = await prisma.projectTask.findMany({
@@ -200,6 +214,7 @@ export const listarTarefasProjeto: ToolDef<{
         ...(status === "abertas" ? { done: false } : status === "concluidas" ? { done: true } : {}),
         ...(input.query ? { title: { contains: input.query, mode: "insensitive" } } : {}),
         ...(venceAte ? { dueDate: { lte: venceAte } } : {}),
+        ...(grafias.length ? { tags: { hasSome: grafias } } : {}),
       },
       select: {
         id: true, title: true, description: true, status: true, done: true, dueDate: true, tags: true,
@@ -209,15 +224,8 @@ export const listarTarefasProjeto: ToolDef<{
         projectService: { select: { id: true, name: true, service: { select: { name: true } } } },
       },
       orderBy: [{ done: "asc" }, { dueDate: "asc" }, { createdAt: "asc" }],
-      take: input.etiqueta ? 400 : 60,
+      take: 60,
     });
-    // Etiqueta filtra aqui (sem diferenciar maiúscula/acento: "reels" acha "Reels").
-    const etiqueta = input.etiqueta?.replace(/^#+/, "").trim();
-    if (etiqueta) {
-      const keep = rows.filter((t) => t.tags.some((x) => sameTag(x, etiqueta))).slice(0, 60);
-      rows.length = 0;
-      rows.push(...keep);
-    }
 
     const onde = project ? `em "${project.name}"` : paraClaude ? "despachada(s) pro Claude" : "nos projetos";
     if (rows.length === 0) {
