@@ -10,12 +10,16 @@ const fold = (s: string) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCa
 
 /** Aceita array ou "reels, carrossel". Apara, tira "#", junta repetidas (sem diferenciar maiúscula/acento). */
 export function normalizeTags(raw: unknown): string[] {
+  // Cliente MCP às vezes manda o array como texto JSON ('["Reels","Stories"]').
+  if (typeof raw === "string" && raw.trim().startsWith("[")) {
+    try { raw = JSON.parse(raw); } catch { /* segue como texto separado por vírgula */ }
+  }
   const list = Array.isArray(raw) ? raw : typeof raw === "string" ? raw.split(",") : [];
   const out: string[] = [];
   const seen = new Set<string>();
   for (const item of list) {
     if (typeof item !== "string") continue;
-    const v = item.replace(/^#+/, "").trim().replace(/\s+/g, " ").slice(0, TAG_MAX);
+    const v = item.trim().replace(/^#+/, "").trim().replace(/\s+/g, " ").slice(0, TAG_MAX);
     if (!v) continue;
     const k = fold(v);
     if (seen.has(k)) continue;
