@@ -11,7 +11,7 @@ import VisibilityControl from "@/components/VisibilityControl";
 import ProjectServiceSelector from "./ProjectServiceSelector";
 import ProjectServicesEditor from "./ProjectServicesEditor";
 import ProjectVigencia, { type ContractOpt } from "./ProjectVigencia";
-import { DetalhamentoButton, DetalhamentoEditor, DetalhamentoModal } from "./ProjectDetalhamento";
+import { checkProgress, DetalhamentoButton, DetalhamentoEditor, DetalhamentoModal } from "./ProjectDetalhamento";
 import ProjectSectionNav, { type NavSection } from "./ProjectSectionNav";
 import { DEFAULT_SEGMENTS, SEGMENT_MAX, segmentLabel } from "@/lib/project-segments";
 import ProjectInbox from "./ProjectInbox";
@@ -272,6 +272,7 @@ export default function ProjectDetail({
   const router = useRouter();
   const [saving, setSaving] = useState(false);
   const [configOpen, setConfigOpen] = useState(false);
+  const [detCfgOpen, setDetCfgOpen] = useState(false);
   const [detOpen, setDetOpen] = useState(false);
   // Colapsáveis do rodapé — reduzem a percepção de "muita coisa" na página.
   // Chamados abre por padrão só quando tem pouca coisa; histórico começa fechado.
@@ -323,6 +324,11 @@ export default function ProjectDetail({
     startDate:   project.startDate   ? new Date(project.startDate).toISOString().slice(0, 10) : "",
   });
   const [memberIds, setMemberIds] = useState(project.members.map((m) => m.user.id));
+  // Resumo do detalhamento recolhido na Configuração: progresso + 1ª linha com texto.
+  const detProgress = checkProgress(form.description);
+  const detResumo = form.description.split("\n")
+    .map((l) => l.trim().replace(/^(#{1,6}\s+|[-*+]\s+(\[[ xX]\]\s+)?|\d+[.)]\s+|>\s*)/, "").replace(/\*\*|__/g, "").trim())
+    .find((l) => l && !/^[=\-_*]{3,}$/.test(l)) ?? "";
 
   // `over` leva o valor recém-digitado quando o state ainda não atualizou (ex.: marcar item do checklist).
   async function save(over?: Partial<typeof form>) {
@@ -696,23 +702,47 @@ export default function ProjectDetail({
 
         {/* Configuração do projeto — modal (abre pelo botão "⚙ Configurar projeto") */}
         {configOpen && (
-          <div className="fixed inset-0 z-50 flex justify-end bg-black/60 backdrop-blur-sm" onClick={() => setConfigOpen(false)}>
-            <div className="w-full max-w-2xl h-full overflow-y-auto bg-[#0b111c] border-l border-[#1e2d45] p-5 space-y-5" onClick={(e) => e.stopPropagation()}>
-              <div className="flex items-center justify-between">
+          // Centralizado (≈80% da tela). Fecha SÓ no X — clique fora não fecha,
+          // pra não perder o que estava sendo editado.
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+            <div
+              role="dialog"
+              aria-label="Configuração do projeto"
+              className="w-full md:w-[80vw] max-w-7xl h-[92vh] md:h-[80vh] flex flex-col bg-[#0b111c] border border-[#1e2d45] rounded-2xl shadow-2xl"
+            >
+              <div className="flex items-center justify-between px-6 py-4 border-b border-[#1e2d45] flex-none">
                 <h3 className="text-white font-semibold text-sm">⚙ Configuração do projeto</h3>
-                <button onClick={() => setConfigOpen(false)} className="text-slate-500 hover:text-white" aria-label="Fechar"><X className="w-5 h-5" /></button>
+                <button onClick={() => setConfigOpen(false)} className="p-1.5 text-slate-500 hover:text-white" aria-label="Fechar"><X className="w-5 h-5" /></button>
               </div>
-          {/* Detalhamento do projeto — escopo vendido + o que fazer (o assistente lê daqui) */}
-          <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl p-5 space-y-2">
-            <div>
-              <span className="text-slate-500 text-xs uppercase tracking-wider block">Detalhamento do projeto</span>
-              <span className="text-slate-600 text-[11px]">O que foi vendido e o que deve ser feito. Aparece no topo do projeto e o assistente consulta daqui.</span>
-            </div>
-            <DetalhamentoEditor
-              value={form.description}
-              onChange={(v) => setForm((p) => ({ ...p, description: v }))}
-              onSave={(v) => save({ description: v })}
-            />
+              <div className="flex-1 overflow-y-auto p-5">
+              {/* Colunas num bloco à parte: direto no contêiner de altura fixa elas transbordam pro lado */}
+              <div className="md:columns-2 gap-5 [&>*]:break-inside-avoid [&>*]:mb-5">
+          {/* Detalhamento do projeto — escopo vendido + o que fazer (o assistente lê daqui).
+              Começa recolhido: o texto é longo e empurrava as configurações pra baixo. */}
+          <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl p-5 space-y-2 [column-span:all]">
+            <button type="button" onClick={() => setDetCfgOpen((o) => !o)} className="w-full flex items-center gap-3 text-left">
+              <div className="min-w-0 flex-1">
+                <span className="text-slate-500 text-xs uppercase tracking-wider block">
+                  Detalhamento do projeto
+                  {detProgress.total > 0 && <span className="ml-2 normal-case tracking-normal text-indigo-300">· {detProgress.feitos}/{detProgress.total} feitos</span>}
+                </span>
+                <span className="text-slate-600 text-[11px] block truncate">
+                  {detCfgOpen
+                    ? "O que foi vendido e o que deve ser feito. Aparece no topo do projeto e o assistente consulta daqui."
+                    : (detResumo || "Nada escrito ainda — clique pra escrever.")}
+                </span>
+              </div>
+              <span className="text-xs text-slate-400 flex items-center gap-1 flex-none">
+                {detCfgOpen ? <>Recolher <ChevronUp className="w-4 h-4" /></> : <>Expandir <ChevronDown className="w-4 h-4" /></>}
+              </span>
+            </button>
+            {detCfgOpen && (
+              <DetalhamentoEditor
+                value={form.description}
+                onChange={(v) => setForm((p) => ({ ...p, description: v }))}
+                onSave={(v) => save({ description: v })}
+              />
+            )}
           </div>
 
           {/* Datas */}
@@ -843,7 +873,7 @@ export default function ProjectDetail({
           />
 
           {/* Zona de perigo — no fim de tudo pra não ser clicada sem querer */}
-          <div className="border border-red-500/30 bg-red-500/5 rounded-xl p-5">
+          <div className="border border-red-500/30 bg-red-500/5 rounded-xl p-5 [column-span:all]">
             <span className="text-red-300 text-xs uppercase tracking-wider block">Excluir projeto</span>
             <p className="text-slate-500 text-[11px] mt-1">Apaga o projeto do GoHub e reverte os pontos atrelados a ele. Não dá pra desfazer.</p>
             {!confirmDelete ? (
@@ -869,6 +899,8 @@ export default function ProjectDetail({
               </div>
             )}
           </div>
+              </div>
+              </div>
             </div>
           </div>
         )}

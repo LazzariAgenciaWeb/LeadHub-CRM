@@ -28,7 +28,7 @@ export const MD_CLASS =
 const CHECK_RE = /^\s*(?:[-*+]|\d+[.)])\s+\[( |x|X)\]/;
 
 /** Quantos itens de checklist há e quantos estão feitos. */
-function checkProgress(text: string): { total: number; feitos: number } {
+export function checkProgress(text: string): { total: number; feitos: number } {
   let total = 0, feitos = 0;
   for (const l of text.split("\n")) {
     const m = CHECK_RE.exec(l);
@@ -222,7 +222,7 @@ export function DetalhamentoButton({ text, onOpen, size = "md" }: { text: string
 }
 
 /**
- * Modal grande (≈75% da tela) com o detalhamento: lê formatado, marca item do
+ * Modal grande (≈80% da tela) com o detalhamento: lê formatado, marca item do
  * checklist e alterna pra edição sem sair dali.
  */
 export function DetalhamentoModal({
@@ -240,21 +240,18 @@ export function DetalhamentoModal({
     if (!open) return;
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setEditing(!value.trim());
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
   if (!open) return null;
 
   const { total, feitos } = checkProgress(value);
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4" onClick={onClose}>
+    // Fecha SÓ no X (clique fora/Esc não fecham, pra não perder edição); o X salva antes.
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
       <div
         role="dialog"
         aria-label="Detalhamento do projeto"
-        className="w-full md:w-[75vw] max-w-6xl h-[90vh] md:h-[80vh] flex flex-col bg-[#0b111c] border border-[#1e2d45] rounded-2xl shadow-2xl"
-        onClick={(e) => e.stopPropagation()}
+        className="w-full md:w-[80vw] max-w-7xl h-[90vh] md:h-[80vh] flex flex-col bg-[#0b111c] border border-[#1e2d45] rounded-2xl shadow-2xl"
       >
         <div className="flex items-center gap-3 px-6 py-4 border-b border-[#1e2d45]">
           <FileText className="w-5 h-5 text-indigo-300 flex-none" />
@@ -274,7 +271,7 @@ export function DetalhamentoModal({
             >
               {editing ? <>Concluir edição</> : <><Pencil className="w-3.5 h-3.5" /> Editar</>}
             </button>
-            <button type="button" onClick={onClose} className="p-1.5 text-slate-500 hover:text-white" aria-label="Fechar"><X className="w-5 h-5" /></button>
+            <button type="button" onClick={() => { if (editing) onSave(value); onClose(); }} className="p-1.5 text-slate-500 hover:text-white" aria-label="Fechar"><X className="w-5 h-5" /></button>
           </div>
         </div>
         <div className="flex-1 overflow-y-auto px-6 py-5">
