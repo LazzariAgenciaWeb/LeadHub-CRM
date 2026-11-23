@@ -16,6 +16,7 @@ import { listImageModels, configuredProviders, isRatio, RATIOS, type Ratio } fro
 import { storageEnabled } from "@/lib/storage/s3";
 import { awardProjectDelivery, syncProjectStatus } from "@/lib/project-vigencia";
 import { DEFAULT_SEGMENTS, normalizeSegment, segmentLabel } from "@/lib/project-segments";
+import { normalizeTags, sameTag } from "@/lib/task-tags";
 
 /**
  * Etapas e tarefas de projeto pelo assistente.
@@ -152,11 +153,11 @@ export const criarEtapaProjeto: ToolDef<{ projetoId: string; nome: string; ordem
 };
 
 export const listarTarefasProjeto: ToolDef<{
-  projetoId?: string; assigneeId?: string; etapaId?: string; status?: string; query?: string; venceAte?: string;
+  projetoId?: string; assigneeId?: string; etapaId?: string; status?: string; query?: string; venceAte?: string; etiqueta?: string;
 }> = {
   name: "listar_tarefas_projeto",
   description:
-    "Lista tarefas de projeto. Com projetoId: as tarefas daquele projeto. Sem projetoId: em todos os projetos da empresa, filtrando por responsável — assigneeId='claude' traz as tarefas DESPACHADAS PRO CLAUDE (IA) pra ele executar; ou um id de listar_usuarios. Informe ao menos projetoId, assigneeId ou query. Outros filtros: etapa (etapaId), status (abertas | concluidas | todas — default abertas), trecho do título (query), prazo máximo (venceAte, ISO 8601). Retorna id, título, cliente, projeto, etapa, status, responsável, prazo, link da tarefa no GoHub, link do ClickUp, começo da descrição e os 3 últimos comentários (com autor e data — o pedido do Diego costuma vir num comentário; use listar_comentarios_tarefa_projeto pra ver todos).",
+    "Lista tarefas de projeto. Com projetoId: as tarefas daquele projeto. Sem projetoId: em todos os projetos da empresa, filtrando por responsável — assigneeId='claude' traz as tarefas DESPACHADAS PRO CLAUDE (IA) pra ele executar; ou um id de listar_usuarios. Informe ao menos projetoId, assigneeId ou query. Outros filtros: etapa (etapaId), status (abertas | concluidas | todas — default abertas), trecho do título (query), prazo máximo (venceAte, ISO 8601), etiqueta (ex.: Reels). Retorna id, título, cliente, projeto, etapa, etiquetas, status, responsável, prazo, link da tarefa no GoHub, link do ClickUp, começo da descrição e os 3 últimos comentários (com autor e data — o pedido do Diego costuma vir num comentário; use listar_comentarios_tarefa_projeto pra ver todos).",
   input_schema: {
     type: "object",
     properties: {
@@ -166,6 +167,7 @@ export const listarTarefasProjeto: ToolDef<{
       status: { type: "string", enum: ["abertas", "concluidas", "todas"] },
       query: { type: "string", description: "Trecho do título" },
       venceAte: { type: "string", description: "Só tarefas com prazo até esta data (ISO 8601)" },
+      etiqueta: { type: "string", description: "Só tarefas com esta etiqueta (ex.: Reels)" },
     },
   },
   run: async (input, ctx) => {
@@ -200,15 +202,22 @@ export const listarTarefasProjeto: ToolDef<{
         ...(venceAte ? { dueDate: { lte: venceAte } } : {}),
       },
       select: {
-        id: true, title: true, description: true, status: true, done: true, dueDate: true,
+        id: true, title: true, description: true, status: true, done: true, dueDate: true, tags: true,
         clickupTaskId: true, aiAssignedAt: true, comments: true,
         assignee: { select: { name: true } },
         project: { select: { id: true, name: true, clientCompany: { select: { id: true, name: true } } } },
         projectService: { select: { id: true, name: true, service: { select: { name: true } } } },
       },
       orderBy: [{ done: "asc" }, { dueDate: "asc" }, { createdAt: "asc" }],
-      take: 60,
+      take: input.etiqueta ? 400 : 60,
     });
+    // Etiqueta filtra aqui (sem diferenciar maiúscula/acento: "reels" acha "Reels").
+    const etiqueta = input.etiqueta?.replace(/^#+/, "").trim();
+    if (etiqueta) {
+      const keep = rows.filter((t) => t.tags.some((x) => sameTag(x, etiqueta))).slice(0, 60);
+      rows.length = 0;
+      rows.push(...keep);
+    }
 
     const onde = project ? `em "${project.name}"` : paraClaude ? "despachada(s) pro Claude" : "nos projetos";
     if (rows.length === 0) {
@@ -225,6 +234,7 @@ export const listarTarefasProjeto: ToolDef<{
         cliente: t.project.clientCompany?.name ?? null, clienteId: t.project.clientCompany?.id ?? null,
         projeto: t.project.name, projetoId: t.project.id,
         etapa: t.projectService ? etapaLabel(t.projectService) : null, etapaId: t.projectService?.id ?? null,
+        etiquetas: t.tags,
         status: t.status, concluida: t.done, prazo: t.dueDate,
         responsavel: t.aiAssignedAt ? CLAUDE_LABEL : (t.assignee?.name ?? null),
         dono: t.assignee?.name ?? null, comClaudeDesde: t.aiAssignedAt,
@@ -237,7 +247,7 @@ export const listarTarefasProjeto: ToolDef<{
 
     const lines = data.map((t) =>
       `- ${t.titulo} · id=${t.id}` +
-      `\n    ${t.cliente ?? "sem cliente"} › ${t.projeto} › ${t.etapa ?? "sem etapa"} · ${STATUS_LABEL[t.status] ?? t.status}` +
+      `\n    ${t.cliente ?? "sem cliente"} › ${t.projeto} › ${t.etapa ?? "sem etapa"}${t.etiquetas.length ? ` · 🏷 ${t.etiquetas.join(", ")}` : ""} · ${STATUS_LABEL[t.status] ?? t.status}` +
       ` · ${t.responsavel ?? "sem responsável"}${t.comClaudeDesde ? ` (dono: ${t.dono ?? "—"})` : ""} · prazo ${fmtDate(t.prazo)}` +
       `\n    ${t.link}${t.clickupUrl ? ` · ClickUp ${t.clickupUrl}` : " · só no GoHub"}` +
       (t.descricao ? `\n    ${t.descricao}` : "") +
@@ -288,11 +298,11 @@ export const listarComentariosTarefaProjeto: ToolDef<{ id: string }> = {
 
 export const atualizarTarefaProjeto: ToolDef<{
   id: string; status?: string; dueDate?: string | null; assigneeId?: string;
-  etapaId?: string; title?: string; description?: string;
+  etapaId?: string; title?: string; description?: string; etiquetas?: string[]; adicionarEtiquetas?: string[]; removerEtiquetas?: string[];
 }> = {
   name: "atualizar_tarefa_projeto",
   description:
-    "Atualiza uma tarefa de projeto (id de listar_tarefas_projeto). Só mexe nos campos enviados. status: NOVA, EM_PRODUCAO, AGUARDANDO_CLIENTE ou APROVADO (APROVADO conclui; qualquer outro reabre). dueDate em ISO 8601 com fuso -03:00, null remove o prazo. etapaId move de etapa (de listar_etapas_projeto) — no ClickUp a tarefa passa a ser subtarefa da tarefa principal dessa etapa. assigneeId='claude' despacha pro Claude (IA); um id de usuário (listar_usuarios) devolve pra essa pessoa e tira do Claude — ao terminar, devolva pro dono (campo dono de listar_tarefas_projeto). No ClickUp refletem: título, descrição, prazo, etapa, concluir (APROVADO) e reabrir. NÃO refletem: responsável (o Claude só existe no GoHub) e os status intermediários (NOVA/EM_PRODUCAO/AGUARDANDO_CLIENTE) — só concluir/reabrir mudam o status lá.",
+    "Atualiza uma tarefa de projeto (id de listar_tarefas_projeto). Só mexe nos campos enviados. status: NOVA, EM_PRODUCAO, AGUARDANDO_CLIENTE ou APROVADO (APROVADO conclui; qualquer outro reabre). dueDate em ISO 8601 com fuso -03:00, null remove o prazo. etapaId move de etapa (de listar_etapas_projeto) — no ClickUp a tarefa passa a ser subtarefa da tarefa principal dessa etapa. assigneeId='claude' despacha pro Claude (IA); um id de usuário (listar_usuarios) devolve pra essa pessoa e tira do Claude — ao terminar, devolva pro dono (campo dono de listar_tarefas_projeto). Etiquetas: adicionarEtiquetas/removerEtiquetas somam ou tiram sem mexer nas outras; etiquetas substitui a lista inteira ([] limpa). Etiqueta só existe no GoHub. No ClickUp refletem: título, descrição, prazo, etapa, concluir (APROVADO) e reabrir. NÃO refletem: responsável (o Claude só existe no GoHub) e os status intermediários (NOVA/EM_PRODUCAO/AGUARDANDO_CLIENTE) — só concluir/reabrir mudam o status lá.",
   input_schema: {
     type: "object",
     properties: {
@@ -303,6 +313,9 @@ export const atualizarTarefaProjeto: ToolDef<{
       etapaId: { type: "string", description: "Etapa de destino (de listar_etapas_projeto)" },
       title: { type: "string" },
       description: { type: "string" },
+      etiquetas: { type: "array", items: { type: "string" }, description: "Substitui TODAS as etiquetas ([] limpa)" },
+      adicionarEtiquetas: { type: "array", items: { type: "string" }, description: "Soma estas etiquetas às que a tarefa já tem" },
+      removerEtiquetas: { type: "array", items: { type: "string" }, description: "Tira estas etiquetas" },
     },
     required: ["id"],
   },
@@ -313,6 +326,15 @@ export const atualizarTarefaProjeto: ToolDef<{
 
     const data: Prisma.ProjectTaskUpdateInput = {};
     const mudou: string[] = [];
+
+    if (input.etiquetas !== undefined || input.adicionarEtiquetas !== undefined || input.removerEtiquetas !== undefined) {
+      const atual = await prisma.projectTask.findUnique({ where: { id: task.id }, select: { tags: true } });
+      const base = input.etiquetas !== undefined ? normalizeTags(input.etiquetas) : (atual?.tags ?? []);
+      const tirar = normalizeTags(input.removerEtiquetas);
+      const next = normalizeTags([...base.filter((t) => !tirar.some((x) => sameTag(x, t))), ...normalizeTags(input.adicionarEtiquetas)]);
+      data.tags = next;
+      mudou.push(next.length ? `etiquetas → ${next.join(", ")}` : "etiquetas removidas");
+    }
 
     if (input.title !== undefined) {
       const t = input.title.trim();

@@ -26,6 +26,7 @@ import { ATTACH_STATUSES, type AttachStatus } from "@/lib/checklist";
 import { DescricaoEditor } from "@/components/DescricaoRich";
 import { RichMessageBody } from "@/components/RichMessageBody";
 import { CLAUDE_ASSIGNEE, CLAUDE_LABEL } from "@/lib/project-ai";
+import { normalizeTags, sameTag, tagTone, TAG_MAX } from "@/lib/task-tags";
 
 type Project = {
   id:                  string;
@@ -91,6 +92,7 @@ type InternalTask = {
   title:        string;
   description:  string | null;
   stage:        string | null; // etapa/fase (rótulo)
+  tags:         string[]; // etiquetas livres (Reels, Carrossel…)
   projectServiceId: string | null; // serviço da sequência ao qual pertence
   checklist:    ChecklistItem[]; // sub-passos
   // Atualizações datadas (vis:false = interno). attachments/links opcionais são
@@ -248,7 +250,7 @@ const NAV_SECTIONS: NavSection[] = [
 ];
 
 export default function ProjectDetail({
-  project, availableUsers, companyUsers, companySetores, companySegments, accessUserIds, activities, clientCompanies, openTasks, internalTasks, chamados,
+  project, availableUsers, companyUsers, companySetores, companySegments, companyTags, accessUserIds, activities, clientCompanies, openTasks, internalTasks, chamados,
   catalogServices, serviceSteps, currentServiceId, materials, publicToken, contracts,
 }: {
   project: Project;
@@ -256,6 +258,7 @@ export default function ProjectDetail({
   companyUsers: { id: string; name: string }[];
   companySetores: { id: string; name: string }[];
   companySegments: string[];
+  companyTags: string[];
   accessUserIds: string[];
   activities: Activity[];
   clientCompanies: { id: string; name: string }[];
@@ -563,6 +566,7 @@ export default function ProjectDetail({
             projectId={project.id}
             availableUsers={availableUsers}
             internalTasks={internalTasks}
+            companyTags={companyTags}
             hasClickup={!!project.clickupListId}
             serviceSteps={serviceSteps}
             clientId={project.clientCompany?.id ?? null}
@@ -1344,7 +1348,7 @@ function CommentAttachmentCard({
  * Editor inline de uma tarefa: título, descrição, início/fim, e um atalho pra
  * adicionar link/anexo direto na tarefa (cria ProjectMaterial com taskId).
  */
-function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, hasClickup, availableUsers, clientId = null, hasApprovalGroup = false }: { projectId: string; task: InternalTask; onClose: () => void; stageSuggestions: string[]; serviceSteps: { id: string; name: string; order: number; taskCount: number; doneCount: number }[]; hasClickup: boolean; availableUsers: { id: string; name: string }[]; clientId?: string | null; hasApprovalGroup?: boolean }) {
+function TaskEditor({ projectId, task, onClose, stageSuggestions, tagSuggestions = [], serviceSteps, hasClickup, availableUsers, clientId = null, hasApprovalGroup = false }: { projectId: string; task: InternalTask; onClose: () => void; stageSuggestions: string[]; tagSuggestions?: string[]; serviceSteps: { id: string; name: string; order: number; taskCount: number; doneCount: number }[]; hasClickup: boolean; availableUsers: { id: string; name: string }[]; clientId?: string | null; hasApprovalGroup?: boolean }) {
   const router = useRouter();
   const [title, setTitle] = useState(task.title);
   const [stage, setStage] = useState(task.stage ?? "");
@@ -1358,6 +1362,22 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
   const dirtyRef = useRef(false);
   const [taskStatus, setTaskStatus] = useState(task.status);
   const [assigneeId, setAssigneeId] = useState(task.assigneeId ?? "");
+  const [tags, setTags] = useState<string[]>(task.tags);
+
+  // Etiqueta grava na hora (adicionar/tirar é um clique — não espera o blur).
+  async function saveTags(next: string[]) {
+    const before = tags;
+    setTags(next);
+    setAutoSaving(true);
+    const res = await fetch(`/api/projetos/${projectId}/tasks/${task.id}`, {
+      method:  "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ tags: next }),
+    }).catch(() => null);
+    setAutoSaving(false);
+    if (res?.ok) setSavedAt(Date.now());
+    else setTags(before);
+  }
 
   // Aviso de "salvo" some sozinho depois de 2s — é confirmação, não estado fixo.
   useEffect(() => {
@@ -1957,6 +1977,10 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
                 </>
               )}
             </div>
+            <div>
+              <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1">Etiquetas</label>
+              <TagEditor value={tags} onChange={saveTags} suggestions={tagSuggestions} />
+            </div>
           </div>
         </div>
 
@@ -2308,9 +2332,11 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, serviceSteps, 
  * criar uma nova — interna (LeadHub) ou direto no ClickUp (lista do projeto).
  */
 function ProjectTasksCard({
-  projectId, availableUsers, internalTasks, hasClickup, serviceSteps, clientId = null, hasApprovalGroup = false,
+  projectId, availableUsers, internalTasks, companyTags = [], hasClickup, serviceSteps, clientId = null, hasApprovalGroup = false,
 }: {
   projectId: string;
+  /** Etiquetas já usadas nas tarefas da empresa (sugestão ao etiquetar). */
+  companyTags?: string[];
   hasApprovalGroup?: boolean;
   /** Cliente do projeto — habilita "Guardar em Arquivos" nos anexos das tarefas. */
   clientId?: string | null;
@@ -2350,7 +2376,7 @@ function ProjectTasksCard({
   const [error, setError] = useState<string | null>(null);
   const [form, setForm] = useState({
     destino: hasClickup ? "clickup" : "interna",
-    title: "", description: "", stage: "", projectServiceId: "", priority: "MEDIUM", startDate: "", dueDate: "", assigneeId: "",
+    title: "", description: "", stage: "", projectServiceId: "", priority: "MEDIUM", startDate: "", dueDate: "", assigneeId: "", tags: "",
   });
   const [editingId, setEditingId] = useState<string | null>(null);
 
@@ -2360,6 +2386,8 @@ function ProjectTasksCard({
   const [bulkSvc, setBulkSvc] = useState("");
   const [bulkStage, setBulkStage] = useState("");
   const [bulkSaving, setBulkSaving] = useState(false);
+  const [bulkTag, setBulkTag] = useState("");
+  const [tagFilter, setTagFilter] = useState(""); // "" = todas as etiquetas
   const [taskFilter, setTaskFilter] = useState<"inbox" | "all" | "doing" | "done">("all");
   const [showDone, setShowDone] = useState(false);            // concluídas escondidas por padrão
   const [collapsed, setCollapsed] = useState<Set<string>>(new Set()); // etapas fechadas
@@ -2432,6 +2460,28 @@ function ProjectTasksCard({
     new Set(internalTasks.map((t) => t.stage).filter((s): s is string => !!s && !!s.trim())),
   );
 
+  // Etiquetas: as deste projeto (filtro) e as da empresa toda (sugestão).
+  const projectTags = Array.from(
+    new Map(internalTasks.filter((t) => !t.ignored).flatMap((t) => t.tags).map((t) => [t.toLowerCase(), t])).values(),
+  ).sort((a, b) => a.localeCompare(b, "pt-BR"));
+  const tagSuggestions = Array.from(
+    new Map([...companyTags, ...projectTags].map((t) => [t.toLowerCase(), t])).values(),
+  ).sort((a, b) => a.localeCompare(b, "pt-BR"));
+
+  // Etiqueta em massa: soma (ou tira) sem mexer nas outras etiquetas de cada tarefa.
+  async function applyBulkTag(mode: "add" | "remove") {
+    const tags = normalizeTags(bulkTag);
+    if (selected.size === 0 || tags.length === 0) return;
+    setBulkSaving(true);
+    const res = await fetch(`/api/projetos/${projectId}/tasks/bulk`, {
+      method:  "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ taskIds: Array.from(selected), ...(mode === "add" ? { addTags: tags } : { removeTags: tags }) }),
+    }).catch(() => null);
+    setBulkSaving(false);
+    if (res?.ok) { setBulkTag(""); exitSelectMode(); router.refresh(); }
+  }
+
   async function create() {
     if (!form.title.trim()) { setError("Título é obrigatório."); return; }
     setSaving(true);
@@ -2449,6 +2499,7 @@ function ProjectTasksCard({
         startDate:   form.startDate ? new Date(form.startDate).toISOString() : null,
         dueDate:     form.dueDate ? new Date(form.dueDate).toISOString() : null,
         assigneeId:  form.destino === "interna" ? (form.assigneeId || null) : null,
+        tags:        normalizeTags(form.tags),
       }),
     });
     setSaving(false);
@@ -2457,7 +2508,7 @@ function ProjectTasksCard({
       setError(d.error ?? "Falha ao criar tarefa");
       return;
     }
-    setForm({ destino: hasClickup ? "clickup" : "interna", title: "", description: "", stage: "", projectServiceId: "", priority: "MEDIUM", startDate: "", dueDate: "", assigneeId: "" });
+    setForm({ destino: hasClickup ? "clickup" : "interna", title: "", description: "", stage: "", projectServiceId: "", priority: "MEDIUM", startDate: "", dueDate: "", assigneeId: "", tags: "" });
     setOpen(false);
     router.refresh();
   }
@@ -2499,6 +2550,9 @@ function ProjectTasksCard({
     <div className="bg-[#0a0f1a] border border-[#1e2d45] rounded-xl overflow-hidden">
       <datalist id="etapas-list">
         {knownStages.map((s) => <option key={s} value={s} />)}
+      </datalist>
+      <datalist id="tags-list">
+        {tagSuggestions.map((s) => <option key={s} value={s} />)}
       </datalist>
       <div className="px-5 py-4 border-b border-[#1e2d45] flex items-center justify-between">
         <div>
@@ -2592,6 +2646,33 @@ function ProjectTasksCard({
           >
             {bulkSaving ? "Aplicando..." : `Aplicar a ${selected.size}`}
           </button>
+          <span className="w-px h-5 bg-[#1e2d45] mx-1" />
+          <span className="text-slate-600 text-xs">etiqueta:</span>
+          <input
+            list="tags-list"
+            value={bulkTag}
+            onChange={(e) => setBulkTag(e.target.value)}
+            onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); applyBulkTag("add"); } }}
+            placeholder="Ex.: Reels"
+            maxLength={TAG_MAX}
+            className="w-32 bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-2 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+          />
+          <button
+            onClick={() => applyBulkTag("add")}
+            disabled={bulkSaving || selected.size === 0 || !bulkTag.trim()}
+            className="text-xs px-2.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-medium disabled:opacity-40"
+            title="Soma a etiqueta nas tarefas selecionadas (as outras etiquetas ficam)"
+          >
+            + Etiquetar
+          </button>
+          <button
+            onClick={() => applyBulkTag("remove")}
+            disabled={bulkSaving || selected.size === 0 || !bulkTag.trim()}
+            className="text-xs px-2 py-1.5 rounded-lg border border-[#1e2d45] text-slate-400 hover:text-white disabled:opacity-40"
+            title="Tira essa etiqueta das tarefas selecionadas"
+          >
+            Tirar
+          </button>
           {selected.size > 0 && (
             <button onClick={() => setSelected(new Set())} className="text-xs text-slate-500 hover:text-white">Limpar</button>
           )}
@@ -2668,6 +2749,13 @@ function ProjectTasksCard({
             <option value="HIGH">🟠 Alta</option>
             <option value="URGENT">🔴 Urgente</option>
           </select>
+          <input
+            list="tags-list"
+            value={form.tags}
+            onChange={(e) => setForm((p) => ({ ...p, tags: e.target.value }))}
+            placeholder="Etiquetas, separadas por vírgula (ex.: Reels, Carrossel)"
+            className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+          />
           <div className="grid grid-cols-2 gap-2">
             <div>
               <label className="text-slate-500 text-[10px] uppercase tracking-wide block mb-1">Início</label>
@@ -2748,6 +2836,17 @@ function ProjectTasksCard({
             placeholder="Buscar tarefa…"
             className="flex-1 min-w-[140px] bg-[#080b12] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
           />
+          {projectTags.length > 0 && (
+            <select
+              value={tagFilter}
+              onChange={(e) => setTagFilter(e.target.value)}
+              title="Filtrar por etiqueta"
+              className={`bg-[#080b12] border rounded-lg px-2 py-1.5 text-xs focus:outline-none focus:border-indigo-500 ${tagFilter ? "border-indigo-500/60 text-indigo-200" : "border-[#1e2d45] text-slate-400"}`}
+            >
+              <option value="">🏷 Todas as etiquetas</option>
+              {projectTags.map((t) => <option key={t} value={t}>{t}</option>)}
+            </select>
+          )}
           {/* Concluídas ficam fora da vista por padrão — elas só enchem a tela. */}
           {taskFilter === "all" && (
             <label className="flex items-center gap-1.5 text-[11px] text-slate-500 hover:text-slate-300 cursor-pointer select-none" title="Mostrar as tarefas já aprovadas">
@@ -2818,7 +2917,9 @@ function ProjectTasksCard({
                 </div>
                 <div className="text-[10px] mt-1 flex items-center gap-1.5 flex-wrap text-slate-600">
                   <span className={prio.cls}>{prio.label}</span>
-                  <span>·</span>
+                  {t.tags.map((tag) => (
+                    <span key={tag} className={`border rounded-full px-1.5 leading-4 font-medium ${tagTone(tag)}`}>{tag}</span>
+                  ))}
                   {!t.projectServiceId && t.stage && <><span>·</span><span className="text-indigo-300">{t.stage}</span></>}
                   {t.assigneeName && <><span>·</span><span>{t.assigneeName}</span></>}
                   {t.checklist.length > 0 && <><span>·</span><span>{t.checklist.filter((c) => c.done).length}/{t.checklist.length} ✓</span></>}
@@ -2859,7 +2960,7 @@ function ProjectTasksCard({
         }
         // Filtro (Tudo/Em andamento/Concluído) + busca.
         const q = taskQuery.trim().toLowerCase();
-        const filtering = taskFilter !== "all" || q.length > 0;
+        const filtering = taskFilter !== "all" || q.length > 0 || tagFilter !== "";
         const list = internalTasks.filter((t) => {
           if (t.ignored) return false; // ignoradas vivem só na aba "A organizar"
           // Sem etapa + vinda do ClickUp = pertence à aba "A organizar", não a esta lista.
@@ -2868,7 +2969,8 @@ function ProjectTasksCard({
           if (taskFilter === "done" && !t.done) return false;
           // Em "Tudo", esconde as concluídas até você pedir pra ver.
           if (taskFilter === "all" && t.done && !showDone) return false;
-          if (q && !t.title.toLowerCase().includes(q)) return false;
+          if (tagFilter && !t.tags.some((x) => sameTag(x, tagFilter))) return false;
+          if (q && !t.title.toLowerCase().includes(q) && !t.tags.some((x) => x.toLowerCase().includes(q))) return false;
           return true;
         });
         if (list.length === 0) {
@@ -3063,12 +3165,59 @@ function ProjectTasksCard({
               <div className="flex-1 min-h-0 px-6 py-5">
                 {/* key = id: troca de tarefa REMONTA o editor. Sem isso os campos
                     (inicializados por useState) manteriam os valores da anterior. */}
-                <TaskEditor key={t.id} projectId={projectId} task={t} onClose={() => setEditingId(null)} stageSuggestions={knownStages} serviceSteps={serviceSteps} hasClickup={hasClickup} availableUsers={availableUsers} clientId={clientId} hasApprovalGroup={hasApprovalGroup} />
+                <TaskEditor key={t.id} projectId={projectId} task={t} onClose={() => setEditingId(null)} stageSuggestions={knownStages} tagSuggestions={tagSuggestions} serviceSteps={serviceSteps} hasClickup={hasClickup} availableUsers={availableUsers} clientId={clientId} hasApprovalGroup={hasApprovalGroup} />
               </div>
             </div>
           </div>
         );
       })()}
+    </div>
+  );
+}
+
+/**
+ * Etiquetas da tarefa: chips + campo. Enter ou vírgula adiciona, escolher na
+ * lista de sugestões adiciona direto, Backspace no campo vazio tira a última.
+ */
+function TagEditor({ value, onChange, suggestions }: { value: string[]; onChange: (next: string[]) => void; suggestions: string[] }) {
+  const [draft, setDraft] = useState("");
+  function add(raw: string) {
+    setDraft("");
+    const next = normalizeTags([...value, ...raw.split(",")]);
+    if (next.length !== value.length) onChange(next);
+  }
+  const livres = suggestions.filter((s) => !value.some((v) => sameTag(v, s)));
+  return (
+    <div className="flex flex-wrap items-center gap-1.5 bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-2 py-1.5 focus-within:border-indigo-500">
+      {value.map((t) => (
+        <span key={t} className={`inline-flex items-center gap-1 text-[11px] font-medium border rounded-full pl-2 pr-1 py-0.5 ${tagTone(t)}`}>
+          {t}
+          <button type="button" onClick={() => onChange(value.filter((x) => x !== t))} className="opacity-60 hover:opacity-100" aria-label={`Tirar etiqueta ${t}`}>
+            <X className="w-3 h-3" />
+          </button>
+        </span>
+      ))}
+      <input
+        list="tags-editor-list"
+        value={draft}
+        onChange={(e) => {
+          const v = e.target.value;
+          const it = (e.nativeEvent as InputEvent).inputType;
+          // Escolheu na lista de sugestões (o navegador troca o valor inteiro).
+          if ((!it || it === "insertReplacementText") && livres.some((s) => s === v)) return add(v);
+          if (v.includes(",")) return add(v);
+          setDraft(v);
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") { e.preventDefault(); if (draft.trim()) add(draft); }
+          if (e.key === "Backspace" && !draft && value.length) onChange(value.slice(0, -1));
+        }}
+        onBlur={() => { if (draft.trim()) add(draft); }}
+        placeholder={value.length ? "+ etiqueta" : "Ex.: Reels, Carrossel, Stories"}
+        maxLength={TAG_MAX}
+        className="flex-1 min-w-[110px] bg-transparent text-xs text-white placeholder-slate-600 focus:outline-none py-0.5"
+      />
+      <datalist id="tags-editor-list">{livres.map((s) => <option key={s} value={s} />)}</datalist>
     </div>
   );
 }

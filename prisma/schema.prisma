@@ -1760,6 +1760,9 @@ model ProjectTask {
   title            String
   description      String?          @db.Text
   stage            String? // etapa/fase (rótulo livre, ex.: "Diagnóstico") — fallback quando não há serviço vinculado
+  // Etiquetas livres (Reels, Carrossel, Stories…) pra classificar e filtrar as
+  // tarefas da etapa. Sem cadastro: a lista de sugestões sai das já usadas.
+  tags             String[]         @default([])
   // Serviço (etapa da sequência) ao qual a tarefa pertence. Quando preenchido, o
   // Gantt do cliente agrupa a tarefa sob este serviço, na ordem definida no projeto.
   projectService   ProjectService?  @relation(fields: [projectServiceId], references: [id], onDelete: SetNull)

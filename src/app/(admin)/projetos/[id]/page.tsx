@@ -70,6 +70,18 @@ export default async function ProjectDetailPage({
     select:   { type: true },
   });
 
+  // Etiquetas já usadas nas tarefas da empresa — viram sugestão ao etiquetar,
+  // pra equipe reaproveitar "Reels" em vez de criar "reels", "Reel", "REELS"…
+  const tarefasComTag = await prisma.projectTask.findMany({
+    where:  { project: { setor: { companyId: project.setor.companyId } }, NOT: { tags: { isEmpty: true } } },
+    select: { tags: true },
+    orderBy: { updatedAt: "desc" },
+    take:   3000,
+  });
+  const companyTags = Array.from(
+    new Map(tarefasComTag.flatMap((t) => t.tags).map((t) => [t.toLowerCase(), t])).values(),
+  ).sort((a, b) => a.localeCompare(b, "pt-BR"));
+
   // Usuários da empresa-agência (pra liberar acesso extra em projeto restrito).
   // Exclui SUPER_ADMIN (dono da plataforma, não atendente).
   const companyUsers = await prisma.user.findMany({
@@ -130,6 +142,7 @@ export default async function ProjectDetailPage({
     title:        t.title,
     description:  t.description,
     stage:        t.stage ?? null,
+    tags:         t.tags ?? [],
     projectServiceId: t.projectServiceId ?? null,
     checklist:    readChecklist(t.checklist),
     comments:     readComments(t.comments),
@@ -270,6 +283,7 @@ export default async function ProjectDetailPage({
       companyUsers={companyUsers}
       companySetores={companySetores}
       companySegments={segmentosUsados.map((x) => x.type as string)}
+      companyTags={companyTags}
       accessUserIds={project.accessUsers.map((a) => a.userId)}
       activities={activities}
       clientCompanies={clientCompanies}

@@ -8,6 +8,7 @@ import { Prisma } from "@/generated/prisma";
 import { getClickupSettings, updateClickupTask, markClickupTaskDone, reopenClickupTask } from "@/lib/clickup";
 import { ensureEtapaClickupTask, pushTaskToClickup } from "@/lib/project-etapas";
 import { CLAUDE_ASSIGNEE } from "@/lib/project-ai";
+import { normalizeTags } from "@/lib/task-tags";
 
 // Tarefas internas (ProjectTask) só. Tarefas do ClickUp são geridas no ClickUp.
 
@@ -72,7 +73,7 @@ export async function GET(
 }
 
 // PATCH /api/projetos/[id]/tasks/[taskId]
-// Body: { done?, title?, description?, priority?, dueDate?, assigneeId? }
+// Body: { done?, title?, description?, priority?, dueDate?, assigneeId?, tags? }
 export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ id: string; taskId: string }> },
@@ -88,7 +89,7 @@ export async function PATCH(
   if ("error" in res) return NextResponse.json({ error: res.error }, { status: res.status });
 
   const body = await req.json();
-  const { done, title, description, priority, dueDate, startDate, assigneeId, stage, checklist, comments, awaitingClient, visibleToClient, projectServiceId, ignored, status } = body;
+  const { done, title, description, priority, dueDate, startDate, assigneeId, stage, checklist, comments, awaitingClient, visibleToClient, projectServiceId, ignored, status, tags } = body;
 
   const data: any = {};
 
@@ -149,6 +150,7 @@ export async function PATCH(
   }
   if (stage !== undefined) data.stage = stage && String(stage).trim() ? String(stage).trim().slice(0, 80) : null;
   if (checklist !== undefined) data.checklist = sanitizeChecklist(checklist) ?? Prisma.DbNull;
+  if (tags !== undefined) data.tags = normalizeTags(tags);
   if (comments !== undefined) {
     // Comentário novo leva o nome de quem escreveu (o Claude lê isso pra saber
     // quem pediu o quê). O PATCH manda o array inteiro: novo = não estava antes.

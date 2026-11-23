@@ -3,10 +3,11 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { assertModule } from "@/lib/billing";
 import { getViewer, canSeeProject } from "@/lib/visibility";
+import { normalizeTags, sameTag } from "@/lib/task-tags";
 
 // PATCH /api/projetos/[id]/tasks/bulk
 // Atualização em massa de tarefas internas do projeto.
-// Body: { taskIds: string[], projectServiceId?, stage?, visibleToClient? }
+// Body: { taskIds: string[], projectServiceId?, stage?, visibleToClient?, addTags?, removeTags? }
 export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> },
@@ -80,15 +81,40 @@ export async function PATCH(
     data.stage = stage && String(stage).trim() ? String(stage).trim().slice(0, 80) : null;
   }
 
-  if (Object.keys(data).length === 0) {
+  // Etiquetas em massa: SOMA/TIRA sem apagar as que cada tarefa já tem — por
+  // isso é tarefa a tarefa, não um updateMany com a mesma lista pra todas.
+  const addTags = body.addTags !== undefined ? normalizeTags(body.addTags) : [];
+  const removeTags = body.removeTags !== undefined ? normalizeTags(body.removeTags) : [];
+  const mexeTags = addTags.length > 0 || removeTags.length > 0;
+
+  if (Object.keys(data).length === 0 && !mexeTags) {
     return NextResponse.json({ error: "Nada pra atualizar" }, { status: 400 });
   }
 
-  // updateMany com guarda de projeto — só toca tarefas deste projeto.
-  const result = await prisma.projectTask.updateMany({
-    where: { id: { in: taskIds }, projectId: id },
-    data,
-  });
+  let count = 0;
+  if (Object.keys(data).length > 0) {
+    // updateMany com guarda de projeto — só toca tarefas deste projeto.
+    const result = await prisma.projectTask.updateMany({
+      where: { id: { in: taskIds }, projectId: id },
+      data,
+    });
+    count = result.count;
+  }
 
-  return NextResponse.json({ ok: true, updated: result.count });
+  if (mexeTags) {
+    const rows = await prisma.projectTask.findMany({
+      where:  { id: { in: taskIds }, projectId: id },
+      select: { id: true, tags: true },
+    });
+    await prisma.$transaction(rows.map((r) => {
+      const kept = r.tags.filter((t) => !removeTags.some((x) => sameTag(x, t)));
+      return prisma.projectTask.update({
+        where: { id: r.id },
+        data:  { tags: normalizeTags([...kept, ...addTags]) },
+      });
+    }));
+    count = Math.max(count, rows.length);
+  }
+
+  return NextResponse.json({ ok: true, updated: count });
 }

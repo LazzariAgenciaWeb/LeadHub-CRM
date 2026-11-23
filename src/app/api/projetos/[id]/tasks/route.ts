@@ -7,6 +7,7 @@ import { getViewer, canSeeProject } from "@/lib/visibility";
 import { sanitizeChecklist } from "@/lib/checklist";
 import { ensureEtapaClickupTask, pushTaskToClickup } from "@/lib/project-etapas";
 import { CLAUDE_ASSIGNEE } from "@/lib/project-ai";
+import { normalizeTags } from "@/lib/task-tags";
 
 // POST /api/projetos/[id]/tasks
 //
@@ -15,7 +16,7 @@ import { CLAUDE_ASSIGNEE } from "@/lib/project-ai";
 //   destino="clickup" → cria a task na lista do ClickUp do projeto e registra
 //                       no snapshot (ProjectTaskState) pra aparecer na hora.
 //
-// Body: { destino, title, description?, priority?, dueDate?, assigneeId? }
+// Body: { destino, title, description?, priority?, dueDate?, assigneeId?, tags? }
 export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
@@ -52,7 +53,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   }
 
   const body = await req.json();
-  const { destino, title, description, priority, dueDate, startDate, assigneeId, stage, checklist, projectServiceId } = body;
+  const { destino, title, description, priority, dueDate, startDate, assigneeId, stage, checklist, projectServiceId, tags } = body;
   const start = startDate ? new Date(startDate) : null;
   let stageClean = stage && String(stage).trim() ? String(stage).trim().slice(0, 80) : null;
   const checklistClean = sanitizeChecklist(checklist);
@@ -101,7 +102,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       description: description ? String(description) : undefined,
       priority: prio,
       dueDate: due ? due.getTime() : undefined,
-      tags: ["projeto"],
+      tags: ["projeto", ...normalizeTags(tags)],
       ...(parent ? { parent } : {}),
     });
     if (!newTaskId) {
@@ -147,6 +148,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       stage:       stageClean,
       projectServiceId: stepId,
       checklist:   checklistClean ?? undefined,
+      tags:        normalizeTags(tags),
       priority:    prio,
       startDate:   start && !Number.isNaN(start.getTime()) ? start : null,
       dueDate:     due,

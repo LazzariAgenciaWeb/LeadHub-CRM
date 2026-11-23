@@ -7,6 +7,7 @@ import { normalizeSegment } from "@/lib/project-segments";
 /** Ferramentas de CRIAÇÃO: chamado, tarefa de projeto, projeto, cliente. */
 
 import { etapaLabel, pushTaskToClickup } from "@/lib/project-etapas";
+import { normalizeTags } from "@/lib/task-tags";
 
 const PRIORITIES = ["LOW", "MEDIUM", "HIGH", "URGENT"] as const;
 
@@ -116,11 +117,11 @@ export const criarChamado: ToolDef<{
 
 export const criarTarefaProjeto: ToolDef<{
   projetoId: string; title: string; description?: string; dueDate?: string; priority?: string; assigneeId?: string;
-  etapaId?: string;
+  etapaId?: string; etiquetas?: string[];
 }> = {
   name: "criar_tarefa_projeto",
   description:
-    "Cria uma tarefa dentro de um projeto (use listar_projetos pra achar o projetoId). etapaId opcional (de listar_etapas_projeto): dentro de uma etapa, a tarefa sobe pro ClickUp como SUBTAREFA da tarefa principal da etapa, em vez de ficar solta na lista. Sem etapa, fica só no GoHub. dueDate opcional (ISO 8601). Sem assigneeId a tarefa fica com o próprio usuário.",
+    "Cria uma tarefa dentro de um projeto (use listar_projetos pra achar o projetoId). etapaId opcional (de listar_etapas_projeto): dentro de uma etapa, a tarefa sobe pro ClickUp como SUBTAREFA da tarefa principal da etapa, em vez de ficar solta na lista. Sem etapa, fica só no GoHub. dueDate opcional (ISO 8601). Sem assigneeId a tarefa fica com o próprio usuário. etiquetas opcional: classifica a peça (ex.: [\"Reels\", \"Carrossel\"]) — reaproveite as que já existem (aparecem em listar_tarefas_projeto) em vez de inventar variação.",
   input_schema: {
     type: "object",
     properties: {
@@ -131,6 +132,7 @@ export const criarTarefaProjeto: ToolDef<{
       priority: { type: "string", enum: [...PRIORITIES] },
       assigneeId: { type: "string" },
       etapaId: { type: "string", description: "Etapa do projeto (de listar_etapas_projeto)" },
+      etiquetas: { type: "array", items: { type: "string" }, description: "Etiquetas da tarefa (ex.: Reels, Carrossel, Stories). Até 10." },
     },
     required: ["projetoId", "title"],
   },
@@ -164,6 +166,7 @@ export const criarTarefaProjeto: ToolDef<{
         description: input.description?.trim() || null,
         priority: (PRIORITIES as readonly string[]).includes(input.priority ?? "") ? (input.priority as any) : "MEDIUM",
         dueDate: due,
+        tags: normalizeTags(input.etiquetas),
         assigneeId: input.assigneeId ?? ctx.userId,
         createdById: ctx.userId,
         ...(etapa ? { projectServiceId: etapa.id, stage: etapa.label.slice(0, 80) || null } : {}),
@@ -186,6 +189,7 @@ export const criarTarefaProjeto: ToolDef<{
     return ok(
       `Tarefa criada no projeto "${project.name}": "${input.title.trim()}"` +
       (etapa ? ` · etapa ${etapa.label}` : "") +
+      (normalizeTags(input.etiquetas).length ? ` · etiquetas ${normalizeTags(input.etiquetas).join(", ")}` : "") +
       (due ? ` · prazo ${fmtDateTime(due)}` : "") + clickup,
       { data: { id: task.id, projectId: project.id, etapaId: etapa?.id ?? null }, link: appUrl(`/projetos/${project.id}`) },
     );
