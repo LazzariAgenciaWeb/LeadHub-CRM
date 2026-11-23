@@ -570,6 +570,7 @@ export default function ProjectDetail({
             hasClickup={!!project.clickupListId}
             serviceSteps={serviceSteps}
             clientId={project.clientCompany?.id ?? null}
+            clientName={project.clientCompany?.name ?? project.name}
             hasApprovalGroup={!!project.approvalGroupJid}
           />
           </div>
@@ -2332,9 +2333,11 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, tagSuggestions
  * criar uma nova — interna (LeadHub) ou direto no ClickUp (lista do projeto).
  */
 function ProjectTasksCard({
-  projectId, availableUsers, internalTasks, companyTags = [], hasClickup, serviceSteps, clientId = null, hasApprovalGroup = false,
+  projectId, availableUsers, internalTasks, companyTags = [], hasClickup, serviceSteps, clientId = null, clientName = "", hasApprovalGroup = false,
 }: {
   projectId: string;
+  /** Nome do cliente (ou do projeto, se não tem cliente) — início do caminho no modal da tarefa. */
+  clientName?: string;
   /** Etiquetas já usadas nas tarefas da empresa (sugestão ao etiquetar). */
   companyTags?: string[];
   hasApprovalGroup?: boolean;
@@ -3162,6 +3165,13 @@ function ProjectTasksCard({
                 </p>
                 <button onClick={closeTaskModal} className="text-slate-500 hover:text-white flex-shrink-0" aria-label="Fechar"><X className="w-5 h-5" /></button>
               </div>
+              {/* Caminho da tarefa: cliente › etapa › tarefa — pra saber onde ela está. */}
+              <nav aria-label="Caminho da tarefa" className="flex items-center gap-1.5 px-6 pt-3 text-xs min-w-0 flex-shrink-0">
+                {clientName && <><span className="text-slate-400 font-medium truncate max-w-[30%]" title={clientName}>{clientName}</span><ChevronRight className="w-3.5 h-3.5 text-slate-600 flex-none" /></>}
+                <span className="text-indigo-300 font-medium truncate max-w-[30%]" title={etapaNome}>{etapaNome}</span>
+                <ChevronRight className="w-3.5 h-3.5 text-slate-600 flex-none" />
+                <span className="text-white font-semibold truncate min-w-0" title={t.title}>{t.title}</span>
+              </nav>
               <div className="flex-1 min-h-0 px-6 py-5">
                 {/* key = id: troca de tarefa REMONTA o editor. Sem isso os campos
                     (inicializados por useState) manteriam os valores da anterior. */}
