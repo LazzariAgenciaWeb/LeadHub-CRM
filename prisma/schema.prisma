@@ -1763,6 +1763,10 @@ model ProjectTask {
   // Etiquetas livres (Reels, Carrossel, Stories…) pra classificar e filtrar as
   // tarefas da etapa. Sem cadastro: a lista de sugestões sai das já usadas.
   tags             String[]         @default([])
+  // Tarefas (do mesmo projeto) que precisam estar concluídas antes desta — ex.:
+  // "Agendar post" depende de "Acesso às mídias". Só AVISA (não trava) e não
+  // vai pro ClickUp. Ids soltos: tarefa apagada some da lista ao exibir.
+  dependsOnIds     String[]         @default([])
   // Serviço (etapa da sequência) ao qual a tarefa pertence. Quando preenchido, o
   // Gantt do cliente agrupa a tarefa sob este serviço, na ordem definida no projeto.
   projectService   ProjectService?  @relation(fields: [projectServiceId], references: [id], onDelete: SetNull)

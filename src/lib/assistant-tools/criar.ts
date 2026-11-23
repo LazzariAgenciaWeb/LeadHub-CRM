@@ -8,6 +8,7 @@ import { normalizeSegment } from "@/lib/project-segments";
 
 import { etapaLabel, pushTaskToClickup } from "@/lib/project-etapas";
 import { normalizeTags } from "@/lib/task-tags";
+import { cleanDependencies } from "@/lib/task-deps";
 
 const PRIORITIES = ["LOW", "MEDIUM", "HIGH", "URGENT"] as const;
 
@@ -117,11 +118,11 @@ export const criarChamado: ToolDef<{
 
 export const criarTarefaProjeto: ToolDef<{
   projetoId: string; title: string; description?: string; dueDate?: string; priority?: string; assigneeId?: string;
-  etapaId?: string; etiquetas?: string[];
+  etapaId?: string; etiquetas?: string[]; dependeDe?: string[];
 }> = {
   name: "criar_tarefa_projeto",
   description:
-    "Cria uma tarefa dentro de um projeto (use listar_projetos pra achar o projetoId). etapaId opcional (de listar_etapas_projeto): dentro de uma etapa, a tarefa sobe pro ClickUp como SUBTAREFA da tarefa principal da etapa, em vez de ficar solta na lista. Sem etapa, fica só no GoHub. dueDate opcional (ISO 8601). Sem assigneeId a tarefa fica com o próprio usuário. etiquetas opcional: classifica a peça (ex.: [\"Reels\", \"Carrossel\"]) — reaproveite as que já existem (aparecem em listar_tarefas_projeto) em vez de inventar variação.",
+    "Cria uma tarefa dentro de um projeto (use listar_projetos pra achar o projetoId). etapaId opcional (de listar_etapas_projeto): dentro de uma etapa, a tarefa sobe pro ClickUp como SUBTAREFA da tarefa principal da etapa, em vez de ficar solta na lista. Sem etapa, fica só no GoHub. dueDate opcional (ISO 8601). Sem assigneeId a tarefa fica com o próprio usuário. etiquetas opcional: classifica a peça (ex.: [\"Reels\", \"Carrossel\"]) — reaproveite as que já existem (aparecem em listar_tarefas_projeto) em vez de inventar variação. dependeDe opcional: ids de tarefas do mesmo projeto que precisam estar concluídas antes (só aviso).",
   input_schema: {
     type: "object",
     properties: {
@@ -133,6 +134,7 @@ export const criarTarefaProjeto: ToolDef<{
       assigneeId: { type: "string" },
       etapaId: { type: "string", description: "Etapa do projeto (de listar_etapas_projeto)" },
       etiquetas: { type: "array", items: { type: "string" }, description: "Etiquetas da tarefa (ex.: Reels, Carrossel, Stories). Até 10." },
+      dependeDe: { type: "array", items: { type: "string" }, description: "Ids de tarefas do mesmo projeto que precisam estar concluídas antes desta (só aviso, não trava)" },
     },
     required: ["projetoId", "title"],
   },
@@ -178,6 +180,18 @@ export const criarTarefaProjeto: ToolDef<{
       data: { projectId: project.id, type: "TASK_CREATED", taskName: input.title.trim(), taskId: task.id, authorId: ctx.userId, authorName: ctx.userName },
     }).catch(() => {});
 
+    // Dependências: validadas depois de criar (precisa do id pra checar ciclo).
+    let depAviso = "";
+    if (input.dependeDe !== undefined) {
+      const deps = await cleanDependencies(project.id, task.id, input.dependeDe);
+      if (deps.ok) {
+        if (deps.ids.length) {
+          await prisma.projectTask.update({ where: { id: task.id }, data: { dependsOnIds: deps.ids } });
+          depAviso = ` · depende de ${deps.ids.length} tarefa(s)`;
+        }
+      } else depAviso = ` · dependência não gravada: ${deps.error}`;
+    }
+
     // Dentro de uma etapa, sobe sozinha como subtarefa da tarefa principal.
     let clickup = "";
     if (etapa && project.clickupListId) {
@@ -190,7 +204,7 @@ export const criarTarefaProjeto: ToolDef<{
       `Tarefa criada no projeto "${project.name}": "${input.title.trim()}"` +
       (etapa ? ` · etapa ${etapa.label}` : "") +
       (normalizeTags(input.etiquetas).length ? ` · etiquetas ${normalizeTags(input.etiquetas).join(", ")}` : "") +
-      (due ? ` · prazo ${fmtDateTime(due)}` : "") + clickup,
+      (due ? ` · prazo ${fmtDateTime(due)}` : "") + depAviso + clickup,
       { data: { id: task.id, projectId: project.id, etapaId: etapa?.id ?? null }, link: appUrl(`/projetos/${project.id}`) },
     );
   },

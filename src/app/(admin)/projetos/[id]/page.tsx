@@ -143,6 +143,8 @@ export default async function ProjectDetailPage({
     description:  t.description,
     stage:        t.stage ?? null,
     tags:         t.tags ?? [],
+    // Só as que ainda existem neste projeto (tarefa apagada sai da lista).
+    dependsOnIds: (t.dependsOnIds ?? []).filter((d) => internalTasksRaw.some((x) => x.id === d)),
     projectServiceId: t.projectServiceId ?? null,
     checklist:    readChecklist(t.checklist),
     comments:     readComments(t.comments),

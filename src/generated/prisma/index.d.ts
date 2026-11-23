@@ -62546,6 +62546,7 @@ export namespace Prisma {
     description: number
     stage: number
     tags: number
+    dependsOnIds: number
     projectServiceId: number
     checklist: number
     comments: number
@@ -62686,6 +62687,7 @@ export namespace Prisma {
     description?: true
     stage?: true
     tags?: true
+    dependsOnIds?: true
     projectServiceId?: true
     checklist?: true
     comments?: true
@@ -62817,6 +62819,7 @@ export namespace Prisma {
     description: string | null
     stage: string | null
     tags: string[]
+    dependsOnIds: string[]
     projectServiceId: string | null
     checklist: JsonValue | null
     comments: JsonValue | null
@@ -62880,6 +62883,7 @@ export namespace Prisma {
     description?: boolean
     stage?: boolean
     tags?: boolean
+    dependsOnIds?: boolean
     projectServiceId?: boolean
     checklist?: boolean
     comments?: boolean
@@ -62933,6 +62937,7 @@ export namespace Prisma {
     description?: boolean
     stage?: boolean
     tags?: boolean
+    dependsOnIds?: boolean
     projectServiceId?: boolean
     checklist?: boolean
     comments?: boolean
@@ -62981,6 +62986,7 @@ export namespace Prisma {
     description?: boolean
     stage?: boolean
     tags?: boolean
+    dependsOnIds?: boolean
     projectServiceId?: boolean
     checklist?: boolean
     comments?: boolean
@@ -63055,6 +63061,7 @@ export namespace Prisma {
       description: string | null
       stage: string | null
       tags: string[]
+      dependsOnIds: string[]
       projectServiceId: string | null
       checklist: Prisma.JsonValue | null
       comments: Prisma.JsonValue | null
@@ -63497,6 +63504,7 @@ export namespace Prisma {
     readonly description: FieldRef<"ProjectTask", 'String'>
     readonly stage: FieldRef<"ProjectTask", 'String'>
     readonly tags: FieldRef<"ProjectTask", 'String[]'>
+    readonly dependsOnIds: FieldRef<"ProjectTask", 'String[]'>
     readonly projectServiceId: FieldRef<"ProjectTask", 'String'>
     readonly checklist: FieldRef<"ProjectTask", 'Json'>
     readonly comments: FieldRef<"ProjectTask", 'Json'>
@@ -180016,6 +180024,7 @@ export namespace Prisma {
     description: 'description',
     stage: 'stage',
     tags: 'tags',
+    dependsOnIds: 'dependsOnIds',
     projectServiceId: 'projectServiceId',
     checklist: 'checklist',
     comments: 'comments',
@@ -187528,6 +187537,7 @@ export namespace Prisma {
     description?: StringNullableFilter<"ProjectTask"> | string | null
     stage?: StringNullableFilter<"ProjectTask"> | string | null
     tags?: StringNullableListFilter<"ProjectTask">
+    dependsOnIds?: StringNullableListFilter<"ProjectTask">
     projectServiceId?: StringNullableFilter<"ProjectTask"> | string | null
     checklist?: JsonNullableFilter<"ProjectTask">
     comments?: JsonNullableFilter<"ProjectTask">
@@ -187580,6 +187590,7 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     stage?: SortOrderInput | SortOrder
     tags?: SortOrder
+    dependsOnIds?: SortOrder
     projectServiceId?: SortOrderInput | SortOrder
     checklist?: SortOrderInput | SortOrder
     comments?: SortOrderInput | SortOrder
@@ -187636,6 +187647,7 @@ export namespace Prisma {
     description?: StringNullableFilter<"ProjectTask"> | string | null
     stage?: StringNullableFilter<"ProjectTask"> | string | null
     tags?: StringNullableListFilter<"ProjectTask">
+    dependsOnIds?: StringNullableListFilter<"ProjectTask">
     projectServiceId?: StringNullableFilter<"ProjectTask"> | string | null
     checklist?: JsonNullableFilter<"ProjectTask">
     comments?: JsonNullableFilter<"ProjectTask">
@@ -187687,6 +187699,7 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     stage?: SortOrderInput | SortOrder
     tags?: SortOrder
+    dependsOnIds?: SortOrder
     projectServiceId?: SortOrderInput | SortOrder
     checklist?: SortOrderInput | SortOrder
     comments?: SortOrderInput | SortOrder
@@ -187739,6 +187752,7 @@ export namespace Prisma {
     description?: StringNullableWithAggregatesFilter<"ProjectTask"> | string | null
     stage?: StringNullableWithAggregatesFilter<"ProjectTask"> | string | null
     tags?: StringNullableListFilter<"ProjectTask">
+    dependsOnIds?: StringNullableListFilter<"ProjectTask">
     projectServiceId?: StringNullableWithAggregatesFilter<"ProjectTask"> | string | null
     checklist?: JsonNullableWithAggregatesFilter<"ProjectTask">
     comments?: JsonNullableWithAggregatesFilter<"ProjectTask">
@@ -203374,6 +203388,7 @@ export namespace Prisma {
     description?: string | null
     stage?: string | null
     tags?: ProjectTaskCreatetagsInput | string[]
+    dependsOnIds?: ProjectTaskCreatedependsOnIdsInput | string[]
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
@@ -203423,6 +203438,7 @@ export namespace Prisma {
     description?: string | null
     stage?: string | null
     tags?: ProjectTaskCreatetagsInput | string[]
+    dependsOnIds?: ProjectTaskCreatedependsOnIdsInput | string[]
     projectServiceId?: string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
@@ -203470,6 +203486,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: ProjectTaskUpdatetagsInput | string[]
+    dependsOnIds?: ProjectTaskUpdatedependsOnIdsInput | string[]
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -203519,6 +203536,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: ProjectTaskUpdatetagsInput | string[]
+    dependsOnIds?: ProjectTaskUpdatedependsOnIdsInput | string[]
     projectServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
@@ -203567,6 +203585,7 @@ export namespace Prisma {
     description?: string | null
     stage?: string | null
     tags?: ProjectTaskCreatetagsInput | string[]
+    dependsOnIds?: ProjectTaskCreatedependsOnIdsInput | string[]
     projectServiceId?: string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
@@ -203610,6 +203629,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: ProjectTaskUpdatetagsInput | string[]
+    dependsOnIds?: ProjectTaskUpdatedependsOnIdsInput | string[]
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -203651,6 +203671,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: ProjectTaskUpdatetagsInput | string[]
+    dependsOnIds?: ProjectTaskUpdatedependsOnIdsInput | string[]
     projectServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
@@ -219494,6 +219515,7 @@ export namespace Prisma {
     description?: SortOrder
     stage?: SortOrder
     tags?: SortOrder
+    dependsOnIds?: SortOrder
     projectServiceId?: SortOrder
     checklist?: SortOrder
     comments?: SortOrder
@@ -235587,6 +235609,10 @@ export namespace Prisma {
     set: string[]
   }
 
+  export type ProjectTaskCreatedependsOnIdsInput = {
+    set: string[]
+  }
+
   export type SetorClickupListCreateNestedOneWithoutInternalTasksInput = {
     create?: XOR<SetorClickupListCreateWithoutInternalTasksInput, SetorClickupListUncheckedCreateWithoutInternalTasksInput>
     connectOrCreate?: SetorClickupListCreateOrConnectWithoutInternalTasksInput
@@ -235668,6 +235694,11 @@ export namespace Prisma {
   }
 
   export type ProjectTaskUpdatetagsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type ProjectTaskUpdatedependsOnIdsInput = {
     set?: string[]
     push?: string | string[]
   }
@@ -243052,6 +243083,7 @@ export namespace Prisma {
     description?: string | null
     stage?: string | null
     tags?: ProjectTaskCreatetagsInput | string[]
+    dependsOnIds?: ProjectTaskCreatedependsOnIdsInput | string[]
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
@@ -243100,6 +243132,7 @@ export namespace Prisma {
     description?: string | null
     stage?: string | null
     tags?: ProjectTaskCreatetagsInput | string[]
+    dependsOnIds?: ProjectTaskCreatedependsOnIdsInput | string[]
     projectServiceId?: string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
@@ -243156,6 +243189,7 @@ export namespace Prisma {
     description?: string | null
     stage?: string | null
     tags?: ProjectTaskCreatetagsInput | string[]
+    dependsOnIds?: ProjectTaskCreatedependsOnIdsInput | string[]
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
@@ -243204,6 +243238,7 @@ export namespace Prisma {
     description?: string | null
     stage?: string | null
     tags?: ProjectTaskCreatetagsInput | string[]
+    dependsOnIds?: ProjectTaskCreatedependsOnIdsInput | string[]
     projectServiceId?: string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
@@ -245013,6 +245048,7 @@ export namespace Prisma {
     description?: StringNullableFilter<"ProjectTask"> | string | null
     stage?: StringNullableFilter<"ProjectTask"> | string | null
     tags?: StringNullableListFilter<"ProjectTask">
+    dependsOnIds?: StringNullableListFilter<"ProjectTask">
     projectServiceId?: StringNullableFilter<"ProjectTask"> | string | null
     checklist?: JsonNullableFilter<"ProjectTask">
     comments?: JsonNullableFilter<"ProjectTask">
@@ -278144,6 +278180,7 @@ export namespace Prisma {
     description?: string | null
     stage?: string | null
     tags?: ProjectTaskCreatetagsInput | string[]
+    dependsOnIds?: ProjectTaskCreatedependsOnIdsInput | string[]
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
@@ -278191,6 +278228,7 @@ export namespace Prisma {
     description?: string | null
     stage?: string | null
     tags?: ProjectTaskCreatetagsInput | string[]
+    dependsOnIds?: ProjectTaskCreatedependsOnIdsInput | string[]
     projectServiceId?: string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
@@ -280287,6 +280325,7 @@ export namespace Prisma {
     description?: string | null
     stage?: string | null
     tags?: ProjectTaskCreatetagsInput | string[]
+    dependsOnIds?: ProjectTaskCreatedependsOnIdsInput | string[]
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
@@ -280335,6 +280374,7 @@ export namespace Prisma {
     description?: string | null
     stage?: string | null
     tags?: ProjectTaskCreatetagsInput | string[]
+    dependsOnIds?: ProjectTaskCreatedependsOnIdsInput | string[]
     projectServiceId?: string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
@@ -280397,6 +280437,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: ProjectTaskUpdatetagsInput | string[]
+    dependsOnIds?: ProjectTaskUpdatedependsOnIdsInput | string[]
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -280445,6 +280486,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: ProjectTaskUpdatetagsInput | string[]
+    dependsOnIds?: ProjectTaskUpdatedependsOnIdsInput | string[]
     projectServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
@@ -280619,6 +280661,7 @@ export namespace Prisma {
     description?: string | null
     stage?: string | null
     tags?: ProjectTaskCreatetagsInput | string[]
+    dependsOnIds?: ProjectTaskCreatedependsOnIdsInput | string[]
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
@@ -280667,6 +280710,7 @@ export namespace Prisma {
     description?: string | null
     stage?: string | null
     tags?: ProjectTaskCreatetagsInput | string[]
+    dependsOnIds?: ProjectTaskCreatedependsOnIdsInput | string[]
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
@@ -280879,6 +280923,7 @@ export namespace Prisma {
     description?: string | null
     stage?: string | null
     tags?: ProjectTaskCreatetagsInput | string[]
+    dependsOnIds?: ProjectTaskCreatedependsOnIdsInput | string[]
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
@@ -280927,6 +280972,7 @@ export namespace Prisma {
     description?: string | null
     stage?: string | null
     tags?: ProjectTaskCreatetagsInput | string[]
+    dependsOnIds?: ProjectTaskCreatedependsOnIdsInput | string[]
     projectServiceId?: string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
@@ -281076,6 +281122,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: ProjectTaskUpdatetagsInput | string[]
+    dependsOnIds?: ProjectTaskUpdatedependsOnIdsInput | string[]
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -281124,6 +281171,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: ProjectTaskUpdatetagsInput | string[]
+    dependsOnIds?: ProjectTaskUpdatedependsOnIdsInput | string[]
     projectServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
@@ -283030,6 +283078,7 @@ export namespace Prisma {
     description?: string | null
     stage?: string | null
     tags?: ProjectTaskCreatetagsInput | string[]
+    dependsOnIds?: ProjectTaskCreatedependsOnIdsInput | string[]
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
@@ -283078,6 +283127,7 @@ export namespace Prisma {
     description?: string | null
     stage?: string | null
     tags?: ProjectTaskCreatetagsInput | string[]
+    dependsOnIds?: ProjectTaskCreatedependsOnIdsInput | string[]
     projectServiceId?: string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
@@ -283233,6 +283283,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: ProjectTaskUpdatetagsInput | string[]
+    dependsOnIds?: ProjectTaskUpdatedependsOnIdsInput | string[]
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -283281,6 +283332,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: ProjectTaskUpdatetagsInput | string[]
+    dependsOnIds?: ProjectTaskUpdatedependsOnIdsInput | string[]
     projectServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
@@ -338091,6 +338143,7 @@ export namespace Prisma {
     description?: string | null
     stage?: string | null
     tags?: ProjectTaskCreatetagsInput | string[]
+    dependsOnIds?: ProjectTaskCreatedependsOnIdsInput | string[]
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
@@ -338139,6 +338192,7 @@ export namespace Prisma {
     description?: string | null
     stage?: string | null
     tags?: ProjectTaskCreatetagsInput | string[]
+    dependsOnIds?: ProjectTaskCreatedependsOnIdsInput | string[]
     projectServiceId?: string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
@@ -338819,6 +338873,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: ProjectTaskUpdatetagsInput | string[]
+    dependsOnIds?: ProjectTaskUpdatedependsOnIdsInput | string[]
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -338867,6 +338922,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: ProjectTaskUpdatetagsInput | string[]
+    dependsOnIds?: ProjectTaskUpdatedependsOnIdsInput | string[]
     projectServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
@@ -344326,6 +344382,7 @@ export namespace Prisma {
     description?: string | null
     stage?: string | null
     tags?: ProjectTaskCreatetagsInput | string[]
+    dependsOnIds?: ProjectTaskCreatedependsOnIdsInput | string[]
     projectServiceId?: string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
@@ -344369,6 +344426,7 @@ export namespace Prisma {
     description?: string | null
     stage?: string | null
     tags?: ProjectTaskCreatetagsInput | string[]
+    dependsOnIds?: ProjectTaskCreatedependsOnIdsInput | string[]
     projectServiceId?: string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
@@ -345489,6 +345547,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: ProjectTaskUpdatetagsInput | string[]
+    dependsOnIds?: ProjectTaskUpdatedependsOnIdsInput | string[]
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -345537,6 +345596,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: ProjectTaskUpdatetagsInput | string[]
+    dependsOnIds?: ProjectTaskUpdatedependsOnIdsInput | string[]
     projectServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
@@ -345584,6 +345644,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: ProjectTaskUpdatetagsInput | string[]
+    dependsOnIds?: ProjectTaskUpdatedependsOnIdsInput | string[]
     projectServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
@@ -345626,6 +345687,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: ProjectTaskUpdatetagsInput | string[]
+    dependsOnIds?: ProjectTaskUpdatedependsOnIdsInput | string[]
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -345674,6 +345736,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: ProjectTaskUpdatetagsInput | string[]
+    dependsOnIds?: ProjectTaskUpdatedependsOnIdsInput | string[]
     projectServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
@@ -345721,6 +345784,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: ProjectTaskUpdatetagsInput | string[]
+    dependsOnIds?: ProjectTaskUpdatedependsOnIdsInput | string[]
     projectServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
@@ -357044,6 +357108,7 @@ export namespace Prisma {
     description?: string | null
     stage?: string | null
     tags?: ProjectTaskCreatetagsInput | string[]
+    dependsOnIds?: ProjectTaskCreatedependsOnIdsInput | string[]
     projectServiceId?: string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
@@ -357379,6 +357444,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: ProjectTaskUpdatetagsInput | string[]
+    dependsOnIds?: ProjectTaskUpdatedependsOnIdsInput | string[]
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -357426,6 +357492,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: ProjectTaskUpdatetagsInput | string[]
+    dependsOnIds?: ProjectTaskUpdatedependsOnIdsInput | string[]
     projectServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
@@ -357473,6 +357540,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: ProjectTaskUpdatetagsInput | string[]
+    dependsOnIds?: ProjectTaskUpdatedependsOnIdsInput | string[]
     projectServiceId?: NullableStringFieldUpdateOperationsInput | string | null
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
@@ -358133,6 +358201,7 @@ export namespace Prisma {
     description?: string | null
     stage?: string | null
     tags?: ProjectTaskCreatetagsInput | string[]
+    dependsOnIds?: ProjectTaskCreatedependsOnIdsInput | string[]
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: string | null
@@ -358175,6 +358244,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: ProjectTaskUpdatetagsInput | string[]
+    dependsOnIds?: ProjectTaskUpdatedependsOnIdsInput | string[]
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -358223,6 +358293,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: ProjectTaskUpdatetagsInput | string[]
+    dependsOnIds?: ProjectTaskUpdatedependsOnIdsInput | string[]
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -358270,6 +358341,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stage?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: ProjectTaskUpdatetagsInput | string[]
+    dependsOnIds?: ProjectTaskUpdatedependsOnIdsInput | string[]
     checklist?: NullableJsonNullValueInput | InputJsonValue
     comments?: NullableJsonNullValueInput | InputJsonValue
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null

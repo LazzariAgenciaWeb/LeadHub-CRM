@@ -50,6 +50,29 @@ export function formatBrazilDate(d: Date | string | null | undefined): string {
   });
 }
 
+/**
+ * Valor de <input type="date"> ("AAAA-MM-DD") pro dia no fuso do sistema.
+ * `iso.slice(0, 10)` pega o dia em UTC — prazo gravado 00h UTC aparecia um dia
+ * depois do que a lista mostrava.
+ */
+export function toDateInputValue(d: Date | string | null | undefined): string {
+  if (!d) return "";
+  const date = d instanceof Date ? d : new Date(d);
+  if (Number.isNaN(date.getTime())) return "";
+  return date.toLocaleDateString("en-CA", { timeZone: TZ }); // en-CA = AAAA-MM-DD
+}
+
+/**
+ * <input type="date"> → ISO ao MEIO-DIA de Brasília. `new Date("2026-12-05")`
+ * é meia-noite UTC = 21h do dia 04 aqui, e o prazo aparecia um dia antes.
+ * Meio-dia dá folga pra qualquer fuso do Brasil.
+ */
+export function fromDateInputValue(v: string | null | undefined): string | null {
+  if (!v || !/^\d{4}-\d{2}-\d{2}$/.test(v)) return null;
+  const d = new Date(`${v}T12:00:00-03:00`);
+  return Number.isNaN(d.getTime()) ? null : d.toISOString();
+}
+
 /** Identificador do timezone em uso — útil pra exibir e debug. */
 export const SYSTEM_TIMEZONE = TZ;
 

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, ExternalLink, Trash2, RefreshCw, ChevronLeft, ChevronRight, ChevronDown, ChevronUp, Pencil, Plus, Link2, X, Check, Lock, Eye, EyeOff, RotateCcw, Clock, MessageSquare, ArrowUp, Flag, Megaphone, BarChart3, ListChecks, Paperclip, LifeBuoy, History, FileText, Settings } from "lucide-react";
 import { ProjectStatus } from "@/generated/prisma";
-import { formatBrazilDateTime, formatBrazilDate } from "@/lib/datetime";
+import { formatBrazilDateTime, formatBrazilDate, toDateInputValue, fromDateInputValue } from "@/lib/datetime";
 import IncidentReporter from "./IncidentReporter";
 import VisibilityControl from "@/components/VisibilityControl";
 import ProjectServiceSelector from "./ProjectServiceSelector";
@@ -93,6 +93,7 @@ type InternalTask = {
   description:  string | null;
   stage:        string | null; // etapa/fase (rótulo)
   tags:         string[]; // etiquetas livres (Reels, Carrossel…)
+  dependsOnIds: string[]; // tarefas do projeto que precisam estar concluídas antes (só aviso)
   projectServiceId: string | null; // serviço da sequência ao qual pertence
   checklist:    ChecklistItem[]; // sub-passos
   // Atualizações datadas (vis:false = interno). attachments/links opcionais são
@@ -126,6 +127,9 @@ type InternalTask = {
   approval:     TaskApproval | null; // rodada de aprovação por link (null = nunca enviada)
   materials: { id: string; kind: string; title: string; url: string | null }[]; // links/anexos da tarefa
 };
+
+// Tarefa que pode ser escolhida como dependência (mesmo projeto).
+type DepOption = { id: string; title: string; done: boolean; etapa: string };
 
 type Chamado = {
   id:           string;
@@ -1349,14 +1353,14 @@ function CommentAttachmentCard({
  * Editor inline de uma tarefa: título, descrição, início/fim, e um atalho pra
  * adicionar link/anexo direto na tarefa (cria ProjectMaterial com taskId).
  */
-function TaskEditor({ projectId, task, onClose, stageSuggestions, tagSuggestions = [], serviceSteps, hasClickup, availableUsers, clientId = null, hasApprovalGroup = false }: { projectId: string; task: InternalTask; onClose: () => void; stageSuggestions: string[]; tagSuggestions?: string[]; serviceSteps: { id: string; name: string; order: number; taskCount: number; doneCount: number }[]; hasClickup: boolean; availableUsers: { id: string; name: string }[]; clientId?: string | null; hasApprovalGroup?: boolean }) {
+function TaskEditor({ projectId, task, onClose, stageSuggestions, tagSuggestions = [], depOptions = [], serviceSteps, hasClickup, availableUsers, clientId = null, hasApprovalGroup = false }: { projectId: string; task: InternalTask; onClose: () => void; stageSuggestions: string[]; tagSuggestions?: string[]; depOptions?: DepOption[]; serviceSteps: { id: string; name: string; order: number; taskCount: number; doneCount: number }[]; hasClickup: boolean; availableUsers: { id: string; name: string }[]; clientId?: string | null; hasApprovalGroup?: boolean }) {
   const router = useRouter();
   const [title, setTitle] = useState(task.title);
   const [stage, setStage] = useState(task.stage ?? "");
   const [svcId, setSvcId] = useState(task.projectServiceId ?? "");
   const [description, setDescription] = useState(task.description ?? "");
-  const [startDate, setStartDate] = useState(task.startDate ? task.startDate.slice(0, 10) : "");
-  const [dueDate, setDueDate] = useState(task.dueDate ? task.dueDate.slice(0, 10) : "");
+  const [startDate, setStartDate] = useState(toDateInputValue(task.startDate));
+  const [dueDate, setDueDate] = useState(toDateInputValue(task.dueDate));
   const [saving, setSaving] = useState(false);
   const [autoSaving, setAutoSaving] = useState(false);
   const [savedAt, setSavedAt] = useState<number | null>(null);
@@ -1364,6 +1368,28 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, tagSuggestions
   const [taskStatus, setTaskStatus] = useState(task.status);
   const [assigneeId, setAssigneeId] = useState(task.assigneeId ?? "");
   const [tags, setTags] = useState<string[]>(task.tags);
+  const [deps, setDeps] = useState<string[]>(task.dependsOnIds);
+  const [depErr, setDepErr] = useState<string | null>(null);
+  const depById = new Map(depOptions.map((d) => [d.id, d]));
+  const depsPendentes = deps.map((id) => depById.get(id)).filter((d): d is DepOption => !!d && !d.done);
+
+  // Dependência grava na hora, igual etiqueta. Erro (ciclo, etc.) volta pro que era.
+  async function saveDeps(next: string[]) {
+    const before = deps;
+    setDeps(next);
+    setDepErr(null);
+    setAutoSaving(true);
+    const res = await fetch(`/api/projetos/${projectId}/tasks/${task.id}`, {
+      method:  "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ dependsOnIds: next }),
+    }).catch(() => null);
+    setAutoSaving(false);
+    if (res?.ok) { setSavedAt(Date.now()); return; }
+    setDeps(before);
+    const d = await res?.json().catch(() => null);
+    setDepErr(d?.error ?? "Não foi possível salvar a dependência.");
+  }
 
   // Etiqueta grava na hora (adicionar/tirar é um clique — não espera o blur).
   async function saveTags(next: string[]) {
@@ -1474,8 +1500,8 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, tagSuggestions
     if (t) {
       setTitle(t.title);
       setDescription(t.description ?? "");
-      setStartDate(t.startDate ? t.startDate.slice(0, 10) : "");
-      setDueDate(t.dueDate ? t.dueDate.slice(0, 10) : "");
+      setStartDate(toDateInputValue(t.startDate));
+      setDueDate(toDateInputValue(t.dueDate));
       setTaskStatus(t.status);
       setComments(t.comments ?? []);
     }
@@ -1622,8 +1648,8 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, tagSuggestions
       title:       title.trim(),
       ...(serviceSteps.length > 0 ? { projectServiceId: svcId || null } : { stage: stage.trim() || null }),
       description: description.trim() || null,
-      startDate:   startDate ? new Date(startDate).toISOString() : null,
-      dueDate:     dueDate ? new Date(dueDate).toISOString() : null,
+      startDate:   fromDateInputValue(startDate),
+      dueDate:     fromDateInputValue(dueDate),
       assigneeId:  assigneeId || null,
     };
   }
@@ -1746,6 +1772,17 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, tagSuggestions
         placeholder="Título da tarefa"
         className="shrink-0 w-full bg-transparent border-0 text-white text-lg font-semibold tracking-tight px-1 -mx-1 mb-2 rounded focus:outline-none focus:bg-[#0a0f1a] placeholder-slate-600"
       />
+
+      {/* Dependência pendente — só avisa, não trava. */}
+      {depsPendentes.length > 0 && taskStatus !== "APROVADO" && (
+        <div className="shrink-0 mb-2 flex items-start gap-2 rounded-lg border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-xs text-amber-200">
+          <Clock className="w-3.5 h-3.5 mt-0.5 flex-none" />
+          <span>
+            <b>Aguardando:</b> {depsPendentes.map((d) => d.title).join(" · ")}
+            <span className="text-amber-300/60"> — {depsPendentes.length > 1 ? "essas tarefas ainda não foram concluídas" : "essa tarefa ainda não foi concluída"}.</span>
+          </span>
+        </div>
+      )}
 
       {/* Trilha de status (uma linha inteira) — ação principal */}
       <div className="shrink-0 mb-2 flex items-center gap-1">
@@ -1981,6 +2018,46 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, tagSuggestions
             <div>
               <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1">Etiquetas</label>
               <TagEditor value={tags} onChange={saveTags} suggestions={tagSuggestions} />
+            </div>
+            <div>
+              <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1">Depende de</label>
+              {deps.length > 0 && (
+                <div className="space-y-1 mb-1.5">
+                  {deps.map((id) => {
+                    const d = depById.get(id);
+                    if (!d) return null;
+                    return (
+                      <div key={id} className="flex items-center gap-2 bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-2 py-1.5 text-xs">
+                        {d.done
+                          ? <Check className="w-3.5 h-3.5 text-emerald-400 flex-none" strokeWidth={3} aria-label="Concluída" />
+                          : <Clock className="w-3.5 h-3.5 text-amber-300 flex-none" aria-label="Ainda não concluída" />}
+                        <span className={`min-w-0 flex-1 truncate ${d.done ? "text-slate-500 line-through" : "text-slate-200"}`} title={`${d.etapa} › ${d.title}`}>
+                          <span className="text-slate-500">{d.etapa} › </span>{d.title}
+                        </span>
+                        <button type="button" onClick={() => saveDeps(deps.filter((x) => x !== id))} className="text-slate-600 hover:text-red-400" aria-label={`Tirar dependência ${d.title}`}>
+                          <X className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+              <select
+                value=""
+                onChange={(e) => { if (e.target.value) saveDeps([...deps, e.target.value]); }}
+                className={inCls}
+              >
+                <option value="">+ precisa de outra tarefa pronta antes…</option>
+                {Array.from(new Set(depOptions.map((d) => d.etapa))).map((et) => (
+                  <optgroup key={et} label={et}>
+                    {depOptions.filter((d) => d.etapa === et && d.id !== task.id && !deps.includes(d.id)).map((d) => (
+                      <option key={d.id} value={d.id}>{d.done ? "✓ " : ""}{d.title}</option>
+                    ))}
+                  </optgroup>
+                ))}
+              </select>
+              {depErr && <p className="text-red-300 text-[11px] mt-1">{depErr}</p>}
+              <p className="text-[10px] text-slate-600 mt-1">Só avisa: mostra “Aguardando” até a outra ser concluída. Não trava a tarefa.</p>
             </div>
           </div>
         </div>
@@ -2471,6 +2548,52 @@ function ProjectTasksCard({
     new Map([...companyTags, ...projectTags].map((t) => [t.toLowerCase(), t])).values(),
   ).sort((a, b) => a.localeCompare(b, "pt-BR"));
 
+  // Dependências: opções (todas as tarefas do projeto, por etapa) e as pendentes de cada uma.
+  const etapaDe = (t: InternalTask) =>
+    serviceSteps.find((s) => s.id === t.projectServiceId)?.name ?? t.stage ?? "Sem etapa";
+  const depOptions: DepOption[] = internalTasks
+    .filter((t) => !t.ignored)
+    .map((t) => ({ id: t.id, title: t.title, done: t.done, etapa: etapaDe(t) }));
+  const taskById = new Map(internalTasks.map((t) => [t.id, t]));
+  const pendentesDe = (t: InternalTask) =>
+    t.dependsOnIds.map((id) => taskById.get(id)).filter((d): d is InternalTask => !!d && !d.done && !d.ignored);
+
+  // Edição em linha (título/prazo) sem abrir a tarefa.
+  // Salva só no blur (Enter = blur); Esc marca o campo como cancelado antes do
+  // blur. Assim cada edição grava uma vez só.
+  const [inline, setInline] = useState<{ id: string; field: "title" | "dueDate"; value: string } | null>(null);
+  const inlineKeys = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") { e.preventDefault(); e.currentTarget.blur(); }
+    if (e.key === "Escape") { e.currentTarget.dataset.cancel = "1"; e.currentTarget.blur(); }
+  };
+  const inlineBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    if (e.currentTarget.dataset.cancel) { setInline(null); return; }
+    void saveInline(inline);
+  };
+  async function saveInline(cur: typeof inline) {
+    if (!cur) return;
+    const t = taskById.get(cur.id);
+    setInline(null);
+    if (!t) return;
+    let body: Record<string, unknown> | null = null;
+    if (cur.field === "title") {
+      const v = cur.value.trim();
+      if (v && v !== t.title) body = { title: v };
+    } else {
+      const antes = toDateInputValue(t.dueDate);
+      if (cur.value !== antes && (!cur.value || Number(cur.value.slice(0, 4)) >= 2000)) {
+        body = { dueDate: fromDateInputValue(cur.value) };
+      }
+    }
+    if (!body) return;
+    await fetch(`/api/projetos/${projectId}/tasks/${t.id}`, {
+      method:  "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify(body),
+    }).catch(() => null);
+    router.refresh();
+  }
+
   // Etiqueta em massa: soma (ou tira) sem mexer nas outras etiquetas de cada tarefa.
   async function applyBulkTag(mode: "add" | "remove") {
     const tags = normalizeTags(bulkTag);
@@ -2499,8 +2622,8 @@ function ProjectTasksCard({
         stage:       form.destino === "interna" ? (form.stage.trim() || null) : null,
         projectServiceId: form.destino === "interna" ? (form.projectServiceId || null) : null,
         priority:    form.priority,
-        startDate:   form.startDate ? new Date(form.startDate).toISOString() : null,
-        dueDate:     form.dueDate ? new Date(form.dueDate).toISOString() : null,
+        startDate:   fromDateInputValue(form.startDate),
+        dueDate:     fromDateInputValue(form.dueDate),
         assigneeId:  form.destino === "interna" ? (form.assigneeId || null) : null,
         tags:        normalizeTags(form.tags),
       }),
@@ -2910,6 +3033,21 @@ function ProjectTasksCard({
                 </button>
               )}
 
+              {inline?.id === t.id && inline.field === "title" ? (
+                <div className="min-w-0 flex-1">
+                  <input
+                    // Entra já focado e com o texto selecionado: digitar substitui.
+                    ref={(el) => { if (el && document.activeElement !== el) { el.focus(); el.select(); } }}
+                    value={inline.value}
+                    onChange={(e) => setInline({ ...inline, value: e.target.value })}
+                    onKeyDown={inlineKeys}
+                    onBlur={inlineBlur}
+                    aria-label="Título da tarefa"
+                    className="w-full bg-[#080b12] border border-indigo-500/60 rounded px-2 py-1 text-[13px] text-white focus:outline-none"
+                  />
+                  <p className="text-[10px] text-slate-600 mt-1">Enter salva · Esc cancela</p>
+                </div>
+              ) : (
               <button onClick={() => (selectMode ? toggleSelect(t.id) : setEditingId(t.id))} className="min-w-0 flex-1 text-left cursor-pointer">
                 <div className="flex items-center gap-1.5">
                   <span className={`text-[13px] leading-snug ${t.done ? "text-slate-500 line-through" : "text-slate-100"}`}>
@@ -2927,8 +3065,23 @@ function ProjectTasksCard({
                   {t.assigneeName && <><span>·</span><span>{t.assigneeName}</span></>}
                   {t.checklist.length > 0 && <><span>·</span><span>{t.checklist.filter((c) => c.done).length}/{t.checklist.length} ✓</span></>}
                   {t.comments.length > 0 && <><span>·</span><span>💬 {t.comments.length}</span></>}
+                  {!t.done && (() => {
+                    const pend = pendentesDe(t);
+                    if (!pend.length) return null;
+                    return (
+                      <span
+                        className="inline-flex items-center gap-1 border border-amber-500/40 bg-amber-500/10 text-amber-200 rounded-full px-1.5 leading-4 font-medium max-w-[260px]"
+                        title={`Aguardando: ${pend.map((d) => d.title).join(" · ")}`}
+                      >
+                        <Clock className="w-2.5 h-2.5 flex-none" />
+                        <span className="truncate">Aguardando: {pend[0].title}</span>
+                        {pend.length > 1 && <span className="flex-none">+{pend.length - 1}</span>}
+                      </span>
+                    );
+                  })()}
                 </div>
               </button>
+              )}
 
               <div className="flex items-center gap-2 flex-none pt-0.5">
                 {/* Status — troca sem abrir a tarefa */}
@@ -2941,11 +3094,39 @@ function ProjectTasksCard({
                 >
                   {TASK_STATUS.map((s) => <option key={s.id} value={s.id} className="bg-[#0f1729] text-slate-200">{s.label}</option>)}
                 </select>
-                {(start || due) && (
-                  <span className={`text-[10px] tabular-nums text-right ${overdue ? "text-red-300 font-medium" : "text-slate-500"}`}>
-                    {due ? formatBrazilDate(due) : formatBrazilDate(start!)}
-                  </span>
+                {inline?.id === t.id && inline.field === "dueDate" ? (
+                  <input
+                    type="date"
+                    autoFocus
+                    value={inline.value}
+                    onChange={(e) => setInline({ ...inline, value: e.target.value })}
+                    onKeyDown={inlineKeys}
+                    onBlur={inlineBlur}
+                    aria-label="Prazo"
+                    className="bg-[#080b12] border border-indigo-500/60 rounded px-1.5 py-0.5 text-[11px] text-white focus:outline-none [color-scheme:dark]"
+                  />
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setInline({ id: t.id, field: "dueDate", value: toDateInputValue(t.dueDate) })}
+                    title="Mudar o prazo"
+                    className={`text-[10px] tabular-nums text-right rounded px-1 -mx-1 hover:bg-[#161f30] ${
+                      due ? (overdue ? "text-red-300 font-medium" : "text-slate-500 hover:text-white")
+                        : start ? "text-slate-500 hover:text-white"
+                        : "text-slate-600 opacity-0 group-hover:opacity-100 hover:text-white"
+                    }`}
+                  >
+                    {due ? formatBrazilDate(due) : start ? formatBrazilDate(start) : "+ prazo"}
+                  </button>
                 )}
+                <button
+                  onClick={() => setInline({ id: t.id, field: "title", value: t.title })}
+                  className="text-slate-600 hover:text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                  title="Renomear aqui"
+                  aria-label="Renomear tarefa"
+                >
+                  <Pencil className="w-3.5 h-3.5" />
+                </button>
                 <button
                   onClick={() => remove(t)}
                   className="text-slate-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"
@@ -3175,7 +3356,7 @@ function ProjectTasksCard({
               <div className="flex-1 min-h-0 px-6 py-5">
                 {/* key = id: troca de tarefa REMONTA o editor. Sem isso os campos
                     (inicializados por useState) manteriam os valores da anterior. */}
-                <TaskEditor key={t.id} projectId={projectId} task={t} onClose={() => setEditingId(null)} stageSuggestions={knownStages} tagSuggestions={tagSuggestions} serviceSteps={serviceSteps} hasClickup={hasClickup} availableUsers={availableUsers} clientId={clientId} hasApprovalGroup={hasApprovalGroup} />
+                <TaskEditor key={t.id} projectId={projectId} task={t} onClose={() => setEditingId(null)} stageSuggestions={knownStages} tagSuggestions={tagSuggestions} depOptions={depOptions} serviceSteps={serviceSteps} hasClickup={hasClickup} availableUsers={availableUsers} clientId={clientId} hasApprovalGroup={hasApprovalGroup} />
               </div>
             </div>
           </div>
