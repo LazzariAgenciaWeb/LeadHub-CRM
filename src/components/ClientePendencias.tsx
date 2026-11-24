@@ -81,7 +81,7 @@ const CSS = `
 .cpd-sep{height:1px;background:var(--cpd-line);margin:12px 0}
 .cpd-pop{position:absolute;right:0;top:calc(100% + 8px);z-index:40;width:min(330px,calc(100vw - 32px));
   padding:14px 16px;border-radius:16px;border:1px solid var(--cpd-line);background:#12141B;
-  box-shadow:0 18px 40px rgba(0,0,0,.5);text-align:left}
+  box-shadow:0 18px 40px rgba(0,0,0,.5);text-align:left;max-height:min(72vh,560px);overflow-y:auto}
 `;
 
 const LOGIN = `/login?callbackUrl=${encodeURIComponent("/meu-espaco")}`;
@@ -200,13 +200,16 @@ function IconeUsuario() {
 }
 
 /**
- * Botão redondo do portal pro topo da tela, ao lado da logo, com contador das
- * OUTRAS peças esperando aprovação (esta não conta — já está na tela). Abre um
- * painel com essas peças e a porta do portal (entrar ou pedir acesso) — fica
- * fora do caminho de quem só veio aprovar.
+ * Botão redondo do portal pro topo da tela, ao lado da logo, com contador do
+ * que MAIS espera o cliente (o item desta tela não conta — já está aberto):
+ * peças pra aprovar e, na tela do chamado, os outros chamados em aberto. Abre
+ * um painel com esses itens e a porta do portal (entrar ou pedir acesso) —
+ * fica fora do caminho de quem só veio aprovar/responder.
  */
-export function PortalAcesso(p: PortalProps & { aprovacoes?: ItemPendente[] }) {
+export function PortalAcesso(p: PortalProps & { aprovacoes?: ItemPendente[]; chamados?: ItemPendente[] }) {
   const pendentes = p.aprovacoes ?? [];
+  const chamados = p.chamados ?? [];
+  const total = pendentes.length + chamados.length;
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -233,14 +236,14 @@ export function PortalAcesso(p: PortalProps & { aprovacoes?: ItemPendente[] }) {
         type="button"
         className="cpd-fab"
         aria-expanded={open}
-        aria-label={pendentes.length
-          ? `Portal do cliente: ${pendentes.length} ${pendentes.length === 1 ? "outra peça" : "outras peças"} pra aprovar`
+        aria-label={total
+          ? `Portal do cliente: ${total} ${total === 1 ? "item esperando" : "itens esperando"} você`
           : "Portal do cliente"}
         title="Portal do cliente"
         onClick={() => setOpen((v) => !v)}
       >
         <IconeUsuario />
-        {pendentes.length > 0 && <b className="cpd-badge">{pendentes.length > 9 ? "9+" : pendentes.length}</b>}
+        {total > 0 && <b className="cpd-badge">{total > 9 ? "9+" : total}</b>}
       </button>
       {/* Montado sempre (só escondido): fechar o painel não apaga o pedido em andamento. */}
       <div className="cpd-pop" hidden={!open}>
@@ -254,6 +257,23 @@ export function PortalAcesso(p: PortalProps & { aprovacoes?: ItemPendente[] }) {
                     <span className="ico">🎨</span>
                     <span className="tx"><b>{it.title}</b>{it.sub && <small>{it.sub}</small>}</span>
                     <span className="go">Aprovar →</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+            {chamados.length === 0 && <div className="cpd-sep" />}
+          </>
+        )}
+        {chamados.length > 0 && (
+          <>
+            <p className="cpd-h warn">💬 {chamados.length === 1 ? "Mais 1 chamado seu em aberto" : `Mais ${chamados.length} chamados seus em aberto`}</p>
+            <ul className="cpd-list">
+              {chamados.map((it) => (
+                <li key={it.url}>
+                  <a className="cpd-item" href={it.url}>
+                    <span className="ico">💬</span>
+                    <span className="tx"><b>{it.title}</b>{it.sub && <small>{it.sub}</small>}</span>
+                    <span className="go">Ver →</span>
                   </a>
                 </li>
               ))}

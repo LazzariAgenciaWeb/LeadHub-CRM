@@ -12,18 +12,22 @@ const NOME_KEY = "acompanhar:nome";
 
 const erro = (e: unknown, fallback: string) => (e instanceof Error && e.message ? e.message : fallback);
 
-const card: React.CSSProperties = {
-  background: "#0C1220", border: "1px solid #1E2D45", borderRadius: 14, padding: 16,
-};
-const field: React.CSSProperties = {
-  width: "100%", background: "#070B14", border: "1px solid #1E2D45", borderRadius: 10,
-  color: "#E2E8F0", fontSize: 14, padding: "10px 12px", outline: "none",
-  fontFamily: "inherit", boxSizing: "border-box",
-};
-const label: React.CSSProperties = {
-  display: "block", fontSize: 11, textTransform: "uppercase", letterSpacing: 1,
-  color: "#64748B", margin: "0 0 6px",
-};
+// Classes da casca compartilhada com a aprovação (ClientePublicShell): card,
+// input.f, btn ok/ghost, err, hint. Aqui só o que é desta caixa.
+const CSS = `
+.resp{margin-top:16px}
+.resp .lb{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);margin:0 0 6px}
+.resp .col{display:flex;flex-direction:column;gap:12px}
+.resp .fls{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.resp .fi{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink2);background:#0B0D15;border:1px solid var(--line2);border-radius:10px;padding:7px 10px}
+.resp .fi span.n{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.resp .fi button{background:none;border:0;color:var(--ink3);cursor:pointer;font-size:14px;padding:0}
+.resp .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.resp .btn.ghost{flex:none;padding:10px 14px;font-size:13px}
+.resp .btn.ok{flex:none;min-width:160px}
+.resp .okmsg{margin:0;font-size:13px;color:var(--ok)}
+@media (max-width:560px){.resp .btn.ok{flex:1}}
+`;
 
 export default function ClienteResponder({
   token, status, storageOn,
@@ -91,25 +95,26 @@ export default function ClienteResponder({
   const busy = sending || uploading > 0;
 
   return (
-    <div style={{ ...card, marginTop: 24 }}>
-      <p style={{ margin: "0 0 4px", fontSize: 14, fontWeight: 600 }}>Falar com a equipe</p>
-      <p style={{ margin: "0 0 14px", fontSize: 12, color: "#94A3B8" }}>
+    <div className="card resp">
+      <style>{CSS}</style>
+      <h3>Falar com a equipe</h3>
+      <p className="hint" style={{ margin: "0 0 14px" }}>
         {encerrado
           ? "Este chamado está encerrado — se escrever aqui, ele volta pra fila da equipe."
           : "Mande uma informação nova, um print ou tire uma dúvida. Entra direto no atendimento."}
       </p>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+      <div className="col">
         <div>
-          <label style={label} htmlFor="resp-nome">Seu nome</label>
-          <input id="resp-nome" style={field} value={name} maxLength={80}
+          <label className="lb" htmlFor="resp-nome">Seu nome</label>
+          <input id="resp-nome" className="f" value={name} maxLength={80} autoComplete="name"
             onChange={(e) => { setName(e.target.value); setOk(false); }}
             placeholder="Como a equipe te chama" />
         </div>
 
         <div>
-          <label style={label} htmlFor="resp-msg">Sua mensagem</label>
-          <textarea id="resp-msg" rows={4} style={{ ...field, resize: "vertical", lineHeight: 1.5 }}
+          <label className="lb" htmlFor="resp-msg">Sua mensagem</label>
+          <textarea id="resp-msg" rows={4} className="f"
             value={text} maxLength={4000}
             onChange={(e) => { setText(e.target.value); setOk(false); }}
             placeholder="Escreva aqui…" />
@@ -118,33 +123,23 @@ export default function ClienteResponder({
         {storageOn && (
           <div>
             <input ref={fileRef} type="file" multiple onChange={pick} style={{ display: "none" }} />
-            <button type="button" onClick={() => fileRef.current?.click()} disabled={busy}
-              style={{
-                background: "#0F1829", border: "1px solid #1E2D45", borderRadius: 9, color: "#93C5FD",
-                fontSize: 13, padding: "8px 12px", cursor: busy ? "default" : "pointer", fontFamily: "inherit",
-              }}>
-              📎 Anexar arquivo
-            </button>
-            {uploading > 0 && (
-              <span style={{ fontSize: 12, color: "#94A3B8", marginLeft: 10 }}>
-                Enviando {uploading} arquivo{uploading > 1 ? "s" : ""}…
-              </span>
-            )}
+            <div className="row">
+              <button type="button" className="btn ghost" onClick={() => fileRef.current?.click()} disabled={busy}>
+                📎 Anexar arquivo
+              </button>
+              {uploading > 0 && (
+                <span className="hint">Enviando {uploading} arquivo{uploading > 1 ? "s" : ""}…</span>
+              )}
+            </div>
             {files.length > 0 && (
-              <div style={{ display: "flex", flexDirection: "column", gap: 6, marginTop: 10 }}>
+              <div className="fls">
                 {files.map((f) => (
-                  <div key={f.id} style={{
-                    display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "#CBD5E1",
-                    background: "#070B14", border: "1px solid #1E2D45", borderRadius: 9, padding: "7px 10px",
-                  }}>
+                  <div key={f.id} className="fi">
                     <span>{fileIcon(f.mimeType, f.fileName)}</span>
-                    <span style={{ flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{f.fileName}</span>
-                    <span style={{ fontSize: 11, color: "#64748B" }}>{formatBytes(f.size)}</span>
+                    <span className="n">{f.fileName}</span>
+                    <span className="hint">{formatBytes(f.size)}</span>
                     <button type="button" aria-label={`Tirar ${f.fileName}`}
-                      onClick={() => setFiles((list) => list.filter((x) => x.id !== f.id))}
-                      style={{ background: "none", border: "none", color: "#64748B", cursor: "pointer", fontSize: 14, padding: 0 }}>
-                      ✕
-                    </button>
+                      onClick={() => setFiles((list) => list.filter((x) => x.id !== f.id))}>✕</button>
                   </div>
                 ))}
               </div>
@@ -152,20 +147,13 @@ export default function ClienteResponder({
           </div>
         )}
 
-        {err && <p style={{ margin: 0, fontSize: 13, color: "#FCA5A5" }}>{err}</p>}
+        {err && <p className="err" style={{ margin: 0 }}>{err}</p>}
         {ok && !err && (
-          <p style={{ margin: 0, fontSize: 13, color: "#34D399" }}>
-            Recebido! A equipe foi avisada e sua mensagem já está no andamento.
-          </p>
+          <p className="okmsg">Recebido! A equipe foi avisada e sua mensagem já está no andamento.</p>
         )}
 
-        <div>
-          <button type="button" onClick={send} disabled={busy}
-            style={{
-              background: busy ? "#1E2D45" : "#D6157A",
-              border: "none", borderRadius: 10, color: "#fff", fontSize: 14, fontWeight: 600,
-              padding: "11px 20px", cursor: busy ? "default" : "pointer", fontFamily: "inherit",
-            }}>
+        <div className="row">
+          <button type="button" className="btn ok" onClick={send} disabled={busy}>
             {sending ? "Enviando…" : encerrado ? "Reabrir e enviar" : "Enviar"}
           </button>
         </div>

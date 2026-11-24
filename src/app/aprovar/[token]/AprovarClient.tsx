@@ -6,6 +6,7 @@ import { MarkdownDoc } from "@/components/MarkdownDoc";
 import { Linkified } from "@/components/DescricaoRich";
 import ClientePendencias, { PortalAcesso, type ItemPendente } from "@/components/ClientePendencias";
 import type { AdjustmentView } from "@/lib/approval-adjustments";
+import { SHELL_CSS, BrandBar, brandVars } from "@/components/ClientePublicShell";
 
 /**
  * Tela do CLIENTE pra aprovar uma peça pelo link do WhatsApp (sem login).
@@ -74,12 +75,6 @@ const DEVICE_KEY = "lh-aprovador-aparelho";
 const MINE_KEY = "lh-ajustes-meus";
 
 const STYLE = `
-.ap{--accent:var(--brand,#6E86FF);--ok:#4FD1A0;--warn:#F5B564;--ink:#F3F5FA;--ink2:#AFB6C6;--ink3:#727A8C;
-  --line:rgba(255,255,255,.08);--line2:rgba(255,255,255,.14);--card:rgba(255,255,255,.04);
-  min-height:100vh;color:var(--ink);background:radial-gradient(110% 70% at 85% -10%,color-mix(in srgb,var(--accent) 16%,transparent),transparent 60%),#06070C;
-  font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.5}
-.ap *{box-sizing:border-box}
-.apw{max-width:1240px;margin:0 auto;padding:22px 16px 180px}
 .lay{display:grid;grid-template-columns:minmax(0,1fr);gap:4px}
 .cmed,.cinfo{min-width:0}
 @media (min-width:980px){
@@ -91,12 +86,6 @@ const STYLE = `
   .cinfo .card:first-child{margin-top:18px}
 }
 @media (min-width:640px) and (max-width:979px){.apw{max-width:760px;padding:24px 24px 170px}}
-.eyebrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:12px;color:var(--ink3)}
-.chip{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;border:1px solid var(--line2);font-size:11px;font-weight:600;color:var(--ink2)}
-.chip.warn{color:var(--warn);border-color:rgba(245,181,100,.35);background:rgba(245,181,100,.08)}
-.chip.ok{color:var(--ok);border-color:rgba(79,209,160,.35);background:rgba(79,209,160,.08)}
-h1{font-size:clamp(22px,2.4vw,30px);line-height:1.25;margin:10px 0 4px;letter-spacing:-.01em}
-.sub{color:var(--ink3);font-size:13px}
 .car{margin:18px -16px 0;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;padding:0 16px;scrollbar-width:none}
 .car::-webkit-scrollbar{display:none}
 .slide{flex:0 0 100%;scroll-snap-align:center;border-radius:18px;overflow:hidden;background:#000;border:1px solid var(--line);position:relative;
@@ -123,10 +112,6 @@ h1{font-size:clamp(22px,2.4vw,30px);line-height:1.25;margin:10px 0 4px;letter-sp
 .dot{width:7px;height:7px;border-radius:999px;background:var(--line2);border:0;padding:0}
 .dot.on{background:var(--accent);width:18px}
 .count{text-align:center;color:var(--ink3);font-size:12px;margin-top:6px}
-.card{margin-top:16px;padding:14px 16px;border-radius:16px;background:var(--card);border:1px solid var(--line)}
-.card h3{margin:0 0 6px;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink3)}
-.pre{white-space:pre-wrap;word-break:break-word;font-size:14px;color:var(--ink2)}
-.pre img{display:block;max-width:100%;margin:10px 0;border-radius:10px;border:1px solid var(--line)}
 .card.texto{padding:20px 20px 22px;border-color:var(--line2)}
 .card.prev{border-color:rgba(251,146,60,.3);background:rgba(251,146,60,.05)}
 .prevrow{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line)}
@@ -165,24 +150,6 @@ h1{font-size:clamp(22px,2.4vw,30px);line-height:1.25;margin:10px 0 4px;letter-sp
 .bar{position:fixed;left:0;right:0;bottom:0;background:linear-gradient(180deg,rgba(6,7,12,0),rgba(6,7,12,.92) 22%,#06070C);padding:22px 16px calc(14px + env(safe-area-inset-bottom))}
 .barw{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:8px}
 .row{display:flex;gap:8px}
-input.f,textarea.f{width:100%;background:#0B0D15;border:1px solid var(--line2);border-radius:12px;color:var(--ink);padding:11px 12px;font-size:16px;font-family:inherit}
-textarea.f{min-height:84px;resize:vertical}
-input.f:focus,textarea.f:focus{outline:none;border-color:var(--accent)}
-.btn{flex:1;border:0;border-radius:14px;padding:14px 12px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit}
-.btn:disabled{opacity:.5;cursor:default}
-.btn.ok{background:var(--accent);color:var(--on-accent,#04150F)}
-.brandbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:14px;margin-bottom:16px;border-bottom:1px solid var(--line)}
-.brandbar img{height:30px;width:auto;max-width:150px;object-fit:contain;display:block}
-.brandbar b{font-size:15px;letter-spacing:-.01em}
-.brandbar>span,.brandbar .bbr>span{font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em}
-.brandbar .bbr{display:flex;align-items:center;gap:12px;min-width:0}
-@media (max-width:560px){.brandbar .bbr>span{display:none}}
-.made{margin-top:28px;text-align:center;font-size:11px;color:var(--ink3)}
-.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line2)}
-.err{color:#FF8A8A;font-size:13px}
-.banner{margin-top:18px;padding:16px;border-radius:16px;font-size:14px}
-.banner.ok{background:rgba(79,209,160,.1);border:1px solid rgba(79,209,160,.35);color:#BDF3DF}
-.banner.info{background:rgba(110,134,255,.1);border:1px solid rgba(110,134,255,.3);color:#D5DCFF}
 .lk{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:12px;border:1px solid var(--line2);background:#0B0D15;color:var(--ink);text-decoration:none;font-size:14px;font-weight:600;margin-top:8px}
 .lk:first-of-type{margin-top:0}
 .lk span.t{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -226,22 +193,12 @@ a.open{color:var(--accent);font-size:13px;font-weight:600}
 .adj.done .st{color:var(--ok)}
 .adj .acts{display:flex;gap:14px;margin-top:6px}
 .adj .acts button{background:none;border:0;padding:0;color:var(--ink3);font-size:12px;cursor:pointer;font-family:inherit;text-decoration:underline}
-.hint{font-size:12px;color:var(--ink3)}
 .tgt{display:flex;gap:6px;flex-wrap:wrap}
 .tgt button{border:1px solid var(--line2);background:transparent;color:var(--ink2);border-radius:999px;padding:6px 12px;font-size:13px;cursor:pointer;font-family:inherit}
 .tgt button.on{border-color:var(--warn);color:var(--warn);background:rgba(245,181,100,.1)}
 .confirm{padding:12px;border-radius:12px;background:rgba(245,181,100,.08);border:1px solid rgba(245,181,100,.4);font-size:14px}
 .btn.warn{background:var(--warn);color:#1A1205}
 `;
-
-// Cor da agência vira o acento da tela; o texto em cima dela (botão aprovar)
-// fica escuro ou claro conforme a luminância — amarelo pede texto preto.
-function brandVars(color: string | null): React.CSSProperties | undefined {
-  if (!color || !/^#[0-9a-f]{6}$/i.test(color)) return undefined;
-  const [r, g, b] = [1, 3, 5].map((i) => parseInt(color.slice(i, i + 2), 16) / 255);
-  const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-  return { ["--brand" as string]: color, ["--on-accent" as string]: lum > 0.55 ? "#0A0A0A" : "#FFFFFF" } as React.CSSProperties;
-}
 
 // Descritivo como o cliente vê: texto puro + prints colados ([[img:id]]),
 // com os endereços clicáveis (abrem em nova aba).
@@ -523,7 +480,7 @@ export default function AprovarClient(p: Props) {
 
   return (
     <div className="ap" style={brandVars(p.brand.color)}>
-      <style>{STYLE}</style>
+      <style>{SHELL_CSS + STYLE}</style>
       {reading?.text !== undefined && reading && (
         <div className="reader" role="dialog" aria-label={reading.fileName}>
           <div className="rbar">
@@ -536,22 +493,15 @@ export default function AprovarClient(p: Props) {
         </div>
       )}
       <div className="apw">
-        <div className="brandbar">
-          {p.brand.logoUrl
-            // eslint-disable-next-line @next/next/no-img-element
-            ? <img src={p.brand.logoUrl} alt={p.brand.name} />
-            : <b>{p.brand.name}</b>}
-          <div className="bbr">
-            <span>Aprovação de peças</span>
-            {/* Portal no topo: embaixo ele se confundia com aprovar/ajustar. */}
-            <PortalAcesso
-              aprovacoes={p.pendencias.aprovacoes}
-              temAcesso={p.pendencias.temAcesso}
-              agencia={p.pendencias.agencia}
-              origem={{ kind: "aprovacao", token: p.token }}
-            />
-          </div>
-        </div>
+        <BrandBar brand={p.brand} label="Aprovação de peças">
+          {/* Portal no topo: embaixo ele se confundia com aprovar/ajustar. */}
+          <PortalAcesso
+            aprovacoes={p.pendencias.aprovacoes}
+            temAcesso={p.pendencias.temAcesso}
+            agencia={p.pendencias.agencia}
+            origem={{ kind: "aprovacao", token: p.token }}
+          />
+        </BrandBar>
         <div className="eyebrow">
           {p.clientName && <span>{p.clientName}</span>}
           {statusChip}
