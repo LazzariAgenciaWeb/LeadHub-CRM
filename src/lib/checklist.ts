@@ -73,6 +73,8 @@ export type TaskComment = {
   cid?: string;
   // Quem escreveu (nome). Comentários antigos não têm.
   au?: string;
+  // Editado depois de publicado (data ISO da última edição) — mostra "(editado)".
+  ed?: string;
   // Anexos/links atrelados a este comentário — resolvem o rastro de "essa
   // imagem veio nesta alteração pedida em X data". Os anexos são snapshots
   // de StoredFile (o binário mora no MinIO, servido via /api/storage/[id]).
@@ -105,6 +107,8 @@ export function sanitizeComments(raw: unknown): TaskComment[] | null {
     if ((it as any).hl === true) c.hl = true; // em destaque ("Para aprovar")
     if (typeof (it as any).cid === "string" && (it as any).cid) c.cid = (it as any).cid; // id no ClickUp
     if (typeof (it as any).au === "string" && (it as any).au.trim()) c.au = (it as any).au.trim().slice(0, 80); // autor
+    const ed = (it as { ed?: unknown }).ed; // editado em
+    if (typeof ed === "string" && !Number.isNaN(new Date(ed).getTime())) c.ed = new Date(ed).toISOString();
     if (hasAttach) {
       const atts: TaskCommentAttachment[] = [];
       for (const a of (it as any).attachments as unknown[]) {

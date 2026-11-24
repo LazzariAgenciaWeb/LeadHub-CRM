@@ -106,6 +106,8 @@ type InternalTask = {
     by?: "client";
     vis?: boolean;
     hl?: boolean;
+    cid?: string; // id do comentário no ClickUp
+    ed?: string;  // editado em (ISO)
     attachments?: { id: string; fileName: string; mimeType: string; size?: number }[];
     links?: { url: string; title?: string }[];
   }[];
@@ -1534,6 +1536,18 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, tagSuggestions
 
   const inCls = "w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500";
 
+  // Edição de comentário publicado (só os da equipe).
+  const [editCm, setEditCm] = useState<{ i: number; text: string } | null>(null);
+  async function saveEditedComment() {
+    if (!editCm) return;
+    const text = editCm.text.trim();
+    const c = comments[editCm.i];
+    setEditCm(null);
+    if (!c || text === (c.text ?? "").trim()) return;
+    if (!text && !c.attachments?.length && !c.links?.length) return; // vazio = use o apagar
+    await persistComments(comments.map((x, idx) => (idx === editCm.i ? { ...x, text, ed: new Date().toISOString() } : x)));
+  }
+
   async function persistComments(next: any[]) {
     setComments(next);
     await fetch(`/api/projetos/${projectId}/tasks/${task.id}`, {
@@ -2194,13 +2208,50 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, tagSuggestions
                             {!fromClient && (
                               <button onClick={() => persistComments(comments.map((x, idx) => (idx === i ? { ...x, vis: internal ? true : false } : x)))} className="text-[10px] font-semibold text-slate-500 hover:text-emerald-300 opacity-0 group-hover/cm:opacity-100" title={internal ? "Mostrar pro cliente" : "Deixar só interno"}>{internal ? "mostrar" : "ocultar"}</button>
                             )}
-                            <span className="text-[10px] text-slate-500 tabular-nums">{formatBrazilDateTime(c.at)}</span>
-                            <button onClick={() => persistComments(comments.filter((_, idx) => idx !== i))} className="text-slate-600 hover:text-red-400 opacity-0 group-hover/cm:opacity-100" title="Remover">
+                            {!fromClient && editCm?.i !== i && (
+                              <button
+                                onClick={() => setEditCm({ i, text: c.text ?? "" })}
+                                className="text-slate-500 hover:text-white opacity-0 group-hover/cm:opacity-100"
+                                title="Editar o texto"
+                                aria-label="Editar comentário"
+                              >
+                                <Pencil className="w-3 h-3" />
+                              </button>
+                            )}
+                            <span className="text-[10px] text-slate-500 tabular-nums" title={c.ed ? `Editado em ${formatBrazilDateTime(c.ed)}` : undefined}>
+                              {formatBrazilDateTime(c.at)}{c.ed ? " · editado" : ""}
+                            </span>
+                            <button
+                              onClick={() => { if (confirm("Apagar este comentário?" + (c.cid ? " Ele sai do ClickUp também." : ""))) void persistComments(comments.filter((_, idx) => idx !== i)); }}
+                              className="text-slate-600 hover:text-red-400 opacity-0 group-hover/cm:opacity-100"
+                              title="Apagar"
+                              aria-label="Apagar comentário"
+                            >
                               <Trash2 className="w-3 h-3" />
                             </button>
                           </div>
                         </div>
-                        {c.text && (
+                        {editCm?.i === i ? (
+                          <div>
+                            <textarea
+                              autoFocus
+                              value={editCm.text}
+                              onChange={(e) => setEditCm({ i, text: e.target.value })}
+                              onKeyDown={(e) => {
+                                if (e.key === "Escape") { e.preventDefault(); setEditCm(null); }
+                                if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) { e.preventDefault(); void saveEditedComment(); }
+                              }}
+                              rows={Math.min(12, Math.max(3, editCm.text.split("\n").length + 1))}
+                              aria-label="Texto do comentário"
+                              className="w-full bg-[#080b12] border border-indigo-500/60 rounded-lg px-2.5 py-2 text-[13px] text-white leading-relaxed focus:outline-none resize-y"
+                            />
+                            <div className="flex items-center justify-end gap-2 mt-1.5">
+                              <span className="text-[10px] text-slate-600 mr-auto">⌘/Ctrl+Enter salva · Esc cancela{c.cid ? " · atualiza no ClickUp também" : ""}</span>
+                              <button onClick={() => setEditCm(null)} className="text-[11px] px-2 py-1 rounded text-slate-400 hover:text-white">Cancelar</button>
+                              <button onClick={() => void saveEditedComment()} className="text-[11px] px-2.5 py-1 rounded bg-indigo-600 hover:bg-indigo-500 text-white font-medium">Salvar</button>
+                            </div>
+                          </div>
+                        ) : c.text && (
                           <RichMessageBody
                             text={c.text}
                             className="text-[13px] text-slate-200 leading-relaxed"

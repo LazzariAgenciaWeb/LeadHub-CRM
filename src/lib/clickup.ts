@@ -399,6 +399,37 @@ export async function reopenClickupTask(apiToken: string, taskId: string): Promi
   }
 }
 
+/** Atualiza o texto de um comentário no ClickUp (best-effort). */
+export async function updateClickupComment(apiToken: string, commentId: string, text: string): Promise<boolean> {
+  try {
+    const res = await fetch(`https://api.clickup.com/api/v2/comment/${encodeURIComponent(commentId)}`, {
+      method: "PUT",
+      headers: { Authorization: apiToken, "Content-Type": "application/json" },
+      body: JSON.stringify({ comment_text: text, resolved: false }),
+    });
+    if (!res.ok) console.error("[ClickUp] updateComment failed", res.status, await res.text());
+    return res.ok;
+  } catch (err) {
+    console.error("[ClickUp] updateComment error", err);
+    return false;
+  }
+}
+
+/** Apaga um comentário no ClickUp (best-effort). */
+export async function deleteClickupComment(apiToken: string, commentId: string): Promise<boolean> {
+  try {
+    const res = await fetch(`https://api.clickup.com/api/v2/comment/${encodeURIComponent(commentId)}`, {
+      method: "DELETE",
+      headers: { Authorization: apiToken },
+    });
+    if (!res.ok) console.error("[ClickUp] deleteComment failed", res.status, await res.text());
+    return res.ok;
+  } catch (err) {
+    console.error("[ClickUp] deleteComment error", err);
+    return false;
+  }
+}
+
 /** Add a comment to a ClickUp task. Returns the new comment ID (string) or null on failure.
  *  O ID é guardado em TicketMessage.externalId pra dedup quando o webhook do
  *  ClickUp devolver o mesmo comentário. */

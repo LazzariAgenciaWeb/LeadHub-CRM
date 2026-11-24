@@ -5,7 +5,7 @@ import { assertModule } from "@/lib/billing";
 import { getViewer, canSeeProject } from "@/lib/visibility";
 import { sanitizeChecklist, sanitizeComments, readComments } from "@/lib/checklist";
 import { Prisma } from "@/generated/prisma";
-import { getClickupSettings, updateClickupTask, markClickupTaskDone, reopenClickupTask } from "@/lib/clickup";
+import { getClickupSettings, updateClickupTask, markClickupTaskDone, reopenClickupTask, updateClickupComment, deleteClickupComment } from "@/lib/clickup";
 import { ensureEtapaClickupTask, pushTaskToClickup } from "@/lib/project-etapas";
 import { CLAUDE_ASSIGNEE } from "@/lib/project-ai";
 import { normalizeTags } from "@/lib/task-tags";
@@ -279,6 +279,24 @@ export async function PATCH(
         }
       }
     } catch { /* silencioso */ }
+  }
+
+  // Comentário editado/apagado aqui que já está no ClickUp (tem cid): reflete
+  // lá também — senão o ClickUp fica com o texto antigo. Best-effort.
+  if (data.comments !== undefined) {
+    const antes = readComments(res.task.comments).filter((c) => c.cid);
+    const depois = new Map(readComments(data.comments === Prisma.DbNull ? null : data.comments).filter((c) => c.cid).map((c) => [c.cid!, c]));
+    const mudados = antes.filter((c) => depois.has(c.cid!) && depois.get(c.cid!)!.text !== c.text && depois.get(c.cid!)!.text.trim());
+    const apagados = antes.filter((c) => !depois.has(c.cid!));
+    if (mudados.length || apagados.length) {
+      try {
+        const settings = await getClickupSettings(res.task.project.setor.companyId);
+        if (settings?.apiToken) {
+          for (const c of mudados) await updateClickupComment(settings.apiToken, c.cid!, depois.get(c.cid!)!.text);
+          for (const c of apagados) await deleteClickupComment(settings.apiToken, c.cid!);
+        }
+      } catch { /* silencioso */ }
+    }
   }
 
   return NextResponse.json(task);
