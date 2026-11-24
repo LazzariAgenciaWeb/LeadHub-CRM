@@ -25,14 +25,17 @@ export function extractLinks(text: string | null | undefined): string[] {
 const shortUrl = (u: string) => { const b = u.replace(/^https?:\/\/(www\.)?/i, ""); return b.length > 48 ? `${b.slice(0, 46)}…` : b; };
 const hrefOf = (u: string) => (/^https?:\/\//i.test(u) ? u : `https://${u}`);
 
-/** Texto com os endereços clicáveis (nova aba). Só gera <a> — nada de HTML do texto. */
-function Linkified({ text }: { text: string }) {
+/**
+ * Texto com os endereços clicáveis (nova aba). Só gera <a> — nada de HTML do
+ * texto. `linkStyle` troca a cor do link (páginas públicas usam a cor da marca).
+ */
+export function Linkified({ text, linkStyle }: { text: string; linkStyle?: React.CSSProperties }) {
   const parts = text.split(URL_RE);
   return (
     <>
       {parts.map((p, i) =>
         i % 2 === 1
-          ? <a key={i} href={hrefOf(p)} target="_blank" rel="noopener noreferrer" title={p} className="text-indigo-300 hover:text-indigo-200 underline decoration-indigo-400/40 break-all">{shortUrl(p)}</a>
+          ? <a key={i} href={hrefOf(p)} target="_blank" rel="noopener noreferrer" title={p} style={linkStyle} className={`underline break-all ${linkStyle ? "" : "text-indigo-300 hover:text-indigo-200 decoration-indigo-400/40"}`}>{shortUrl(p)}</a>
           : p,
       )}
     </>

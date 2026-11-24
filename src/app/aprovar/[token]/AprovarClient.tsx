@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { MarkdownDoc } from "@/components/MarkdownDoc";
+import { Linkified } from "@/components/DescricaoRich";
 import ClientePendencias, { PortalAcesso, type ItemPendente } from "@/components/ClientePendencias";
 import type { AdjustmentView } from "@/lib/approval-adjustments";
 
@@ -242,7 +243,8 @@ function brandVars(color: string | null): React.CSSProperties | undefined {
   return { ["--brand" as string]: color, ["--on-accent" as string]: lum > 0.55 ? "#0A0A0A" : "#FFFFFF" } as React.CSSProperties;
 }
 
-// Descritivo como o cliente vê: texto puro + prints colados ([[img:id]]).
+// Descritivo como o cliente vê: texto puro + prints colados ([[img:id]]),
+// com os endereços clicáveis (abrem em nova aba).
 // Nada de HTML vindo do banco — a página é pública.
 function TextoPeca({ text, mediaBase }: { text: string; mediaBase: string }) {
   const clean = text.replace(/<[^>]+>/g, "");
@@ -253,7 +255,7 @@ function TextoPeca({ text, mediaBase }: { text: string; mediaBase: string }) {
         i % 2 === 1
           // eslint-disable-next-line @next/next/no-img-element
           ? <img key={i} src={mediaBase.replace("__ID__", part)} alt="" loading="lazy" />
-          : part ? <span key={i}>{part}</span> : null,
+          : part ? <span key={i}><Linkified text={part} linkStyle={{ color: "var(--accent)", textDecorationColor: "color-mix(in srgb, var(--accent) 45%, transparent)" }} /></span> : null,
       )}
     </div>
   );
