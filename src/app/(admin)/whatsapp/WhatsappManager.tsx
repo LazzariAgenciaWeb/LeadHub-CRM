@@ -11,6 +11,7 @@ import {
   ArrowRightLeft, ArrowRight, Ticket, User, Trophy, Ban, XCircle, Zap, Eye, EyeOff, RefreshCw, Trash2,
   type LucideIcon,
 } from "lucide-react";
+import { phoneSearchVariants } from "@/lib/phone-search";
 import QuickReplies from "./QuickReplies";
 import AudioRecorder from "./AudioRecorder";
 import { ScheduleMessageModal, ScheduledList } from "./ScheduledMessages";
@@ -1550,6 +1551,16 @@ export default function WhatsappManager({
       for (const c of serverSearchResults) if (!byPhone.has(c.phone)) byPhone.set(c.phone, c);
       return [...byPhone.values()];
     })();
+
+    // Quem o servidor devolveu JÁ casou com o termo (ele procura no histórico
+    // inteiro, por nome e por telefone). O filtro de texto daqui é só pra dar
+    // resposta instantânea na lista já carregada — não pode derrubar achado do
+    // servidor, senão buscar "(44) 9926-9664" não encontra nada.
+    const doServidor = new Set(serverSearchResults.map((c) => c.phone));
+
+    // Telefone digitado em qualquer formato → dígitos + variações de DDI/9.
+    const qDigits = search.replace(/\D/g, "");
+    const termosTelefone = phoneSearchVariants(qDigits);
     return base.filter((c) => {
       // Filtro de empresa (client-side, defesa contra dados misturados no refresh)
       if (!isSuperAdmin && defaultCompanyId && c.companyId !== defaultCompanyId) return false;
@@ -1557,11 +1568,14 @@ export default function WhatsappManager({
       // Ocultar grupos
       if (hideGroups && c.phone.includes("@g.us")) return false;
 
-      // Busca por texto
-      if (search) {
+      // Busca por texto (o que veio do servidor passa direto — já casou lá)
+      if (search && !doServidor.has(c.phone)) {
         const q = search.toLowerCase();
+        const convDigits = c.phone.replace(/\D/g, "");
         const matchName = c.lead?.name?.toLowerCase().includes(q) || c.companyContact?.name?.toLowerCase().includes(q);
-        const matchPhone = c.phone.includes(q);
+        const matchPhone =
+          c.phone.toLowerCase().includes(q) ||
+          termosTelefone.some((t) => convDigits.includes(t));
         const matchCompany = c.companyContact?.company?.name.toLowerCase().includes(q);
         if (!matchName && !matchPhone && !matchCompany) return false;
       }

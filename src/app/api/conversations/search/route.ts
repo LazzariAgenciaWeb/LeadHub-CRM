@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { enrichConversations, extrasOf } from "@/lib/conversation-enrich";
 import { assertModule } from "@/lib/billing";
 import { getHiddenInstanceIds, conversationVisibilityAnd } from "@/lib/whatsapp-visibility";
+import { phoneSearchVariants } from "@/lib/phone-search";
 
 // GET /api/conversations/search?q=...
 // Procura conversas em todo o histórico (não só nas 100 mais recentes que a
@@ -33,8 +34,13 @@ export async function GET(req: NextRequest) {
   const queryCompanyId = searchParams.get("companyId") ?? "";
   const effectiveCompanyId = isSuperAdmin ? queryCompanyId : userCompanyId;
 
-  // Termo só com dígitos (telefone) — busca também em phones sem máscara
+  // Termo só com dígitos (telefone) — busca também em phones sem máscara.
+  // Quem digita "(44) 99926-9664" ou "44 9926-9664" tem que achar o número
+  // gravado como "554499269664": comparamos dígito com dígito e ainda cobrimos
+  // as variações de DDI e do 9 extra (o WhatsApp grava dos dois jeitos).
   const qDigits = q.replace(/\D/g, "");
+  const digitTerms = phoneSearchVariants(qDigits);
+  const phoneOr = digitTerms.map((d) => ({ phone: { contains: d } }));
 
   // 1) Phones que casam por nome (via Lead OU CompanyContact)
   //    → dois selects pequenos pra coletar phones, depois um único findMany
@@ -44,8 +50,8 @@ export async function GET(req: NextRequest) {
   // 1a. Match direto na Conversation por phone (substring)
   const directConvWhere: any = {
     OR: [
-      { phone: { contains: q,       mode: "insensitive" } },
-      ...(qDigits.length >= 4 ? [{ phone: { contains: qDigits } }] : []),
+      { phone: { contains: q, mode: "insensitive" } },
+      ...phoneOr,
     ],
   };
   if (effectiveCompanyId) directConvWhere.companyId = effectiveCompanyId;
@@ -61,7 +67,7 @@ export async function GET(req: NextRequest) {
     OR: [
       { name:  { contains: q, mode: "insensitive" } },
       { phone: { contains: q, mode: "insensitive" } },
-      ...(qDigits.length >= 4 ? [{ phone: { contains: qDigits } }] : []),
+      ...phoneOr,
     ],
   };
   if (effectiveCompanyId) leadWhere.companyId = effectiveCompanyId;
@@ -77,7 +83,7 @@ export async function GET(req: NextRequest) {
     OR: [
       { name:  { contains: q, mode: "insensitive" } },
       { phone: { contains: q, mode: "insensitive" } },
-      ...(qDigits.length >= 4 ? [{ phone: { contains: qDigits } }] : []),
+      ...phoneOr,
     ],
   };
   if (effectiveCompanyId) contactWhere.companyId = effectiveCompanyId;
