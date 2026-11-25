@@ -35,6 +35,7 @@
     "seed:pagina-demo": "tsx scripts/seed-pagina-demo.ts",
     "test:client-central": "tsx scripts/test-client-central.ts",
     "test:conversation-client": "tsx scripts/test-conversation-client.ts",
+    "test:assistant-clientes": "tsx scripts/test-assistant-clientes.ts",
     "fix:conversation-clients": "tsx scripts/fix-conversation-clients.ts"
   },
   "prisma": {
