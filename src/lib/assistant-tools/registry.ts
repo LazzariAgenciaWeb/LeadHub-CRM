@@ -3,7 +3,7 @@ import type { ToolDef } from "./types";
 import { consultaTools } from "./consulta";
 import { criarTools } from "./criar";
 import { notasTools } from "./notas";
-import { financeiroTools } from "./financeiro";
+import { financeiroTools, cobrancasTools } from "./financeiro";
 import { filaDoDia } from "./fila";
 import { avisarNoWhatsapp } from "./avisos";
 import { leadsTools } from "./leads";
@@ -30,6 +30,7 @@ export const ALL_TOOLS: ToolDef[] = [
   ...financeiroTools,
   // No fim de propósito: entrar no meio mudaria a ordem das anteriores.
   ...clientesTools,
+  ...cobrancasTools,
 ];
 
 /** Só pelo MCP: no chat/WhatsApp a resposta já vai pro canal. */

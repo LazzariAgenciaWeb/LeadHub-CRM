@@ -3,6 +3,7 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { can } from "@/lib/permissions";
 import { logFinance, agencyOf } from "@/lib/finance-log";
+import { InvoiceOpError, normalizeExternalId, withExternalIdLock } from "@/lib/invoice-ops";
 
 // Autoriza: super-admin, ou a agência-mãe do cliente (parentCompanyId), ou a própria empresa.
 async function authorize(session: any, companyId: string) {
@@ -49,25 +50,34 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     clientServiceId = cs?.id ?? null;
   }
 
-  const created = await prisma.clientInvoice.create({
-    data: {
-      clientCompanyId: id,
-      clientServiceId,
-      description,
-      referenceMonth: body?.referenceMonth ? String(body.referenceMonth).slice(0, 7) : null,
-      amountCents,
-      dueDate,
-      status: "ABERTO",
-      boletoUrl:  body?.boletoUrl ? String(body.boletoUrl).trim() : null,
-      invoiceUrl: body?.invoiceUrl ? String(body.invoiceUrl).trim() : null,
-      externalId: body?.externalId ? String(body.externalId).trim() : null,
-      notes:      body?.notes ? String(body.notes) : null,
-      provider:   "manual",
-    },
-    include: { clientService: { select: { id: true, label: true } } },
-  });
+  // ID externo (ULTRA:931…) é único por agência — mesma checagem do MCP.
+  const agencyId = await agencyOf(id);
+  const externalId = normalizeExternalId(body?.externalId);
+  let created;
+  try {
+    created = await withExternalIdLock(agencyId, externalId, null, (tx) => tx.clientInvoice.create({
+      data: {
+        clientCompanyId: id,
+        clientServiceId,
+        description,
+        referenceMonth: body?.referenceMonth ? String(body.referenceMonth).slice(0, 7) : null,
+        amountCents,
+        dueDate,
+        status: "ABERTO",
+        boletoUrl:  body?.boletoUrl ? String(body.boletoUrl).trim() : null,
+        invoiceUrl: body?.invoiceUrl ? String(body.invoiceUrl).trim() : null,
+        externalId,
+        notes:      body?.notes ? String(body.notes) : null,
+        provider:   "manual",
+      },
+      include: { clientService: { select: { id: true, label: true } } },
+    }));
+  } catch (e) {
+    if (e instanceof InvoiceOpError) return NextResponse.json({ error: e.message, code: e.code }, { status: 409 });
+    throw e;
+  }
   await logFinance({
-    companyId: await agencyOf(id),
+    companyId: agencyId,
     clientCompanyId: id,
     entity: "COBRANCA",
     entityId: created.id,

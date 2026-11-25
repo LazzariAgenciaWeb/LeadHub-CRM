@@ -2,39 +2,50 @@ import { prisma } from "@/lib/prisma";
 import { type ToolDef, ok, fail, appUrl, fmtDate, fmtDateTime, brl } from "./types";
 import { ACCEPTANCE_LABEL, CONTRACT_STATUS_LABEL, productionBlocker } from "@/lib/sale-contract";
 import { buildClientTimeline, TIMELINE_LABEL } from "@/lib/client-central";
+import { clientIdsByDocument, documentDigits, formatDocument, looksLikeDocument } from "@/lib/client-document";
 
 /** Ferramentas de LEITURA: buscar cliente, projetos, usuários, resumo de cliente. */
 
 export const buscarCliente: ToolDef<{ query: string }> = {
   name: "buscar_cliente",
   description:
-    "Busca empresas-cliente da carteira pelo nome (parcial, sem acento). Use antes de criar chamado/projeto/cobrança pra obter o clientCompanyId. Retorna até 8 resultados com id, nome, telefone e contatos.",
+    "Busca empresas-cliente da carteira pelo nome (parcial, sem acento) OU pelo CNPJ/CPF (com ou sem máscara; a raiz do CNPJ acha matriz e filiais). Use antes de criar chamado/projeto/cobrança pra obter o clientCompanyId. Retorna até 8 resultados com id, nome, CNPJ/CPF, telefone e contatos.",
   input_schema: {
     type: "object",
-    properties: { query: { type: "string", description: "Trecho do nome do cliente" } },
+    properties: { query: { type: "string", description: "Trecho do nome do cliente, ou o CNPJ/CPF" } },
     required: ["query"],
   },
   run: async ({ query }, ctx) => {
     const q = (query ?? "").trim();
-    if (!q) return fail("Informe um trecho do nome.");
+    if (!q) return fail("Informe um trecho do nome ou o CNPJ/CPF.");
+    const byDoc = looksLikeDocument(q);
+    const docIds = byDoc ? await clientIdsByDocument(ctx.companyId, q) : [];
     const rows = await prisma.company.findMany({
       where: {
         parentCompanyId: ctx.companyId,
         OR: [
           { name: { contains: q, mode: "insensitive" } },
           { tradeName: { contains: q, mode: "insensitive" } },
+          ...(docIds.length ? [{ id: { in: docIds } }] : []),
         ],
       },
       select: {
-        id: true, name: true, tradeName: true, phone: true, email: true, status: true,
+        id: true, name: true, tradeName: true, document: true, phone: true, email: true, status: true,
         contacts: { take: 3, select: { name: true, phone: true, role: true } },
       },
       take: 8,
       orderBy: { name: "asc" },
     });
-    if (rows.length === 0) return ok(`Nenhum cliente encontrado para "${q}".`, { data: [] });
+    if (rows.length === 0) {
+      return ok(
+        byDoc
+          ? `Nenhum cliente com o documento ${formatDocument(documentDigits(q))}. Se o cliente existe, o CNPJ/CPF dele pode não estar no cadastro: busque pelo nome e grave o documento com atualizar_cliente.`
+          : `Nenhum cliente encontrado para "${q}".`,
+        { data: [] },
+      );
+    }
     const lines = rows.map((c) =>
-      `- ${c.name}${c.tradeName ? ` (${c.tradeName})` : ""} · id=${c.id}${c.phone ? ` · ${c.phone}` : ""}${c.status !== "ACTIVE" ? " · INATIVO" : ""}` +
+      `- ${c.name}${c.tradeName ? ` (${c.tradeName})` : ""} · id=${c.id}${c.document ? ` · doc ${formatDocument(c.document)}` : " · sem CNPJ/CPF"}${c.phone ? ` · ${c.phone}` : ""}${c.status !== "ACTIVE" ? " · INATIVO" : ""}` +
       (c.contacts.length ? ` · contatos: ${c.contacts.map((k) => `${k.name ?? "?"} ${k.phone}`).join(", ")}` : "")
     );
     return ok(lines.join("\n"), { data: rows });

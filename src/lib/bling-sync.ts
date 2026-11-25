@@ -18,6 +18,7 @@
  */
 
 import { prisma } from "./prisma";
+import { agencyInvoiceScope } from "./invoice-ops";
 import {
   listContatos,
   listContasReceber,
@@ -290,7 +291,10 @@ export async function syncFinanceiro(companyId: string): Promise<FinanceSyncResu
       continue; // sem cliente casado → não dá pra pendurar a cobrança
     }
 
-    const externalId = `cr:${conta.id}`;
+    // Mesmo formato do ID externo que o GoHub usa pra cruzar sistemas
+    // (ULTRA:931, BLING:123). `cr:<id>` é o formato antigo deste sync — ainda
+    // casado na busca abaixo pra não duplicar o que já foi importado.
+    const externalId = `BLING:${conta.id}`;
     const dueDate = parseDate(conta.vencimento) ?? new Date();
     const data = {
       clientCompanyId,
@@ -305,8 +309,17 @@ export async function syncFinanceiro(companyId: string): Promise<FinanceSyncResu
       provider: "bling",
     };
 
+    // Casa pelo ID externo dentro da carteira da agência, qualquer que seja a
+    // origem: cobrança lançada no GoHub e ligada a BLING:<id> (atualizar_cobranca)
+    // vira a mesma linha em vez de duplicar. Fase 2 (Bling = fonte da verdade)
+    // ainda vai precisar passar a baixa por src/lib/invoice-ops.ts.
     const existing = await prisma.clientInvoice.findFirst({
-      where: { provider: "bling", externalId },
+      where: {
+        AND: [
+          agencyInvoiceScope(companyId),
+          { OR: [{ externalId }, { provider: "bling", externalId: `cr:${conta.id}` }] },
+        ],
+      },
       select: { id: true },
     });
     if (existing) {

@@ -4541,7 +4541,7 @@ model FinanceLog {
   clientCompanyId String? // cliente afetado
   entity          String // "CONTRATO" | "COBRANCA"
   entityId        String?
-  action          String // CRIADO | ALTERADO | ENCERRADO | REABERTO | FATURADO | PAGO | CANCELADO | EXCLUIDO | IGNORADO | IGNORADO_REVERTIDO
+  action          String // CRIADO | ALTERADO | ENCERRADO | REABERTO | FATURADO | PAGO | PAGAMENTO_PARCIAL | ESTORNADO | CANCELADO | EXCLUIDO | IGNORADO | IGNORADO_REVERTIDO
   description     String?  @db.Text // motivo/descritivo informado por quem fez
   meta            Json? // antes/depois, valores, competência
   userName        String?
@@ -4572,8 +4572,32 @@ model ClientInvoice {
   invoiceUrl     String? // link da nota fiscal (NF)
   notes          String?   @db.Text
 
-  externalId String? // nosso número / id do boleto no sistema/banco (id do Bling quando provider="bling")
+  // ID do título no sistema financeiro, no formato SISTEMA:número
+  // ("ULTRA:931", "BLING:123456"). É a chave pra cruzar GoHub, Ultra e Bling
+  // sem confundir fatura. ÚNICO POR AGÊNCIA — mas a agência mora no cliente
+  // (clientCompany.parentCompanyId), então o Postgres não consegue impor isso
+  // num índice desta tabela: quem garante é src/lib/invoice-ops.ts
+  // (assertExternalIdFree, com trava advisory), por onde passam todas as
+  // gravações de externalId (tela, MCP e sync do Bling).
+  externalId String?
   provider   String? // origem (ex.: "manual", "bling")
+
+  // ─── Recebimento (baixa) ───────────────────────────────────────────────────
+  // Regras em src/lib/invoice-ops.ts — tela e MCP chamam as mesmas funções.
+  // `paidCents` é o total recebido até agora. Pagamento parcial soma aqui e a
+  // cobrança continua ABERTO (com saldo = amountCents - paidCents); só vira
+  // PAGO quando o recebido cobre o valor. PAGO com paidCents nulo = baixa
+  // anterior a estes campos, tratada como paga integral (ver receivedCents).
+  paidCents      Int?
+  lastPaymentAt  DateTime? // data do último recebimento (parcial ou total). paidAt só existe quando quita.
+  paymentMethod  String? // PIX | BOLETO | TRANSFERENCIA | CARTAO | DINHEIRO | OUTRO (do último recebimento)
+  paymentAccount String? // conta que recebeu (ex.: "Inter", "Sicoob")
+
+  // Cancelamento = cobrança que não é devida. A linha fica (nada some) com o
+  // porquê; a trilha completa (quem, quando, estornos) está no FinanceLog.
+  canceledAt   DateTime?
+  cancelReason String?   @db.Text
+  canceledBy   String?
 
   // Cobrança gerada a partir de uma venda da esteira. Recorrente continua
   // vindo por clientServiceId — os dois são mutuamente exclusivos na prática.
@@ -4601,6 +4625,7 @@ model ClientInvoice {
   // Um índice UNIQUE parcial (só provider='bling') é criado na migration SQL —
   // não dá pra expressar índice parcial no schema Prisma.
   @@index([provider, externalId])
+  @@index([externalId])
 }
 
 // Venda fechada — a ponte que faltava entre o CRM e o Financeiro.

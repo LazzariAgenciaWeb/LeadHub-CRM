@@ -147466,12 +147466,14 @@ export namespace Prisma {
 
   export type ClientInvoiceAvgAggregateOutputType = {
     amountCents: number | null
+    paidCents: number | null
     installment: number | null
     installments: number | null
   }
 
   export type ClientInvoiceSumAggregateOutputType = {
     amountCents: number | null
+    paidCents: number | null
     installment: number | null
     installments: number | null
   }
@@ -147491,6 +147493,13 @@ export namespace Prisma {
     notes: string | null
     externalId: string | null
     provider: string | null
+    paidCents: number | null
+    lastPaymentAt: Date | null
+    paymentMethod: string | null
+    paymentAccount: string | null
+    canceledAt: Date | null
+    cancelReason: string | null
+    canceledBy: string | null
     saleId: string | null
     installment: number | null
     installments: number | null
@@ -147513,6 +147522,13 @@ export namespace Prisma {
     notes: string | null
     externalId: string | null
     provider: string | null
+    paidCents: number | null
+    lastPaymentAt: Date | null
+    paymentMethod: string | null
+    paymentAccount: string | null
+    canceledAt: Date | null
+    cancelReason: string | null
+    canceledBy: string | null
     saleId: string | null
     installment: number | null
     installments: number | null
@@ -147535,6 +147551,13 @@ export namespace Prisma {
     notes: number
     externalId: number
     provider: number
+    paidCents: number
+    lastPaymentAt: number
+    paymentMethod: number
+    paymentAccount: number
+    canceledAt: number
+    cancelReason: number
+    canceledBy: number
     saleId: number
     installment: number
     installments: number
@@ -147546,12 +147569,14 @@ export namespace Prisma {
 
   export type ClientInvoiceAvgAggregateInputType = {
     amountCents?: true
+    paidCents?: true
     installment?: true
     installments?: true
   }
 
   export type ClientInvoiceSumAggregateInputType = {
     amountCents?: true
+    paidCents?: true
     installment?: true
     installments?: true
   }
@@ -147571,6 +147596,13 @@ export namespace Prisma {
     notes?: true
     externalId?: true
     provider?: true
+    paidCents?: true
+    lastPaymentAt?: true
+    paymentMethod?: true
+    paymentAccount?: true
+    canceledAt?: true
+    cancelReason?: true
+    canceledBy?: true
     saleId?: true
     installment?: true
     installments?: true
@@ -147593,6 +147625,13 @@ export namespace Prisma {
     notes?: true
     externalId?: true
     provider?: true
+    paidCents?: true
+    lastPaymentAt?: true
+    paymentMethod?: true
+    paymentAccount?: true
+    canceledAt?: true
+    cancelReason?: true
+    canceledBy?: true
     saleId?: true
     installment?: true
     installments?: true
@@ -147615,6 +147654,13 @@ export namespace Prisma {
     notes?: true
     externalId?: true
     provider?: true
+    paidCents?: true
+    lastPaymentAt?: true
+    paymentMethod?: true
+    paymentAccount?: true
+    canceledAt?: true
+    cancelReason?: true
+    canceledBy?: true
     saleId?: true
     installment?: true
     installments?: true
@@ -147724,6 +147770,13 @@ export namespace Prisma {
     notes: string | null
     externalId: string | null
     provider: string | null
+    paidCents: number | null
+    lastPaymentAt: Date | null
+    paymentMethod: string | null
+    paymentAccount: string | null
+    canceledAt: Date | null
+    cancelReason: string | null
+    canceledBy: string | null
     saleId: string | null
     installment: number | null
     installments: number | null
@@ -147765,6 +147818,13 @@ export namespace Prisma {
     notes?: boolean
     externalId?: boolean
     provider?: boolean
+    paidCents?: boolean
+    lastPaymentAt?: boolean
+    paymentMethod?: boolean
+    paymentAccount?: boolean
+    canceledAt?: boolean
+    cancelReason?: boolean
+    canceledBy?: boolean
     saleId?: boolean
     installment?: boolean
     installments?: boolean
@@ -147790,6 +147850,13 @@ export namespace Prisma {
     notes?: boolean
     externalId?: boolean
     provider?: boolean
+    paidCents?: boolean
+    lastPaymentAt?: boolean
+    paymentMethod?: boolean
+    paymentAccount?: boolean
+    canceledAt?: boolean
+    cancelReason?: boolean
+    canceledBy?: boolean
     saleId?: boolean
     installment?: boolean
     installments?: boolean
@@ -147815,6 +147882,13 @@ export namespace Prisma {
     notes?: boolean
     externalId?: boolean
     provider?: boolean
+    paidCents?: boolean
+    lastPaymentAt?: boolean
+    paymentMethod?: boolean
+    paymentAccount?: boolean
+    canceledAt?: boolean
+    cancelReason?: boolean
+    canceledBy?: boolean
     saleId?: boolean
     installment?: boolean
     installments?: boolean
@@ -147855,6 +147929,13 @@ export namespace Prisma {
       notes: string | null
       externalId: string | null
       provider: string | null
+      paidCents: number | null
+      lastPaymentAt: Date | null
+      paymentMethod: string | null
+      paymentAccount: string | null
+      canceledAt: Date | null
+      cancelReason: string | null
+      canceledBy: string | null
       saleId: string | null
       installment: number | null
       installments: number | null
@@ -148270,6 +148351,13 @@ export namespace Prisma {
     readonly notes: FieldRef<"ClientInvoice", 'String'>
     readonly externalId: FieldRef<"ClientInvoice", 'String'>
     readonly provider: FieldRef<"ClientInvoice", 'String'>
+    readonly paidCents: FieldRef<"ClientInvoice", 'Int'>
+    readonly lastPaymentAt: FieldRef<"ClientInvoice", 'DateTime'>
+    readonly paymentMethod: FieldRef<"ClientInvoice", 'String'>
+    readonly paymentAccount: FieldRef<"ClientInvoice", 'String'>
+    readonly canceledAt: FieldRef<"ClientInvoice", 'DateTime'>
+    readonly cancelReason: FieldRef<"ClientInvoice", 'String'>
+    readonly canceledBy: FieldRef<"ClientInvoice", 'String'>
     readonly saleId: FieldRef<"ClientInvoice", 'String'>
     readonly installment: FieldRef<"ClientInvoice", 'Int'>
     readonly installments: FieldRef<"ClientInvoice", 'Int'>
@@ -181520,6 +181608,13 @@ export namespace Prisma {
     notes: 'notes',
     externalId: 'externalId',
     provider: 'provider',
+    paidCents: 'paidCents',
+    lastPaymentAt: 'lastPaymentAt',
+    paymentMethod: 'paymentMethod',
+    paymentAccount: 'paymentAccount',
+    canceledAt: 'canceledAt',
+    cancelReason: 'cancelReason',
+    canceledBy: 'canceledBy',
     saleId: 'saleId',
     installment: 'installment',
     installments: 'installments',
@@ -195336,6 +195431,13 @@ export namespace Prisma {
     notes?: StringNullableFilter<"ClientInvoice"> | string | null
     externalId?: StringNullableFilter<"ClientInvoice"> | string | null
     provider?: StringNullableFilter<"ClientInvoice"> | string | null
+    paidCents?: IntNullableFilter<"ClientInvoice"> | number | null
+    lastPaymentAt?: DateTimeNullableFilter<"ClientInvoice"> | Date | string | null
+    paymentMethod?: StringNullableFilter<"ClientInvoice"> | string | null
+    paymentAccount?: StringNullableFilter<"ClientInvoice"> | string | null
+    canceledAt?: DateTimeNullableFilter<"ClientInvoice"> | Date | string | null
+    cancelReason?: StringNullableFilter<"ClientInvoice"> | string | null
+    canceledBy?: StringNullableFilter<"ClientInvoice"> | string | null
     saleId?: StringNullableFilter<"ClientInvoice"> | string | null
     installment?: IntNullableFilter<"ClientInvoice"> | number | null
     installments?: IntNullableFilter<"ClientInvoice"> | number | null
@@ -195361,6 +195463,13 @@ export namespace Prisma {
     notes?: SortOrderInput | SortOrder
     externalId?: SortOrderInput | SortOrder
     provider?: SortOrderInput | SortOrder
+    paidCents?: SortOrderInput | SortOrder
+    lastPaymentAt?: SortOrderInput | SortOrder
+    paymentMethod?: SortOrderInput | SortOrder
+    paymentAccount?: SortOrderInput | SortOrder
+    canceledAt?: SortOrderInput | SortOrder
+    cancelReason?: SortOrderInput | SortOrder
+    canceledBy?: SortOrderInput | SortOrder
     saleId?: SortOrderInput | SortOrder
     installment?: SortOrderInput | SortOrder
     installments?: SortOrderInput | SortOrder
@@ -195389,6 +195498,13 @@ export namespace Prisma {
     notes?: StringNullableFilter<"ClientInvoice"> | string | null
     externalId?: StringNullableFilter<"ClientInvoice"> | string | null
     provider?: StringNullableFilter<"ClientInvoice"> | string | null
+    paidCents?: IntNullableFilter<"ClientInvoice"> | number | null
+    lastPaymentAt?: DateTimeNullableFilter<"ClientInvoice"> | Date | string | null
+    paymentMethod?: StringNullableFilter<"ClientInvoice"> | string | null
+    paymentAccount?: StringNullableFilter<"ClientInvoice"> | string | null
+    canceledAt?: DateTimeNullableFilter<"ClientInvoice"> | Date | string | null
+    cancelReason?: StringNullableFilter<"ClientInvoice"> | string | null
+    canceledBy?: StringNullableFilter<"ClientInvoice"> | string | null
     saleId?: StringNullableFilter<"ClientInvoice"> | string | null
     installment?: IntNullableFilter<"ClientInvoice"> | number | null
     installments?: IntNullableFilter<"ClientInvoice"> | number | null
@@ -195414,6 +195530,13 @@ export namespace Prisma {
     notes?: SortOrderInput | SortOrder
     externalId?: SortOrderInput | SortOrder
     provider?: SortOrderInput | SortOrder
+    paidCents?: SortOrderInput | SortOrder
+    lastPaymentAt?: SortOrderInput | SortOrder
+    paymentMethod?: SortOrderInput | SortOrder
+    paymentAccount?: SortOrderInput | SortOrder
+    canceledAt?: SortOrderInput | SortOrder
+    cancelReason?: SortOrderInput | SortOrder
+    canceledBy?: SortOrderInput | SortOrder
     saleId?: SortOrderInput | SortOrder
     installment?: SortOrderInput | SortOrder
     installments?: SortOrderInput | SortOrder
@@ -195444,6 +195567,13 @@ export namespace Prisma {
     notes?: StringNullableWithAggregatesFilter<"ClientInvoice"> | string | null
     externalId?: StringNullableWithAggregatesFilter<"ClientInvoice"> | string | null
     provider?: StringNullableWithAggregatesFilter<"ClientInvoice"> | string | null
+    paidCents?: IntNullableWithAggregatesFilter<"ClientInvoice"> | number | null
+    lastPaymentAt?: DateTimeNullableWithAggregatesFilter<"ClientInvoice"> | Date | string | null
+    paymentMethod?: StringNullableWithAggregatesFilter<"ClientInvoice"> | string | null
+    paymentAccount?: StringNullableWithAggregatesFilter<"ClientInvoice"> | string | null
+    canceledAt?: DateTimeNullableWithAggregatesFilter<"ClientInvoice"> | Date | string | null
+    cancelReason?: StringNullableWithAggregatesFilter<"ClientInvoice"> | string | null
+    canceledBy?: StringNullableWithAggregatesFilter<"ClientInvoice"> | string | null
     saleId?: StringNullableWithAggregatesFilter<"ClientInvoice"> | string | null
     installment?: IntNullableWithAggregatesFilter<"ClientInvoice"> | number | null
     installments?: IntNullableWithAggregatesFilter<"ClientInvoice"> | number | null
@@ -212160,6 +212290,13 @@ export namespace Prisma {
     notes?: string | null
     externalId?: string | null
     provider?: string | null
+    paidCents?: number | null
+    lastPaymentAt?: Date | string | null
+    paymentMethod?: string | null
+    paymentAccount?: string | null
+    canceledAt?: Date | string | null
+    cancelReason?: string | null
+    canceledBy?: string | null
     installment?: number | null
     installments?: number | null
     createdAt?: Date | string
@@ -212184,6 +212321,13 @@ export namespace Prisma {
     notes?: string | null
     externalId?: string | null
     provider?: string | null
+    paidCents?: number | null
+    lastPaymentAt?: Date | string | null
+    paymentMethod?: string | null
+    paymentAccount?: string | null
+    canceledAt?: Date | string | null
+    cancelReason?: string | null
+    canceledBy?: string | null
     saleId?: string | null
     installment?: number | null
     installments?: number | null
@@ -212204,6 +212348,13 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    paidCents?: NullableIntFieldUpdateOperationsInput | number | null
+    lastPaymentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentAccount?: NullableStringFieldUpdateOperationsInput | string | null
+    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
+    canceledBy?: NullableStringFieldUpdateOperationsInput | string | null
     installment?: NullableIntFieldUpdateOperationsInput | number | null
     installments?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -212228,6 +212379,13 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    paidCents?: NullableIntFieldUpdateOperationsInput | number | null
+    lastPaymentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentAccount?: NullableStringFieldUpdateOperationsInput | string | null
+    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
+    canceledBy?: NullableStringFieldUpdateOperationsInput | string | null
     saleId?: NullableStringFieldUpdateOperationsInput | string | null
     installment?: NullableIntFieldUpdateOperationsInput | number | null
     installments?: NullableIntFieldUpdateOperationsInput | number | null
@@ -212250,6 +212408,13 @@ export namespace Prisma {
     notes?: string | null
     externalId?: string | null
     provider?: string | null
+    paidCents?: number | null
+    lastPaymentAt?: Date | string | null
+    paymentMethod?: string | null
+    paymentAccount?: string | null
+    canceledAt?: Date | string | null
+    cancelReason?: string | null
+    canceledBy?: string | null
     saleId?: string | null
     installment?: number | null
     installments?: number | null
@@ -212270,6 +212435,13 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    paidCents?: NullableIntFieldUpdateOperationsInput | number | null
+    lastPaymentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentAccount?: NullableStringFieldUpdateOperationsInput | string | null
+    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
+    canceledBy?: NullableStringFieldUpdateOperationsInput | string | null
     installment?: NullableIntFieldUpdateOperationsInput | number | null
     installments?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -212291,6 +212463,13 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    paidCents?: NullableIntFieldUpdateOperationsInput | number | null
+    lastPaymentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentAccount?: NullableStringFieldUpdateOperationsInput | string | null
+    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
+    canceledBy?: NullableStringFieldUpdateOperationsInput | string | null
     saleId?: NullableStringFieldUpdateOperationsInput | string | null
     installment?: NullableIntFieldUpdateOperationsInput | number | null
     installments?: NullableIntFieldUpdateOperationsInput | number | null
@@ -224747,6 +224926,13 @@ export namespace Prisma {
     notes?: SortOrder
     externalId?: SortOrder
     provider?: SortOrder
+    paidCents?: SortOrder
+    lastPaymentAt?: SortOrder
+    paymentMethod?: SortOrder
+    paymentAccount?: SortOrder
+    canceledAt?: SortOrder
+    cancelReason?: SortOrder
+    canceledBy?: SortOrder
     saleId?: SortOrder
     installment?: SortOrder
     installments?: SortOrder
@@ -224756,6 +224942,7 @@ export namespace Prisma {
 
   export type ClientInvoiceAvgOrderByAggregateInput = {
     amountCents?: SortOrder
+    paidCents?: SortOrder
     installment?: SortOrder
     installments?: SortOrder
   }
@@ -224775,6 +224962,13 @@ export namespace Prisma {
     notes?: SortOrder
     externalId?: SortOrder
     provider?: SortOrder
+    paidCents?: SortOrder
+    lastPaymentAt?: SortOrder
+    paymentMethod?: SortOrder
+    paymentAccount?: SortOrder
+    canceledAt?: SortOrder
+    cancelReason?: SortOrder
+    canceledBy?: SortOrder
     saleId?: SortOrder
     installment?: SortOrder
     installments?: SortOrder
@@ -224797,6 +224991,13 @@ export namespace Prisma {
     notes?: SortOrder
     externalId?: SortOrder
     provider?: SortOrder
+    paidCents?: SortOrder
+    lastPaymentAt?: SortOrder
+    paymentMethod?: SortOrder
+    paymentAccount?: SortOrder
+    canceledAt?: SortOrder
+    cancelReason?: SortOrder
+    canceledBy?: SortOrder
     saleId?: SortOrder
     installment?: SortOrder
     installments?: SortOrder
@@ -224806,6 +225007,7 @@ export namespace Prisma {
 
   export type ClientInvoiceSumOrderByAggregateInput = {
     amountCents?: SortOrder
+    paidCents?: SortOrder
     installment?: SortOrder
     installments?: SortOrder
   }
@@ -250802,6 +251004,13 @@ export namespace Prisma {
     notes?: string | null
     externalId?: string | null
     provider?: string | null
+    paidCents?: number | null
+    lastPaymentAt?: Date | string | null
+    paymentMethod?: string | null
+    paymentAccount?: string | null
+    canceledAt?: Date | string | null
+    cancelReason?: string | null
+    canceledBy?: string | null
     installment?: number | null
     installments?: number | null
     createdAt?: Date | string
@@ -250824,6 +251033,13 @@ export namespace Prisma {
     notes?: string | null
     externalId?: string | null
     provider?: string | null
+    paidCents?: number | null
+    lastPaymentAt?: Date | string | null
+    paymentMethod?: string | null
+    paymentAccount?: string | null
+    canceledAt?: Date | string | null
+    cancelReason?: string | null
+    canceledBy?: string | null
     saleId?: string | null
     installment?: number | null
     installments?: number | null
@@ -254928,6 +255144,13 @@ export namespace Prisma {
     notes?: StringNullableFilter<"ClientInvoice"> | string | null
     externalId?: StringNullableFilter<"ClientInvoice"> | string | null
     provider?: StringNullableFilter<"ClientInvoice"> | string | null
+    paidCents?: IntNullableFilter<"ClientInvoice"> | number | null
+    lastPaymentAt?: DateTimeNullableFilter<"ClientInvoice"> | Date | string | null
+    paymentMethod?: StringNullableFilter<"ClientInvoice"> | string | null
+    paymentAccount?: StringNullableFilter<"ClientInvoice"> | string | null
+    canceledAt?: DateTimeNullableFilter<"ClientInvoice"> | Date | string | null
+    cancelReason?: StringNullableFilter<"ClientInvoice"> | string | null
+    canceledBy?: StringNullableFilter<"ClientInvoice"> | string | null
     saleId?: StringNullableFilter<"ClientInvoice"> | string | null
     installment?: IntNullableFilter<"ClientInvoice"> | number | null
     installments?: IntNullableFilter<"ClientInvoice"> | number | null
@@ -325385,6 +325608,13 @@ export namespace Prisma {
     notes?: string | null
     externalId?: string | null
     provider?: string | null
+    paidCents?: number | null
+    lastPaymentAt?: Date | string | null
+    paymentMethod?: string | null
+    paymentAccount?: string | null
+    canceledAt?: Date | string | null
+    cancelReason?: string | null
+    canceledBy?: string | null
     installment?: number | null
     installments?: number | null
     createdAt?: Date | string
@@ -325407,6 +325637,13 @@ export namespace Prisma {
     notes?: string | null
     externalId?: string | null
     provider?: string | null
+    paidCents?: number | null
+    lastPaymentAt?: Date | string | null
+    paymentMethod?: string | null
+    paymentAccount?: string | null
+    canceledAt?: Date | string | null
+    cancelReason?: string | null
+    canceledBy?: string | null
     saleId?: string | null
     installment?: number | null
     installments?: number | null
@@ -327916,6 +328153,13 @@ export namespace Prisma {
     notes?: string | null
     externalId?: string | null
     provider?: string | null
+    paidCents?: number | null
+    lastPaymentAt?: Date | string | null
+    paymentMethod?: string | null
+    paymentAccount?: string | null
+    canceledAt?: Date | string | null
+    cancelReason?: string | null
+    canceledBy?: string | null
     installment?: number | null
     installments?: number | null
     createdAt?: Date | string
@@ -327939,6 +328183,13 @@ export namespace Prisma {
     notes?: string | null
     externalId?: string | null
     provider?: string | null
+    paidCents?: number | null
+    lastPaymentAt?: Date | string | null
+    paymentMethod?: string | null
+    paymentAccount?: string | null
+    canceledAt?: Date | string | null
+    cancelReason?: string | null
+    canceledBy?: string | null
     installment?: number | null
     installments?: number | null
     createdAt?: Date | string
@@ -347466,6 +347717,13 @@ export namespace Prisma {
     notes?: string | null
     externalId?: string | null
     provider?: string | null
+    paidCents?: number | null
+    lastPaymentAt?: Date | string | null
+    paymentMethod?: string | null
+    paymentAccount?: string | null
+    canceledAt?: Date | string | null
+    cancelReason?: string | null
+    canceledBy?: string | null
     saleId?: string | null
     installment?: number | null
     installments?: number | null
@@ -350677,6 +350935,13 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    paidCents?: NullableIntFieldUpdateOperationsInput | number | null
+    lastPaymentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentAccount?: NullableStringFieldUpdateOperationsInput | string | null
+    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
+    canceledBy?: NullableStringFieldUpdateOperationsInput | string | null
     installment?: NullableIntFieldUpdateOperationsInput | number | null
     installments?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -350699,6 +350964,13 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    paidCents?: NullableIntFieldUpdateOperationsInput | number | null
+    lastPaymentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentAccount?: NullableStringFieldUpdateOperationsInput | string | null
+    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
+    canceledBy?: NullableStringFieldUpdateOperationsInput | string | null
     saleId?: NullableStringFieldUpdateOperationsInput | string | null
     installment?: NullableIntFieldUpdateOperationsInput | number | null
     installments?: NullableIntFieldUpdateOperationsInput | number | null
@@ -350720,6 +350992,13 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    paidCents?: NullableIntFieldUpdateOperationsInput | number | null
+    lastPaymentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentAccount?: NullableStringFieldUpdateOperationsInput | string | null
+    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
+    canceledBy?: NullableStringFieldUpdateOperationsInput | string | null
     saleId?: NullableStringFieldUpdateOperationsInput | string | null
     installment?: NullableIntFieldUpdateOperationsInput | number | null
     installments?: NullableIntFieldUpdateOperationsInput | number | null
@@ -360605,6 +360884,13 @@ export namespace Prisma {
     notes?: string | null
     externalId?: string | null
     provider?: string | null
+    paidCents?: number | null
+    lastPaymentAt?: Date | string | null
+    paymentMethod?: string | null
+    paymentAccount?: string | null
+    canceledAt?: Date | string | null
+    cancelReason?: string | null
+    canceledBy?: string | null
     saleId?: string | null
     installment?: number | null
     installments?: number | null
@@ -360648,6 +360934,13 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    paidCents?: NullableIntFieldUpdateOperationsInput | number | null
+    lastPaymentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentAccount?: NullableStringFieldUpdateOperationsInput | string | null
+    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
+    canceledBy?: NullableStringFieldUpdateOperationsInput | string | null
     installment?: NullableIntFieldUpdateOperationsInput | number | null
     installments?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -360670,6 +360963,13 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    paidCents?: NullableIntFieldUpdateOperationsInput | number | null
+    lastPaymentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentAccount?: NullableStringFieldUpdateOperationsInput | string | null
+    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
+    canceledBy?: NullableStringFieldUpdateOperationsInput | string | null
     saleId?: NullableStringFieldUpdateOperationsInput | string | null
     installment?: NullableIntFieldUpdateOperationsInput | number | null
     installments?: NullableIntFieldUpdateOperationsInput | number | null
@@ -360691,6 +360991,13 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    paidCents?: NullableIntFieldUpdateOperationsInput | number | null
+    lastPaymentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentAccount?: NullableStringFieldUpdateOperationsInput | string | null
+    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
+    canceledBy?: NullableStringFieldUpdateOperationsInput | string | null
     saleId?: NullableStringFieldUpdateOperationsInput | string | null
     installment?: NullableIntFieldUpdateOperationsInput | number | null
     installments?: NullableIntFieldUpdateOperationsInput | number | null
@@ -360813,6 +361120,13 @@ export namespace Prisma {
     notes?: string | null
     externalId?: string | null
     provider?: string | null
+    paidCents?: number | null
+    lastPaymentAt?: Date | string | null
+    paymentMethod?: string | null
+    paymentAccount?: string | null
+    canceledAt?: Date | string | null
+    cancelReason?: string | null
+    canceledBy?: string | null
     installment?: number | null
     installments?: number | null
     createdAt?: Date | string
@@ -360927,6 +361241,13 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    paidCents?: NullableIntFieldUpdateOperationsInput | number | null
+    lastPaymentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentAccount?: NullableStringFieldUpdateOperationsInput | string | null
+    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
+    canceledBy?: NullableStringFieldUpdateOperationsInput | string | null
     installment?: NullableIntFieldUpdateOperationsInput | number | null
     installments?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -360950,6 +361271,13 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    paidCents?: NullableIntFieldUpdateOperationsInput | number | null
+    lastPaymentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentAccount?: NullableStringFieldUpdateOperationsInput | string | null
+    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
+    canceledBy?: NullableStringFieldUpdateOperationsInput | string | null
     installment?: NullableIntFieldUpdateOperationsInput | number | null
     installments?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -360971,6 +361299,13 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     externalId?: NullableStringFieldUpdateOperationsInput | string | null
     provider?: NullableStringFieldUpdateOperationsInput | string | null
+    paidCents?: NullableIntFieldUpdateOperationsInput | number | null
+    lastPaymentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentAccount?: NullableStringFieldUpdateOperationsInput | string | null
+    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
+    canceledBy?: NullableStringFieldUpdateOperationsInput | string | null
     installment?: NullableIntFieldUpdateOperationsInput | number | null
     installments?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

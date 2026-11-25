@@ -19,6 +19,8 @@ const ACTION_LABEL: Record<string, { label: string; cls: string }> = {
   REABERTO: { label: "reaberto", cls: "text-emerald-400" },
   FATURADO: { label: "faturado", cls: "text-amber-400" },
   PAGO: { label: "pago", cls: "text-emerald-400" },
+  PAGAMENTO_PARCIAL: { label: "pagamento parcial", cls: "text-amber-400" },
+  ESTORNADO: { label: "baixa estornada", cls: "text-red-400" },
   CANCELADO: { label: "cancelado", cls: "text-red-400" },
   EXCLUIDO: { label: "excluído", cls: "text-red-400" },
   IGNORADO: { label: "ignorado no mês", cls: "text-slate-400" },
