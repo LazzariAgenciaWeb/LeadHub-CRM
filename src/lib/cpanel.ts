@@ -180,7 +180,11 @@ export async function cpanelRequest<T = unknown>(
   module: string,
   fn: string,
   params: Record<string, string> = {},
+  opts: { method?: "GET" | "POST" } = {},
 ): Promise<T> {
+  // POST manda os parâmetros no corpo — obrigatório pra qualquer chamada que
+  // leve senha, senão ela ficaria na URL (e nos logs de acesso do servidor).
+  const method = opts.method ?? "GET";
   if (!/^[A-Za-z0-9_]+$/.test(module) || !/^[A-Za-z0-9_]+$/.test(fn)) {
     throw new CpanelError("Chamada inválida.");
   }
@@ -188,13 +192,20 @@ export async function cpanelRequest<T = unknown>(
 
   const hostPart = isIP(conn.host) === 6 ? `[${conn.host}]` : conn.host;
   const url = new URL(`https://${hostPart}:${conn.port}/execute/${module}/${fn}`);
-  for (const [k, v] of Object.entries(params)) url.searchParams.set(k, v);
+  if (method === "GET") {
+    for (const [k, v] of Object.entries(params)) url.searchParams.set(k, v);
+  }
 
   let res: Response;
   try {
     res = await fetch(url, {
-      method: "GET",
-      headers: { Authorization: `cpanel ${conn.username}:${conn.token}`, Accept: "application/json" },
+      method,
+      headers: {
+        Authorization: `cpanel ${conn.username}:${conn.token}`,
+        Accept: "application/json",
+        ...(method === "POST" ? { "Content-Type": "application/x-www-form-urlencoded" } : {}),
+      },
+      ...(method === "POST" ? { body: new URLSearchParams(params).toString() } : {}),
       redirect: "manual", // redirect levaria o header de autorização pra outro host
       cache: "no-store",
       signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
@@ -272,4 +283,166 @@ export async function testCpanelConnection(companyId: string): Promise<{ ok: boo
     },
   });
   return result;
+}
+
+// ─── E-mail e espaço da conta ────────────────────────────────────────────────
+//
+// Atenção: `publishDir` NÃO limita nada aqui — caixas de e-mail e cota valem
+// pra conta inteira do cPanel. A trava é de quem pode chamar (ADMIN/SUPER_ADMIN
+// nas rotas) + auditoria de toda criação e troca de senha.
+
+export const CPANEL_MIN_PASSWORD = 10;
+
+/** Parte antes do @. Mesmas regras do cPanel: letras, números, ponto, hífen, sublinhado. */
+export function normalizeMailboxLocal(input: unknown): string {
+  const l = String(input ?? "").trim().toLowerCase();
+  if (!/^[a-z0-9]([a-z0-9._-]{0,62}[a-z0-9])?$/.test(l) || l.includes("..")) {
+    throw new CpanelError("Nome da caixa inválido. Use letras, números, ponto, hífen ou sublinhado (ex: contato).");
+  }
+  return l;
+}
+
+export function normalizeMailDomain(input: unknown): string {
+  const d = String(input ?? "").trim().toLowerCase();
+  if (!/^(?=.{1,253}$)([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(d)) {
+    throw new CpanelError("Domínio do e-mail inválido.");
+  }
+  return d;
+}
+
+/** "contato@cliente.com.br" → { local, domain } */
+export function splitMailbox(input: unknown): { local: string; domain: string } {
+  const raw = String(input ?? "").trim();
+  const at = raw.lastIndexOf("@");
+  if (at < 1) throw new CpanelError("Informe o e-mail completo (ex: contato@cliente.com.br).");
+  return { local: normalizeMailboxLocal(raw.slice(0, at)), domain: normalizeMailDomain(raw.slice(at + 1)) };
+}
+
+/** Senha de caixa de e-mail. A força final quem decide é o cPanel do servidor. */
+export function normalizeMailboxPassword(input: unknown): string {
+  const p = typeof input === "string" ? input : "";
+  if (p.length < CPANEL_MIN_PASSWORD) throw new CpanelError(`A senha precisa de pelo menos ${CPANEL_MIN_PASSWORD} caracteres.`);
+  if (p.length > 128) throw new CpanelError("Senha longa demais (máximo 128 caracteres).");
+  if (/[\x00-\x1f\x7f]/.test(p) || p !== p.trim()) {
+    throw new CpanelError("A senha não pode ter quebra de linha nem espaço no começo ou no fim.");
+  }
+  return p;
+}
+
+/** Cota da caixa em MB. Vazio/0 = sem limite. */
+export function normalizeMailboxQuota(input: unknown): number {
+  if (input === undefined || input === null || input === "") return 0;
+  const q = Number(input);
+  if (!Number.isInteger(q) || q < 0 || q > 1_000_000) throw new CpanelError("Cota inválida. Informe em MB (0 = sem limite).");
+  return q;
+}
+
+function toNumber(v: unknown): number | null {
+  if (v === null || v === undefined || v === "") return null;
+  const n = Number(v);
+  return Number.isFinite(n) ? n : null;
+}
+
+/** Limite em MB; 0, "unlimited" e ausente viram null (sem limite). */
+function toLimitMb(v: unknown): number | null {
+  const n = toNumber(v);
+  return n && n > 0 ? n : null;
+}
+
+async function requireConn(companyId: string) {
+  const conn = await getCpanelConn(companyId);
+  if (!conn) throw new CpanelError("cPanel não configurado para este cliente.");
+  return conn;
+}
+
+export interface CpanelUsage {
+  usedMb: number;
+  limitMb: number | null; // null = sem limite
+}
+
+/** Espaço em disco usado e contratado da conta inteira. */
+export async function getCpanelUsage(conn: CpanelConn): Promise<CpanelUsage> {
+  const d = await cpanelRequest<Record<string, unknown>>(conn, "Quota", "get_quota_info");
+  return { usedMb: toNumber(d?.megabytes_used) ?? 0, limitMb: toLimitMb(d?.megabyte_limit) };
+}
+
+export interface CpanelMailbox {
+  email: string;
+  usedMb: number;
+  quotaMb: number | null; // null = sem limite
+  suspended: boolean;
+}
+
+/** Caixas de e-mail da conta com o uso de cada uma. */
+export async function listCpanelMailboxes(conn: CpanelConn): Promise<CpanelMailbox[]> {
+  const rows = await cpanelRequest<Record<string, unknown>[]>(conn, "Email", "list_pops_with_disk");
+  return (Array.isArray(rows) ? rows : [])
+    .map((r) => {
+      const bytes = toNumber(r._diskused);
+      return {
+        email: String(r.email ?? ""),
+        usedMb: bytes !== null ? bytes / (1024 * 1024) : toNumber(r.diskused) ?? 0,
+        quotaMb: toLimitMb(r.diskquota),
+        suspended: Number(r.suspended_login) === 1 || Number(r.suspended_incoming) === 1,
+      };
+    })
+    .filter((m) => m.email.includes("@"))
+    .sort((a, b) => a.email.localeCompare(b.email));
+}
+
+/** Domínios da conta que aceitam caixa de e-mail. */
+export async function listCpanelMailDomains(conn: CpanelConn): Promise<string[]> {
+  const rows = await cpanelRequest<{ domain?: string }[]>(conn, "Email", "list_mail_domains");
+  return (Array.isArray(rows) ? rows : []).map((r) => String(r.domain ?? "").toLowerCase()).filter(Boolean);
+}
+
+/** Visão geral: espaço da conta + caixas + domínios. */
+export async function getCpanelEmailOverview(companyId: string) {
+  const conn = await requireConn(companyId);
+  const [usage, mailboxes, domains] = await Promise.all([
+    getCpanelUsage(conn),
+    listCpanelMailboxes(conn),
+    listCpanelMailDomains(conn),
+  ]);
+  return { usage, mailboxes, domains };
+}
+
+/** Cria uma caixa de e-mail. Só em domínio que já pertence à conta. */
+export async function createCpanelMailbox(
+  companyId: string,
+  input: { local: string; domain: string; password: string; quotaMb: number },
+): Promise<{ email: string }> {
+  const conn = await requireConn(companyId);
+  const domains = await listCpanelMailDomains(conn);
+  if (!domains.includes(input.domain)) {
+    throw new CpanelError(`O domínio "${input.domain}" não pertence a esta conta do cPanel.`);
+  }
+  await cpanelRequest(
+    conn, "Email", "add_pop",
+    {
+      email: input.local, domain: input.domain, password: input.password,
+      quota: String(input.quotaMb), send_welcome_email: "0",
+    },
+    { method: "POST" },
+  );
+  return { email: `${input.local}@${input.domain}` };
+}
+
+/** Troca a senha de uma caixa que já existe. */
+export async function changeCpanelMailboxPassword(
+  companyId: string,
+  input: { local: string; domain: string; password: string },
+): Promise<{ email: string }> {
+  const conn = await requireConn(companyId);
+  const email = `${input.local}@${input.domain}`;
+  const boxes = await listCpanelMailboxes(conn);
+  if (!boxes.some((b) => b.email.toLowerCase() === email)) {
+    throw new CpanelError(`A caixa ${email} não existe nesta conta.`);
+  }
+  await cpanelRequest(
+    conn, "Email", "passwd_pop",
+    { email: input.local, domain: input.domain, password: input.password },
+    { method: "POST" },
+  );
+  return { email };
 }

@@ -19,7 +19,9 @@ export type AdminAuditAction =
   | "USER_DELETE"
   | "COMPANY_DELETE"
   | "SUPER_ADMIN_CREATE"
-  | "SUPER_ADMIN_LINK";
+  | "SUPER_ADMIN_LINK"
+  | "CPANEL_EMAIL_CREATE"
+  | "CPANEL_EMAIL_PASSWORD";
 
 interface RecordAdminActionInput {
   adminUserId: string;

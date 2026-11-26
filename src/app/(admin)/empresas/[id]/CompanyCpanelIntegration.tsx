@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import CompanyCpanelEmail from "./CompanyCpanelEmail";
 import { Server, Check, AlertTriangle, Loader2, Trash2, RefreshCw, Pencil } from "lucide-react";
 
 interface CpanelConfig {
@@ -208,6 +209,9 @@ export default function CompanyCpanelIntegration({ companyId }: { companyId: str
               </button>
             </div>
           )}
+
+          {/* E-mails e espaço — só com a conexão funcionando */}
+          {connected && !editing && <CompanyCpanelEmail companyId={companyId} />}
 
           {/* Formulário */}
           {editing && (
