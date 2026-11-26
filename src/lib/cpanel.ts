@@ -456,6 +456,67 @@ export async function changeCpanelMailboxPassword(
   return { email };
 }
 
+export interface MailClientSettings {
+  email: string;
+  username: string;            // login no app de e-mail = o endereço completo
+  incomingHost: string;
+  imapPort: number;            // SSL/TLS
+  pop3Port: number;            // SSL/TLS
+  smtpHost: string;
+  smtpPort: number;            // SSL/TLS
+  smtpStartTlsPort: number;    // alternativa quando a rede bloqueia a 465
+  webmailUrl: string;
+}
+
+function toPort(v: unknown, fallback: number): number {
+  const n = toNumber(v);
+  return n && Number.isInteger(n) && n > 0 && n < 65536 ? n : fallback;
+}
+
+/** Só hostname (nada de esquema, porta ou caminho) — vai virar texto de instrução. */
+function cleanMailHost(v: unknown): string | null {
+  const s = String(v ?? "").trim().toLowerCase();
+  return /^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+$/.test(s) ? s : null;
+}
+
+/**
+ * Dados pra configurar a caixa no Outlook, Apple Mail, Gmail, celular etc.
+ * Vêm do próprio cPanel (Email::get_client_settings), que devolve o servidor
+ * com certificado válido; se o cPanel não responder os hosts, cai no padrão
+ * mail.<domínio>. Portas SSL padrão do cPanel: IMAP 993, POP3 995, SMTP 465
+ * (ou 587 com STARTTLS). Não lê nem mexe em senha.
+ */
+export async function getCpanelMailClientSettings(companyId: string, emailInput: unknown): Promise<MailClientSettings> {
+  const { local, domain } = splitMailbox(emailInput);
+  const email = `${local}@${domain}`;
+  const conn = await requireConn(companyId);
+  const boxes = await listCpanelMailboxes(conn);
+  if (!boxes.some((b) => b.email.toLowerCase() === email)) {
+    throw new CpanelError(`A caixa ${email} não existe nesta conta.`);
+  }
+  const d = await cpanelRequest<Record<string, unknown>>(conn, "Email", "get_client_settings", { account: email });
+  return buildMailClientSettings(email, d);
+}
+
+/** Monta as instruções a partir da resposta do get_client_settings (separado pra testar). */
+export function buildMailClientSettings(email: string, d: Record<string, unknown> | null | undefined): MailClientSettings {
+  const domain = email.split("@")[1] ?? "";
+  const incomingHost = cleanMailHost(d?.inbox_host) ?? cleanMailHost(d?.mail_domain) ?? `mail.${domain}`;
+  const smtpHost = cleanMailHost(d?.smtp_host) ?? incomingHost;
+  const imapPort = d?.inbox_service === "imap" ? toPort(d?.inbox_port, 993) : 993;
+  return {
+    email,
+    username: email,
+    incomingHost,
+    imapPort,
+    pop3Port: 995,
+    smtpHost,
+    smtpPort: toPort(d?.smtp_port, 465),
+    smtpStartTlsPort: 587,
+    webmailUrl: `https://${incomingHost}:2096`,
+  };
+}
+
 // ─── Envio de arquivos (site estático) ───────────────────────────────────────
 //
 // Fileman::upload_files (multipart). O cPanel cria a pasta se não existir e,

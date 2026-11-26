@@ -3,7 +3,7 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { extractIp, recordAdminAction } from "@/lib/admin-audit";
 import {
-  CpanelError, changeCpanelMailboxPassword, createCpanelMailbox, getCpanelEmailOverview,
+  CpanelError, changeCpanelMailboxPassword, createCpanelMailbox, getCpanelEmailOverview, getCpanelMailClientSettings,
   normalizeMailDomain, normalizeMailboxLocal, normalizeMailboxPassword, normalizeMailboxQuota, splitMailbox,
 } from "@/lib/cpanel";
 
@@ -47,10 +47,13 @@ function fail(e: unknown) {
 }
 
 // GET → { usage, mailboxes, domains, canCreate }
-export async function GET() {
+// GET ?config=caixa@dominio → servidor e portas pra configurar no app de e-mail.
+export async function GET(req: NextRequest) {
   const a = await authorize("manage");
   if (!a.ok) return a.res;
   try {
+    const config = req.nextUrl.searchParams.get("config");
+    if (config) return NextResponse.json(await getCpanelMailClientSettings(a.companyId, config));
     const data = await getCpanelEmailOverview(a.companyId);
     return NextResponse.json({ ...data, canCreate: a.canCreate });
   } catch (e) {

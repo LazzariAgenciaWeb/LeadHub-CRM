@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Mail, HardDrive, Loader2, RefreshCw, Plus, KeyRound, Copy, Check, Wand2 } from "lucide-react";
+import { Mail, HardDrive, Loader2, RefreshCw, Plus, KeyRound, Copy, Check, Wand2, Settings2 } from "lucide-react";
+import MailClientSetup from "./MailClientSetup";
 
 interface Usage { usedMb: number; limitMb: number | null }
 interface Mailbox { email: string; usedMb: number; quotaMb: number | null; suspended: boolean }
@@ -58,6 +59,8 @@ export default function CompanyCpanelEmail({ companyId, portal = false, autoLoad
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [copied, setCopied] = useState(false);
+  // Caixa com o painel "configurar no app de e-mail" aberto.
+  const [setupFor, setSetupFor] = useState<string | null>(null);
 
   const url = portal ? "/api/meu-espaco/email" : `/api/companies/${companyId}/cpanel/email`;
 
@@ -246,7 +249,8 @@ export default function CompanyCpanelEmail({ companyId, portal = false, autoLoad
           ) : (
             <ul className="divide-y divide-white/5">
               {data.mailboxes.map((m) => (
-                <li key={m.email} className="py-2 flex items-center gap-3">
+                <li key={m.email} className="py-2 space-y-2">
+                <div className="flex items-center gap-3">
                   <div className="flex-1 min-w-0 space-y-1">
                     <p className="text-slate-200 text-xs font-mono truncate">
                       {m.email}
@@ -257,9 +261,17 @@ export default function CompanyCpanelEmail({ companyId, portal = false, autoLoad
                     </p>
                     <UsageBar used={m.usedMb} limit={m.quotaMb} />
                   </div>
+                  <button onClick={() => setSetupFor(setupFor === m.email ? null : m.email)}
+                    className={`${smallBtn} border ${setupFor === m.email ? "bg-cyan-500/20 text-cyan-200 border-cyan-500/30" : "bg-white/5 hover:bg-white/10 text-slate-300 border-white/10"}`}>
+                    <Settings2 className="w-3 h-3" /> Configurar
+                  </button>
                   <button onClick={() => open(m.email)} className={`${smallBtn} bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10`}>
                     <KeyRound className="w-3 h-3" /> Senha
                   </button>
+                </div>
+                {setupFor === m.email && (
+                  <MailClientSetup baseUrl={url} email={m.email} onClose={() => setSetupFor(null)} />
+                )}
                 </li>
               ))}
             </ul>

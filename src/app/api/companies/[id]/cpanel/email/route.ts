@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { authorizeVaultAccess } from "@/lib/vault-auth";
 import { extractIp, recordAdminAction } from "@/lib/admin-audit";
 import {
-  CpanelError, changeCpanelMailboxPassword, createCpanelMailbox, getCpanelEmailOverview,
+  CpanelError, changeCpanelMailboxPassword, createCpanelMailbox, getCpanelEmailOverview, getCpanelMailClientSettings,
   normalizeMailDomain, normalizeMailboxLocal, normalizeMailboxPassword, normalizeMailboxQuota, splitMailbox,
 } from "@/lib/cpanel";
 
@@ -25,11 +25,14 @@ function fail(e: unknown) {
 }
 
 // GET → { usage: { usedMb, limitMb }, mailboxes: [...], domains: [...] }
-export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+// GET ?config=caixa@dominio → servidor e portas pra configurar no app de e-mail.
+export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id: companyId } = await params;
   const a = await authorize(companyId);
   if (!a.ok) return a.res;
   try {
+    const config = req.nextUrl.searchParams.get("config");
+    if (config) return NextResponse.json(await getCpanelMailClientSettings(companyId, config));
     return NextResponse.json(await getCpanelEmailOverview(companyId));
   } catch (e) {
     return fail(e);
