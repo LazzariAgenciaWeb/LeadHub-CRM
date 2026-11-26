@@ -557,6 +557,7 @@ model Company {
 
   // Integração Bling (só a AZZ conecta — 1 conexão por empresa, na prática singleton).
   blingIntegration BlingIntegration?
+  cpanelIntegration CpanelIntegration?
 
   // Arquivos no MinIO (anexos de chamados/tarefas) — base do consumo de espaço.
   storageObjects StorageObject[]
@@ -2338,6 +2339,39 @@ model BlingIntegration {
   createdById String?
 
   @@index([status, lastSyncAt])
+}
+
+// ─── cPanel — hospedagem do cliente ─────────────────────────────────────────────
+// Token de API do cPanel do cliente (cPanel → Manage API Tokens), pra publicar
+// arquivos (HTML gerado pela IA, landing page) direto na hospedagem dele.
+//
+// Segurança:
+//  - o token dá acesso à conta INTEIRA do cPanel; fica cifrado (AES-256-GCM via
+//    src/lib/crypto.ts), nunca é devolvido pra tela nem pro MCP;
+//  - `publishDir` é a trava: toda publicação fica confinada a essa pasta
+//    (ver resolveCpanelPath em src/lib/cpanel.ts);
+//  - só ADMIN da agência / SUPER_ADMIN cadastra, testa ou remove.
+model CpanelIntegration {
+  id        String  @id @default(cuid())
+  companyId String  @unique
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  host     String // ex: "cliente.com.br" ou "srv12.hospedagem.com" (sem https:// e sem porta)
+  port     Int    @default(2083)
+  username String // usuário do cPanel
+  tokenEnc String @db.Text // token de API cifrado (nunca retornado)
+
+  publishDir String  @default("public_html") // pasta-base, relativa à home da conta
+  siteUrl    String? // URL pública que aponta pra publishDir (pra devolver o link do que foi publicado)
+
+  status       IntegrationStatus @default(ACTIVE)
+  lastTestedAt DateTime?
+  lastError    String?           @db.Text
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  createdById   String?
+  updatedByName String? // quem mexeu por último (snapshot)
 }
 
 // ─── Meta Conversions API (CAPI) — conversões offline do CRM ────────────────────

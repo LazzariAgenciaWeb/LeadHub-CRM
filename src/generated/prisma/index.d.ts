@@ -299,6 +299,11 @@ export type MarketingIntegration = $Result.DefaultSelection<Prisma.$MarketingInt
  */
 export type BlingIntegration = $Result.DefaultSelection<Prisma.$BlingIntegrationPayload>
 /**
+ * Model CpanelIntegration
+ * 
+ */
+export type CpanelIntegration = $Result.DefaultSelection<Prisma.$CpanelIntegrationPayload>
+/**
  * Model MetaConversionConfig
  * 
  */
@@ -2374,6 +2379,16 @@ export class PrismaClient<
   get blingIntegration(): Prisma.BlingIntegrationDelegate<ExtArgs>;
 
   /**
+   * `prisma.cpanelIntegration`: Exposes CRUD operations for the **CpanelIntegration** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CpanelIntegrations
+    * const cpanelIntegrations = await prisma.cpanelIntegration.findMany()
+    * ```
+    */
+  get cpanelIntegration(): Prisma.CpanelIntegrationDelegate<ExtArgs>;
+
+  /**
    * `prisma.metaConversionConfig`: Exposes CRUD operations for the **MetaConversionConfig** model.
     * Example usage:
     * ```ts
@@ -3780,6 +3795,7 @@ export namespace Prisma {
     SecureNoteAccessLog: 'SecureNoteAccessLog',
     MarketingIntegration: 'MarketingIntegration',
     BlingIntegration: 'BlingIntegration',
+    CpanelIntegration: 'CpanelIntegration',
     MetaConversionConfig: 'MetaConversionConfig',
     MetaConversionLog: 'MetaConversionLog',
     InstagramAccount: 'InstagramAccount',
@@ -3886,7 +3902,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "assistantNote" | "assistantDigestItem" | "assistantNoteEvent" | "assistantTurn" | "assistantPendingAction" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectTaskAdjustment" | "projectService" | "projectTaskEvent" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "blingIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igAiReply" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "analyticsEventParamDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "emailDraft" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "billingSkip" | "financeLog" | "clientInvoice" | "sale" | "bonusClosure" | "bonus" | "monthlyTarget" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature" | "storageObject" | "clientLibraryItem" | "clientDocument" | "mcpOAuthClient" | "mcpOAuthCode" | "mcpOAuthToken" | "internalIp" | "assistantRule" | "caldavRequestLog" | "bioPage" | "bioBlock" | "bioQuestion" | "bioSubmission" | "bioProgress" | "bioEvent" | "bioDomain" | "loginHandoff"
+      modelProps: "user" | "assistantNote" | "assistantDigestItem" | "assistantNoteEvent" | "assistantTurn" | "assistantPendingAction" | "quickReply" | "vaultEmailChallenge" | "vaultTrustedSession" | "userGoogleConnection" | "company" | "campaign" | "trackingLink" | "clickEvent" | "lead" | "tag" | "leadTag" | "customFieldDef" | "leadCustomValue" | "companyCustomFieldDef" | "companyCustomValue" | "task" | "leadComment" | "pipelineStageConfig" | "companyContact" | "whatsappInstance" | "message" | "keywordRule" | "setting" | "whatsappQuota" | "conversation" | "conversationNote" | "activity" | "ticket" | "ticketMessage" | "setor" | "setorEmailAccount" | "setorClickupList" | "projectTask" | "projectTaskAdjustment" | "projectService" | "projectTaskEvent" | "ticketAccessUser" | "projectAccessUser" | "projectTaskState" | "projectActivity" | "projectMember" | "projectMaterial" | "setorUser" | "setorInstance" | "companyAsset" | "companyCredential" | "credentialAccessLog" | "companySecureNote" | "secureNoteAccessLog" | "marketingIntegration" | "blingIntegration" | "cpanelIntegration" | "metaConversionConfig" | "metaConversionLog" | "instagramAccount" | "igAutomation" | "igAutomationRun" | "igAiReply" | "igConversation" | "igMessage" | "facebookPage" | "analyticsSnapshot" | "analyticsTopPage" | "analyticsTrafficSource" | "analyticsGeoData" | "analyticsEventDaily" | "analyticsEventParamDaily" | "marketingEventConfig" | "searchConsoleQuery" | "gbpInsight" | "gbpReview" | "gbpSearchKeyword" | "gbpProfileSnapshot" | "adCampaignDaily" | "adSearchTermDaily" | "adCreative" | "adCreativeDaily" | "subscription" | "businessHoursConfig" | "businessHoursInterval" | "reward" | "rewardRedemption" | "userScore" | "userBadge" | "scoreEvent" | "scoreRuleConfig" | "pushSubscription" | "userNotifPreferences" | "companyEmailConfig" | "emailTemplate" | "emailCampaign" | "emailRecipient" | "emailEvent" | "emailUnsubscribe" | "emailAccount" | "inboxEmail" | "emailDraft" | "inboxSenderRule" | "inboxEmailAttachment" | "inboxEmailTag" | "billingEvent" | "subscriptionAddon" | "coupon" | "couponRedemption" | "adminAuditLog" | "assistant" | "scheduledMessage" | "assistantRoute" | "aiUsageLog" | "service" | "clientService" | "billingSkip" | "financeLog" | "clientInvoice" | "sale" | "bonusClosure" | "bonus" | "monthlyTarget" | "videoCategory" | "videoCategoryRelease" | "video" | "timePunch" | "workScheduleDay" | "timeOffEntry" | "punchAdjustRequest" | "timesheetSignature" | "storageObject" | "clientLibraryItem" | "clientDocument" | "mcpOAuthClient" | "mcpOAuthCode" | "mcpOAuthToken" | "internalIp" | "assistantRule" | "caldavRequestLog" | "bioPage" | "bioBlock" | "bioQuestion" | "bioSubmission" | "bioProgress" | "bioEvent" | "bioDomain" | "loginHandoff"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -7877,6 +7893,76 @@ export namespace Prisma {
           count: {
             args: Prisma.BlingIntegrationCountArgs<ExtArgs>
             result: $Utils.Optional<BlingIntegrationCountAggregateOutputType> | number
+          }
+        }
+      }
+      CpanelIntegration: {
+        payload: Prisma.$CpanelIntegrationPayload<ExtArgs>
+        fields: Prisma.CpanelIntegrationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CpanelIntegrationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CpanelIntegrationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CpanelIntegrationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CpanelIntegrationPayload>
+          }
+          findFirst: {
+            args: Prisma.CpanelIntegrationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CpanelIntegrationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CpanelIntegrationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CpanelIntegrationPayload>
+          }
+          findMany: {
+            args: Prisma.CpanelIntegrationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CpanelIntegrationPayload>[]
+          }
+          create: {
+            args: Prisma.CpanelIntegrationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CpanelIntegrationPayload>
+          }
+          createMany: {
+            args: Prisma.CpanelIntegrationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CpanelIntegrationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CpanelIntegrationPayload>[]
+          }
+          delete: {
+            args: Prisma.CpanelIntegrationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CpanelIntegrationPayload>
+          }
+          update: {
+            args: Prisma.CpanelIntegrationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CpanelIntegrationPayload>
+          }
+          deleteMany: {
+            args: Prisma.CpanelIntegrationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CpanelIntegrationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.CpanelIntegrationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CpanelIntegrationPayload>
+          }
+          aggregate: {
+            args: Prisma.CpanelIntegrationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCpanelIntegration>
+          }
+          groupBy: {
+            args: Prisma.CpanelIntegrationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CpanelIntegrationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CpanelIntegrationCountArgs<ExtArgs>
+            result: $Utils.Optional<CpanelIntegrationCountAggregateOutputType> | number
           }
         }
       }
@@ -29086,6 +29172,7 @@ export namespace Prisma {
     punchAdjustRequests?: boolean | Company$punchAdjustRequestsArgs<ExtArgs>
     timesheetSignatures?: boolean | Company$timesheetSignaturesArgs<ExtArgs>
     blingIntegration?: boolean | Company$blingIntegrationArgs<ExtArgs>
+    cpanelIntegration?: boolean | Company$cpanelIntegrationArgs<ExtArgs>
     storageObjects?: boolean | Company$storageObjectsArgs<ExtArgs>
     libraryItems?: boolean | Company$libraryItemsArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
@@ -29289,6 +29376,7 @@ export namespace Prisma {
     punchAdjustRequests?: boolean | Company$punchAdjustRequestsArgs<ExtArgs>
     timesheetSignatures?: boolean | Company$timesheetSignaturesArgs<ExtArgs>
     blingIntegration?: boolean | Company$blingIntegrationArgs<ExtArgs>
+    cpanelIntegration?: boolean | Company$cpanelIntegrationArgs<ExtArgs>
     storageObjects?: boolean | Company$storageObjectsArgs<ExtArgs>
     libraryItems?: boolean | Company$libraryItemsArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
@@ -29394,6 +29482,7 @@ export namespace Prisma {
       punchAdjustRequests: Prisma.$PunchAdjustRequestPayload<ExtArgs>[]
       timesheetSignatures: Prisma.$TimesheetSignaturePayload<ExtArgs>[]
       blingIntegration: Prisma.$BlingIntegrationPayload<ExtArgs> | null
+      cpanelIntegration: Prisma.$CpanelIntegrationPayload<ExtArgs> | null
       storageObjects: Prisma.$StorageObjectPayload<ExtArgs>[]
       libraryItems: Prisma.$ClientLibraryItemPayload<ExtArgs>[]
     }
@@ -29904,6 +29993,7 @@ export namespace Prisma {
     punchAdjustRequests<T extends Company$punchAdjustRequestsArgs<ExtArgs> = {}>(args?: Subset<T, Company$punchAdjustRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PunchAdjustRequestPayload<ExtArgs>, T, "findMany"> | Null>
     timesheetSignatures<T extends Company$timesheetSignaturesArgs<ExtArgs> = {}>(args?: Subset<T, Company$timesheetSignaturesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimesheetSignaturePayload<ExtArgs>, T, "findMany"> | Null>
     blingIntegration<T extends Company$blingIntegrationArgs<ExtArgs> = {}>(args?: Subset<T, Company$blingIntegrationArgs<ExtArgs>>): Prisma__BlingIntegrationClient<$Result.GetResult<Prisma.$BlingIntegrationPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    cpanelIntegration<T extends Company$cpanelIntegrationArgs<ExtArgs> = {}>(args?: Subset<T, Company$cpanelIntegrationArgs<ExtArgs>>): Prisma__CpanelIntegrationClient<$Result.GetResult<Prisma.$CpanelIntegrationPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     storageObjects<T extends Company$storageObjectsArgs<ExtArgs> = {}>(args?: Subset<T, Company$storageObjectsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StorageObjectPayload<ExtArgs>, T, "findMany"> | Null>
     libraryItems<T extends Company$libraryItemsArgs<ExtArgs> = {}>(args?: Subset<T, Company$libraryItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClientLibraryItemPayload<ExtArgs>, T, "findMany"> | Null>
     /**
@@ -32148,6 +32238,21 @@ export namespace Prisma {
      */
     include?: BlingIntegrationInclude<ExtArgs> | null
     where?: BlingIntegrationWhereInput
+  }
+
+  /**
+   * Company.cpanelIntegration
+   */
+  export type Company$cpanelIntegrationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CpanelIntegration
+     */
+    select?: CpanelIntegrationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CpanelIntegrationInclude<ExtArgs> | null
+    where?: CpanelIntegrationWhereInput
   }
 
   /**
@@ -82200,6 +82305,1093 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: BlingIntegrationInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CpanelIntegration
+   */
+
+  export type AggregateCpanelIntegration = {
+    _count: CpanelIntegrationCountAggregateOutputType | null
+    _avg: CpanelIntegrationAvgAggregateOutputType | null
+    _sum: CpanelIntegrationSumAggregateOutputType | null
+    _min: CpanelIntegrationMinAggregateOutputType | null
+    _max: CpanelIntegrationMaxAggregateOutputType | null
+  }
+
+  export type CpanelIntegrationAvgAggregateOutputType = {
+    port: number | null
+  }
+
+  export type CpanelIntegrationSumAggregateOutputType = {
+    port: number | null
+  }
+
+  export type CpanelIntegrationMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    host: string | null
+    port: number | null
+    username: string | null
+    tokenEnc: string | null
+    publishDir: string | null
+    siteUrl: string | null
+    status: $Enums.IntegrationStatus | null
+    lastTestedAt: Date | null
+    lastError: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    createdById: string | null
+    updatedByName: string | null
+  }
+
+  export type CpanelIntegrationMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    host: string | null
+    port: number | null
+    username: string | null
+    tokenEnc: string | null
+    publishDir: string | null
+    siteUrl: string | null
+    status: $Enums.IntegrationStatus | null
+    lastTestedAt: Date | null
+    lastError: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    createdById: string | null
+    updatedByName: string | null
+  }
+
+  export type CpanelIntegrationCountAggregateOutputType = {
+    id: number
+    companyId: number
+    host: number
+    port: number
+    username: number
+    tokenEnc: number
+    publishDir: number
+    siteUrl: number
+    status: number
+    lastTestedAt: number
+    lastError: number
+    createdAt: number
+    updatedAt: number
+    createdById: number
+    updatedByName: number
+    _all: number
+  }
+
+
+  export type CpanelIntegrationAvgAggregateInputType = {
+    port?: true
+  }
+
+  export type CpanelIntegrationSumAggregateInputType = {
+    port?: true
+  }
+
+  export type CpanelIntegrationMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    host?: true
+    port?: true
+    username?: true
+    tokenEnc?: true
+    publishDir?: true
+    siteUrl?: true
+    status?: true
+    lastTestedAt?: true
+    lastError?: true
+    createdAt?: true
+    updatedAt?: true
+    createdById?: true
+    updatedByName?: true
+  }
+
+  export type CpanelIntegrationMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    host?: true
+    port?: true
+    username?: true
+    tokenEnc?: true
+    publishDir?: true
+    siteUrl?: true
+    status?: true
+    lastTestedAt?: true
+    lastError?: true
+    createdAt?: true
+    updatedAt?: true
+    createdById?: true
+    updatedByName?: true
+  }
+
+  export type CpanelIntegrationCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    host?: true
+    port?: true
+    username?: true
+    tokenEnc?: true
+    publishDir?: true
+    siteUrl?: true
+    status?: true
+    lastTestedAt?: true
+    lastError?: true
+    createdAt?: true
+    updatedAt?: true
+    createdById?: true
+    updatedByName?: true
+    _all?: true
+  }
+
+  export type CpanelIntegrationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CpanelIntegration to aggregate.
+     */
+    where?: CpanelIntegrationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CpanelIntegrations to fetch.
+     */
+    orderBy?: CpanelIntegrationOrderByWithRelationInput | CpanelIntegrationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CpanelIntegrationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CpanelIntegrations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CpanelIntegrations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CpanelIntegrations
+    **/
+    _count?: true | CpanelIntegrationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CpanelIntegrationAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CpanelIntegrationSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CpanelIntegrationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CpanelIntegrationMaxAggregateInputType
+  }
+
+  export type GetCpanelIntegrationAggregateType<T extends CpanelIntegrationAggregateArgs> = {
+        [P in keyof T & keyof AggregateCpanelIntegration]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCpanelIntegration[P]>
+      : GetScalarType<T[P], AggregateCpanelIntegration[P]>
+  }
+
+
+
+
+  export type CpanelIntegrationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CpanelIntegrationWhereInput
+    orderBy?: CpanelIntegrationOrderByWithAggregationInput | CpanelIntegrationOrderByWithAggregationInput[]
+    by: CpanelIntegrationScalarFieldEnum[] | CpanelIntegrationScalarFieldEnum
+    having?: CpanelIntegrationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CpanelIntegrationCountAggregateInputType | true
+    _avg?: CpanelIntegrationAvgAggregateInputType
+    _sum?: CpanelIntegrationSumAggregateInputType
+    _min?: CpanelIntegrationMinAggregateInputType
+    _max?: CpanelIntegrationMaxAggregateInputType
+  }
+
+  export type CpanelIntegrationGroupByOutputType = {
+    id: string
+    companyId: string
+    host: string
+    port: number
+    username: string
+    tokenEnc: string
+    publishDir: string
+    siteUrl: string | null
+    status: $Enums.IntegrationStatus
+    lastTestedAt: Date | null
+    lastError: string | null
+    createdAt: Date
+    updatedAt: Date
+    createdById: string | null
+    updatedByName: string | null
+    _count: CpanelIntegrationCountAggregateOutputType | null
+    _avg: CpanelIntegrationAvgAggregateOutputType | null
+    _sum: CpanelIntegrationSumAggregateOutputType | null
+    _min: CpanelIntegrationMinAggregateOutputType | null
+    _max: CpanelIntegrationMaxAggregateOutputType | null
+  }
+
+  type GetCpanelIntegrationGroupByPayload<T extends CpanelIntegrationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CpanelIntegrationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CpanelIntegrationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CpanelIntegrationGroupByOutputType[P]>
+            : GetScalarType<T[P], CpanelIntegrationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CpanelIntegrationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    host?: boolean
+    port?: boolean
+    username?: boolean
+    tokenEnc?: boolean
+    publishDir?: boolean
+    siteUrl?: boolean
+    status?: boolean
+    lastTestedAt?: boolean
+    lastError?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    createdById?: boolean
+    updatedByName?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["cpanelIntegration"]>
+
+  export type CpanelIntegrationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    host?: boolean
+    port?: boolean
+    username?: boolean
+    tokenEnc?: boolean
+    publishDir?: boolean
+    siteUrl?: boolean
+    status?: boolean
+    lastTestedAt?: boolean
+    lastError?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    createdById?: boolean
+    updatedByName?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["cpanelIntegration"]>
+
+  export type CpanelIntegrationSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    host?: boolean
+    port?: boolean
+    username?: boolean
+    tokenEnc?: boolean
+    publishDir?: boolean
+    siteUrl?: boolean
+    status?: boolean
+    lastTestedAt?: boolean
+    lastError?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    createdById?: boolean
+    updatedByName?: boolean
+  }
+
+  export type CpanelIntegrationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type CpanelIntegrationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $CpanelIntegrationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CpanelIntegration"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      host: string
+      port: number
+      username: string
+      tokenEnc: string
+      publishDir: string
+      siteUrl: string | null
+      status: $Enums.IntegrationStatus
+      lastTestedAt: Date | null
+      lastError: string | null
+      createdAt: Date
+      updatedAt: Date
+      createdById: string | null
+      updatedByName: string | null
+    }, ExtArgs["result"]["cpanelIntegration"]>
+    composites: {}
+  }
+
+  type CpanelIntegrationGetPayload<S extends boolean | null | undefined | CpanelIntegrationDefaultArgs> = $Result.GetResult<Prisma.$CpanelIntegrationPayload, S>
+
+  type CpanelIntegrationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<CpanelIntegrationFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: CpanelIntegrationCountAggregateInputType | true
+    }
+
+  export interface CpanelIntegrationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CpanelIntegration'], meta: { name: 'CpanelIntegration' } }
+    /**
+     * Find zero or one CpanelIntegration that matches the filter.
+     * @param {CpanelIntegrationFindUniqueArgs} args - Arguments to find a CpanelIntegration
+     * @example
+     * // Get one CpanelIntegration
+     * const cpanelIntegration = await prisma.cpanelIntegration.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CpanelIntegrationFindUniqueArgs>(args: SelectSubset<T, CpanelIntegrationFindUniqueArgs<ExtArgs>>): Prisma__CpanelIntegrationClient<$Result.GetResult<Prisma.$CpanelIntegrationPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one CpanelIntegration that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {CpanelIntegrationFindUniqueOrThrowArgs} args - Arguments to find a CpanelIntegration
+     * @example
+     * // Get one CpanelIntegration
+     * const cpanelIntegration = await prisma.cpanelIntegration.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CpanelIntegrationFindUniqueOrThrowArgs>(args: SelectSubset<T, CpanelIntegrationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CpanelIntegrationClient<$Result.GetResult<Prisma.$CpanelIntegrationPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first CpanelIntegration that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CpanelIntegrationFindFirstArgs} args - Arguments to find a CpanelIntegration
+     * @example
+     * // Get one CpanelIntegration
+     * const cpanelIntegration = await prisma.cpanelIntegration.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CpanelIntegrationFindFirstArgs>(args?: SelectSubset<T, CpanelIntegrationFindFirstArgs<ExtArgs>>): Prisma__CpanelIntegrationClient<$Result.GetResult<Prisma.$CpanelIntegrationPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first CpanelIntegration that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CpanelIntegrationFindFirstOrThrowArgs} args - Arguments to find a CpanelIntegration
+     * @example
+     * // Get one CpanelIntegration
+     * const cpanelIntegration = await prisma.cpanelIntegration.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CpanelIntegrationFindFirstOrThrowArgs>(args?: SelectSubset<T, CpanelIntegrationFindFirstOrThrowArgs<ExtArgs>>): Prisma__CpanelIntegrationClient<$Result.GetResult<Prisma.$CpanelIntegrationPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more CpanelIntegrations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CpanelIntegrationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CpanelIntegrations
+     * const cpanelIntegrations = await prisma.cpanelIntegration.findMany()
+     * 
+     * // Get first 10 CpanelIntegrations
+     * const cpanelIntegrations = await prisma.cpanelIntegration.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const cpanelIntegrationWithIdOnly = await prisma.cpanelIntegration.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CpanelIntegrationFindManyArgs>(args?: SelectSubset<T, CpanelIntegrationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CpanelIntegrationPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a CpanelIntegration.
+     * @param {CpanelIntegrationCreateArgs} args - Arguments to create a CpanelIntegration.
+     * @example
+     * // Create one CpanelIntegration
+     * const CpanelIntegration = await prisma.cpanelIntegration.create({
+     *   data: {
+     *     // ... data to create a CpanelIntegration
+     *   }
+     * })
+     * 
+     */
+    create<T extends CpanelIntegrationCreateArgs>(args: SelectSubset<T, CpanelIntegrationCreateArgs<ExtArgs>>): Prisma__CpanelIntegrationClient<$Result.GetResult<Prisma.$CpanelIntegrationPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many CpanelIntegrations.
+     * @param {CpanelIntegrationCreateManyArgs} args - Arguments to create many CpanelIntegrations.
+     * @example
+     * // Create many CpanelIntegrations
+     * const cpanelIntegration = await prisma.cpanelIntegration.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CpanelIntegrationCreateManyArgs>(args?: SelectSubset<T, CpanelIntegrationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CpanelIntegrations and returns the data saved in the database.
+     * @param {CpanelIntegrationCreateManyAndReturnArgs} args - Arguments to create many CpanelIntegrations.
+     * @example
+     * // Create many CpanelIntegrations
+     * const cpanelIntegration = await prisma.cpanelIntegration.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CpanelIntegrations and only return the `id`
+     * const cpanelIntegrationWithIdOnly = await prisma.cpanelIntegration.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CpanelIntegrationCreateManyAndReturnArgs>(args?: SelectSubset<T, CpanelIntegrationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CpanelIntegrationPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a CpanelIntegration.
+     * @param {CpanelIntegrationDeleteArgs} args - Arguments to delete one CpanelIntegration.
+     * @example
+     * // Delete one CpanelIntegration
+     * const CpanelIntegration = await prisma.cpanelIntegration.delete({
+     *   where: {
+     *     // ... filter to delete one CpanelIntegration
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CpanelIntegrationDeleteArgs>(args: SelectSubset<T, CpanelIntegrationDeleteArgs<ExtArgs>>): Prisma__CpanelIntegrationClient<$Result.GetResult<Prisma.$CpanelIntegrationPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one CpanelIntegration.
+     * @param {CpanelIntegrationUpdateArgs} args - Arguments to update one CpanelIntegration.
+     * @example
+     * // Update one CpanelIntegration
+     * const cpanelIntegration = await prisma.cpanelIntegration.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CpanelIntegrationUpdateArgs>(args: SelectSubset<T, CpanelIntegrationUpdateArgs<ExtArgs>>): Prisma__CpanelIntegrationClient<$Result.GetResult<Prisma.$CpanelIntegrationPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more CpanelIntegrations.
+     * @param {CpanelIntegrationDeleteManyArgs} args - Arguments to filter CpanelIntegrations to delete.
+     * @example
+     * // Delete a few CpanelIntegrations
+     * const { count } = await prisma.cpanelIntegration.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CpanelIntegrationDeleteManyArgs>(args?: SelectSubset<T, CpanelIntegrationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CpanelIntegrations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CpanelIntegrationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CpanelIntegrations
+     * const cpanelIntegration = await prisma.cpanelIntegration.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CpanelIntegrationUpdateManyArgs>(args: SelectSubset<T, CpanelIntegrationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one CpanelIntegration.
+     * @param {CpanelIntegrationUpsertArgs} args - Arguments to update or create a CpanelIntegration.
+     * @example
+     * // Update or create a CpanelIntegration
+     * const cpanelIntegration = await prisma.cpanelIntegration.upsert({
+     *   create: {
+     *     // ... data to create a CpanelIntegration
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CpanelIntegration we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CpanelIntegrationUpsertArgs>(args: SelectSubset<T, CpanelIntegrationUpsertArgs<ExtArgs>>): Prisma__CpanelIntegrationClient<$Result.GetResult<Prisma.$CpanelIntegrationPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of CpanelIntegrations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CpanelIntegrationCountArgs} args - Arguments to filter CpanelIntegrations to count.
+     * @example
+     * // Count the number of CpanelIntegrations
+     * const count = await prisma.cpanelIntegration.count({
+     *   where: {
+     *     // ... the filter for the CpanelIntegrations we want to count
+     *   }
+     * })
+    **/
+    count<T extends CpanelIntegrationCountArgs>(
+      args?: Subset<T, CpanelIntegrationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CpanelIntegrationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CpanelIntegration.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CpanelIntegrationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CpanelIntegrationAggregateArgs>(args: Subset<T, CpanelIntegrationAggregateArgs>): Prisma.PrismaPromise<GetCpanelIntegrationAggregateType<T>>
+
+    /**
+     * Group by CpanelIntegration.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CpanelIntegrationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CpanelIntegrationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CpanelIntegrationGroupByArgs['orderBy'] }
+        : { orderBy?: CpanelIntegrationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CpanelIntegrationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCpanelIntegrationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CpanelIntegration model
+   */
+  readonly fields: CpanelIntegrationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CpanelIntegration.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CpanelIntegrationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CpanelIntegration model
+   */ 
+  interface CpanelIntegrationFieldRefs {
+    readonly id: FieldRef<"CpanelIntegration", 'String'>
+    readonly companyId: FieldRef<"CpanelIntegration", 'String'>
+    readonly host: FieldRef<"CpanelIntegration", 'String'>
+    readonly port: FieldRef<"CpanelIntegration", 'Int'>
+    readonly username: FieldRef<"CpanelIntegration", 'String'>
+    readonly tokenEnc: FieldRef<"CpanelIntegration", 'String'>
+    readonly publishDir: FieldRef<"CpanelIntegration", 'String'>
+    readonly siteUrl: FieldRef<"CpanelIntegration", 'String'>
+    readonly status: FieldRef<"CpanelIntegration", 'IntegrationStatus'>
+    readonly lastTestedAt: FieldRef<"CpanelIntegration", 'DateTime'>
+    readonly lastError: FieldRef<"CpanelIntegration", 'String'>
+    readonly createdAt: FieldRef<"CpanelIntegration", 'DateTime'>
+    readonly updatedAt: FieldRef<"CpanelIntegration", 'DateTime'>
+    readonly createdById: FieldRef<"CpanelIntegration", 'String'>
+    readonly updatedByName: FieldRef<"CpanelIntegration", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CpanelIntegration findUnique
+   */
+  export type CpanelIntegrationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CpanelIntegration
+     */
+    select?: CpanelIntegrationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CpanelIntegrationInclude<ExtArgs> | null
+    /**
+     * Filter, which CpanelIntegration to fetch.
+     */
+    where: CpanelIntegrationWhereUniqueInput
+  }
+
+  /**
+   * CpanelIntegration findUniqueOrThrow
+   */
+  export type CpanelIntegrationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CpanelIntegration
+     */
+    select?: CpanelIntegrationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CpanelIntegrationInclude<ExtArgs> | null
+    /**
+     * Filter, which CpanelIntegration to fetch.
+     */
+    where: CpanelIntegrationWhereUniqueInput
+  }
+
+  /**
+   * CpanelIntegration findFirst
+   */
+  export type CpanelIntegrationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CpanelIntegration
+     */
+    select?: CpanelIntegrationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CpanelIntegrationInclude<ExtArgs> | null
+    /**
+     * Filter, which CpanelIntegration to fetch.
+     */
+    where?: CpanelIntegrationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CpanelIntegrations to fetch.
+     */
+    orderBy?: CpanelIntegrationOrderByWithRelationInput | CpanelIntegrationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CpanelIntegrations.
+     */
+    cursor?: CpanelIntegrationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CpanelIntegrations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CpanelIntegrations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CpanelIntegrations.
+     */
+    distinct?: CpanelIntegrationScalarFieldEnum | CpanelIntegrationScalarFieldEnum[]
+  }
+
+  /**
+   * CpanelIntegration findFirstOrThrow
+   */
+  export type CpanelIntegrationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CpanelIntegration
+     */
+    select?: CpanelIntegrationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CpanelIntegrationInclude<ExtArgs> | null
+    /**
+     * Filter, which CpanelIntegration to fetch.
+     */
+    where?: CpanelIntegrationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CpanelIntegrations to fetch.
+     */
+    orderBy?: CpanelIntegrationOrderByWithRelationInput | CpanelIntegrationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CpanelIntegrations.
+     */
+    cursor?: CpanelIntegrationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CpanelIntegrations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CpanelIntegrations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CpanelIntegrations.
+     */
+    distinct?: CpanelIntegrationScalarFieldEnum | CpanelIntegrationScalarFieldEnum[]
+  }
+
+  /**
+   * CpanelIntegration findMany
+   */
+  export type CpanelIntegrationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CpanelIntegration
+     */
+    select?: CpanelIntegrationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CpanelIntegrationInclude<ExtArgs> | null
+    /**
+     * Filter, which CpanelIntegrations to fetch.
+     */
+    where?: CpanelIntegrationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CpanelIntegrations to fetch.
+     */
+    orderBy?: CpanelIntegrationOrderByWithRelationInput | CpanelIntegrationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CpanelIntegrations.
+     */
+    cursor?: CpanelIntegrationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CpanelIntegrations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CpanelIntegrations.
+     */
+    skip?: number
+    distinct?: CpanelIntegrationScalarFieldEnum | CpanelIntegrationScalarFieldEnum[]
+  }
+
+  /**
+   * CpanelIntegration create
+   */
+  export type CpanelIntegrationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CpanelIntegration
+     */
+    select?: CpanelIntegrationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CpanelIntegrationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CpanelIntegration.
+     */
+    data: XOR<CpanelIntegrationCreateInput, CpanelIntegrationUncheckedCreateInput>
+  }
+
+  /**
+   * CpanelIntegration createMany
+   */
+  export type CpanelIntegrationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CpanelIntegrations.
+     */
+    data: CpanelIntegrationCreateManyInput | CpanelIntegrationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CpanelIntegration createManyAndReturn
+   */
+  export type CpanelIntegrationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CpanelIntegration
+     */
+    select?: CpanelIntegrationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many CpanelIntegrations.
+     */
+    data: CpanelIntegrationCreateManyInput | CpanelIntegrationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CpanelIntegrationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CpanelIntegration update
+   */
+  export type CpanelIntegrationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CpanelIntegration
+     */
+    select?: CpanelIntegrationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CpanelIntegrationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CpanelIntegration.
+     */
+    data: XOR<CpanelIntegrationUpdateInput, CpanelIntegrationUncheckedUpdateInput>
+    /**
+     * Choose, which CpanelIntegration to update.
+     */
+    where: CpanelIntegrationWhereUniqueInput
+  }
+
+  /**
+   * CpanelIntegration updateMany
+   */
+  export type CpanelIntegrationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CpanelIntegrations.
+     */
+    data: XOR<CpanelIntegrationUpdateManyMutationInput, CpanelIntegrationUncheckedUpdateManyInput>
+    /**
+     * Filter which CpanelIntegrations to update
+     */
+    where?: CpanelIntegrationWhereInput
+  }
+
+  /**
+   * CpanelIntegration upsert
+   */
+  export type CpanelIntegrationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CpanelIntegration
+     */
+    select?: CpanelIntegrationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CpanelIntegrationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CpanelIntegration to update in case it exists.
+     */
+    where: CpanelIntegrationWhereUniqueInput
+    /**
+     * In case the CpanelIntegration found by the `where` argument doesn't exist, create a new CpanelIntegration with this data.
+     */
+    create: XOR<CpanelIntegrationCreateInput, CpanelIntegrationUncheckedCreateInput>
+    /**
+     * In case the CpanelIntegration was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CpanelIntegrationUpdateInput, CpanelIntegrationUncheckedUpdateInput>
+  }
+
+  /**
+   * CpanelIntegration delete
+   */
+  export type CpanelIntegrationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CpanelIntegration
+     */
+    select?: CpanelIntegrationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CpanelIntegrationInclude<ExtArgs> | null
+    /**
+     * Filter which CpanelIntegration to delete.
+     */
+    where: CpanelIntegrationWhereUniqueInput
+  }
+
+  /**
+   * CpanelIntegration deleteMany
+   */
+  export type CpanelIntegrationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CpanelIntegrations to delete
+     */
+    where?: CpanelIntegrationWhereInput
+  }
+
+  /**
+   * CpanelIntegration without action
+   */
+  export type CpanelIntegrationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CpanelIntegration
+     */
+    select?: CpanelIntegrationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CpanelIntegrationInclude<ExtArgs> | null
   }
 
 
@@ -180438,6 +181630,27 @@ export namespace Prisma {
   export type BlingIntegrationScalarFieldEnum = (typeof BlingIntegrationScalarFieldEnum)[keyof typeof BlingIntegrationScalarFieldEnum]
 
 
+  export const CpanelIntegrationScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    host: 'host',
+    port: 'port',
+    username: 'username',
+    tokenEnc: 'tokenEnc',
+    publishDir: 'publishDir',
+    siteUrl: 'siteUrl',
+    status: 'status',
+    lastTestedAt: 'lastTestedAt',
+    lastError: 'lastError',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    createdById: 'createdById',
+    updatedByName: 'updatedByName'
+  };
+
+  export type CpanelIntegrationScalarFieldEnum = (typeof CpanelIntegrationScalarFieldEnum)[keyof typeof CpanelIntegrationScalarFieldEnum]
+
+
   export const MetaConversionConfigScalarFieldEnum: {
     id: 'id',
     companyId: 'companyId',
@@ -184273,6 +185486,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestListRelationFilter
     timesheetSignatures?: TimesheetSignatureListRelationFilter
     blingIntegration?: XOR<BlingIntegrationNullableRelationFilter, BlingIntegrationWhereInput> | null
+    cpanelIntegration?: XOR<CpanelIntegrationNullableRelationFilter, CpanelIntegrationWhereInput> | null
     storageObjects?: StorageObjectListRelationFilter
     libraryItems?: ClientLibraryItemListRelationFilter
   }
@@ -184420,6 +185634,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestOrderByRelationAggregateInput
     timesheetSignatures?: TimesheetSignatureOrderByRelationAggregateInput
     blingIntegration?: BlingIntegrationOrderByWithRelationInput
+    cpanelIntegration?: CpanelIntegrationOrderByWithRelationInput
     storageObjects?: StorageObjectOrderByRelationAggregateInput
     libraryItems?: ClientLibraryItemOrderByRelationAggregateInput
   }
@@ -184570,6 +185785,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestListRelationFilter
     timesheetSignatures?: TimesheetSignatureListRelationFilter
     blingIntegration?: XOR<BlingIntegrationNullableRelationFilter, BlingIntegrationWhereInput> | null
+    cpanelIntegration?: XOR<CpanelIntegrationNullableRelationFilter, CpanelIntegrationWhereInput> | null
     storageObjects?: StorageObjectListRelationFilter
     libraryItems?: ClientLibraryItemListRelationFilter
   }, "id" | "slug" | "webhookToken" | "blingContactId">
@@ -189367,6 +190583,113 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"BlingIntegration"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"BlingIntegration"> | Date | string
     createdById?: StringNullableWithAggregatesFilter<"BlingIntegration"> | string | null
+  }
+
+  export type CpanelIntegrationWhereInput = {
+    AND?: CpanelIntegrationWhereInput | CpanelIntegrationWhereInput[]
+    OR?: CpanelIntegrationWhereInput[]
+    NOT?: CpanelIntegrationWhereInput | CpanelIntegrationWhereInput[]
+    id?: StringFilter<"CpanelIntegration"> | string
+    companyId?: StringFilter<"CpanelIntegration"> | string
+    host?: StringFilter<"CpanelIntegration"> | string
+    port?: IntFilter<"CpanelIntegration"> | number
+    username?: StringFilter<"CpanelIntegration"> | string
+    tokenEnc?: StringFilter<"CpanelIntegration"> | string
+    publishDir?: StringFilter<"CpanelIntegration"> | string
+    siteUrl?: StringNullableFilter<"CpanelIntegration"> | string | null
+    status?: EnumIntegrationStatusFilter<"CpanelIntegration"> | $Enums.IntegrationStatus
+    lastTestedAt?: DateTimeNullableFilter<"CpanelIntegration"> | Date | string | null
+    lastError?: StringNullableFilter<"CpanelIntegration"> | string | null
+    createdAt?: DateTimeFilter<"CpanelIntegration"> | Date | string
+    updatedAt?: DateTimeFilter<"CpanelIntegration"> | Date | string
+    createdById?: StringNullableFilter<"CpanelIntegration"> | string | null
+    updatedByName?: StringNullableFilter<"CpanelIntegration"> | string | null
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }
+
+  export type CpanelIntegrationOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    host?: SortOrder
+    port?: SortOrder
+    username?: SortOrder
+    tokenEnc?: SortOrder
+    publishDir?: SortOrder
+    siteUrl?: SortOrderInput | SortOrder
+    status?: SortOrder
+    lastTestedAt?: SortOrderInput | SortOrder
+    lastError?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrderInput | SortOrder
+    updatedByName?: SortOrderInput | SortOrder
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type CpanelIntegrationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    companyId?: string
+    AND?: CpanelIntegrationWhereInput | CpanelIntegrationWhereInput[]
+    OR?: CpanelIntegrationWhereInput[]
+    NOT?: CpanelIntegrationWhereInput | CpanelIntegrationWhereInput[]
+    host?: StringFilter<"CpanelIntegration"> | string
+    port?: IntFilter<"CpanelIntegration"> | number
+    username?: StringFilter<"CpanelIntegration"> | string
+    tokenEnc?: StringFilter<"CpanelIntegration"> | string
+    publishDir?: StringFilter<"CpanelIntegration"> | string
+    siteUrl?: StringNullableFilter<"CpanelIntegration"> | string | null
+    status?: EnumIntegrationStatusFilter<"CpanelIntegration"> | $Enums.IntegrationStatus
+    lastTestedAt?: DateTimeNullableFilter<"CpanelIntegration"> | Date | string | null
+    lastError?: StringNullableFilter<"CpanelIntegration"> | string | null
+    createdAt?: DateTimeFilter<"CpanelIntegration"> | Date | string
+    updatedAt?: DateTimeFilter<"CpanelIntegration"> | Date | string
+    createdById?: StringNullableFilter<"CpanelIntegration"> | string | null
+    updatedByName?: StringNullableFilter<"CpanelIntegration"> | string | null
+    company?: XOR<CompanyRelationFilter, CompanyWhereInput>
+  }, "id" | "companyId">
+
+  export type CpanelIntegrationOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    host?: SortOrder
+    port?: SortOrder
+    username?: SortOrder
+    tokenEnc?: SortOrder
+    publishDir?: SortOrder
+    siteUrl?: SortOrderInput | SortOrder
+    status?: SortOrder
+    lastTestedAt?: SortOrderInput | SortOrder
+    lastError?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrderInput | SortOrder
+    updatedByName?: SortOrderInput | SortOrder
+    _count?: CpanelIntegrationCountOrderByAggregateInput
+    _avg?: CpanelIntegrationAvgOrderByAggregateInput
+    _max?: CpanelIntegrationMaxOrderByAggregateInput
+    _min?: CpanelIntegrationMinOrderByAggregateInput
+    _sum?: CpanelIntegrationSumOrderByAggregateInput
+  }
+
+  export type CpanelIntegrationScalarWhereWithAggregatesInput = {
+    AND?: CpanelIntegrationScalarWhereWithAggregatesInput | CpanelIntegrationScalarWhereWithAggregatesInput[]
+    OR?: CpanelIntegrationScalarWhereWithAggregatesInput[]
+    NOT?: CpanelIntegrationScalarWhereWithAggregatesInput | CpanelIntegrationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CpanelIntegration"> | string
+    companyId?: StringWithAggregatesFilter<"CpanelIntegration"> | string
+    host?: StringWithAggregatesFilter<"CpanelIntegration"> | string
+    port?: IntWithAggregatesFilter<"CpanelIntegration"> | number
+    username?: StringWithAggregatesFilter<"CpanelIntegration"> | string
+    tokenEnc?: StringWithAggregatesFilter<"CpanelIntegration"> | string
+    publishDir?: StringWithAggregatesFilter<"CpanelIntegration"> | string
+    siteUrl?: StringNullableWithAggregatesFilter<"CpanelIntegration"> | string | null
+    status?: EnumIntegrationStatusWithAggregatesFilter<"CpanelIntegration"> | $Enums.IntegrationStatus
+    lastTestedAt?: DateTimeNullableWithAggregatesFilter<"CpanelIntegration"> | Date | string | null
+    lastError?: StringNullableWithAggregatesFilter<"CpanelIntegration"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"CpanelIntegration"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"CpanelIntegration"> | Date | string
+    createdById?: StringNullableWithAggregatesFilter<"CpanelIntegration"> | string | null
+    updatedByName?: StringNullableWithAggregatesFilter<"CpanelIntegration"> | string | null
   }
 
   export type MetaConversionConfigWhereInput = {
@@ -199621,6 +200944,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -199767,6 +201091,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -199913,6 +201238,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -200059,6 +201385,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -205446,6 +206773,131 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CpanelIntegrationCreateInput = {
+    id?: string
+    host: string
+    port?: number
+    username: string
+    tokenEnc: string
+    publishDir?: string
+    siteUrl?: string | null
+    status?: $Enums.IntegrationStatus
+    lastTestedAt?: Date | string | null
+    lastError?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+    updatedByName?: string | null
+    company: CompanyCreateNestedOneWithoutCpanelIntegrationInput
+  }
+
+  export type CpanelIntegrationUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    host: string
+    port?: number
+    username: string
+    tokenEnc: string
+    publishDir?: string
+    siteUrl?: string | null
+    status?: $Enums.IntegrationStatus
+    lastTestedAt?: Date | string | null
+    lastError?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+    updatedByName?: string | null
+  }
+
+  export type CpanelIntegrationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    host?: StringFieldUpdateOperationsInput | string
+    port?: IntFieldUpdateOperationsInput | number
+    username?: StringFieldUpdateOperationsInput | string
+    tokenEnc?: StringFieldUpdateOperationsInput | string
+    publishDir?: StringFieldUpdateOperationsInput | string
+    siteUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
+    lastTestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedByName?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: CompanyUpdateOneRequiredWithoutCpanelIntegrationNestedInput
+  }
+
+  export type CpanelIntegrationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    host?: StringFieldUpdateOperationsInput | string
+    port?: IntFieldUpdateOperationsInput | number
+    username?: StringFieldUpdateOperationsInput | string
+    tokenEnc?: StringFieldUpdateOperationsInput | string
+    publishDir?: StringFieldUpdateOperationsInput | string
+    siteUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
+    lastTestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedByName?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CpanelIntegrationCreateManyInput = {
+    id?: string
+    companyId: string
+    host: string
+    port?: number
+    username: string
+    tokenEnc: string
+    publishDir?: string
+    siteUrl?: string | null
+    status?: $Enums.IntegrationStatus
+    lastTestedAt?: Date | string | null
+    lastError?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+    updatedByName?: string | null
+  }
+
+  export type CpanelIntegrationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    host?: StringFieldUpdateOperationsInput | string
+    port?: IntFieldUpdateOperationsInput | number
+    username?: StringFieldUpdateOperationsInput | string
+    tokenEnc?: StringFieldUpdateOperationsInput | string
+    publishDir?: StringFieldUpdateOperationsInput | string
+    siteUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
+    lastTestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedByName?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CpanelIntegrationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    host?: StringFieldUpdateOperationsInput | string
+    port?: IntFieldUpdateOperationsInput | number
+    username?: StringFieldUpdateOperationsInput | string
+    tokenEnc?: StringFieldUpdateOperationsInput | string
+    publishDir?: StringFieldUpdateOperationsInput | string
+    siteUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
+    lastTestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedByName?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MetaConversionConfigCreateInput = {
@@ -217068,6 +218520,11 @@ export namespace Prisma {
     isNot?: BlingIntegrationWhereInput | null
   }
 
+  export type CpanelIntegrationNullableRelationFilter = {
+    is?: CpanelIntegrationWhereInput | null
+    isNot?: CpanelIntegrationWhereInput | null
+  }
+
   export type ClientLibraryItemListRelationFilter = {
     every?: ClientLibraryItemWhereInput
     some?: ClientLibraryItemWhereInput
@@ -220747,6 +222204,68 @@ export namespace Prisma {
   export type BlingIntegrationSumOrderByAggregateInput = {
     lastClientsSynced?: SortOrder
     lastInvoicesSynced?: SortOrder
+  }
+
+  export type CpanelIntegrationCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    host?: SortOrder
+    port?: SortOrder
+    username?: SortOrder
+    tokenEnc?: SortOrder
+    publishDir?: SortOrder
+    siteUrl?: SortOrder
+    status?: SortOrder
+    lastTestedAt?: SortOrder
+    lastError?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrder
+    updatedByName?: SortOrder
+  }
+
+  export type CpanelIntegrationAvgOrderByAggregateInput = {
+    port?: SortOrder
+  }
+
+  export type CpanelIntegrationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    host?: SortOrder
+    port?: SortOrder
+    username?: SortOrder
+    tokenEnc?: SortOrder
+    publishDir?: SortOrder
+    siteUrl?: SortOrder
+    status?: SortOrder
+    lastTestedAt?: SortOrder
+    lastError?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrder
+    updatedByName?: SortOrder
+  }
+
+  export type CpanelIntegrationMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    host?: SortOrder
+    port?: SortOrder
+    username?: SortOrder
+    tokenEnc?: SortOrder
+    publishDir?: SortOrder
+    siteUrl?: SortOrder
+    status?: SortOrder
+    lastTestedAt?: SortOrder
+    lastError?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrder
+    updatedByName?: SortOrder
+  }
+
+  export type CpanelIntegrationSumOrderByAggregateInput = {
+    port?: SortOrder
   }
 
   export type MetaConversionConfigCountOrderByAggregateInput = {
@@ -229315,6 +230834,12 @@ export namespace Prisma {
     connect?: BlingIntegrationWhereUniqueInput
   }
 
+  export type CpanelIntegrationCreateNestedOneWithoutCompanyInput = {
+    create?: XOR<CpanelIntegrationCreateWithoutCompanyInput, CpanelIntegrationUncheckedCreateWithoutCompanyInput>
+    connectOrCreate?: CpanelIntegrationCreateOrConnectWithoutCompanyInput
+    connect?: CpanelIntegrationWhereUniqueInput
+  }
+
   export type StorageObjectCreateNestedManyWithoutCompanyInput = {
     create?: XOR<StorageObjectCreateWithoutCompanyInput, StorageObjectUncheckedCreateWithoutCompanyInput> | StorageObjectCreateWithoutCompanyInput[] | StorageObjectUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: StorageObjectCreateOrConnectWithoutCompanyInput | StorageObjectCreateOrConnectWithoutCompanyInput[]
@@ -229973,6 +231498,12 @@ export namespace Prisma {
     create?: XOR<BlingIntegrationCreateWithoutCompanyInput, BlingIntegrationUncheckedCreateWithoutCompanyInput>
     connectOrCreate?: BlingIntegrationCreateOrConnectWithoutCompanyInput
     connect?: BlingIntegrationWhereUniqueInput
+  }
+
+  export type CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput = {
+    create?: XOR<CpanelIntegrationCreateWithoutCompanyInput, CpanelIntegrationUncheckedCreateWithoutCompanyInput>
+    connectOrCreate?: CpanelIntegrationCreateOrConnectWithoutCompanyInput
+    connect?: CpanelIntegrationWhereUniqueInput
   }
 
   export type StorageObjectUncheckedCreateNestedManyWithoutCompanyInput = {
@@ -231289,6 +232820,16 @@ export namespace Prisma {
     update?: XOR<XOR<BlingIntegrationUpdateToOneWithWhereWithoutCompanyInput, BlingIntegrationUpdateWithoutCompanyInput>, BlingIntegrationUncheckedUpdateWithoutCompanyInput>
   }
 
+  export type CpanelIntegrationUpdateOneWithoutCompanyNestedInput = {
+    create?: XOR<CpanelIntegrationCreateWithoutCompanyInput, CpanelIntegrationUncheckedCreateWithoutCompanyInput>
+    connectOrCreate?: CpanelIntegrationCreateOrConnectWithoutCompanyInput
+    upsert?: CpanelIntegrationUpsertWithoutCompanyInput
+    disconnect?: CpanelIntegrationWhereInput | boolean
+    delete?: CpanelIntegrationWhereInput | boolean
+    connect?: CpanelIntegrationWhereUniqueInput
+    update?: XOR<XOR<CpanelIntegrationUpdateToOneWithWhereWithoutCompanyInput, CpanelIntegrationUpdateWithoutCompanyInput>, CpanelIntegrationUncheckedUpdateWithoutCompanyInput>
+  }
+
   export type StorageObjectUpdateManyWithoutCompanyNestedInput = {
     create?: XOR<StorageObjectCreateWithoutCompanyInput, StorageObjectUncheckedCreateWithoutCompanyInput> | StorageObjectCreateWithoutCompanyInput[] | StorageObjectUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: StorageObjectCreateOrConnectWithoutCompanyInput | StorageObjectCreateOrConnectWithoutCompanyInput[]
@@ -232597,6 +234138,16 @@ export namespace Prisma {
     delete?: BlingIntegrationWhereInput | boolean
     connect?: BlingIntegrationWhereUniqueInput
     update?: XOR<XOR<BlingIntegrationUpdateToOneWithWhereWithoutCompanyInput, BlingIntegrationUpdateWithoutCompanyInput>, BlingIntegrationUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput = {
+    create?: XOR<CpanelIntegrationCreateWithoutCompanyInput, CpanelIntegrationUncheckedCreateWithoutCompanyInput>
+    connectOrCreate?: CpanelIntegrationCreateOrConnectWithoutCompanyInput
+    upsert?: CpanelIntegrationUpsertWithoutCompanyInput
+    disconnect?: CpanelIntegrationWhereInput | boolean
+    delete?: CpanelIntegrationWhereInput | boolean
+    connect?: CpanelIntegrationWhereUniqueInput
+    update?: XOR<XOR<CpanelIntegrationUpdateToOneWithWhereWithoutCompanyInput, CpanelIntegrationUpdateWithoutCompanyInput>, CpanelIntegrationUncheckedUpdateWithoutCompanyInput>
   }
 
   export type StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput = {
@@ -236663,6 +238214,20 @@ export namespace Prisma {
     upsert?: CompanyUpsertWithoutBlingIntegrationInput
     connect?: CompanyWhereUniqueInput
     update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutBlingIntegrationInput, CompanyUpdateWithoutBlingIntegrationInput>, CompanyUncheckedUpdateWithoutBlingIntegrationInput>
+  }
+
+  export type CompanyCreateNestedOneWithoutCpanelIntegrationInput = {
+    create?: XOR<CompanyCreateWithoutCpanelIntegrationInput, CompanyUncheckedCreateWithoutCpanelIntegrationInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutCpanelIntegrationInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type CompanyUpdateOneRequiredWithoutCpanelIntegrationNestedInput = {
+    create?: XOR<CompanyCreateWithoutCpanelIntegrationInput, CompanyUncheckedCreateWithoutCpanelIntegrationInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutCpanelIntegrationInput
+    upsert?: CompanyUpsertWithoutCpanelIntegrationInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutCpanelIntegrationInput, CompanyUpdateWithoutCpanelIntegrationInput>, CompanyUncheckedUpdateWithoutCpanelIntegrationInput>
   }
 
   export type CompanyCreateNestedOneWithoutMetaConversionConfigInput = {
@@ -242418,6 +243983,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -242563,6 +244129,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -244522,6 +246089,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -244667,6 +246235,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -247126,6 +248695,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -247271,6 +248841,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -247567,6 +249138,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -247712,6 +249284,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -248960,6 +250533,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -249105,6 +250679,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -249255,6 +250830,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -249400,6 +250976,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -253647,6 +255224,45 @@ export namespace Prisma {
     create: XOR<BlingIntegrationCreateWithoutCompanyInput, BlingIntegrationUncheckedCreateWithoutCompanyInput>
   }
 
+  export type CpanelIntegrationCreateWithoutCompanyInput = {
+    id?: string
+    host: string
+    port?: number
+    username: string
+    tokenEnc: string
+    publishDir?: string
+    siteUrl?: string | null
+    status?: $Enums.IntegrationStatus
+    lastTestedAt?: Date | string | null
+    lastError?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+    updatedByName?: string | null
+  }
+
+  export type CpanelIntegrationUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    host: string
+    port?: number
+    username: string
+    tokenEnc: string
+    publishDir?: string
+    siteUrl?: string | null
+    status?: $Enums.IntegrationStatus
+    lastTestedAt?: Date | string | null
+    lastError?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+    updatedByName?: string | null
+  }
+
+  export type CpanelIntegrationCreateOrConnectWithoutCompanyInput = {
+    where: CpanelIntegrationWhereUniqueInput
+    create: XOR<CpanelIntegrationCreateWithoutCompanyInput, CpanelIntegrationUncheckedCreateWithoutCompanyInput>
+  }
+
   export type StorageObjectCreateWithoutCompanyInput = {
     id?: string
     bucket: string
@@ -253983,6 +255599,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -254128,6 +255745,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -257106,6 +258724,51 @@ export namespace Prisma {
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type CpanelIntegrationUpsertWithoutCompanyInput = {
+    update: XOR<CpanelIntegrationUpdateWithoutCompanyInput, CpanelIntegrationUncheckedUpdateWithoutCompanyInput>
+    create: XOR<CpanelIntegrationCreateWithoutCompanyInput, CpanelIntegrationUncheckedCreateWithoutCompanyInput>
+    where?: CpanelIntegrationWhereInput
+  }
+
+  export type CpanelIntegrationUpdateToOneWithWhereWithoutCompanyInput = {
+    where?: CpanelIntegrationWhereInput
+    data: XOR<CpanelIntegrationUpdateWithoutCompanyInput, CpanelIntegrationUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type CpanelIntegrationUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    host?: StringFieldUpdateOperationsInput | string
+    port?: IntFieldUpdateOperationsInput | number
+    username?: StringFieldUpdateOperationsInput | string
+    tokenEnc?: StringFieldUpdateOperationsInput | string
+    publishDir?: StringFieldUpdateOperationsInput | string
+    siteUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
+    lastTestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedByName?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CpanelIntegrationUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    host?: StringFieldUpdateOperationsInput | string
+    port?: IntFieldUpdateOperationsInput | number
+    username?: StringFieldUpdateOperationsInput | string
+    tokenEnc?: StringFieldUpdateOperationsInput | string
+    publishDir?: StringFieldUpdateOperationsInput | string
+    siteUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
+    lastTestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedByName?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type StorageObjectUpsertWithWhereUniqueWithoutCompanyInput = {
     where: StorageObjectWhereUniqueInput
     update: XOR<StorageObjectUpdateWithoutCompanyInput, StorageObjectUncheckedUpdateWithoutCompanyInput>
@@ -257298,6 +258961,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -257443,6 +259107,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -257904,6 +259569,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -258049,6 +259715,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -258299,6 +259966,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -258444,6 +260112,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -258822,6 +260491,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -258967,6 +260637,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -259260,6 +260931,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -259405,6 +261077,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -260359,6 +262032,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -260504,6 +262178,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -261248,6 +262923,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -261393,6 +263069,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -261574,6 +263251,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -261719,6 +263397,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -262220,6 +263899,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -262365,6 +264045,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -262552,6 +264233,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -262697,6 +264379,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -263210,6 +264893,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -263355,6 +265039,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -263542,6 +265227,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -263687,6 +265373,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -263848,6 +265535,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -263993,6 +265681,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -264183,6 +265872,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -264328,6 +266018,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -264647,6 +266338,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -264792,6 +266484,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -265368,6 +267061,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -265513,6 +267207,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -266224,6 +267919,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -266369,6 +268065,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -266530,6 +268227,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -266675,6 +268373,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -266820,6 +268519,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -266965,6 +268665,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -267261,6 +268962,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -267406,6 +269108,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -267827,6 +269530,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -267972,6 +269676,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -268592,6 +270297,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -268737,6 +270443,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -268970,6 +270677,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -269115,6 +270823,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -269719,6 +271428,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -269864,6 +271574,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -270482,6 +272193,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -270627,6 +272339,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -270829,6 +272542,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -270974,6 +272688,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -271419,6 +273134,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -271564,6 +273280,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -272274,6 +273991,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -272419,6 +274137,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -273098,6 +274817,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -273243,6 +274963,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -273707,6 +275428,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -273852,6 +275574,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -273997,6 +275720,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -274142,6 +275866,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -274427,6 +276152,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -274572,6 +276298,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -275260,6 +276987,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -275405,6 +277133,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -275702,6 +277431,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -275847,6 +277577,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -276600,6 +278331,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -276745,6 +278477,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -277244,6 +278977,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -277389,6 +279123,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -278040,6 +279775,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -278185,6 +279921,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -279036,6 +280773,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -279181,6 +280919,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -284413,6 +286152,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -284558,6 +286298,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -284769,6 +286510,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -284914,6 +286656,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -285281,6 +287024,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -285426,6 +287170,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -285638,6 +287383,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -285783,6 +287529,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -285928,6 +287675,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -286073,6 +287821,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -286268,6 +288017,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -286413,6 +288163,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -286605,6 +288356,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -286750,6 +288502,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -286948,6 +288701,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -287093,6 +288847,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -287238,6 +288993,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -287383,6 +289139,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -287544,6 +289301,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -287689,6 +289447,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -287834,6 +289593,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -287979,6 +289739,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -288140,6 +289901,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -288285,6 +290047,607 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
+  }
+
+  export type CompanyCreateWithoutCpanelIntegrationInput = {
+    id?: string
+    name: string
+    tradeName?: string | null
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    brandColor?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
+    billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
+    hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    clientDocuments?: ClientDocumentCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailCreateNestedManyWithoutClientCompanyInput
+    parentCompany?: CompanyCreateNestedOneWithoutSubCompaniesInput
+    subCompanies?: CompanyCreateNestedManyWithoutParentCompanyInput
+    users?: UserCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignCreateNestedManyWithoutCompanyInput
+    leads?: LeadCreateNestedManyWithoutCompanyInput
+    tasks?: TaskCreateNestedManyWithoutCompanyInput
+    tags?: TagCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeCreateNestedManyWithoutCompanyInput
+    emailAccounts?: EmailAccountCreateNestedManyWithoutCompanyInput
+    inboxEmails?: InboxEmailCreateNestedManyWithoutCompanyInput
+    inboxSenderRules?: InboxSenderRuleCreateNestedManyWithoutCompanyInput
+    inboxEmailTags?: InboxEmailTagCreateNestedManyWithoutCompanyInput
+    emailDrafts?: EmailDraftCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceCreateNestedManyWithoutCompanyInput
+    messages?: MessageCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleCreateNestedManyWithoutCompanyInput
+    tickets?: TicketCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketCreateNestedManyWithoutClientCompanyInput
+    clientServices?: ClientServiceCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceCreateNestedManyWithoutClientCompanyInput
+    monthlyTargets?: MonthlyTargetCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusCreateNestedManyWithoutCompanyInput
+    bonusClosures?: BonusClosureCreateNestedManyWithoutCompanyInput
+    salesAsAgency?: SaleCreateNestedManyWithoutCompanyInput
+    salesAsClient?: SaleCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageCreateNestedOneWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactCreateNestedManyWithoutCompanyInput
+    setores?: SetorCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationCreateNestedManyWithoutCompanyInput
+    activities?: ActivityCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyCreateNestedManyWithoutCompanyInput
+    adSearchTermDailies?: AdSearchTermDailyCreateNestedManyWithoutCompanyInput
+    adCreatives?: AdCreativeCreateNestedManyWithoutCompanyInput
+    adCreativeDailies?: AdCreativeDailyCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventCreateNestedManyWithoutCompanyInput
+    addons?: SubscriptionAddonCreateNestedManyWithoutCompanyInput
+    couponRedemptions?: CouponRedemptionCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogCreateNestedManyWithoutCompanyInput
+    services?: ServiceCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyCreateNestedManyWithoutCompanyInput
+    timePunches?: TimePunchCreateNestedManyWithoutCompanyInput
+    workScheduleDays?: WorkScheduleDayCreateNestedManyWithoutCompanyInput
+    timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
+    punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
+    timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutCpanelIntegrationInput = {
+    id?: string
+    name: string
+    tradeName?: string | null
+    slug: string
+    segment?: string | null
+    phone?: string | null
+    email?: string | null
+    website?: string | null
+    logoUrl?: string | null
+    brandColor?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    document?: string | null
+    blingContactId?: string | null
+    billingNotes?: string | null
+    driveFolderUrl?: string | null
+    clickupListUrl?: string | null
+    hasSystemAccess?: boolean
+    fullSystemAccess?: boolean
+    moduleWhatsapp?: boolean
+    moduleCrm?: boolean
+    moduleTickets?: boolean
+    moduleAI?: boolean
+    moduleGamificacao?: boolean
+    moduleProjetos?: boolean
+    moduleCalendario?: boolean
+    moduleEmailMarketing?: boolean
+    moduleEmailInbox?: boolean
+    moduleProspeccao?: boolean
+    serpapiKey?: string | null
+    moduleClickup?: boolean
+    moduleCampanhas?: boolean
+    moduleBling?: boolean
+    moduleRelatorioMarketing?: boolean
+    moduleLinks?: boolean
+    moduleInstagram?: boolean
+    moduleEspacoCliente?: boolean
+    moduleVideos?: boolean
+    modoAtendimento?: $Enums.ModoAtendimento
+    aiMonthlyQuota?: number
+    aiUsedThisMonth?: number
+    aiQuotaResetAt?: Date | string | null
+    parentCompanyId?: string | null
+    emailAiTriageAuto?: boolean
+    emailAutoSpam?: boolean
+    triggerOnly?: boolean
+    webhookToken?: string | null
+    clientDocuments?: ClientDocumentUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientEmails?: InboxEmailUncheckedCreateNestedManyWithoutClientCompanyInput
+    subCompanies?: CompanyUncheckedCreateNestedManyWithoutParentCompanyInput
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    userScores?: UserScoreUncheckedCreateNestedManyWithoutCompanyInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutCompanyInput
+    scoreEvents?: ScoreEventUncheckedCreateNestedManyWithoutCompanyInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedCreateNestedManyWithoutCompanyInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedCreateNestedManyWithoutClientCompanyInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCompanyInput
+    rewardRedemptions?: RewardRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    businessHours?: BusinessHoursConfigUncheckedCreateNestedManyWithoutCompanyInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutCompanyInput
+    leads?: LeadUncheckedCreateNestedManyWithoutCompanyInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutCompanyInput
+    tags?: TagUncheckedCreateNestedManyWithoutCompanyInput
+    customFieldDefs?: CustomFieldDefUncheckedCreateNestedManyWithoutCompanyInput
+    emailConfig?: CompanyEmailConfigUncheckedCreateNestedOneWithoutCompanyInput
+    emailTemplates?: EmailTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    emailCampaigns?: EmailCampaignUncheckedCreateNestedManyWithoutCompanyInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedCreateNestedManyWithoutCompanyInput
+    emailAccounts?: EmailAccountUncheckedCreateNestedManyWithoutCompanyInput
+    inboxEmails?: InboxEmailUncheckedCreateNestedManyWithoutCompanyInput
+    inboxSenderRules?: InboxSenderRuleUncheckedCreateNestedManyWithoutCompanyInput
+    inboxEmailTags?: InboxEmailTagUncheckedCreateNestedManyWithoutCompanyInput
+    emailDrafts?: EmailDraftUncheckedCreateNestedManyWithoutCompanyInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedCreateNestedManyWithoutOwnerCompanyInput
+    companyCustomValues?: CompanyCustomValueUncheckedCreateNestedManyWithoutCompanyInput
+    whatsappInstances?: WhatsappInstanceUncheckedCreateNestedManyWithoutCompanyInput
+    messages?: MessageUncheckedCreateNestedManyWithoutCompanyInput
+    keywordRules?: KeywordRuleUncheckedCreateNestedManyWithoutCompanyInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutCompanyInput
+    ticketsAsClient?: TicketUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientServices?: ClientServiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    clientInvoices?: ClientInvoiceUncheckedCreateNestedManyWithoutClientCompanyInput
+    monthlyTargets?: MonthlyTargetUncheckedCreateNestedManyWithoutCompanyInput
+    bonuses?: BonusUncheckedCreateNestedManyWithoutCompanyInput
+    bonusClosures?: BonusClosureUncheckedCreateNestedManyWithoutCompanyInput
+    salesAsAgency?: SaleUncheckedCreateNestedManyWithoutCompanyInput
+    salesAsClient?: SaleUncheckedCreateNestedManyWithoutClientCompanyInput
+    trackingLinks?: TrackingLinkUncheckedCreateNestedManyWithoutCompanyInput
+    bioPage?: BioPageUncheckedCreateNestedOneWithoutCompanyInput
+    pipelineStages?: PipelineStageConfigUncheckedCreateNestedManyWithoutCompanyInput
+    contacts?: CompanyContactUncheckedCreateNestedManyWithoutCompanyInput
+    setores?: SetorUncheckedCreateNestedManyWithoutCompanyInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutCompanyInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutCompanyInput
+    assets?: CompanyAssetUncheckedCreateNestedManyWithoutCompanyInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    secureNotes?: CompanySecureNoteUncheckedCreateNestedManyWithoutCompanyInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedCreateNestedManyWithoutCompanyInput
+    marketingIntegrations?: MarketingIntegrationUncheckedCreateNestedManyWithoutCompanyInput
+    metaConversionConfig?: MetaConversionConfigUncheckedCreateNestedOneWithoutCompanyInput
+    metaConversionLogs?: MetaConversionLogUncheckedCreateNestedManyWithoutCompanyInput
+    instagramAccounts?: InstagramAccountUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomations?: IgAutomationUncheckedCreateNestedManyWithoutCompanyInput
+    igAutomationRuns?: IgAutomationRunUncheckedCreateNestedManyWithoutCompanyInput
+    igAiReplies?: IgAiReplyUncheckedCreateNestedManyWithoutCompanyInput
+    igConversations?: IgConversationUncheckedCreateNestedManyWithoutCompanyInput
+    facebookPages?: FacebookPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedCreateNestedManyWithoutCompanyInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedCreateNestedManyWithoutCompanyInput
+    marketingEventConfig?: MarketingEventConfigUncheckedCreateNestedManyWithoutCompanyInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedCreateNestedManyWithoutCompanyInput
+    gbpInsights?: GbpInsightUncheckedCreateNestedManyWithoutCompanyInput
+    gbpReviews?: GbpReviewUncheckedCreateNestedManyWithoutCompanyInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedCreateNestedManyWithoutCompanyInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedCreateNestedManyWithoutCompanyInput
+    adCampaignDailies?: AdCampaignDailyUncheckedCreateNestedManyWithoutCompanyInput
+    adSearchTermDailies?: AdSearchTermDailyUncheckedCreateNestedManyWithoutCompanyInput
+    adCreatives?: AdCreativeUncheckedCreateNestedManyWithoutCompanyInput
+    adCreativeDailies?: AdCreativeDailyUncheckedCreateNestedManyWithoutCompanyInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
+    billingEvents?: BillingEventUncheckedCreateNestedManyWithoutCompanyInput
+    addons?: SubscriptionAddonUncheckedCreateNestedManyWithoutCompanyInput
+    couponRedemptions?: CouponRedemptionUncheckedCreateNestedManyWithoutCompanyInput
+    assistants?: AssistantUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledMessages?: ScheduledMessageUncheckedCreateNestedManyWithoutCompanyInput
+    aiUsageLogs?: AiUsageLogUncheckedCreateNestedManyWithoutCompanyInput
+    services?: ServiceUncheckedCreateNestedManyWithoutCompanyInput
+    videoCategories?: VideoCategoryUncheckedCreateNestedManyWithoutCompanyInput
+    videoReleases?: VideoCategoryReleaseUncheckedCreateNestedManyWithoutCompanyInput
+    quickReplies?: QuickReplyUncheckedCreateNestedManyWithoutCompanyInput
+    timePunches?: TimePunchUncheckedCreateNestedManyWithoutCompanyInput
+    workScheduleDays?: WorkScheduleDayUncheckedCreateNestedManyWithoutCompanyInput
+    timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
+    punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
+    timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
+    blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
+    libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutCpanelIntegrationInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutCpanelIntegrationInput, CompanyUncheckedCreateWithoutCpanelIntegrationInput>
+  }
+
+  export type CompanyUpsertWithoutCpanelIntegrationInput = {
+    update: XOR<CompanyUpdateWithoutCpanelIntegrationInput, CompanyUncheckedUpdateWithoutCpanelIntegrationInput>
+    create: XOR<CompanyCreateWithoutCpanelIntegrationInput, CompanyUncheckedCreateWithoutCpanelIntegrationInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutCpanelIntegrationInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutCpanelIntegrationInput, CompanyUncheckedUpdateWithoutCpanelIntegrationInput>
+  }
+
+  export type CompanyUpdateWithoutCpanelIntegrationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUpdateManyWithoutClientCompanyNestedInput
+    parentCompany?: CompanyUpdateOneWithoutSubCompaniesNestedInput
+    subCompanies?: CompanyUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUpdateManyWithoutCompanyNestedInput
+    tags?: TagUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUpdateManyWithoutCompanyNestedInput
+    emailAccounts?: EmailAccountUpdateManyWithoutCompanyNestedInput
+    inboxEmails?: InboxEmailUpdateManyWithoutCompanyNestedInput
+    inboxSenderRules?: InboxSenderRuleUpdateManyWithoutCompanyNestedInput
+    inboxEmailTags?: InboxEmailTagUpdateManyWithoutCompanyNestedInput
+    emailDrafts?: EmailDraftUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUpdateManyWithoutClientCompanyNestedInput
+    clientServices?: ClientServiceUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUpdateManyWithoutClientCompanyNestedInput
+    monthlyTargets?: MonthlyTargetUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUpdateManyWithoutCompanyNestedInput
+    bonusClosures?: BonusClosureUpdateManyWithoutCompanyNestedInput
+    salesAsAgency?: SaleUpdateManyWithoutCompanyNestedInput
+    salesAsClient?: SaleUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUpdateOneWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUpdateManyWithoutCompanyNestedInput
+    adSearchTermDailies?: AdSearchTermDailyUpdateManyWithoutCompanyNestedInput
+    adCreatives?: AdCreativeUpdateManyWithoutCompanyNestedInput
+    adCreativeDailies?: AdCreativeDailyUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUpdateManyWithoutCompanyNestedInput
+    addons?: SubscriptionAddonUpdateManyWithoutCompanyNestedInput
+    couponRedemptions?: CouponRedemptionUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUpdateManyWithoutCompanyNestedInput
+    timePunches?: TimePunchUpdateManyWithoutCompanyNestedInput
+    workScheduleDays?: WorkScheduleDayUpdateManyWithoutCompanyNestedInput
+    timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
+    punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
+    timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
+    libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutCpanelIntegrationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    tradeName?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    segment?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: NullableStringFieldUpdateOperationsInput | string | null
+    blingContactId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    driveFolderUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clickupListUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    hasSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    fullSystemAccess?: BoolFieldUpdateOperationsInput | boolean
+    moduleWhatsapp?: BoolFieldUpdateOperationsInput | boolean
+    moduleCrm?: BoolFieldUpdateOperationsInput | boolean
+    moduleTickets?: BoolFieldUpdateOperationsInput | boolean
+    moduleAI?: BoolFieldUpdateOperationsInput | boolean
+    moduleGamificacao?: BoolFieldUpdateOperationsInput | boolean
+    moduleProjetos?: BoolFieldUpdateOperationsInput | boolean
+    moduleCalendario?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleEmailInbox?: BoolFieldUpdateOperationsInput | boolean
+    moduleProspeccao?: BoolFieldUpdateOperationsInput | boolean
+    serpapiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    moduleClickup?: BoolFieldUpdateOperationsInput | boolean
+    moduleCampanhas?: BoolFieldUpdateOperationsInput | boolean
+    moduleBling?: BoolFieldUpdateOperationsInput | boolean
+    moduleRelatorioMarketing?: BoolFieldUpdateOperationsInput | boolean
+    moduleLinks?: BoolFieldUpdateOperationsInput | boolean
+    moduleInstagram?: BoolFieldUpdateOperationsInput | boolean
+    moduleEspacoCliente?: BoolFieldUpdateOperationsInput | boolean
+    moduleVideos?: BoolFieldUpdateOperationsInput | boolean
+    modoAtendimento?: EnumModoAtendimentoFieldUpdateOperationsInput | $Enums.ModoAtendimento
+    aiMonthlyQuota?: IntFieldUpdateOperationsInput | number
+    aiUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    aiQuotaResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parentCompanyId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailAiTriageAuto?: BoolFieldUpdateOperationsInput | boolean
+    emailAutoSpam?: BoolFieldUpdateOperationsInput | boolean
+    triggerOnly?: BoolFieldUpdateOperationsInput | boolean
+    webhookToken?: NullableStringFieldUpdateOperationsInput | string | null
+    clientDocuments?: ClientDocumentUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientEmails?: InboxEmailUncheckedUpdateManyWithoutClientCompanyNestedInput
+    subCompanies?: CompanyUncheckedUpdateManyWithoutParentCompanyNestedInput
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    userScores?: UserScoreUncheckedUpdateManyWithoutCompanyNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreEvents?: ScoreEventUncheckedUpdateManyWithoutCompanyNestedInput
+    scoreRuleConfigs?: ScoreRuleConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    setorClickupListsAsClient?: SetorClickupListUncheckedUpdateManyWithoutClientCompanyNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCompanyNestedInput
+    rewardRedemptions?: RewardRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    businessHours?: BusinessHoursConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutCompanyNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutCompanyNestedInput
+    tags?: TagUncheckedUpdateManyWithoutCompanyNestedInput
+    customFieldDefs?: CustomFieldDefUncheckedUpdateManyWithoutCompanyNestedInput
+    emailConfig?: CompanyEmailConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    emailTemplates?: EmailTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    emailCampaigns?: EmailCampaignUncheckedUpdateManyWithoutCompanyNestedInput
+    emailUnsubscribes?: EmailUnsubscribeUncheckedUpdateManyWithoutCompanyNestedInput
+    emailAccounts?: EmailAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    inboxEmails?: InboxEmailUncheckedUpdateManyWithoutCompanyNestedInput
+    inboxSenderRules?: InboxSenderRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    inboxEmailTags?: InboxEmailTagUncheckedUpdateManyWithoutCompanyNestedInput
+    emailDrafts?: EmailDraftUncheckedUpdateManyWithoutCompanyNestedInput
+    companyFieldDefs?: CompanyCustomFieldDefUncheckedUpdateManyWithoutOwnerCompanyNestedInput
+    companyCustomValues?: CompanyCustomValueUncheckedUpdateManyWithoutCompanyNestedInput
+    whatsappInstances?: WhatsappInstanceUncheckedUpdateManyWithoutCompanyNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutCompanyNestedInput
+    keywordRules?: KeywordRuleUncheckedUpdateManyWithoutCompanyNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutCompanyNestedInput
+    ticketsAsClient?: TicketUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientServices?: ClientServiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    clientInvoices?: ClientInvoiceUncheckedUpdateManyWithoutClientCompanyNestedInput
+    monthlyTargets?: MonthlyTargetUncheckedUpdateManyWithoutCompanyNestedInput
+    bonuses?: BonusUncheckedUpdateManyWithoutCompanyNestedInput
+    bonusClosures?: BonusClosureUncheckedUpdateManyWithoutCompanyNestedInput
+    salesAsAgency?: SaleUncheckedUpdateManyWithoutCompanyNestedInput
+    salesAsClient?: SaleUncheckedUpdateManyWithoutClientCompanyNestedInput
+    trackingLinks?: TrackingLinkUncheckedUpdateManyWithoutCompanyNestedInput
+    bioPage?: BioPageUncheckedUpdateOneWithoutCompanyNestedInput
+    pipelineStages?: PipelineStageConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    contacts?: CompanyContactUncheckedUpdateManyWithoutCompanyNestedInput
+    setores?: SetorUncheckedUpdateManyWithoutCompanyNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutCompanyNestedInput
+    assets?: CompanyAssetUncheckedUpdateManyWithoutCompanyNestedInput
+    credentialAccessLogs?: CredentialAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNotes?: CompanySecureNoteUncheckedUpdateManyWithoutCompanyNestedInput
+    secureNoteAccessLogs?: SecureNoteAccessLogUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingIntegrations?: MarketingIntegrationUncheckedUpdateManyWithoutCompanyNestedInput
+    metaConversionConfig?: MetaConversionConfigUncheckedUpdateOneWithoutCompanyNestedInput
+    metaConversionLogs?: MetaConversionLogUncheckedUpdateManyWithoutCompanyNestedInput
+    instagramAccounts?: InstagramAccountUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomations?: IgAutomationUncheckedUpdateManyWithoutCompanyNestedInput
+    igAutomationRuns?: IgAutomationRunUncheckedUpdateManyWithoutCompanyNestedInput
+    igAiReplies?: IgAiReplyUncheckedUpdateManyWithoutCompanyNestedInput
+    igConversations?: IgConversationUncheckedUpdateManyWithoutCompanyNestedInput
+    facebookPages?: FacebookPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsSnapshots?: AnalyticsSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTopPages?: AnalyticsTopPageUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsTrafficSources?: AnalyticsTrafficSourceUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsGeoData?: AnalyticsGeoDataUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventDaily?: AnalyticsEventDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    analyticsEventParamDaily?: AnalyticsEventParamDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    marketingEventConfig?: MarketingEventConfigUncheckedUpdateManyWithoutCompanyNestedInput
+    searchConsoleQueries?: SearchConsoleQueryUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpInsights?: GbpInsightUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpReviews?: GbpReviewUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpSearchKeywords?: GbpSearchKeywordUncheckedUpdateManyWithoutCompanyNestedInput
+    gbpProfileSnapshots?: GbpProfileSnapshotUncheckedUpdateManyWithoutCompanyNestedInput
+    adCampaignDailies?: AdCampaignDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    adSearchTermDailies?: AdSearchTermDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    adCreatives?: AdCreativeUncheckedUpdateManyWithoutCompanyNestedInput
+    adCreativeDailies?: AdCreativeDailyUncheckedUpdateManyWithoutCompanyNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
+    billingEvents?: BillingEventUncheckedUpdateManyWithoutCompanyNestedInput
+    addons?: SubscriptionAddonUncheckedUpdateManyWithoutCompanyNestedInput
+    couponRedemptions?: CouponRedemptionUncheckedUpdateManyWithoutCompanyNestedInput
+    assistants?: AssistantUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledMessages?: ScheduledMessageUncheckedUpdateManyWithoutCompanyNestedInput
+    aiUsageLogs?: AiUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutCompanyNestedInput
+    videoCategories?: VideoCategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    videoReleases?: VideoCategoryReleaseUncheckedUpdateManyWithoutCompanyNestedInput
+    quickReplies?: QuickReplyUncheckedUpdateManyWithoutCompanyNestedInput
+    timePunches?: TimePunchUncheckedUpdateManyWithoutCompanyNestedInput
+    workScheduleDays?: WorkScheduleDayUncheckedUpdateManyWithoutCompanyNestedInput
+    timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
+    punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
+    timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
+    blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -288430,6 +290793,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -288575,6 +290939,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -288736,6 +291101,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -288881,6 +291247,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -289026,6 +291393,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -289171,6 +291539,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -289332,6 +291701,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -289477,6 +291847,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -289622,6 +291993,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -289767,6 +292139,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -290252,6 +292625,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -290397,6 +292771,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -290622,6 +292997,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -290767,6 +293143,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -291075,6 +293452,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -291220,6 +293598,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -291452,6 +293831,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -291597,6 +293977,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -291872,6 +294253,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -292017,6 +294399,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -292288,6 +294671,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -292433,6 +294817,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -292708,6 +295093,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -292853,6 +295239,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -293124,6 +295511,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -293269,6 +295657,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -293648,6 +296037,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -293793,6 +296183,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -294276,6 +296667,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -294421,6 +296813,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -294582,6 +296975,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -294727,6 +297121,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -294872,6 +297267,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -295017,6 +297413,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -295178,6 +297575,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -295323,6 +297721,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -295468,6 +297867,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -295613,6 +298013,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -295774,6 +298175,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -295919,6 +298321,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -296064,6 +298467,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -296209,6 +298613,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -296370,6 +298775,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -296515,6 +298921,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -296660,6 +299067,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -296805,6 +299213,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -296966,6 +299375,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -297111,6 +299521,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -297256,6 +299667,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -297401,6 +299813,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -297562,6 +299975,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -297707,6 +300121,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -297852,6 +300267,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -297997,6 +300413,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -298158,6 +300575,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -298303,6 +300721,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -298448,6 +300867,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -298593,6 +301013,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -298754,6 +301175,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -298899,6 +301321,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -299044,6 +301467,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -299189,6 +301613,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -299350,6 +301775,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -299495,6 +301921,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -299640,6 +302067,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -299785,6 +302213,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -299946,6 +302375,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -300091,6 +302521,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -300236,6 +302667,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -300381,6 +302813,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -300542,6 +302975,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -300687,6 +303121,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -300832,6 +303267,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -300977,6 +303413,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -301138,6 +303575,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -301283,6 +303721,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -301428,6 +303867,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -301573,6 +304013,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -301734,6 +304175,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -301879,6 +304321,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -302024,6 +304467,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -302169,6 +304613,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -302330,6 +304775,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -302475,6 +304921,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -302620,6 +305067,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -302765,6 +305213,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -302926,6 +305375,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -303071,6 +305521,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -303216,6 +305667,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -303361,6 +305813,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -303522,6 +305975,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -303667,6 +306121,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -303812,6 +306267,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -303957,6 +306413,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -304118,6 +306575,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -304263,6 +306721,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -304408,6 +306867,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -304553,6 +307013,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -304714,6 +307175,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -304859,6 +307321,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -305004,6 +307467,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -305149,6 +307613,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -305334,6 +307799,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -305479,6 +307945,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -305711,6 +308178,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -305856,6 +308324,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -306053,6 +308522,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -306198,6 +308668,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -306494,6 +308965,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -306639,6 +309111,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -306972,6 +309445,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -307117,6 +309591,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -307434,6 +309909,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -307579,6 +310055,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -307881,6 +310358,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -308026,6 +310504,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -308306,6 +310785,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -308451,6 +310931,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -308753,6 +311234,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -308898,6 +311380,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -309178,6 +311661,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -309323,6 +311807,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -309625,6 +312110,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -309770,6 +312256,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -309915,6 +312402,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -310060,6 +312548,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -310221,6 +312710,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -310366,6 +312856,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -311063,6 +313554,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -311208,6 +313700,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -311369,6 +313862,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -311514,6 +314008,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -311659,6 +314154,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -311804,6 +314300,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -312027,6 +314524,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -312172,6 +314670,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -312360,6 +314859,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -312505,6 +315005,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -313024,6 +315525,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -313169,6 +315671,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -314036,6 +316539,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -314181,6 +316685,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -314342,6 +316847,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -314487,6 +316993,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -314632,6 +317139,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -314777,6 +317285,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -315050,6 +317559,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -315195,6 +317705,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -315372,6 +317883,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -315517,6 +318029,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -315938,6 +318451,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -316083,6 +318597,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -316293,6 +318808,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -316438,6 +318954,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -316883,6 +319400,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -317028,6 +319546,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -317218,6 +319737,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -317363,6 +319883,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -317524,6 +320045,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -317669,6 +320191,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -317814,6 +320337,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -317959,6 +320483,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -318120,6 +320645,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -318265,6 +320791,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -318586,6 +321113,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -318731,6 +321259,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -318977,6 +321506,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -319122,6 +321652,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -319283,6 +321814,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -319428,6 +321960,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -319589,6 +322122,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -319734,6 +322268,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -319879,6 +322414,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -320024,6 +322560,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -320185,6 +322722,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -320330,6 +322868,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -320558,6 +323097,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -320703,6 +323243,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -320911,6 +323452,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -321056,6 +323598,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -321201,6 +323744,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -321346,6 +323890,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -321937,6 +324482,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -322082,6 +324628,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -322647,6 +325194,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -322792,6 +325340,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -322998,6 +325547,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -323143,6 +325693,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -323687,6 +326238,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -323832,6 +326384,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -324088,6 +326641,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -324233,6 +326787,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -324479,6 +327034,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -324624,6 +327180,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -324975,6 +327532,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -325120,6 +327678,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -325313,6 +327872,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -325458,6 +328018,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -325879,6 +328440,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -326024,6 +328586,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -326497,6 +329060,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -326642,6 +329206,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -326965,6 +329530,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -327110,6 +329676,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -327429,6 +329996,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -327574,6 +330142,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -327863,6 +330432,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -328008,6 +330578,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -328445,6 +331016,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -328590,6 +331162,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -328891,6 +331464,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -329036,6 +331610,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -329367,6 +331942,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -329512,6 +332088,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -329673,6 +332250,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -329818,6 +332396,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -329963,6 +332542,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -330108,6 +332688,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -330566,6 +333147,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -330711,6 +333293,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -331171,6 +333754,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -331316,6 +333900,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -331477,6 +334062,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -331622,6 +334208,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -331767,6 +334354,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -331912,6 +334500,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -332131,6 +334720,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -332276,6 +334866,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -332507,6 +335098,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -332652,6 +335244,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -332856,6 +335449,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -333001,6 +335595,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -333226,6 +335821,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -333371,6 +335967,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -333667,6 +336264,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -333812,6 +336410,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -334098,6 +336697,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -334243,6 +336843,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -334539,6 +337140,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -334684,6 +337286,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -334970,6 +337573,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -335115,6 +337719,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -335546,6 +338151,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -335691,6 +338297,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -336118,6 +338725,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -336263,6 +338871,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -336694,6 +339303,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -336839,6 +339449,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -337266,6 +339877,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -337411,6 +340023,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedCreateNestedManyWithoutCompanyInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -337707,6 +340320,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -337852,6 +340466,7 @@ export namespace Prisma {
     timeOffEntries?: TimeOffEntryUncheckedUpdateManyWithoutCompanyNestedInput
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -338139,6 +340754,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
 
@@ -338284,6 +340900,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
 
@@ -338851,6 +341468,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
 
@@ -338996,6 +341614,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
 
@@ -339583,6 +342202,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
   }
 
@@ -339728,6 +342348,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
   }
 
@@ -339934,6 +342555,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
   }
 
@@ -340079,6 +342701,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
@@ -340274,6 +342897,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -340419,6 +343043,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -340832,6 +343457,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -340977,6 +343603,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -341791,6 +344418,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemCreateNestedManyWithoutClientCompanyInput
   }
@@ -341936,6 +344564,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedCreateNestedManyWithoutCompanyInput
     timesheetSignatures?: TimesheetSignatureUncheckedCreateNestedManyWithoutCompanyInput
     blingIntegration?: BlingIntegrationUncheckedCreateNestedOneWithoutCompanyInput
+    cpanelIntegration?: CpanelIntegrationUncheckedCreateNestedOneWithoutCompanyInput
     storageObjects?: StorageObjectUncheckedCreateNestedManyWithoutCompanyInput
     libraryItems?: ClientLibraryItemUncheckedCreateNestedManyWithoutClientCompanyInput
   }
@@ -342491,6 +345120,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -342636,6 +345266,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -348963,6 +351594,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUpdateManyWithoutClientCompanyNestedInput
   }
@@ -349108,6 +351740,7 @@ export namespace Prisma {
     punchAdjustRequests?: PunchAdjustRequestUncheckedUpdateManyWithoutCompanyNestedInput
     timesheetSignatures?: TimesheetSignatureUncheckedUpdateManyWithoutCompanyNestedInput
     blingIntegration?: BlingIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
+    cpanelIntegration?: CpanelIntegrationUncheckedUpdateOneWithoutCompanyNestedInput
     storageObjects?: StorageObjectUncheckedUpdateManyWithoutCompanyNestedInput
     libraryItems?: ClientLibraryItemUncheckedUpdateManyWithoutClientCompanyNestedInput
   }
@@ -362475,6 +365108,10 @@ export namespace Prisma {
      * @deprecated Use BlingIntegrationDefaultArgs instead
      */
     export type BlingIntegrationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = BlingIntegrationDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use CpanelIntegrationDefaultArgs instead
+     */
+    export type CpanelIntegrationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CpanelIntegrationDefaultArgs<ExtArgs>
     /**
      * @deprecated Use MetaConversionConfigDefaultArgs instead
      */

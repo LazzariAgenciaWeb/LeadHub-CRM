@@ -1040,6 +1040,24 @@ exports.Prisma.BlingIntegrationScalarFieldEnum = {
   createdById: 'createdById'
 };
 
+exports.Prisma.CpanelIntegrationScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  host: 'host',
+  port: 'port',
+  username: 'username',
+  tokenEnc: 'tokenEnc',
+  publishDir: 'publishDir',
+  siteUrl: 'siteUrl',
+  status: 'status',
+  lastTestedAt: 'lastTestedAt',
+  lastError: 'lastError',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  createdById: 'createdById',
+  updatedByName: 'updatedByName'
+};
+
 exports.Prisma.MetaConversionConfigScalarFieldEnum = {
   id: 'id',
   companyId: 'companyId',
@@ -3054,6 +3072,7 @@ exports.Prisma.ModelName = {
   SecureNoteAccessLog: 'SecureNoteAccessLog',
   MarketingIntegration: 'MarketingIntegration',
   BlingIntegration: 'BlingIntegration',
+  CpanelIntegration: 'CpanelIntegration',
   MetaConversionConfig: 'MetaConversionConfig',
   MetaConversionLog: 'MetaConversionLog',
   InstagramAccount: 'InstagramAccount',

@@ -7,6 +7,7 @@ import AddSystemUser from "./AddSystemUser";
 import CompanyVault from "./CompanyVault";
 import CompanyArquivos from "./CompanyArquivos";
 import CompanyIntegrations from "./CompanyIntegrations";
+import CompanyCpanelIntegration from "./CompanyCpanelIntegration";
 import CompanyMarketing from "./CompanyMarketing";
 import CompanySubscription from "./CompanySubscription";
 import CompanyAchievements from "./CompanyAchievements";
@@ -768,7 +769,10 @@ export default function CompanyDetailTabs({
 
         {/* ── Integrações ── */}
         {activeTab === "integracoes" && (
-          <CompanyIntegrations companyId={companyId} />
+          <>
+            <CompanyIntegrations companyId={companyId} />
+            <CompanyCpanelIntegration companyId={companyId} />
+          </>
         )}
 
         {/* ── Marketing (Dashboard) ── */}
