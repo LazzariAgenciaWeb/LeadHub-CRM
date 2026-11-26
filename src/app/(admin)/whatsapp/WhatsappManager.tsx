@@ -9,6 +9,7 @@ import {
   Sparkles, Users, Star, Inbox, CheckCircle2, ChevronUp,
   Send, StickyNote, Target, DollarSign, Search, Bot, BotOff, Pause, Building2, Link2,
   ArrowRightLeft, ArrowRight, Ticket, User, Trophy, Ban, XCircle, Zap, Eye, EyeOff, RefreshCw, Trash2,
+  Copy, ExternalLink,
   type LucideIcon,
 } from "lucide-react";
 import { phoneSearchVariants } from "@/lib/phone-search";
@@ -92,6 +93,104 @@ function ConvPhoto({ phone, hasPhoto, size, fallback, bust }: {
       style={{ width: size, height: size }}
       onError={() => setBroken(true)}
     />
+  );
+}
+
+/**
+ * Texto da mensagem com os links vivos: clicáveis, com botãozinho de abrir e
+ * de copiar ao lado. Link de acompanhamento de chamado, de aprovação, de
+ * reunião — antes era texto morto, e copiar à mão numa URL com token é pedir
+ * pra selecionar errado.
+ *
+ * Só reconhece http(s):// e www. — nada de inventar link onde o cliente
+ * escreveu um e-mail ou um "azz.com.br" solto no meio da frase.
+ */
+const URL_RE = /(https?:\/\/[^\s<>"']+|www\.[^\s<>"']+)/gi;
+// Pontuação colada no fim da URL ("...acesse aqui: https://x/y.") não faz parte dela.
+const TRAILING = /[.,;:!?)\]}'"»]+$/;
+
+function LinkedText({ text, className, linkClass }: {
+  text: string; className?: string; linkClass?: string;
+}) {
+  const [copiado, setCopiado] = useState<string | null>(null);
+
+  const partes = useMemo(() => {
+    const out: { tipo: "texto" | "link"; valor: string; href?: string }[] = [];
+    let ultimo = 0;
+    for (const m of text.matchAll(URL_RE)) {
+      const bruto = m[0];
+      const limpo = bruto.replace(TRAILING, "");
+      const inicio = m.index ?? 0;
+      if (inicio > ultimo) out.push({ tipo: "texto", valor: text.slice(ultimo, inicio) });
+      out.push({ tipo: "link", valor: limpo, href: limpo.startsWith("www.") ? `https://${limpo}` : limpo });
+      // a pontuação removida volta pro texto
+      const sobra = bruto.slice(limpo.length);
+      if (sobra) out.push({ tipo: "texto", valor: sobra });
+      ultimo = inicio + bruto.length;
+    }
+    if (ultimo < text.length) out.push({ tipo: "texto", valor: text.slice(ultimo) });
+    return out;
+  }, [text]);
+
+  async function copiar(url: string) {
+    try {
+      await navigator.clipboard.writeText(url);
+    } catch {
+      // Clipboard API bloqueada (http, permissão) — caminho antigo ainda funciona
+      const ta = document.createElement("textarea");
+      ta.value = url;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand("copy"); } catch { /* desistiu: o link segue clicável */ }
+      ta.remove();
+    }
+    setCopiado(url);
+    setTimeout(() => setCopiado((c) => (c === url ? null : c)), 1600);
+  }
+
+  if (partes.every((p) => p.tipo === "texto")) return <p className={className}>{text}</p>;
+
+  return (
+    <p className={className}>
+      {partes.map((p, i) =>
+        p.tipo === "texto" ? (
+          <span key={i}>{p.valor}</span>
+        ) : (
+          <span key={i} className="inline-flex flex-wrap items-center gap-1 max-w-full align-bottom">
+            <a
+              href={p.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`underline underline-offset-2 break-all ${linkClass ?? ""}`}
+              title={p.href}
+            >
+              {p.valor}
+            </a>
+            <button
+              type="button"
+              onClick={() => copiar(p.href!)}
+              title={copiado === p.href ? "Copiado!" : "Copiar link"}
+              className="flex-shrink-0 p-0.5 rounded opacity-60 hover:opacity-100 hover:bg-white/15 transition"
+            >
+              {copiado === p.href
+                ? <Check className="w-3.5 h-3.5" strokeWidth={2.5} />
+                : <Copy className="w-3.5 h-3.5" strokeWidth={2.5} />}
+            </button>
+            <a
+              href={p.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Abrir em nova guia"
+              className="flex-shrink-0 p-0.5 rounded opacity-60 hover:opacity-100 hover:bg-white/15 transition"
+            >
+              <ExternalLink className="w-3.5 h-3.5" strokeWidth={2.5} />
+            </a>
+          </span>
+        )
+      )}
+    </p>
   );
 }
 
@@ -5237,6 +5336,9 @@ export default function WhatsappManager({
                                     <noteStyle.Icon className={`w-3 h-3 ${noteStyle.icon}`} strokeWidth={2.5} />
                                     <span className={`text-[10px] ${noteStyle.label} font-semibold uppercase tracking-wide`}>{noteStyle.title}</span>
                                   </div>
+                                  {/* Nota fica em texto puro: o bloco inteiro já pode ser
+                                      um <Link> (ver abaixo), e link dentro de link é HTML
+                                      inválido — o de dentro para de funcionar. */}
                                   <p className={`text-sm whitespace-pre-wrap break-words ${noteStyle.text}`}>{displayText}</p>
                                   {item.dateLabel && (
                                     <div className={`text-[10px] ${noteStyle.date} mt-1 text-right`}>
@@ -5532,7 +5634,11 @@ export default function WhatsappManager({
                               <>
                                 <ChatImage msgId={msg.id} isOut={isOut || isOursInGroup} />
                                 {msg.body && !isMedia && msg.body !== "[imagem]" && (
-                                  <p className="text-sm whitespace-pre-wrap break-words mt-1.5">{msg.body}</p>
+                                  <LinkedText
+                                    text={msg.body}
+                                    className="text-sm whitespace-pre-wrap break-words mt-1.5"
+                                    linkClass={isOut || isOursInGroup ? "text-indigo-100 decoration-indigo-200/60" : "text-cyan-300 decoration-cyan-400/50"}
+                                  />
                                 )}
                               </>
                             ) : msg.hasMedia && msg.mediaType?.startsWith("audio/") ? (
@@ -5565,7 +5671,11 @@ export default function WhatsappManager({
                                 )}
                               </>
                             ) : (
-                              <p className={`text-sm whitespace-pre-wrap break-words ${isMedia ? (isOut || isOursInGroup ? "italic text-indigo-200" : "italic text-slate-400") : ""}`}>{msg.body}</p>
+                              <LinkedText
+                                text={msg.body}
+                                className={`text-sm whitespace-pre-wrap break-words ${isMedia ? (isOut || isOursInGroup ? "italic text-indigo-200" : "italic text-slate-400") : ""}`}
+                                linkClass={isOut || isOursInGroup ? "text-indigo-100 decoration-indigo-200/60" : "text-cyan-300 decoration-cyan-400/50"}
+                              />
                             )}
                             {/* Reações (emoji) — agrupadas por emoji, tooltip com quem reagiu */}
                             {msg.reactions && Object.keys(msg.reactions).length > 0 && (() => {
