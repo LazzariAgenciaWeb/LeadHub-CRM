@@ -119,6 +119,12 @@ function fullyDone(sale: EsteiraSale) {
 const selectCls =
   "bg-[#161f30] border rounded-md px-1.5 py-1 text-[11px] focus:outline-none focus:border-indigo-500 cursor-pointer";
 
+interface CobrancaExistente {
+  id: string; description: string; amountCents: number; dueDate: string; status: string;
+  paidAt: string | null; referenceMonth: string | null; provider: string | null;
+  parcela: string | null; contrato: string | null; mesmoValor: boolean;
+}
+
 export default function EsteiraPanel({ data }: { data: EsteiraData }) {
   const router = useRouter();
   const [sales, setSales] = useState(data.sales);
@@ -138,6 +144,10 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
   // de dado errado que ninguém volta pra corrigir.
   const [billingFor, setBillingFor] = useState<string | null>(null);
   const [dueDate, setDueDate] = useState("");
+  // Cobranças que já existem na conta do cliente e podem ser VINCULADAS à
+  // venda em vez de gerar outra (null = ainda carregando).
+  const [candidatas, setCandidatas] = useState<CobrancaExistente[] | null>(null);
+  const [vincular, setVincular] = useState<string[]>([]);
   // Parcelamento da venda: 1 = à vista (o caso comum).
   const [parcelas, setParcelas] = useState("1");
   const nParcelas = Math.min(Math.max(parseInt(parcelas, 10) || 1, 1), 60);
@@ -309,6 +319,8 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
     setBillingFor(null);
     setDueDate("");
     setParcelas("1");
+    setCandidatas(null);
+    setVincular([]);
     setNotasFor(null);
     setNotasTexto("");
     setProjetoFor(null);
@@ -334,6 +346,14 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
     const d = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
     setDueDate(d.toISOString().slice(0, 10));
     setErr("");
+    // Antes de gerar, olha o que o cliente já tem lançado: se a cobrança
+    // desta venda já está lá, o certo é vincular, não criar outra.
+    setCandidatas(null);
+    setVincular([]);
+    fetch(`/api/financeiro/vendas/${sale.id}/cobrancas`)
+      .then((r) => (r.ok ? r.json() : { cobrancas: [] }))
+      .then((j) => setCandidatas(Array.isArray(j.cobrancas) ? j.cobrancas : []))
+      .catch(() => setCandidatas([]));
   }
 
   /**
@@ -720,6 +740,18 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
                   ✍️ Contrato{s.acceptedAt ? " · aceite ✓" : ""}{s.billingConfirmed ? " · fat. ✓" : ""}
                 </button>
 
+                {/* Faturado sem cobrança nenhuma: escolher "Faturado" de novo
+                    no seletor não dispara nada, então o conserto fica aqui. */}
+                {s.billingStatus === "FATURADO" && s.invoices.length === 0 && billingFor !== s.id && (
+                  <button
+                    onClick={() => startBilling(s)}
+                    className="text-[11px] px-2 py-1 rounded-md border border-amber-500/40 text-amber-300 hover:bg-amber-500/10"
+                    title="A venda está como Faturado, mas não tem cobrança ligada a ela"
+                  >
+                    ⚠ sem cobrança — vincular ou gerar
+                  </button>
+                )}
+
                 {/* Data da entrega: é ela que decide em qual mês a venda aparece
                     na Bonificação. Editável porque marcar "Entregue" com atraso
                     é rotina — entregue em agosto, registrado em setembro. */}
@@ -786,6 +818,61 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
                 </button>
               </div>
 
+              {/* Já existe cobrança no cliente? Vincula em vez de gerar outra. */}
+              {billingFor === s.id && (() => {
+                if (candidatas === null) {
+                  return <p className="mt-3 pt-3 border-t border-[#1e2d45] text-xs text-slate-500">Conferindo as cobranças já lançadas para {s.client?.name ?? "o cliente"}…</p>;
+                }
+                if (candidatas.length === 0) {
+                  return <p className="mt-3 pt-3 border-t border-[#1e2d45] text-xs text-slate-500">Nenhuma cobrança solta na conta de {s.client?.name ?? "o cliente"} — gere a cobrança abaixo.</p>;
+                }
+                const escolhidas = candidatas.filter((c) => vincular.includes(c.id));
+                const soma = escolhidas.reduce((n, c) => n + c.amountCents, 0);
+                return (
+                  <div className="mt-3 pt-3 border-t border-[#1e2d45]">
+                    <p className="text-xs text-slate-300 mb-2">
+                      Já faturado no cliente? Marque a cobrança que corresponde a esta venda para <b>vincular</b>, sem gerar outra.
+                    </p>
+                    <div className="flex flex-col gap-1 max-h-56 overflow-y-auto">
+                      {candidatas.map((c) => (
+                        <label key={c.id} className="flex items-center gap-2 px-2 py-1.5 rounded-lg bg-[#161f30] border border-[#1e2d45] text-xs cursor-pointer hover:border-indigo-500/40">
+                          <input
+                            type="checkbox"
+                            checked={vincular.includes(c.id)}
+                            onChange={(e) => setVincular((v) => (e.target.checked ? [...v, c.id] : v.filter((x) => x !== c.id)))}
+                          />
+                          <span className="text-white truncate flex-1 min-w-0">
+                            {c.description}{c.parcela ? ` (${c.parcela})` : ""}
+                            {c.contrato && <span className="text-slate-500"> · contrato {c.contrato}</span>}
+                          </span>
+                          {c.mesmoValor && <span className="px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-300 flex-shrink-0">mesmo valor</span>}
+                          <span className={`flex-shrink-0 ${c.status === "PAGO" ? "text-emerald-400" : "text-slate-400"}`}>
+                            {c.status === "PAGO" ? "paga" : "em aberto"} · vence {new Date(c.dueDate).toLocaleDateString("pt-BR", { timeZone: "UTC" })}
+                          </span>
+                          <span className="text-white font-medium flex-shrink-0">{brlFromCents(c.amountCents)}</span>
+                        </label>
+                      ))}
+                    </div>
+                    <div className="flex items-center gap-2 flex-wrap mt-2">
+                      <button
+                        disabled={escolhidas.length === 0 || busy === s.id}
+                        onClick={() => patch(s.id, { billingStatus: "FATURADO", linkInvoiceIds: vincular })}
+                        className="px-3 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 disabled:opacity-40 text-white text-sm flex items-center gap-1.5"
+                      >
+                        <Check className="w-3.5 h-3.5" />
+                        Vincular {escolhidas.length > 1 ? `${escolhidas.length} cobranças` : "cobrança"} e marcar faturado
+                      </button>
+                      {escolhidas.length > 0 && soma !== s.valueCents && (
+                        <span className="text-[11px] text-amber-400">
+                          Selecionado {brlFromCents(soma)} — a venda é de {brlFromCents(s.valueCents)}. Pode vincular assim mesmo.
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-[11px] text-slate-600 mt-2">Não é nenhuma dessas? Gere uma cobrança nova:</p>
+                  </div>
+                );
+              })()}
+
               {/* Vencimento antes de gerar a cobrança */}
               {billingFor === s.id && (
                 <div className="mt-3 pt-3 border-t border-[#1e2d45] flex flex-wrap items-end gap-2">
@@ -824,7 +911,7 @@ export default function EsteiraPanel({ data }: { data: EsteiraData }) {
                       : `Faturar ${brlFromCents(s.valueCents)}`}
                   </button>
                   <button
-                    onClick={() => { setBillingFor(null); setDueDate(""); setParcelas("1"); }}
+                    onClick={() => { setBillingFor(null); setDueDate(""); setParcelas("1"); setCandidatas(null); setVincular([]); }}
                     className="px-2 py-2 text-slate-500 hover:text-white text-sm"
                   >
                     Cancelar

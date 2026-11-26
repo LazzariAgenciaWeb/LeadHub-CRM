@@ -10,6 +10,7 @@
  */
 import { prisma } from "@/lib/prisma";
 import { upsertSaleFromWonLead } from "@/lib/sales";
+import { BillingLinkError, invoiceCandidates, linkInvoicesToSale, undoSaleBilling } from "@/lib/sale-billing";
 import { productionBlocker, recordAcceptance, markContractSent, ContractError, validateAcceptance, saleDetalhamento, mergeDetalhamento } from "@/lib/sale-contract";
 import { resolveClientForEmail, linkPastEmailsForClient, clientForAddresses } from "@/lib/client-email-link";
 import { buildClientTimeline } from "@/lib/client-central";
@@ -53,6 +54,29 @@ async function main() {
     await upsertSaleFromWonLead({ id: lead.id, companyId: agency.id, name: lead.name, phone: lead.phone, value: 4500, clickupTaskId: null, wonAt: new Date() }, { name: "Diego" });
     const sale = await prisma.sale.update({ where: { leadId: lead.id }, data: { clientCompanyId: client.id } });
     ok("venda criada a partir do lead e ligada ao cliente", !!sale && sale.clientCompanyId === client.id);
+
+    // Faturar na esteira com cobrança que JÁ existe no cliente: vincula, não duplica.
+    const venc = new Date("2026-09-10T12:00:00Z");
+    const [igual, outra] = await Promise.all([
+      prisma.clientInvoice.create({ data: { clientCompanyId: client.id, description: "Site (lançada à mão)", amountCents: sale.valueCents, dueDate: venc, status: "PAGO", paidAt: venc, provider: "manual" } }),
+      prisma.clientInvoice.create({ data: { clientCompanyId: client.id, description: "Outra coisa", amountCents: 12345, dueDate: venc, status: "ABERTO", provider: "manual" } }),
+    ]);
+    const cand = await invoiceCandidates(sale);
+    ok("candidatas: cobranças soltas do cliente, mesmo valor primeiro", cand.length === 2 && cand[0].id === igual.id && cand[0].mesmoValor && !cand[1].mesmoValor);
+    const deOutro = await linkInvoicesToSale(sale, agency.id, [igual.id], null).then(() => false).catch((e) => e instanceof BillingLinkError);
+    ok("vincular recusa cobrança que não é do cliente informado", deOutro);
+    await linkInvoicesToSale(sale, client.id, [igual.id], null);
+    ok("cobrança existente fica ligada à venda, sem criar outra", (await prisma.clientInvoice.count({ where: { saleId: sale.id } })) === 1 && (await prisma.clientInvoice.count({ where: { clientCompanyId: client.id } })) === 2);
+    ok("cobrança já vinculada sai das candidatas", (await invoiceCandidates(sale)).every((c) => c.id !== igual.id));
+    const dupla = await linkInvoicesToSale(sale, client.id, [igual.id], null).then(() => false).catch((e) => e instanceof BillingLinkError);
+    ok("vincular de novo a mesma cobrança é recusado", dupla);
+    const criada = await prisma.clientInvoice.create({ data: { clientCompanyId: client.id, saleId: sale.id, description: "Gerada pela esteira", amountCents: 100, dueDate: venc, status: "ABERTO", provider: "manual" } });
+    const desf = await undoSaleBilling(sale.id);
+    ok("desfazer: solta a vinculada (continua no cliente) e apaga só a gerada em aberto",
+      desf.soltas === 1 && desf.removidas === 1 &&
+      (await prisma.clientInvoice.findUnique({ where: { id: igual.id } }))?.saleId === null &&
+      (await prisma.clientInvoice.findUnique({ where: { id: criada.id } })) === null);
+    await prisma.clientInvoice.deleteMany({ where: { id: { in: [igual.id, outra.id] } } });
 
     // 2. Proposta (documento) pela ferramenta
     const prop = await tool("anexar_documento", {

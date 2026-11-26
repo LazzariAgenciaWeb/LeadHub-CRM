@@ -3,6 +3,7 @@ import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
 import { findOrCreateClientCompany } from "@/lib/client-company";
 import { can } from "@/lib/permissions";
+import { BillingLinkError, linkInvoicesToSale, undoSaleBilling } from "@/lib/sale-billing";
 import { logFinance } from "@/lib/finance-log";
 import { moverBonificacaoDaVenda, competencia, type ResultadoRedatacao } from "@/lib/sale-delivery";
 import {
@@ -425,7 +426,21 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     billingStatus !== "FATURADO" &&
     sale.billingStatus === "FATURADO"
   ) {
-    const undone = await prisma.clientInvoice.deleteMany({ where: { saleId: id, status: "ABERTO" } });
+    // Cobrança só VINCULADA (já existia no cliente) é solta, não apagada.
+    const desfeito = await undoSaleBilling(id);
+    const undone = { count: desfeito.removidas };
+    if (desfeito.soltas > 0) {
+      await logFinance({
+        companyId: sale.companyId,
+        clientCompanyId: sale.clientCompanyId,
+        entity: "COBRANCA",
+        entityId: null,
+        action: "DESVINCULADA",
+        description: `Desfeito o 'Faturado' da venda na esteira — ${desfeito.soltas} cobrança(s) existente(s) desvinculada(s), mantida(s) no cliente`,
+        meta: { venda: sale.title, saleId: id },
+        session,
+      });
+    }
     if (undone.count > 0) {
       await logFinance({
         companyId: sale.companyId,
@@ -440,7 +455,12 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     }
   }
 
-  if (billingStatus === "FATURADO" && sale.billingStatus !== "FATURADO") {
+  // Entra aqui ao virar Faturado — e também quando a venda JÁ está faturada
+  // mas ficou sem cobrança ("marcada sem cobrança") e o usuário mandou gerar
+  // ou vincular: sem isso o único conserto era voltar o status e marcar de novo.
+  const linkIds: string[] = Array.isArray(body?.linkInvoiceIds) ? body.linkInvoiceIds.map(String) : [];
+  const pediuCobranca = linkIds.length > 0 || !!body?.dueDate;
+  if (billingStatus === "FATURADO" && (sale.billingStatus !== "FATURADO" || pediuCobranca)) {
     const clientId = (data.clientCompanyId as string | undefined) ?? updated.clientCompanyId;
     if (!clientId) {
       // A venda foi marcada como faturada, mas não tem pra quem cobrar. Não
@@ -453,7 +473,29 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     }
 
     const jaTem = await prisma.clientInvoice.count({ where: { saleId: id } });
-    if (jaTem === 0) {
+
+    // A cobrança já existe na conta do cliente: a venda ADOTA em vez de criar.
+    if (linkIds.length > 0) {
+      try {
+        await linkInvoicesToSale(
+          { id, companyId: sale.companyId, title: updated.title, valueCents: updated.valueCents },
+          clientId, linkIds, session,
+        );
+      } catch (e) {
+        if (!(e instanceof BillingLinkError)) throw e;
+        // O status já foi gravado acima; sem cobrança, voltar ao que era evita
+        // deixar a venda "faturada sem cobrança" por causa de uma lista velha.
+        if (jaTem === 0 && sale.billingStatus !== "FATURADO") {
+          await prisma.sale.update({ where: { id }, data: { billingStatus: sale.billingStatus, billedAt: sale.billedAt } });
+        }
+        return NextResponse.json({ error: e.message }, { status: 400 });
+      }
+      invoices = await prisma.clientInvoice.findMany({
+        where: { saleId: id },
+        orderBy: { dueDate: "asc" },
+        select: { id: true, amountCents: true, dueDate: true, status: true, installment: true },
+      });
+    } else if (jaTem === 0) {
       // Vencimento da 1ª parcela: o que veio no corpo, ou +7 dias como default.
       const due = body?.dueDate ? new Date(String(body.dueDate)) : null;
       const primeiroVenc = due && !isNaN(due.getTime())
