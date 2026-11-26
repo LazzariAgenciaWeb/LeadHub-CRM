@@ -20,7 +20,8 @@ async function ownedStep(projectId: string, stepId: string, session: any) {
 }
 
 // PATCH /api/projetos/[id]/servicos/[stepId]
-// Body: { name?: string | null } para renomear, ou { move: "up" | "down" } para reordenar.
+// Body: { name?: string | null } para renomear, { move: "up" | "down" } para reordenar,
+// { completed: boolean } pra concluir/reabrir a etapa.
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string; stepId: string }> }) {
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
@@ -49,6 +50,12 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   if ("name" in body) {
     const name = typeof body.name === "string" && body.name.trim() ? body.name.trim() : null;
     await prisma.projectService.update({ where: { id: stepId }, data: { name } });
+    return NextResponse.json({ ok: true });
+  }
+
+  // Concluir / reabrir a etapa (só GoHub — não mexe no ClickUp).
+  if (typeof body.completed === "boolean") {
+    await prisma.projectService.update({ where: { id: stepId }, data: { completedAt: body.completed ? new Date() : null } });
     return NextResponse.json({ ok: true });
   }
 

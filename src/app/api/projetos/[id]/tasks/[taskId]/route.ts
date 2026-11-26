@@ -10,6 +10,7 @@ import { ensureEtapaClickupTask, pushTaskToClickup } from "@/lib/project-etapas"
 import { CLAUDE_ASSIGNEE } from "@/lib/project-ai";
 import { normalizeTags } from "@/lib/task-tags";
 import { cleanDependencies } from "@/lib/task-deps";
+import { reopenEtapaIfCompleted } from "@/lib/etapa-status";
 
 // Tarefas internas (ProjectTask) só. Tarefas do ClickUp são geridas no ClickUp.
 
@@ -180,6 +181,11 @@ export async function PATCH(
     data,
     include: { assignee: { select: { id: true, name: true } } },
   });
+
+  // Tarefa que entrou numa etapa concluída, ou que foi reaberta, reabre a etapa.
+  if (!task.done && (movedToEtapa || (res.task.done && data.done === false))) {
+    await reopenEtapaIfCompleted(task.projectServiceId);
+  }
 
   // ── Linha do tempo da tarefa (base do relatório mensal do cliente) ───────
   // Só registra o que MUDOU de fato — comparar com o valor anterior evita

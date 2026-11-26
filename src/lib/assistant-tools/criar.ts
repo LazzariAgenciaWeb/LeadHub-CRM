@@ -9,6 +9,7 @@ import { normalizeSegment } from "@/lib/project-segments";
 import { etapaLabel, pushTaskToClickup } from "@/lib/project-etapas";
 import { normalizeTags } from "@/lib/task-tags";
 import { cleanDependencies } from "@/lib/task-deps";
+import { reopenEtapaIfCompleted } from "@/lib/etapa-status";
 
 const PRIORITIES = ["LOW", "MEDIUM", "HIGH", "URGENT"] as const;
 
@@ -179,6 +180,9 @@ export const criarTarefaProjeto: ToolDef<{
     await prisma.projectActivity.create({
       data: { projectId: project.id, type: "TASK_CREATED", taskName: input.title.trim(), taskId: task.id, authorId: ctx.userId, authorName: ctx.userName },
     }).catch(() => {});
+
+    // Tarefa nova numa etapa concluída reabre a etapa.
+    if (etapa) await reopenEtapaIfCompleted(etapa.id);
 
     // Dependências: validadas depois de criar (precisa do id pra checar ciclo).
     let depAviso = "";

@@ -18,6 +18,7 @@ import { awardProjectDelivery, syncProjectStatus } from "@/lib/project-vigencia"
 import { DEFAULT_SEGMENTS, normalizeSegment, segmentLabel } from "@/lib/project-segments";
 import { normalizeTags, sameTag } from "@/lib/task-tags";
 import { cleanDependencies } from "@/lib/task-deps";
+import { reopenEtapaIfCompleted } from "@/lib/etapa-status";
 
 /**
  * Etapas e tarefas de projeto pelo assistente.
@@ -82,7 +83,7 @@ function isClaude(v: string | undefined | null): boolean {
 export const listarEtapasProjeto: ToolDef<{ projetoId: string }> = {
   name: "listar_etapas_projeto",
   description:
-    "Lista as etapas de um projeto na ordem (use listar_projetos pra achar o projetoId). Retorna id, nome, ordem e quantas tarefas abertas e concluídas cada etapa tem. O id daqui é o etapaId usado em criar_tarefa_projeto, listar_tarefas_projeto e atualizar_tarefa_projeto.",
+    "Lista as etapas de um projeto na ordem (use listar_projetos pra achar o projetoId). Retorna id, nome, ordem, se a etapa está concluída e quantas tarefas abertas e concluídas cada etapa tem. O id daqui é o etapaId usado em criar_tarefa_projeto, listar_tarefas_projeto e atualizar_tarefa_projeto.",
   input_schema: {
     type: "object",
     properties: { projetoId: { type: "string" } },
@@ -101,7 +102,7 @@ export const listarEtapasProjeto: ToolDef<{ projetoId: string }> = {
     }
 
     const lines = etapas.map((e, i) =>
-      `${String(i + 1).padStart(2, "0")}. ${e.label} · id=${e.id} · ordem ${e.order} · ${e.abertas} aberta(s), ${e.feitas} concluída(s)` +
+      `${String(i + 1).padStart(2, "0")}. ${e.label} · id=${e.id} · ordem ${e.order}${e.completedAt ? ` · ✓ ETAPA CONCLUÍDA em ${fmtDate(e.completedAt)}` : ""} · ${e.abertas} aberta(s), ${e.feitas} concluída(s)` +
       (e.clickupTaskId ? "" : " · sem tarefa principal no ClickUp"),
     );
     return ok(
@@ -422,6 +423,10 @@ export const atualizarTarefaProjeto: ToolDef<{
     if (mudou.length === 0) return fail("Nada pra atualizar — envie ao menos um campo.");
 
     await prisma.projectTask.update({ where: { id: task.id }, data });
+    // Entrou numa etapa concluída, ou foi reaberta: a etapa reabre junto.
+    if (data.done !== true && (novaEtapa || (task.done && data.done === false))) {
+      await reopenEtapaIfCompleted(novaEtapa?.id ?? task.projectServiceId);
+    }
 
     // Histórico da tarefa, igual a tela grava.
     const eventos: { projectId: string; taskId: string; type: string; fromText?: string | null; toText?: string | null }[] = [];
@@ -891,11 +896,49 @@ export const atualizarProjeto: ToolDef<{
   },
 };
 
+export const concluirEtapaProjeto: ToolDef<{ etapaId: string; concluir?: boolean; forcar?: boolean }> = {
+  name: "concluir_etapa_projeto",
+  description:
+    "Conclui (ou reabre, com concluir=false) uma etapa de projeto (id de listar_etapas_projeto). Etapa concluída sai da lista ativa do projeto e vai pra aba Concluído — use quando o mês/fase fechou e todas as tarefas estão prontas. Se ainda houver tarefa aberta, avisa e NÃO conclui (a menos que forcar=true). Só no GoHub: não fecha nada no ClickUp. Tarefa nova ou reaberta na etapa reabre a etapa sozinha.",
+  input_schema: {
+    type: "object",
+    properties: {
+      etapaId: { type: "string" },
+      concluir: { type: "boolean", description: "true (default) conclui; false reabre" },
+      forcar: { type: "boolean", description: "Conclui mesmo com tarefa aberta" },
+    },
+    required: ["etapaId"],
+  },
+  mutating: true,
+  run: async (input, ctx) => {
+    const etapa = await prisma.projectService.findFirst({
+      where:  { id: input.etapaId, project: { setor: { companyId: ctx.companyId } } },
+      select: { id: true, name: true, completedAt: true, projectId: true, service: { select: { name: true } } },
+    });
+    if (!etapa) return fail("Etapa não encontrada. Use listar_etapas_projeto pra pegar o etapaId.");
+    const label = etapaLabel(etapa);
+    const concluir = input.concluir !== false;
+    if (!concluir) {
+      if (!etapa.completedAt) return ok(`A etapa "${label}" já está aberta.`, { data: { id: etapa.id } });
+      await reopenEtapaIfCompleted(etapa.id);
+      return ok(`Etapa "${label}" reaberta.`, { data: { id: etapa.id }, link: appUrl(`/projetos/${etapa.projectId}`) });
+    }
+    if (etapa.completedAt) return ok(`A etapa "${label}" já estava concluída.`, { data: { id: etapa.id } });
+    const abertas = await prisma.projectTask.count({ where: { projectServiceId: etapa.id, done: false, ignoredAt: null } });
+    if (abertas > 0 && !input.forcar) {
+      return fail(`A etapa "${label}" ainda tem ${abertas} tarefa(s) aberta(s). Conclua as tarefas antes ou chame de novo com forcar=true.`);
+    }
+    await prisma.projectService.update({ where: { id: etapa.id }, data: { completedAt: new Date() } });
+    return ok(`Etapa "${label}" concluída${abertas ? ` (com ${abertas} tarefa(s) ainda aberta(s))` : ""}.`, { data: { id: etapa.id }, link: appUrl(`/projetos/${etapa.projectId}`) });
+  },
+};
+
 export const projetosTools: ToolDef[] = [
   verDetalhamentoProjeto,
   atualizarProjeto,
   listarEtapasProjeto,
   criarEtapaProjeto,
+  concluirEtapaProjeto,
   listarTarefasProjeto,
   listarComentariosTarefaProjeto,
   atualizarTarefaProjeto,

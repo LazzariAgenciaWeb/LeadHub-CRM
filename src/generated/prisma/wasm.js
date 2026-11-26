@@ -843,6 +843,7 @@ exports.Prisma.ProjectServiceScalarFieldEnum = {
   clickupTaskId: 'clickupTaskId',
   order: 'order',
   visibleToClient: 'visibleToClient',
+  completedAt: 'completedAt',
   createdAt: 'createdAt'
 };
 

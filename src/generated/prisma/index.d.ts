@@ -65347,6 +65347,7 @@ export namespace Prisma {
     clickupTaskId: string | null
     order: number | null
     visibleToClient: boolean | null
+    completedAt: Date | null
     createdAt: Date | null
   }
 
@@ -65358,6 +65359,7 @@ export namespace Prisma {
     clickupTaskId: string | null
     order: number | null
     visibleToClient: boolean | null
+    completedAt: Date | null
     createdAt: Date | null
   }
 
@@ -65369,6 +65371,7 @@ export namespace Prisma {
     clickupTaskId: number
     order: number
     visibleToClient: number
+    completedAt: number
     createdAt: number
     _all: number
   }
@@ -65390,6 +65393,7 @@ export namespace Prisma {
     clickupTaskId?: true
     order?: true
     visibleToClient?: true
+    completedAt?: true
     createdAt?: true
   }
 
@@ -65401,6 +65405,7 @@ export namespace Prisma {
     clickupTaskId?: true
     order?: true
     visibleToClient?: true
+    completedAt?: true
     createdAt?: true
   }
 
@@ -65412,6 +65417,7 @@ export namespace Prisma {
     clickupTaskId?: true
     order?: true
     visibleToClient?: true
+    completedAt?: true
     createdAt?: true
     _all?: true
   }
@@ -65510,6 +65516,7 @@ export namespace Prisma {
     clickupTaskId: string | null
     order: number
     visibleToClient: boolean
+    completedAt: Date | null
     createdAt: Date
     _count: ProjectServiceCountAggregateOutputType | null
     _avg: ProjectServiceAvgAggregateOutputType | null
@@ -65540,6 +65547,7 @@ export namespace Prisma {
     clickupTaskId?: boolean
     order?: boolean
     visibleToClient?: boolean
+    completedAt?: boolean
     createdAt?: boolean
     project?: boolean | SetorClickupListDefaultArgs<ExtArgs>
     service?: boolean | ProjectService$serviceArgs<ExtArgs>
@@ -65555,6 +65563,7 @@ export namespace Prisma {
     clickupTaskId?: boolean
     order?: boolean
     visibleToClient?: boolean
+    completedAt?: boolean
     createdAt?: boolean
     project?: boolean | SetorClickupListDefaultArgs<ExtArgs>
     service?: boolean | ProjectService$serviceArgs<ExtArgs>
@@ -65568,6 +65577,7 @@ export namespace Prisma {
     clickupTaskId?: boolean
     order?: boolean
     visibleToClient?: boolean
+    completedAt?: boolean
     createdAt?: boolean
   }
 
@@ -65597,6 +65607,7 @@ export namespace Prisma {
       clickupTaskId: string | null
       order: number
       visibleToClient: boolean
+      completedAt: Date | null
       createdAt: Date
     }, ExtArgs["result"]["projectService"]>
     composites: {}
@@ -66001,6 +66012,7 @@ export namespace Prisma {
     readonly clickupTaskId: FieldRef<"ProjectService", 'String'>
     readonly order: FieldRef<"ProjectService", 'Int'>
     readonly visibleToClient: FieldRef<"ProjectService", 'Boolean'>
+    readonly completedAt: FieldRef<"ProjectService", 'DateTime'>
     readonly createdAt: FieldRef<"ProjectService", 'DateTime'>
   }
     
@@ -181548,6 +181560,7 @@ export namespace Prisma {
     clickupTaskId: 'clickupTaskId',
     order: 'order',
     visibleToClient: 'visibleToClient',
+    completedAt: 'completedAt',
     createdAt: 'createdAt'
   };
 
@@ -189438,6 +189451,7 @@ export namespace Prisma {
     clickupTaskId?: StringNullableFilter<"ProjectService"> | string | null
     order?: IntFilter<"ProjectService"> | number
     visibleToClient?: BoolFilter<"ProjectService"> | boolean
+    completedAt?: DateTimeNullableFilter<"ProjectService"> | Date | string | null
     createdAt?: DateTimeFilter<"ProjectService"> | Date | string
     project?: XOR<SetorClickupListRelationFilter, SetorClickupListWhereInput>
     service?: XOR<ServiceNullableRelationFilter, ServiceWhereInput> | null
@@ -189452,6 +189466,7 @@ export namespace Prisma {
     clickupTaskId?: SortOrderInput | SortOrder
     order?: SortOrder
     visibleToClient?: SortOrder
+    completedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     project?: SetorClickupListOrderByWithRelationInput
     service?: ServiceOrderByWithRelationInput
@@ -189469,6 +189484,7 @@ export namespace Prisma {
     clickupTaskId?: StringNullableFilter<"ProjectService"> | string | null
     order?: IntFilter<"ProjectService"> | number
     visibleToClient?: BoolFilter<"ProjectService"> | boolean
+    completedAt?: DateTimeNullableFilter<"ProjectService"> | Date | string | null
     createdAt?: DateTimeFilter<"ProjectService"> | Date | string
     project?: XOR<SetorClickupListRelationFilter, SetorClickupListWhereInput>
     service?: XOR<ServiceNullableRelationFilter, ServiceWhereInput> | null
@@ -189483,6 +189499,7 @@ export namespace Prisma {
     clickupTaskId?: SortOrderInput | SortOrder
     order?: SortOrder
     visibleToClient?: SortOrder
+    completedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: ProjectServiceCountOrderByAggregateInput
     _avg?: ProjectServiceAvgOrderByAggregateInput
@@ -189502,6 +189519,7 @@ export namespace Prisma {
     clickupTaskId?: StringNullableWithAggregatesFilter<"ProjectService"> | string | null
     order?: IntWithAggregatesFilter<"ProjectService"> | number
     visibleToClient?: BoolWithAggregatesFilter<"ProjectService"> | boolean
+    completedAt?: DateTimeNullableWithAggregatesFilter<"ProjectService"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"ProjectService"> | Date | string
   }
 
@@ -205587,6 +205605,7 @@ export namespace Prisma {
     clickupTaskId?: string | null
     order?: number
     visibleToClient?: boolean
+    completedAt?: Date | string | null
     createdAt?: Date | string
     project: SetorClickupListCreateNestedOneWithoutServiceStepsInput
     service?: ServiceCreateNestedOneWithoutProjectStepsInput
@@ -205601,6 +205620,7 @@ export namespace Prisma {
     clickupTaskId?: string | null
     order?: number
     visibleToClient?: boolean
+    completedAt?: Date | string | null
     createdAt?: Date | string
     tasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectServiceInput
   }
@@ -205611,6 +205631,7 @@ export namespace Prisma {
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     project?: SetorClickupListUpdateOneRequiredWithoutServiceStepsNestedInput
     service?: ServiceUpdateOneWithoutProjectStepsNestedInput
@@ -205625,6 +205646,7 @@ export namespace Prisma {
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tasks?: ProjectTaskUncheckedUpdateManyWithoutProjectServiceNestedInput
   }
@@ -205637,6 +205659,7 @@ export namespace Prisma {
     clickupTaskId?: string | null
     order?: number
     visibleToClient?: boolean
+    completedAt?: Date | string | null
     createdAt?: Date | string
   }
 
@@ -205646,6 +205669,7 @@ export namespace Prisma {
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -205657,6 +205681,7 @@ export namespace Prisma {
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -221701,6 +221726,7 @@ export namespace Prisma {
     clickupTaskId?: SortOrder
     order?: SortOrder
     visibleToClient?: SortOrder
+    completedAt?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -221716,6 +221742,7 @@ export namespace Prisma {
     clickupTaskId?: SortOrder
     order?: SortOrder
     visibleToClient?: SortOrder
+    completedAt?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -221727,6 +221754,7 @@ export namespace Prisma {
     clickupTaskId?: SortOrder
     order?: SortOrder
     visibleToClient?: SortOrder
+    completedAt?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -280961,6 +280989,7 @@ export namespace Prisma {
     clickupTaskId?: string | null
     order?: number
     visibleToClient?: boolean
+    completedAt?: Date | string | null
     createdAt?: Date | string
     service?: ServiceCreateNestedOneWithoutProjectStepsInput
     tasks?: ProjectTaskCreateNestedManyWithoutProjectServiceInput
@@ -280973,6 +281002,7 @@ export namespace Prisma {
     clickupTaskId?: string | null
     order?: number
     visibleToClient?: boolean
+    completedAt?: Date | string | null
     createdAt?: Date | string
     tasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectServiceInput
   }
@@ -281817,6 +281847,7 @@ export namespace Prisma {
     clickupTaskId?: StringNullableFilter<"ProjectService"> | string | null
     order?: IntFilter<"ProjectService"> | number
     visibleToClient?: BoolFilter<"ProjectService"> | boolean
+    completedAt?: DateTimeNullableFilter<"ProjectService"> | Date | string | null
     createdAt?: DateTimeFilter<"ProjectService"> | Date | string
   }
 
@@ -281945,6 +281976,7 @@ export namespace Prisma {
     clickupTaskId?: string | null
     order?: number
     visibleToClient?: boolean
+    completedAt?: Date | string | null
     createdAt?: Date | string
     project: SetorClickupListCreateNestedOneWithoutServiceStepsInput
     service?: ServiceCreateNestedOneWithoutProjectStepsInput
@@ -281958,6 +281990,7 @@ export namespace Prisma {
     clickupTaskId?: string | null
     order?: number
     visibleToClient?: boolean
+    completedAt?: Date | string | null
     createdAt?: Date | string
   }
 
@@ -282518,6 +282551,7 @@ export namespace Prisma {
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     project?: SetorClickupListUpdateOneRequiredWithoutServiceStepsNestedInput
     service?: ServiceUpdateOneWithoutProjectStepsNestedInput
@@ -282531,6 +282565,7 @@ export namespace Prisma {
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -328259,6 +328294,7 @@ export namespace Prisma {
     clickupTaskId?: string | null
     order?: number
     visibleToClient?: boolean
+    completedAt?: Date | string | null
     createdAt?: Date | string
     project: SetorClickupListCreateNestedOneWithoutServiceStepsInput
     tasks?: ProjectTaskCreateNestedManyWithoutProjectServiceInput
@@ -328271,6 +328307,7 @@ export namespace Prisma {
     clickupTaskId?: string | null
     order?: number
     visibleToClient?: boolean
+    completedAt?: Date | string | null
     createdAt?: Date | string
     tasks?: ProjectTaskUncheckedCreateNestedManyWithoutProjectServiceInput
   }
@@ -361282,6 +361319,7 @@ export namespace Prisma {
     clickupTaskId?: string | null
     order?: number
     visibleToClient?: boolean
+    completedAt?: Date | string | null
     createdAt?: Date | string
   }
 
@@ -361805,6 +361843,7 @@ export namespace Prisma {
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     service?: ServiceUpdateOneWithoutProjectStepsNestedInput
     tasks?: ProjectTaskUpdateManyWithoutProjectServiceNestedInput
@@ -361817,6 +361856,7 @@ export namespace Prisma {
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tasks?: ProjectTaskUncheckedUpdateManyWithoutProjectServiceNestedInput
   }
@@ -361828,6 +361868,7 @@ export namespace Prisma {
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -364482,6 +364523,7 @@ export namespace Prisma {
     clickupTaskId?: string | null
     order?: number
     visibleToClient?: boolean
+    completedAt?: Date | string | null
     createdAt?: Date | string
   }
 
@@ -364684,6 +364726,7 @@ export namespace Prisma {
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     project?: SetorClickupListUpdateOneRequiredWithoutServiceStepsNestedInput
     tasks?: ProjectTaskUpdateManyWithoutProjectServiceNestedInput
@@ -364696,6 +364739,7 @@ export namespace Prisma {
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tasks?: ProjectTaskUncheckedUpdateManyWithoutProjectServiceNestedInput
   }
@@ -364707,6 +364751,7 @@ export namespace Prisma {
     clickupTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     visibleToClient?: BoolFieldUpdateOperationsInput | boolean
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

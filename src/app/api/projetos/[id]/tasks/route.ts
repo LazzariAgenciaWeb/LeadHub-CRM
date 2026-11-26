@@ -8,6 +8,7 @@ import { sanitizeChecklist } from "@/lib/checklist";
 import { ensureEtapaClickupTask, pushTaskToClickup } from "@/lib/project-etapas";
 import { CLAUDE_ASSIGNEE } from "@/lib/project-ai";
 import { normalizeTags } from "@/lib/task-tags";
+import { reopenEtapaIfCompleted } from "@/lib/etapa-status";
 
 // POST /api/projetos/[id]/tasks
 //
@@ -159,6 +160,9 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     },
     include: { assignee: { select: { id: true, name: true } } },
   });
+
+  // Tarefa nova numa etapa concluída reabre a etapa (senão sumiria da vista).
+  await reopenEtapaIfCompleted(stepId);
 
   // Tarefa dentro de uma ETAPA sobe sozinha pro ClickUp, como subtarefa da
   // tarefa principal da etapa. Sem etapa não sobe — subiria solta na raiz, que

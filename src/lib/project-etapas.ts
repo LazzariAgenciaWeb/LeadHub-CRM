@@ -37,7 +37,7 @@ function norm(s: string): string {
 }
 
 const ETAPA_SELECT = {
-  id: true, name: true, serviceId: true, order: true, clickupTaskId: true,
+  id: true, name: true, serviceId: true, order: true, clickupTaskId: true, completedAt: true,
   service: { select: { name: true } },
 } as const;
 

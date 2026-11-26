@@ -272,7 +272,7 @@ export default function ProjectDetail({
   internalTasks: InternalTask[];
   chamados: Chamado[];
   catalogServices: { id: string; name: string }[];
-  serviceSteps: { id: string; name: string; order: number; taskCount: number; doneCount: number; visibleToClient: boolean; clickupTaskId?: string | null }[];
+  serviceSteps: { id: string; name: string; order: number; taskCount: number; doneCount: number; visibleToClient: boolean; clickupTaskId?: string | null; completedAt?: string | null }[];
   currentServiceId: string | null;
   materials: { id: string; kind: string; taskId: string | null; stage: string | null; title: string; docHtml: string | null; url: string | null; ata: string | null; featured: boolean; visibleToClient: boolean }[];
   publicToken: string | null;
@@ -2474,7 +2474,7 @@ function ProjectTasksCard({
   availableUsers: { id: string; name: string }[];
   internalTasks: InternalTask[];
   hasClickup: boolean;
-  serviceSteps: { id: string; name: string; order: number; taskCount: number; doneCount: number }[];
+  serviceSteps: { id: string; name: string; order: number; taskCount: number; doneCount: number; completedAt?: string | null }[];
 }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -2642,6 +2642,22 @@ function ProjectTasksCard({
       headers: { "Content-Type": "application/json" },
       body:    JSON.stringify(body),
     }).catch(() => null);
+    router.refresh();
+  }
+
+  // Concluir / reabrir etapa. Concluída sai de "Tudo/Em andamento" e vai pra
+  // aba "Concluído". "Agora não" na sugestão só esconde nesta visita.
+  const [etapaSemSugestao, setEtapaSemSugestao] = useState<Set<string>>(new Set());
+  const [etapaBusy, setEtapaBusy] = useState<string | null>(null);
+  async function setEtapaConcluida(stepId: string, completed: boolean, abertas = 0) {
+    if (completed && abertas > 0 && !confirm(`Esta etapa ainda tem ${abertas} tarefa(s) aberta(s). Concluir mesmo assim? Elas vão junto pra aba Concluído.`)) return;
+    setEtapaBusy(stepId);
+    await fetch(`/api/projetos/${projectId}/servicos/${stepId}`, {
+      method:  "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ completed }),
+    }).catch(() => null);
+    setEtapaBusy(null);
     router.refresh();
   }
 
@@ -3196,20 +3212,42 @@ function ProjectTasksCard({
         // Filtro (Tudo/Em andamento/Concluído) + busca.
         const q = taskQuery.trim().toLowerCase();
         const filtering = taskFilter !== "all" || q.length > 0 || tagFilter !== "";
+        // Etapas concluídas: saem de "Tudo/Em andamento" (só a busca ainda acha)
+        // e aparecem inteiras na aba "Concluído".
+        const etapasConcluidas = new Set(serviceSteps.filter((s) => s.completedAt).map((s) => s.id));
         const list = internalTasks.filter((t) => {
           if (t.ignored) return false; // ignoradas vivem só na aba "A organizar"
           // Sem etapa + vinda do ClickUp = pertence à aba "A organizar", não a esta lista.
           if (t.clickupTaskId && !t.projectServiceId) return false;
-          if (taskFilter === "doing" && t.done) return false;
-          if (taskFilter === "done" && !t.done) return false;
-          // Em "Tudo", esconde as concluídas até você pedir pra ver.
-          if (taskFilter === "all" && t.done && !showDone) return false;
+          const etapaFechada = !!t.projectServiceId && etapasConcluidas.has(t.projectServiceId);
+          if (etapaFechada) {
+            if (taskFilter !== "done" && !q) return false;
+          } else {
+            if (taskFilter === "doing" && t.done) return false;
+            if (taskFilter === "done" && !t.done) return false;
+            // Em "Tudo", esconde as concluídas até você pedir pra ver.
+            if (taskFilter === "all" && t.done && !showDone) return false;
+          }
           if (tagFilter && !t.tags.some((x) => sameTag(x, tagFilter))) return false;
           if (q && !t.title.toLowerCase().includes(q) && !t.tags.some((x) => x.toLowerCase().includes(q))) return false;
           return true;
         });
-        if (list.length === 0) {
-          return <div className="p-5 text-slate-600 text-xs">Nenhuma tarefa neste filtro.</div>;
+        // Rodapé de "Tudo/Em andamento": onde foram parar as etapas concluídas.
+        const rodapeConcluidas = taskFilter !== "done" && !q && etapasConcluidas.size > 0 ? (
+          <button
+            onClick={() => setTaskFilter("done")}
+            className="w-full px-5 py-2.5 border-t border-[#1e2d45] text-left text-[11px] text-slate-500 hover:text-emerald-300 hover:bg-[#080b12]"
+          >
+            ✓ {etapasConcluidas.size} etapa{etapasConcluidas.size > 1 ? "s" : ""} concluída{etapasConcluidas.size > 1 ? "s" : ""} — ver em Concluído →
+          </button>
+        ) : null;
+        if (list.length === 0 && !(taskFilter === "done" && etapasConcluidas.size > 0)) {
+          return (
+            <div>
+              <div className="p-5 text-slate-600 text-xs">Nenhuma tarefa neste filtro.</div>
+              {rodapeConcluidas}
+            </div>
+          );
         }
         // Sem etapas cadastradas → lista plana (comportamento antigo).
         if (serviceSteps.length === 0) {
@@ -3231,9 +3269,9 @@ function ProjectTasksCard({
         }));
         const noSvc = list.filter((t) => !t.projectServiceId || !svcIds.has(t.projectServiceId));
 
-        const GroupHead = ({ label, tasks, muted, stepId, index, total, done, isOpen, onToggle }: {
+        const GroupHead = ({ label, tasks, muted, stepId, index, total, done, isOpen, onToggle, completedAt }: {
           label: string; tasks: InternalTask[]; muted?: boolean; stepId?: string; index?: number;
-          total?: number; done?: number; isOpen?: boolean; onToggle?: () => void;
+          total?: number; done?: number; isOpen?: boolean; onToggle?: () => void; completedAt?: string | null;
         }) => {
           // Contagem real da etapa (não a filtrada) — uma etapa 100% concluída
           // precisa mostrar 10/10 mesmo com as concluídas escondidas.
@@ -3254,6 +3292,30 @@ function ProjectTasksCard({
                   <span className={`text-[13px] font-semibold tracking-tight ${muted ? "text-slate-400" : "text-white"}`}>{label}</span>
                 )}
                 <div className="flex items-center gap-2 flex-none">
+                  {stepId && (completedAt ? (
+                    <>
+                      <span className="text-[10px] font-semibold text-emerald-300 bg-emerald-500/10 border border-emerald-500/30 rounded-full px-2 py-0.5">
+                        ✓ Etapa concluída {formatBrazilDate(completedAt).slice(0, 5)}
+                      </span>
+                      <button
+                        onClick={() => setEtapaConcluida(stepId, false)}
+                        disabled={etapaBusy === stepId}
+                        className="text-[10px] text-slate-500 hover:text-white disabled:opacity-40"
+                        title="Volta a etapa pra lista ativa"
+                      >
+                        Reabrir
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      onClick={() => setEtapaConcluida(stepId, true, base - feitas)}
+                      disabled={etapaBusy === stepId}
+                      className="text-[10px] font-medium text-slate-500 hover:text-emerald-300 border border-transparent hover:border-emerald-500/30 rounded-full px-2 py-0.5 disabled:opacity-40"
+                      title="Concluir a etapa — ela sai da lista e vai pra aba Concluído"
+                    >
+                      ✓ Concluir etapa
+                    </button>
+                  ))}
                   <span className="text-[11px] text-slate-500 font-medium tabular-nums">{feitas}/{base}</span>
                   {onToggle && (
                     <button
@@ -3278,7 +3340,12 @@ function ProjectTasksCard({
 
         return (
           <div>
-            {groups.filter((g) => !filtering || g.tasks.length > 0).map((g, gi) => {
+            {groups.filter((g) => {
+              const fechada = etapasConcluidas.has(g.id);
+              if (taskFilter === "done") return fechada || g.tasks.length > 0;
+              if (fechada) return !!q && g.tasks.length > 0;
+              return !filtering || g.tasks.length > 0;
+            }).map((g, gi) => {
               const aberta = !collapsed.has(g.id);
               const toggle = () => setCollapsed((prev) => {
                 const next = new Set(prev);
@@ -3291,13 +3358,34 @@ function ProjectTasksCard({
               // Etapa sem nada na tela: distingue "não tem tarefa" de "tem, mas
               // estão escondidas" — senão parece que falta executar o que já foi feito.
               const escondidas = totalReal - g.tasks.length;
+              // Tudo pronto e a etapa ainda aberta → sugere concluir.
+              const sugerir = !step?.completedAt && totalReal > 0 && doneReal === totalReal && !etapaSemSugestao.has(g.id);
               return (
                 <div key={g.id}>
                   <GroupHead
                     label={g.label} tasks={g.tasks} stepId={g.id} index={gi}
                     total={totalReal} done={doneReal}
                     isOpen={aberta} onToggle={toggle}
+                    completedAt={step?.completedAt ?? null}
                   />
+                  {sugerir && (
+                    <div className="px-5 py-2.5 flex flex-wrap items-center gap-2 border-b border-[#1e2d45] bg-emerald-500/[0.06] text-[12px] text-emerald-200">
+                      <span>🎉 Todas as tarefas desta etapa estão concluídas. Concluir a etapa?</span>
+                      <button
+                        onClick={() => setEtapaConcluida(g.id, true)}
+                        disabled={etapaBusy === g.id}
+                        className="text-[11px] font-semibold px-2.5 py-1 rounded-md bg-emerald-600 hover:bg-emerald-500 text-white disabled:opacity-40"
+                      >
+                        Concluir etapa
+                      </button>
+                      <button
+                        onClick={() => setEtapaSemSugestao((prev) => new Set(prev).add(g.id))}
+                        className="text-[11px] text-emerald-300/70 hover:text-white"
+                      >
+                        Agora não
+                      </button>
+                    </div>
+                  )}
                   {aberta && (
                     <>
                       {g.tasks.length === 0
@@ -3306,7 +3394,7 @@ function ProjectTasksCard({
                             {totalReal === 0
                               ? <span className="text-slate-600">nenhuma tarefa nesta etapa</span>
                               : doneReal === totalReal
-                                ? <span className="text-emerald-400/80">tudo concluído nesta etapa ✓</span>
+                                ? (sugerir ? null : <span className="text-emerald-400/80">tudo concluído nesta etapa ✓</span>)
                                 : <span className="text-slate-500">{escondidas} tarefa{escondidas > 1 ? "s" : ""} oculta{escondidas > 1 ? "s" : ""} pelo filtro</span>}
                           </div>
                         )
@@ -3327,6 +3415,7 @@ function ProjectTasksCard({
                 <div className="divide-y divide-[#1e2d45]">{noSvc.map(rowOf)}</div>
               </div>
             )}
+            {rodapeConcluidas}
           </div>
         );
       })()}

@@ -1905,6 +1905,9 @@ model ProjectService {
   clickupTaskId   String? // tarefa principal no ClickUp — as tarefas da etapa entram como subtarefas dela
   order           Int              @default(0)
   visibleToClient Boolean          @default(true) // false = serviço inteiro some do painel do cliente
+  // Etapa encerrada (ex.: o mês já fechou). Sai de "Tudo/Em andamento" e vai
+  // pra aba "Concluído" da lista. Só GoHub — não fecha nada no ClickUp.
+  completedAt     DateTime?
   createdAt       DateTime         @default(now())
 
   tasks ProjectTask[]
