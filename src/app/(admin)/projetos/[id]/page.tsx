@@ -103,7 +103,7 @@ export default async function ProjectDetailPage({
     orderBy: [{ status: "asc" }, { dueDate: "asc" }],
     select: {
       id: true, title: true, status: true, priority: true, dueDate: true,
-      clickupTaskId: true,
+      clickupTaskId: true, etapaId: true,
       assignee: { select: { id: true, name: true } },
     },
   });
@@ -302,6 +302,7 @@ export default async function ProjectDetailPage({
         priority:     c.priority as string,
         dueDate:      c.dueDate ? c.dueDate.toISOString() : null,
         assigneeName: c.assignee?.name ?? null,
+        etapaId:      c.etapaId ?? null,
       }))}
       materials={materials}
       publicToken={project.publicToken ?? null}

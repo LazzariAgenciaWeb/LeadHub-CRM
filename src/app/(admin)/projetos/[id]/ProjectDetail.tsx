@@ -140,6 +140,7 @@ type Chamado = {
   priority:     string;
   dueDate:      string | null; // ISO
   assigneeName: string | null;
+  etapaId?:     string | null;
 };
 
 const PRIORITY_PILL: Record<string, { label: string; cls: string }> = {
@@ -578,6 +579,7 @@ export default function ProjectDetail({
             clientId={project.clientCompany?.id ?? null}
             clientName={project.clientCompany?.name ?? project.name}
             hasApprovalGroup={!!project.approvalGroupJid}
+            chamados={chamados}
           />
           </div>
 
@@ -2462,8 +2464,11 @@ function TaskEditor({ projectId, task, onClose, stageSuggestions, tagSuggestions
  */
 function ProjectTasksCard({
   projectId, availableUsers, internalTasks, companyTags = [], hasClickup, serviceSteps, clientId = null, clientName = "", hasApprovalGroup = false,
+  chamados = [],
 }: {
   projectId: string;
+  /** Chamados do projeto — os ligados a uma etapa aparecem dentro dela. */
+  chamados?: Chamado[];
   /** Nome do cliente (ou do projeto, se não tem cliente) — início do caminho no modal da tarefa. */
   clientName?: string;
   /** Etiquetas já usadas nas tarefas da empresa (sugestão ao etiquetar). */
@@ -3215,6 +3220,66 @@ function ProjectTasksCard({
         // Etapas concluídas: saem de "Tudo/Em andamento" (só a busca ainda acha)
         // e aparecem inteiras na aba "Concluído".
         const etapasConcluidas = new Set(serviceSteps.filter((s) => s.completedAt).map((s) => s.id));
+        // Chamados ligados à etapa: mesmas regras de filtro das tarefas
+        // (concluído = RESOLVED/CLOSED; em "Tudo" só aparece com "mostrar concluídas").
+        const chamadoFeito = (c: Chamado) => c.status === "RESOLVED" || c.status === "CLOSED";
+        const chamadosDaEtapa = (etapaId: string) => {
+          const daEtapa = chamados.filter((c) => c.etapaId === etapaId);
+          if (daEtapa.length === 0) return null;
+          const etapaFechada = etapasConcluidas.has(etapaId);
+          const visiveis = daEtapa.filter((c) => {
+            if (tagFilter) return false; // chamado não tem etiqueta
+            if (q && !c.title.toLowerCase().includes(q)) return false;
+            if (etapaFechada) return taskFilter === "done" || !!q;
+            const feito = chamadoFeito(c);
+            if (taskFilter === "doing" && feito) return false;
+            if (taskFilter === "done" && !feito) return false;
+            if (taskFilter === "all" && feito && !showDone) return false;
+            return true;
+          });
+          const ocultosFeitos = taskFilter === "all" && !showDone && !q && !etapaFechada
+            ? daEtapa.filter(chamadoFeito).length : 0;
+          if (visiveis.length === 0 && ocultosFeitos === 0) return null;
+          return (
+            <div className="border-t border-[#1e2d45]">
+              {visiveis.map((c) => {
+                const feito = chamadoFeito(c);
+                const due = c.dueDate ? new Date(c.dueDate) : null;
+                const atrasado = !!due && !feito && due < new Date();
+                return (
+                  <Link
+                    key={c.id}
+                    href={`/chamados/${c.id}`}
+                    className="flex items-center gap-2 px-5 py-2 hover:bg-[#080b12] group"
+                    title="Chamado — abre a tela do chamado"
+                  >
+                    <span className="text-[10px] font-semibold text-sky-300 bg-sky-500/10 border border-sky-500/25 rounded px-1.5 py-0.5 flex-none">🎫 Chamado</span>
+                    <span className={`text-[13px] truncate flex-1 ${feito ? "text-slate-500 line-through" : "text-slate-200 group-hover:text-white"}`}>
+                      {c.title}
+                    </span>
+                    <span className="text-[10px] text-slate-500 flex-none">
+                      {TICKET_STATUS_LABEL[c.status] ?? c.status}
+                      {c.assigneeName && <> · {c.assigneeName.split(" ")[0]}</>}
+                    </span>
+                    {due && (
+                      <span className={`text-[10px] font-medium flex-none ${atrasado ? "text-red-300" : "text-slate-500"}`}>
+                        {formatBrazilDate(due).slice(0, 5)}
+                      </span>
+                    )}
+                  </Link>
+                );
+              })}
+              {ocultosFeitos > 0 && (
+                <button
+                  onClick={() => setShowDone(true)}
+                  className="w-full text-left px-5 py-1.5 text-[11px] text-slate-500 hover:text-white"
+                >
+                  🎫 {ocultosFeitos} chamado{ocultosFeitos > 1 ? "s" : ""} concluído{ocultosFeitos > 1 ? "s" : ""} nesta etapa · mostrar
+                </button>
+              )}
+            </div>
+          );
+        };
         const list = internalTasks.filter((t) => {
           if (t.ignored) return false; // ignoradas vivem só na aba "A organizar"
           // Sem etapa + vinda do ClickUp = pertence à aba "A organizar", não a esta lista.
@@ -3399,6 +3464,7 @@ function ProjectTasksCard({
                           </div>
                         )
                         : <div className="divide-y divide-[#1e2d45]">{g.tasks.map(rowOf)}</div>}
+                      {chamadosDaEtapa(g.id)}
                       {/* Entrada rápida — some quando há filtro/busca ativa, pra não
                           criar tarefa que sumiria da vista logo em seguida. */}
                       {!filtering && (
