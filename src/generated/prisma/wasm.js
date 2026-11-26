@@ -275,6 +275,7 @@ exports.Prisma.CompanyScalarFieldEnum = {
   website: 'website',
   logoUrl: 'logoUrl',
   brandColor: 'brandColor',
+  googleReviewUrl: 'googleReviewUrl',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -681,7 +682,15 @@ exports.Prisma.TicketScalarFieldEnum = {
   setorId: 'setorId',
   projetoId: 'projetoId',
   visibility: 'visibility',
-  publicToken: 'publicToken'
+  publicToken: 'publicToken',
+  confirmDueAt: 'confirmDueAt',
+  confirmedAt: 'confirmedAt',
+  confirmedByName: 'confirmedByName',
+  autoClosedAt: 'autoClosedAt',
+  rating: 'rating',
+  ratingComment: 'ratingComment',
+  ratedAt: 'ratedAt',
+  ratedByName: 'ratedByName'
 };
 
 exports.Prisma.TicketMessageScalarFieldEnum = {

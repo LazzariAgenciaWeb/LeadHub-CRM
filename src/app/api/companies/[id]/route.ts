@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { cleanReviewUrl } from "@/lib/ticket-confirm-view";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
@@ -77,7 +78,7 @@ export async function PATCH(
 
   const body = await request.json();
   const {
-    name, tradeName, document, segment, phone, email, website, logoUrl, brandColor, status, triggerOnly,
+    name, tradeName, document, segment, phone, email, website, logoUrl, brandColor, googleReviewUrl, status, triggerOnly,
     // SUPER_ADMIN only
     hasSystemAccess, fullSystemAccess, moduleWhatsapp, moduleCrm, moduleTickets, moduleAI, moduleClickup,
     moduleGamificacao, moduleProjetos, moduleCalendario, moduleProspeccao, moduleEmailMarketing, moduleEmailInbox, moduleInstagram, moduleEspacoCliente, moduleVideos, moduleBling, moduleRelatorioMarketing, serpapiKey,
@@ -153,6 +154,8 @@ export async function PATCH(
       ...(brandColor !== undefined && {
         brandColor: /^#[0-9a-f]{6}$/i.test(String(brandColor ?? "").trim()) ? String(brandColor).trim().toUpperCase() : null,
       }),
+      // Link "Avaliar no Google" (tela do chamado encerrado). Só https.
+      ...(googleReviewUrl !== undefined && { googleReviewUrl: cleanReviewUrl(googleReviewUrl) }),
       ...adminOnlyData,
       ...selfServeData,
       ...(podeBillingNotes && { billingNotes: String(billingNotes ?? "").trim() || null }),

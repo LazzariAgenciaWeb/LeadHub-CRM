@@ -113,7 +113,7 @@ export default async function ConfiguracoesPage({
     if (userCompanyId) {
       company = await prisma.company.findUnique({
         where: { id: userCompanyId },
-        select: { id: true, name: true, phone: true, email: true, website: true, segment: true, logoUrl: true, brandColor: true },
+        select: { id: true, name: true, phone: true, email: true, website: true, segment: true, logoUrl: true, brandColor: true, googleReviewUrl: true },
       });
     }
     content = (

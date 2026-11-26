@@ -10,6 +10,7 @@ import { createConversationEvent } from "@/lib/conversation-events";
 import { getUserPermissions } from "@/lib/user-permissions";
 import { getViewer, canSeeTicket } from "@/lib/visibility";
 import { notifyClientOnTicketClose } from "@/lib/ticket-notify";
+import { confirmDeadline } from "@/lib/ticket-confirm";
 import { loadTicketStages, syncStageStatus, isFinalStatus } from "@/lib/ticket-stages";
 
 // GET /api/tickets/[id]
@@ -160,10 +161,25 @@ export async function PATCH(
     );
   }
 
+  // Confirmação do cliente (lib/ticket-confirm): chamado de cliente resolvido
+  // espera ele confirmar pelo link até +3 dias úteis — por isso o link de
+  // acompanhamento é criado aqui se ainda não existe. Sair de "Resolvido"
+  // (reabrir, ou a equipe fechar direto) cancela a espera.
+  const resolving = status === "RESOLVED" && existing.status !== "RESOLVED" && existing.type === "SUPPORT";
+  const leavingResolved = status !== undefined && status !== "RESOLVED" && existing.status === "RESOLVED";
+  const confirmData = resolving
+    ? {
+        confirmDueAt: await confirmDeadline(existing.companyId),
+        confirmedAt: null, confirmedByName: null, autoClosedAt: null,
+        rating: null, ratingComment: null, ratedAt: null, ratedByName: null,
+      }
+    : leavingResolved ? { confirmDueAt: null } : {};
+
   const ticket = await prisma.ticket.update({
     where: { id },
     data: {
       status, priority, category, title,
+      ...confirmData,
       ...(clickupTaskId !== undefined && { clickupTaskId: clickupTaskId ?? null }),
       ...(ticketStage !== undefined && { ticketStage: ticketStage ?? null }),
       ...(companyId !== undefined && { companyId }),
@@ -176,7 +192,7 @@ export async function PATCH(
       ...(visibility !== undefined && { visibility: visibility === "RESTRICTED" ? "RESTRICTED" : "OPEN" }),
       // sharePublic true → gera token se não tem (mantém o atual se já existe);
       // false → revoga (link fica 404). Undefined não toca.
-      ...(sharePublic === true && !existing.publicToken
+      ...((sharePublic === true || (resolving && sharePublic !== false)) && !existing.publicToken
         ? { publicToken: randomBytes(18).toString("base64url") }
         : {}),
       ...(sharePublic === false ? { publicToken: null } : {}),
@@ -482,14 +498,16 @@ export async function PATCH(
     // WhatsApp pro cliente que acompanha (só se tem publicToken). Não bloqueia
     // resposta do PATCH. Só na PRIMEIRA transição pra final — o `status !==
     // existing.status` acima já garante isso (reabrir+fechar não redispara).
-    if (existing.publicToken) {
+    // Link pode ter acabado de nascer (resolvido pede confirmação).
+    if (ticket.publicToken) {
       void notifyClientOnTicketClose({
-        ticketId:    id,
-        companyId:   existing.companyId,
-        phone:       (ticket as any).phone,
-        title:       ticket.title,
-        status:      status as "RESOLVED" | "CLOSED",
-        publicToken: existing.publicToken,
+        ticketId:     id,
+        companyId:    existing.companyId,
+        phone:        (ticket as any).phone,
+        title:        ticket.title,
+        status:       status as "RESOLVED" | "CLOSED",
+        publicToken:  ticket.publicToken,
+        confirmDueAt: ticket.confirmDueAt,
         userId,
       });
     }

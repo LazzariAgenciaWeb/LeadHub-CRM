@@ -164,6 +164,23 @@ echo "✅ Cron Aprovações habilitado — rodará a cada ${APPROVAL_INTERVAL_SE
   done
 ) &
 
+# Cron: Chamados resolvidos sem confirmação do cliente → fecha sozinho
+# Prazo: 3 dias úteis (lib/ticket-confirm). Frequência: a cada 15 minutos
+# (config: TICKET_CONFIRM_INTERVAL_SECONDS).
+TICKET_CONFIRM_INTERVAL_SECONDS="${TICKET_CONFIRM_INTERVAL_SECONDS:-900}"
+echo "✅ Cron Confirmação de chamados habilitado — rodará a cada ${TICKET_CONFIRM_INTERVAL_SECONDS}s"
+(
+  sleep 80
+  while true; do
+    RES=$(cron_curl -X GET "http://localhost:3000/api/cron/chamados-confirmacao" --max-time 120 -w "\n%{http_code}" 2>&1)
+    HTTP_CODE=$(echo "$RES" | tail -n 1)
+    if [ "$HTTP_CODE" != "200" ]; then
+      echo "[Cron Confirmação de chamados] $(date) — falha HTTP $HTTP_CODE"
+    fi
+    sleep "$TICKET_CONFIRM_INTERVAL_SECONDS"
+  done
+) &
+
 # Cron: Cobrança — avisos e vencimento do anual no Pix (scope=pix: não mexe em trial/inadimplência)
 # Frequência: a cada 6 horas (config: BILLING_INTERVAL_SECONDS).
 BILLING_INTERVAL_SECONDS="${BILLING_INTERVAL_SECONDS:-21600}"

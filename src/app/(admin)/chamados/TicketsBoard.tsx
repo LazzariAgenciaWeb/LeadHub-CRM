@@ -8,6 +8,7 @@ import {
   MessageSquare, AlertTriangle, Plus, X, UserX, Hourglass,
 } from "lucide-react";
 import type { TicketStage } from "@/lib/ticket-stage-sync";
+import { untilText } from "@/lib/ticket-confirm-view";
 import type { ChamadosViewPref } from "@/lib/chamados-view-pref";
 
 /**
@@ -29,10 +30,15 @@ export type BoardTicket = {
   messages: number;
   /** Cliente falou por último (Meu Espaço / link) e ainda não respondemos. */
   clientWaitingSince: string | null;
+  /** Confirmação do cliente e nota (lib/ticket-confirm). */
+  confirmDueAt: string | null;
+  confirmedByName: string | null;
+  autoClosedAt: string | null;
+  rating: number | null;
 };
 
 type View = ChamadosViewPref["view"]; type GroupBy = ChamadosViewPref["groupBy"]; type SortBy = ChamadosViewPref["sortBy"];
-type Quick = "todos" | "meus" | "atrasados" | "urgentes" | "semResponsavel" | "semCliente" | "aguardando";
+type Quick = "todos" | "meus" | "atrasados" | "urgentes" | "semResponsavel" | "semCliente" | "aguardando" | "confirmando";
 type Kind = "all" | "SUPPORT" | "INTERNAL";
 
 const DAY = 86_400_000;
@@ -132,6 +138,8 @@ export default function TicketsBoard({
 
   const matchQuick = (t: BoardTicket, q: Quick) => {
     if (q === "todos") return true;
+    // Resolvido esperando o cliente confirmar: já está numa coluna final.
+    if (q === "confirmando") return t.status === "RESOLVED" && !!t.confirmDueAt;
     if (isClosed(t)) return false;
     if (q === "meus") return t.assignee?.id === currentUserId;
     if (q === "atrasados") return !!t.dueDate && new Date(t.dueDate).getTime() < now;
@@ -146,7 +154,7 @@ export default function TicketsBoard({
     return tickets
       .filter((t) => {
         if (kind !== "all" && t.type !== kind) return false;
-        if (!showClosed && isClosed(t) && view === "lista") return false;
+        if (!showClosed && isClosed(t) && view === "lista" && quick !== "confirmando") return false;
         if (!matchQuick(t, quick)) return false;
         if (!q) return true;
         return [t.title, t.clientCompany?.name, t.category, t.assignee?.name, t.setor?.name, t.id.slice(-6)]
@@ -163,7 +171,7 @@ export default function TicketsBoard({
     return {
       open: base.filter((t) => !isClosed(t)).length, total: base.length,
       meus: n("meus"), atrasados: n("atrasados"), urgentes: n("urgentes"),
-      semResponsavel: n("semResponsavel"), semCliente: n("semCliente"), aguardando: n("aguardando"),
+      semResponsavel: n("semResponsavel"), semCliente: n("semCliente"), aguardando: n("aguardando"), confirmando: n("confirmando"),
       support: tickets.filter((t) => t.type === "SUPPORT").length,
       internal: tickets.filter((t) => t.type === "INTERNAL").length,
     };
@@ -320,6 +328,7 @@ export default function TicketsBoard({
             { k: "aguardando", label: "Cliente esperando", n: counts.aguardando, warn: "cyan" },
             { k: "semCliente", label: "Sem cliente", n: counts.semCliente, warn: "amber" },
             { k: "semResponsavel", label: "Sem responsável", n: counts.semResponsavel },
+            { k: "confirmando", label: "Aguardando confirmação", n: counts.confirmando },
           ] as { k: Quick; label: string; n?: number; warn?: "red" | "orange" | "cyan" | "amber" }[]).map((b) => {
             const hot = b.warn && (b.n ?? 0) > 0 && quick !== b.k;
             const hotCls = { red: "text-red-300", orange: "text-orange-300", cyan: "text-cyan-300", amber: "text-amber-300" }[b.warn ?? "red"];
@@ -443,6 +452,37 @@ function Flags({ t, closed }: { t: BoardTicket; closed: boolean }) {
       <span key="wait" title={`Cliente escreveu ${agoLabel(t.clientWaitingSince)} e ainda não respondemos`}
         className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded border text-[10px] font-semibold bg-cyan-500/10 text-cyan-300 border-cyan-500/30">
         <Hourglass className="w-2.5 h-2.5" strokeWidth={2.5} /> Cliente esperando · {agoLabel(t.clientWaitingSince)}
+      </span>,
+    );
+  }
+  if (t.status === "RESOLVED" && t.confirmDueAt) {
+    out.push(
+      <span key="cfm" title={`O cliente confirma pelo link; sem resposta, fecha sozinho ${untilText(new Date(t.confirmDueAt))}`}
+        className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded border text-[10px] font-semibold bg-violet-500/10 text-violet-300 border-violet-500/30">
+        <Hourglass className="w-2.5 h-2.5" strokeWidth={2.5} /> Confirmação · fecha {untilText(new Date(t.confirmDueAt))}
+      </span>,
+    );
+  }
+  if (t.status === "CLOSED" && t.confirmedByName) {
+    out.push(
+      <span key="ok" title={`Confirmado por ${t.confirmedByName}`}
+        className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded border text-[10px] font-semibold bg-emerald-500/10 text-emerald-300 border-emerald-500/30">
+        ✓ Cliente confirmou
+      </span>,
+    );
+  }
+  if (t.status === "CLOSED" && !t.confirmedByName && t.autoClosedAt) {
+    out.push(
+      <span key="auto" className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded border text-[10px] font-semibold bg-slate-500/10 text-slate-400 border-slate-500/30">
+        Fechado automático
+      </span>,
+    );
+  }
+  if (t.rating) {
+    out.push(
+      <span key="nota" title={`Avaliação do cliente: ${t.rating} de 5`}
+        className={`inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded border text-[10px] font-semibold ${t.rating <= 3 ? "bg-amber-500/10 text-amber-300 border-amber-500/30" : "bg-yellow-500/10 text-yellow-300 border-yellow-500/30"}`}>
+        ★ {t.rating}
       </span>,
     );
   }

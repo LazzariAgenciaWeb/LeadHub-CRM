@@ -1,6 +1,7 @@
 import { prisma } from "./prisma";
 import { evolutionSendText } from "./evolution";
 import { upsertConversation, resolveOwnExternalId } from "./whatsapp";
+import { SYSTEM_TIMEZONE } from "./business-hours";
 
 // Notifica o cliente no WhatsApp quando o chamado que ele acompanha muda
 // pra status final (RESOLVED/CLOSED). Fire-and-forget: erros são logados,
@@ -21,9 +22,11 @@ export async function notifyClientOnTicketClose(args: {
   title:       string;
   status:      "RESOLVED" | "CLOSED";
   publicToken: string;
+  /** Resolvido esperando o cliente confirmar (lib/ticket-confirm): o texto pede a confirmação. */
+  confirmDueAt?: Date | null;
   userId?:     string | null;
 }): Promise<{ sent: boolean; reason?: string }> {
-  const { ticketId, companyId, phone, title, status, publicToken, userId } = args;
+  const { ticketId, companyId, phone, title, status, publicToken, confirmDueAt, userId } = args;
 
   try {
     const conv = await prisma.conversation.findFirst({
@@ -52,9 +55,16 @@ export async function notifyClientOnTicketClose(args: {
     const baseUrl = (process.env.NEXTAUTH_URL ?? "").replace(/\/$/, "");
     const link = baseUrl ? `${baseUrl}/acompanhar/${publicToken}` : `/acompanhar/${publicToken}`;
     const verbo = status === "RESOLVED" ? "resolvido" : "encerrado";
-    const text =
-      `✅ Seu chamado *${title}* foi ${verbo}.\n\n` +
-      `Se precisar rever o histórico ou reabrir, acompanhe por aqui:\n${link}`;
+    const prazo = confirmDueAt
+      ? confirmDueAt.toLocaleDateString("pt-BR", { weekday: "long", day: "2-digit", month: "2-digit", timeZone: SYSTEM_TIMEZONE })
+      : null;
+    const text = status === "RESOLVED" && prazo
+      ? `✅ Resolvemos o seu chamado *${title}*.\n\n` +
+        `Confirma pra gente que ficou tudo certo? É só tocar em “Sim, resolvido” aqui:\n${link}\n\n` +
+        `Se ainda faltar algo, escreva pelo mesmo link que a gente continua. ` +
+        `Sem resposta até ${prazo}, encerramos o chamado.`
+      : `✅ Seu chamado *${title}* foi ${verbo}.\n\n` +
+        `Se precisar rever o histórico ou reabrir, acompanhe por aqui:\n${link}`;
 
     const result = await evolutionSendText(
       instance.instanceName,

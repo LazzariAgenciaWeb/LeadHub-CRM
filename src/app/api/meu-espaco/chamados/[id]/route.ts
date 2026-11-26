@@ -116,7 +116,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   await prisma.ticket.update({
     where: { id },
     data: reopened
-      ? { status: "OPEN", ...(stage ? { ticketStage: stage } : {}), updatedAt: new Date() }
+      ? { status: "OPEN", confirmDueAt: null, ...(stage ? { ticketStage: stage } : {}), updatedAt: new Date() }
       : { updatedAt: new Date() },
   });
 

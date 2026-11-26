@@ -59,6 +59,10 @@ export default async function ChamadosPage() {
       assignee: t.assignee, setor: t.setor, clientCompany: t.clientCompany,
       messages: t._count.messages,
       clientWaitingSince: last?.source === "CLIENT_PORTAL" ? last.createdAt.toISOString() : null,
+      confirmDueAt: t.confirmDueAt?.toISOString() ?? null,
+      confirmedByName: t.confirmedByName,
+      autoClosedAt: t.autoClosedAt?.toISOString() ?? null,
+      rating: t.rating,
     };
   });
 

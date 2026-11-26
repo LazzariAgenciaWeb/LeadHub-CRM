@@ -12,6 +12,7 @@ interface Company {
   segment: string | null;
   logoUrl: string | null;
   brandColor: string | null;
+  googleReviewUrl: string | null;
 }
 
 export default function SettingsForm({
@@ -42,6 +43,7 @@ export default function SettingsForm({
     segment: company?.segment ?? "",
     logoUrl: company?.logoUrl ?? "",
     brandColor: company?.brandColor ?? "",
+    googleReviewUrl: company?.googleReviewUrl ?? "",
   });
   const [savingCompany, setSavingCompany] = useState(false);
   const [savedCompany, setSavedCompany] = useState(false);
@@ -246,6 +248,26 @@ export default function SettingsForm({
                 )}
               </div>
               <p className="text-[11px] text-slate-500 mt-1">Botão de aprovar e destaques do link de aprovação.</p>
+            </div>
+
+            <div>
+              <label className="text-slate-400 text-xs font-semibold uppercase tracking-wide block mb-1.5">
+                Link de avaliação no Google
+              </label>
+              <input
+                type="url"
+                value={companyForm.googleReviewUrl}
+                onChange={(e) => setCompanyForm({ ...companyForm, googleReviewUrl: e.target.value })}
+                placeholder="https://g.page/r/…/review"
+                className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+              />
+              {companyForm.googleReviewUrl.trim() && !/^https:\/\//i.test(companyForm.googleReviewUrl.trim()) && (
+                <p className="text-[11px] text-amber-400 mt-1">O link precisa começar com https://</p>
+              )}
+              <p className="text-[11px] text-slate-500 mt-1">
+                No Perfil da Empresa no Google, toque em “Pedir avaliações” e copie o link. Ele aparece pro cliente
+                depois que ele confirma que o chamado foi resolvido.
+              </p>
             </div>
 
             <button

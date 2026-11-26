@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { gradStroke, type GradientKey } from "@/components/IconGradients";
 import { syncStageStatus } from "@/lib/ticket-stage-sync";
+import { confirmState, untilText, CONFIRM_BUSINESS_DAYS } from "@/lib/ticket-confirm-view";
 
 /**
  * Marcador da linha do tempo por tipo de item (feed do chamado). Mesmo
@@ -154,6 +155,71 @@ interface Ticket {
   activities?: TicketActivity[];
   // Link público de acompanhamento (sem login). null = cliente não acompanha.
   publicToken?: string | null;
+  // Confirmação do cliente e nota do atendimento (lib/ticket-confirm).
+  confirmDueAt?: string | null;
+  confirmedAt?: string | null;
+  confirmedByName?: string | null;
+  autoClosedAt?: string | null;
+  rating?: number | null;
+  ratingComment?: string | null;
+  ratedByName?: string | null;
+}
+
+const fmtDiaHora = (iso: string | Date) =>
+  new Date(iso).toLocaleString("pt-BR", { weekday: "short", day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
+
+/**
+ * Rodapé do chamado concluído: se o cliente já confirmou, se ainda espera
+ * (e quando fecha sozinho) ou se fechou automático — e a nota que ele deu.
+ */
+function TicketCloseInfo({ ticket, status }: { ticket: Ticket; status: string }) {
+  const st = confirmState({
+    status,
+    confirmDueAt:    ticket.confirmDueAt ?? null,
+    confirmedAt:     ticket.confirmedAt ?? null,
+    confirmedByName: ticket.confirmedByName ?? null,
+    autoClosedAt:    ticket.autoClosedAt ?? null,
+  });
+  const rating = ticket.rating ?? 0;
+  return (
+    <div className="space-y-2 mb-3 text-left">
+      {st?.kind === "waiting" && (
+        <div className="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30">
+          <p className="text-amber-300 text-xs font-semibold">⏳ Aguardando o cliente confirmar</p>
+          <p className="text-slate-400 text-[11px] mt-0.5">
+            Se ele não responder, fecha sozinho {untilText(st.due)} ({fmtDiaHora(st.due)}) — {CONFIRM_BUSINESS_DAYS} dias úteis
+            depois de resolvido. Se ele escrever pelo link, o chamado reabre.
+          </p>
+        </div>
+      )}
+      {st?.kind === "confirmed" && (
+        <div className="p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/30">
+          <p className="text-emerald-300 text-xs font-semibold">✓ Confirmado pelo cliente: {st.by}</p>
+          <p className="text-slate-400 text-[11px] mt-0.5">{fmtDiaHora(st.at)}</p>
+        </div>
+      )}
+      {st?.kind === "auto" && (
+        <div className="p-3 rounded-lg bg-slate-500/10 border border-slate-500/30">
+          <p className="text-slate-300 text-xs font-semibold">Fechado automaticamente</p>
+          <p className="text-slate-400 text-[11px] mt-0.5">
+            O cliente não respondeu em {CONFIRM_BUSINESS_DAYS} dias úteis · {fmtDiaHora(st.at)}
+          </p>
+        </div>
+      )}
+      {rating > 0 && (
+        <div className="p-3 rounded-lg bg-[#0a0f1a] border border-[#1e2d45]">
+          <p className="text-xs font-semibold text-slate-300">
+            Avaliação do atendimento{" "}
+            <span className={rating <= 3 ? "text-amber-400" : "text-yellow-400"} aria-label={`${rating} de 5`}>
+              {"★".repeat(rating)}<span className="text-slate-600">{"★".repeat(5 - rating)}</span>
+            </span>
+            {ticket.ratedByName && <span className="text-slate-500 font-normal"> · {ticket.ratedByName}</span>}
+          </p>
+          {ticket.ratingComment && <p className="text-slate-400 text-[12px] mt-1 whitespace-pre-wrap">“{ticket.ratingComment}”</p>}
+        </div>
+      )}
+    </div>
+  );
 }
 
 // Editor inline usado pra editar corpo de mensagem (Solicitação Original,
@@ -566,6 +632,12 @@ export default function TicketDetail({
   // gerar/copiar/revogar. Reflete Ticket.publicToken em tempo real depois
   // de gerar sem esperar router.refresh() completar.
   const [publicToken, setPublicToken] = useState<string | null>(ticket.publicToken ?? null);
+  // Resolver cria o link sozinho (o cliente confirma por ele): acompanha o
+  // valor que volta do servidor depois do refresh.
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (ticket.publicToken) setPublicToken(ticket.publicToken);
+  }, [ticket.publicToken]);
   const [togglingShare, setTogglingShare] = useState(false);
   const [copiedShare, setCopiedShare] = useState(false);
 
@@ -1762,8 +1834,9 @@ export default function TicketDetail({
             </div>
           ) : (
             <div className="flex-shrink-0 px-6 pb-5 pt-3 border-t border-[#1e2d45] text-center">
+              <TicketCloseInfo ticket={ticket} status={status} />
               <p className="text-slate-500 text-sm mb-2">
-                Chamado encerrado.
+                {status === "RESOLVED" ? "Chamado resolvido." : "Chamado encerrado."}
               </p>
               <button
                 onClick={handleReopen}

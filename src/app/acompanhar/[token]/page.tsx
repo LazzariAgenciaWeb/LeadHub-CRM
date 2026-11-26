@@ -6,6 +6,7 @@ import { clientePendencias } from "@/lib/client-pendencias";
 import ClientePendencias, { PortalAcesso } from "@/components/ClientePendencias";
 import { SHELL_CSS, BrandBar, brandVars } from "@/components/ClientePublicShell";
 import ClienteResponder from "./ClienteResponder";
+import ClienteConfirmar from "./ClienteConfirmar";
 
 export const dynamic = "force-dynamic";
 
@@ -21,7 +22,7 @@ export const dynamic = "force-dynamic";
 const STATUS: Record<string, { label: string; tone: "info" | "warn" | "ok" | ""; hint: string }> = {
   OPEN:        { label: "Aberto",        tone: "info", hint: "Recebemos seu chamado e ele está na fila." },
   IN_PROGRESS: { label: "Em andamento",  tone: "warn", hint: "Nossa equipe está trabalhando nisso." },
-  RESOLVED:    { label: "Resolvido",     tone: "ok",   hint: "Concluímos o atendimento." },
+  RESOLVED:    { label: "Resolvido · aguardando sua confirmação", tone: "ok", hint: "Concluímos o atendimento. Confirme logo abaixo se ficou tudo certo." },
   CLOSED:      { label: "Encerrado",     tone: "",     hint: "Este chamado foi encerrado." },
 };
 
@@ -90,7 +91,9 @@ export default async function AcompanharChamado({ params }: { params: Promise<{ 
     select: {
       title: true, description: true, status: true, priority: true, createdAt: true, dueDate: true,
       // Agência dona do chamado: a tela veste a identidade dela.
-      company:       { select: { name: true, tradeName: true, logoUrl: true, brandColor: true } },
+      company:       { select: { name: true, tradeName: true, logoUrl: true, brandColor: true, googleReviewUrl: true } },
+      // Confirmação do cliente e nota do atendimento (lib/ticket-confirm).
+      confirmDueAt: true, confirmedByName: true, autoClosedAt: true, rating: true, ratingComment: true,
       clientCompany: { select: { name: true } },
       assignee:      { select: { name: true } },
       id: true, companyId: true, clientCompanyId: true,
@@ -172,6 +175,21 @@ export default async function AcompanharChamado({ params }: { params: Promise<{ 
         </div>
 
         <div className={`banner ${st.tone === "ok" ? "ok" : "info"}`}>{st.hint}</div>
+
+        {/* Resolvido: "ficou tudo certo?". Encerrado: nota + avaliar no Google. */}
+        <ClienteConfirmar
+          token={token}
+          status={ticket.status}
+          dueText={ticket.confirmDueAt
+            ? ticket.confirmDueAt.toLocaleDateString("pt-BR", { weekday: "long", day: "2-digit", month: "2-digit", timeZone: SYSTEM_TIMEZONE })
+            : null}
+          confirmedBy={ticket.confirmedByName}
+          autoClosed={!!ticket.autoClosedAt}
+          rating={ticket.rating}
+          ratingComment={ticket.ratingComment}
+          reviewUrl={ticket.company?.googleReviewUrl ?? null}
+          agencyName={brand.name}
+        />
 
         {ticketFiles.length > 0 && (
           <div className="card">
