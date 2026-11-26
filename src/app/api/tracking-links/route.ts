@@ -48,17 +48,32 @@ export async function POST(req: NextRequest) {
     campaignId, companyId, destination, label, destType, waMessage,
     ogTitle, ogDescription, ogImage,
     source, utmSource, utmMedium, utmCampaign, utmTerm,
+    // Negociação (lead/oportunidade) que já nasce vinculada ao link — atalho
+    // "Criar link" dentro do card do CRM.
+    leadId,
   } = body;
 
   if (!destination) {
     return NextResponse.json({ error: "destination é obrigatório" }, { status: 400 });
   }
-  if (!campaignId && !companyId) {
+
+  // Link criado a partir de uma negociação: a empresa vem do lead, e só vale
+  // lead da própria empresa (SUPER_ADMIN pode qualquer uma).
+  let lead: { id: string; companyId: string } | null = null;
+  if (leadId) {
+    lead = await prisma.lead.findUnique({ where: { id: String(leadId) }, select: { id: true, companyId: true } });
+    const user = session.user as any;
+    if (!lead || (user?.role !== "SUPER_ADMIN" && lead.companyId !== user?.companyId)) {
+      return NextResponse.json({ error: "Negociação não encontrada" }, { status: 404 });
+    }
+  }
+
+  if (!campaignId && !companyId && !lead) {
     return NextResponse.json({ error: "campaignId ou companyId são obrigatórios" }, { status: 400 });
   }
 
   // Resolve companyId a partir da campanha se necessário
-  let resolvedCompanyId = companyId;
+  let resolvedCompanyId = lead?.companyId ?? companyId;
   if (campaignId && !resolvedCompanyId) {
     const campaign = await prisma.campaign.findUnique({ where: { id: campaignId }, select: { companyId: true } });
     resolvedCompanyId = campaign?.companyId;
@@ -91,8 +106,12 @@ export async function POST(req: NextRequest) {
       ...(campaignId && { campaignId }),
       ...(resolvedCompanyId && { companyId: resolvedCompanyId }),
     },
-    include: { _count: { select: { leads: true } }, campaign: { select: { id: true, name: true } } },
+    include: { _count: { select: { leads: true, clickEvents: true } }, campaign: { select: { id: true, name: true } } },
   });
+
+  if (lead) {
+    await prisma.lead.update({ where: { id: lead.id }, data: { trackingLinkId: link.id } });
+  }
 
   // Auto-cria gatilho quando link é WhatsApp com mensagem pré-preenchida e tem campanha
   if (destType === "whatsapp" && waMessage?.trim() && campaignId && resolvedCompanyId) {

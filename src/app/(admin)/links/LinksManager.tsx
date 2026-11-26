@@ -41,7 +41,18 @@ interface TrackingLink {
   company: { id: string; name: string; slug: string } | null;
   _count: { leads: number; clickEvents: number };
   clickEvents: ClickEvent[];
+  // Negociações vinculadas (vem da página; link recém-criado chega sem).
+  leads?: LinkedDeal[];
 }
+
+interface LinkedDeal { id: string; name: string; pipeline: string | null; pipelineStage: string | null }
+
+// Card da negociação no CRM — cada pipeline tem sua página, todas abrem o card via ?lead=.
+function dealHref(d: LinkedDeal) {
+  const path = d.pipeline === "OPORTUNIDADES" ? "oportunidades" : d.pipeline === "PROSPECCAO" ? "prospeccao" : "leads";
+  return `/crm/${path}?lead=${d.id}`;
+}
+const PIPELINE_LABEL: Record<string, string> = { PROSPECCAO: "Prospecção", LEADS: "Lead", OPORTUNIDADES: "Oportunidade" };
 
 // Separa telefone e mensagem de um destino https://wa.me/<fone>?text=<msg>
 function parseWhatsapp(destination: string) {
@@ -247,7 +258,9 @@ export default function LinksManager({
 }) {
   const router = useRouter();
   const [links, setLinks] = useState(initialLinks);
-  const [filter, setFilter] = useState<"all" | "organic" | "campaign">("all");
+  const [filter, setFilter] = useState<"all" | "organic" | "campaign" | "crm">("all");
+  // Filtro "CRM": "" = qualquer negociação vinculada; id = só os links daquela.
+  const [dealFilter, setDealFilter] = useState("");
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState<string | null>(null);
   const [copied, setCopied] = useState<string | null>(null);
@@ -393,8 +406,17 @@ export default function LinksManager({
   const filtered = links.filter((l) => {
     if (filter === "organic") return !l.campaignId;
     if (filter === "campaign") return !!l.campaignId;
+    if (filter === "crm") {
+      const deals = l.leads ?? [];
+      return dealFilter ? deals.some((d) => d.id === dealFilter) : deals.length > 0;
+    }
     return true;
   });
+
+  // Negociações distintas com link — opções do select do filtro CRM.
+  const dealOptions = Array.from(
+    new Map(links.flatMap((l) => l.leads ?? []).map((d) => [d.id, d])).values(),
+  ).sort((a, b) => a.name.localeCompare(b.name));
 
   const filteredClicks = filtered.reduce((s, l) => s + l.clicks, 0);
   const filteredLeads = filtered.reduce((s, l) => s + l._count.leads, 0);
@@ -799,12 +821,21 @@ export default function LinksManager({
 
           {/* Filtros */}
           <div className="flex items-center gap-2 mb-4">
-            {([["all", "Todos"], ["organic", "🌱 Orgânico"], ["campaign", "📣 Campanha"]] as const).map(([val, label]) => (
-              <button key={val} onClick={() => setFilter(val)}
+            {([["all", "Todos"], ["organic", "🌱 Orgânico"], ["campaign", "📣 Campanha"], ["crm", "🤝 CRM"]] as const).map(([val, label]) => (
+              <button key={val} onClick={() => { setFilter(val); if (val !== "crm") setDealFilter(""); }}
                 className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${filter === val ? "bg-indigo-600 text-white" : "bg-[#0f1623] border border-[#1e2d45] text-slate-400 hover:text-white"}`}>
                 {label}
               </button>
             ))}
+            {filter === "crm" && (
+              <select value={dealFilter} onChange={(e) => setDealFilter(e.target.value)}
+                className="bg-[#0f1623] border border-[#1e2d45] rounded-lg px-2 py-1.5 text-xs text-slate-300 focus:outline-none focus:border-indigo-500 max-w-[240px]">
+                <option value="">Todas as negociações</option>
+                {dealOptions.map((d) => (
+                  <option key={d.id} value={d.id}>{d.name}{d.pipeline ? ` · ${PIPELINE_LABEL[d.pipeline] ?? d.pipeline}` : ""}</option>
+                ))}
+              </select>
+            )}
             {filter !== "all" && (
               <span className="text-slate-500 text-xs ml-2">{filteredClicks} cliques · {filteredLeads} leads</span>
             )}
@@ -848,6 +879,16 @@ export default function LinksManager({
                               : <span className="text-slate-700 text-[10px]" title="Sem origem: o utm_source cai no slug da empresa">↳ sem origem</span>}
                           {isSuperAdmin && link.company && (
                             <span className="text-slate-500 text-[10px]">{link.company.name}</span>
+                          )}
+                          {(link.leads ?? []).slice(0, 3).map((d) => (
+                            <a key={d.id} href={dealHref(d)}
+                              title={`Abrir negociação no CRM${d.pipelineStage ? ` — etapa: ${d.pipelineStage}` : ""}`}
+                              className="text-emerald-400 text-[10px] bg-emerald-500/10 border border-emerald-500/20 px-1.5 py-0.5 rounded font-medium hover:bg-emerald-500/20 transition-colors">
+                              🤝 {d.name}{d.pipeline ? ` · ${PIPELINE_LABEL[d.pipeline] ?? d.pipeline}` : ""} ↗
+                            </a>
+                          ))}
+                          {(link.leads?.length ?? 0) > 3 && (
+                            <span className="text-slate-500 text-[10px]">+{link.leads!.length - 3}</span>
                           )}
                         </div>
                         <div className="flex items-center gap-2 mb-1">

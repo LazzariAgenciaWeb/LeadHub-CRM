@@ -517,6 +517,12 @@ export default function CRMBoard({
   const [loadingTrackerLinks, setLoadingTrackerLinks] = useState(false);
   const [trackerSearch, setTrackerSearch] = useState("");
   const [savingTracker, setSavingTracker] = useState(false);
+  // Atalho "Criar link": cria o link rastreado (mesmo da tela Links) já
+  // vinculado a esta negociação.
+  const [showNewTracker, setShowNewTracker] = useState(false);
+  const [newTracker, setNewTracker] = useState({ label: "", destType: "url" as "url" | "whatsapp", destination: "", waPhone: "", waMessage: "" });
+  const [creatingTracker, setCreatingTracker] = useState(false);
+  const [newTrackerError, setNewTrackerError] = useState("");
 
   // Prospecção Automática (iframe externo)
   const [showAutoProspect, setShowAutoProspect] = useState(false);
@@ -1014,6 +1020,8 @@ export default function CRMBoard({
     setShowLinkTracker(false);
     setTrackerLinks([]);
     setTrackerSearch("");
+    setShowNewTracker(false);
+    setNewTrackerError("");
     setConfirmDelete(false);
     setShowLinkConv(false);
     setEditingClickup(false);
@@ -1388,6 +1396,62 @@ export default function CRMBoard({
       setShowLinkTracker(false);
     }
     setSavingTracker(false);
+  }
+
+  function openNewTracker() {
+    if (!selected) return;
+    setShowLinkTracker(false);
+    setNewTrackerError("");
+    setNewTracker({ label: selected.name ?? "", destType: "url", destination: "", waPhone: "", waMessage: "" });
+    setShowNewTracker(true);
+  }
+
+  async function handleCreateTracker() {
+    if (!selected) return;
+    const t = newTracker;
+    let destination = t.destination.trim();
+    if (t.destType === "whatsapp") {
+      const phone = t.waPhone.replace(/\D/g, "");
+      if (!phone) { setNewTrackerError("Informe o número do WhatsApp."); return; }
+      destination = `https://wa.me/${phone}?text=${encodeURIComponent(t.waMessage)}`;
+    } else {
+      if (!destination) { setNewTrackerError("Informe a URL de destino."); return; }
+      if (!/^https?:\/\//i.test(destination)) destination = `https://${destination}`;
+    }
+    setCreatingTracker(true);
+    setNewTrackerError("");
+    try {
+      const res = await fetch("/api/tracking-links", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          leadId: selected.id,
+          destination,
+          destType: t.destType,
+          label: t.label.trim() || null,
+          waMessage: t.destType === "whatsapp" ? t.waMessage : undefined,
+        }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        setNewTrackerError(err.error ?? "Não foi possível criar o link.");
+        return;
+      }
+      const link = await res.json();
+      const newLink = {
+        id: link.id, code: link.code, label: link.label, clicks: link.clicks ?? 0,
+        destination: link.destination, isActive: link.isActive ?? true,
+        _count: { clickEvents: link._count?.clickEvents ?? 0 },
+      } as NonNullable<CRMLead["trackingLink"]>;
+      setSelected({ ...selected, trackingLinkId: link.id, trackingLink: newLink });
+      setLeads((prev) => prev.map((l) => l.id === selected.id ? { ...l, trackingLinkId: link.id, trackingLink: newLink } : l));
+      if (trackerLinks.length > 0) setTrackerLinks((prev) => [newLink, ...prev]);
+      setShowNewTracker(false);
+    } catch {
+      setNewTrackerError("Não foi possível criar o link.");
+    } finally {
+      setCreatingTracker(false);
+    }
   }
 
   async function handleSaveClickup(e: React.FormEvent) {
@@ -3370,12 +3434,12 @@ export default function CRMBoard({
                               <Link2 className="w-3 h-3" stroke={gradStroke("links")} strokeWidth={2.5} />
                               Link de rastreamento
                             </div>
-                            {selected.trackingLink && !showLinkTracker && (
+                            {selected.trackingLink && !showLinkTracker && !showNewTracker && (
                               <button onClick={() => { setShowLinkTracker(true); loadTrackerLinks(); }} className="text-slate-600 hover:text-slate-400 text-[10px]">Trocar</button>
                             )}
                           </div>
 
-                          {selected.trackingLink && !showLinkTracker ? (
+                          {selected.trackingLink && !showLinkTracker && !showNewTracker ? (
                             <div className="space-y-2">
                               <div className="flex items-center gap-2 flex-wrap">
                                 <a href={`/r/${selected.trackingLink.code}`} target="_blank" rel="noopener noreferrer"
@@ -3440,12 +3504,57 @@ export default function CRMBoard({
                                 </button>
                               </div>
                             </div>
-                          ) : !showLinkTracker ? (
-                            <button onClick={() => { setShowLinkTracker(true); loadTrackerLinks(); }}
-                              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#161f30] border border-dashed border-[#2a3d5a] text-slate-500 hover:text-slate-300 hover:border-[#3a5070] text-xs transition-colors">
-                              + Vincular link
-                            </button>
+                          ) : !showLinkTracker && !showNewTracker ? (
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <button onClick={() => { setShowLinkTracker(true); loadTrackerLinks(); }}
+                                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#161f30] border border-dashed border-[#2a3d5a] text-slate-500 hover:text-slate-300 hover:border-[#3a5070] text-xs transition-colors">
+                                + Vincular link
+                              </button>
+                              <button onClick={openNewTracker}
+                                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 hover:bg-indigo-500/20 text-xs transition-colors">
+                                ✨ Criar link
+                              </button>
+                            </div>
                           ) : null}
+
+                          {showNewTracker && (
+                            <div className="space-y-2 mt-2 bg-[#0f1623] border border-[#1e2d45] rounded-lg p-3">
+                              <div className="text-slate-400 text-[11px]">Novo link rastreado, já vinculado a esta negociação. Aparece em <a href="/links" className="text-indigo-400 hover:underline">Links</a> no filtro CRM.</div>
+                              <input autoFocus type="text" value={newTracker.label} onChange={(e) => setNewTracker({ ...newTracker, label: e.target.value })}
+                                placeholder="Nome do link (ex.: Proposta Fulano)"
+                                className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500" />
+                              <div className="flex gap-1">
+                                {([["url", "🌐 URL"], ["whatsapp", "💬 WhatsApp"]] as const).map(([val, lbl]) => (
+                                  <button key={val} type="button" onClick={() => setNewTracker({ ...newTracker, destType: val })}
+                                    className={`flex-1 py-1 rounded-md text-[11px] font-medium transition-colors ${newTracker.destType === val ? "bg-indigo-600 text-white" : "bg-[#0a0f1a] border border-[#1e2d45] text-slate-400 hover:text-white"}`}>
+                                    {lbl}
+                                  </button>
+                                ))}
+                              </div>
+                              {newTracker.destType === "url" ? (
+                                <input type="text" value={newTracker.destination} onChange={(e) => setNewTracker({ ...newTracker, destination: e.target.value })}
+                                  placeholder="https://... (proposta, página, PDF)"
+                                  className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500" />
+                              ) : (
+                                <>
+                                  <input type="text" value={newTracker.waPhone} onChange={(e) => setNewTracker({ ...newTracker, waPhone: e.target.value })}
+                                    placeholder="WhatsApp de destino (ex.: 5511999999999)"
+                                    className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500" />
+                                  <textarea value={newTracker.waMessage} onChange={(e) => setNewTracker({ ...newTracker, waMessage: e.target.value })}
+                                    placeholder="Mensagem pré-preenchida (opcional)" rows={2}
+                                    className="w-full bg-[#0a0f1a] border border-[#1e2d45] rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 resize-none" />
+                                </>
+                              )}
+                              {newTrackerError && <p className="text-red-400 text-[10px]">{newTrackerError}</p>}
+                              <div className="flex items-center gap-2">
+                                <button onClick={handleCreateTracker} disabled={creatingTracker}
+                                  className="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium transition-colors disabled:opacity-50">
+                                  {creatingTracker ? "Criando..." : "Criar e vincular"}
+                                </button>
+                                <button onClick={() => setShowNewTracker(false)} className="text-slate-500 text-xs hover:text-white transition-colors">Cancelar</button>
+                              </div>
+                            </div>
+                          )}
 
                           {showLinkTracker && (
                             <div className="space-y-2 mt-2 bg-[#0f1623] border border-[#1e2d45] rounded-lg p-3">
@@ -3478,7 +3587,10 @@ export default function CRMBoard({
                                   )}
                                 </div>
                               )}
-                              <button onClick={() => setShowLinkTracker(false)} className="text-slate-500 text-xs hover:text-white transition-colors">Cancelar</button>
+                              <div className="flex items-center justify-between gap-2">
+                                <button onClick={() => setShowLinkTracker(false)} className="text-slate-500 text-xs hover:text-white transition-colors">Cancelar</button>
+                                <button onClick={openNewTracker} className="text-indigo-400 text-xs hover:text-indigo-300 transition-colors">✨ Criar novo link</button>
+                              </div>
                             </div>
                           )}
                         </div>

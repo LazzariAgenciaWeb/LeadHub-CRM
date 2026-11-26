@@ -22,6 +22,14 @@ export default async function LinksPage() {
       campaign: { select: { id: true, name: true, slug: true, source: true } },
       company: { select: { id: true, name: true, slug: true } },
       clickEvents: { orderBy: { createdAt: "desc" }, take: 50, select: { id: true, targetUrl: true, targetLabel: true, createdAt: true } },
+      // Negociações (lead/oportunidade) vinculadas — viram o filtro "CRM" e o
+      // atalho pro card. Lead interno só aparece pro SUPER_ADMIN.
+      leads: {
+        where: isSuperAdmin ? {} : { isInternal: false },
+        orderBy: { updatedAt: "desc" },
+        take: 10,
+        select: { id: true, name: true, pipeline: true, pipelineStage: true },
+      },
     },
   });
 
