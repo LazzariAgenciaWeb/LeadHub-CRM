@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { randomBytes } from "crypto";
 import { getEffectiveSession } from "@/lib/effective-session";
 import { prisma } from "@/lib/prisma";
-import { getClickupSettings, syncTicketToClickup, recreateTicketTaskInList } from "@/lib/clickup";
+import { getClickupSettings, syncTicketToClickup, recreateTicketTaskInList, updateClickupTask } from "@/lib/clickup";
 import { addScore, addScoreOnce, revertScore } from "@/lib/gamification";
 import { ActivityType, type TicketStatus } from "@/generated/prisma";
 import { formatBrazilDateTime } from "@/lib/datetime";
@@ -88,7 +88,7 @@ export async function PATCH(
   const body = await req.json();
   const {
     status: statusIn, priority, category, title, clickupTaskId, ticketStage: ticketStageIn, companyId,
-    dueDate, assigneeId, setorId, clientCompanyId, projetoId,
+    dueDate, assigneeId, setorId, clientCompanyId, projetoId, etapaId,
     visibility, accessUserIds, phone,
     // sharePublic: "on" gera novo publicToken se não existir; "off" remove.
     // Passado só quando o atendente clica em gerar/revogar o link na UI.
@@ -107,7 +107,7 @@ export async function PATCH(
       clickupTaskId: true, type: true, status: true,
       priority: true, ticketStage: true, title: true, phone: true,
       assigneeId: true, setorId: true, clientCompanyId: true,
-      dueDate: true, companyId: true, createdAt: true, projetoId: true,
+      dueDate: true, companyId: true, createdAt: true, projetoId: true, etapaId: true,
       description: true, visibility: true, createdById: true,
       publicToken: true,
       assignee:      { select: { id: true, name: true } },
@@ -175,6 +175,29 @@ export async function PATCH(
       }
     : leavingResolved ? { confirmDueAt: null } : {};
 
+  // Etapa do projeto: só vale se for do projeto final do chamado. Trocar de
+  // projeto limpa a etapa (a não ser que venha uma etapa válida junto).
+  const finalProjetoId = projetoId !== undefined ? (projetoId ?? null) : existing.projetoId;
+  let nextEtapaId: string | null | undefined = undefined;
+  let etapaClickupTaskId: string | null = null;
+  if (etapaId !== undefined) {
+    nextEtapaId = null;
+    if (etapaId && finalProjetoId) {
+      const e = await prisma.projectService.findUnique({
+        where:  { id: etapaId },
+        select: { id: true, projectId: true, clickupTaskId: true },
+      });
+      if (!e || e.projectId !== finalProjetoId) {
+        return NextResponse.json({ error: "Etapa não pertence ao projeto do chamado" }, { status: 400 });
+      }
+      nextEtapaId = e.id;
+      etapaClickupTaskId = e.clickupTaskId;
+    }
+  } else if (projetoId !== undefined && (projetoId ?? null) !== (existing.projetoId ?? null)) {
+    nextEtapaId = null;
+  }
+  const etapaChanged = nextEtapaId !== undefined && nextEtapaId !== (existing.etapaId ?? null);
+
   const ticket = await prisma.ticket.update({
     where: { id },
     data: {
@@ -188,6 +211,7 @@ export async function PATCH(
       ...(setorId !== undefined && { setorId: setorId ?? null }),
       ...(clientCompanyId !== undefined && { clientCompanyId: clientCompanyId ?? null }),
       ...(projetoId !== undefined && { projetoId: projetoId ?? null }),
+      ...(nextEtapaId !== undefined && { etapaId: nextEtapaId }),
       ...(phone !== undefined && { phone: phone ? String(phone) : null }),
       ...(visibility !== undefined && { visibility: visibility === "RESTRICTED" ? "RESTRICTED" : "OPEN" }),
       // sharePublic true → gera token se não tem (mantém o atual se já existe);
@@ -385,6 +409,23 @@ export async function PATCH(
             description: `Chamado #${id.slice(-6)} movido para o projeto`,
           },
         }).catch(() => {});
+      }
+    }
+  }
+
+  // ── Etapa → subtarefa da tarefa-mãe da etapa no ClickUp ─────────────────
+  // Best-effort: o vínculo no GoHub vale mesmo se o ClickUp recusar. Tirar a
+  // etapa não desfaz a subtarefa (o ClickUp não converte subtarefa em tarefa).
+  if (etapaChanged && nextEtapaId && etapaClickupTaskId) {
+    const taskId = ticket.clickupTaskId ?? existing.clickupTaskId ?? null;
+    if (taskId && taskId !== etapaClickupTaskId) {
+      const clickupSettings = await getClickupSettings(existing.companyId);
+      if (clickupSettings) {
+        await updateClickupTask({
+          apiToken: clickupSettings.apiToken,
+          taskId,
+          parent:   etapaClickupTaskId,
+        }).catch(() => false);
       }
     }
   }

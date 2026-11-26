@@ -133,7 +133,15 @@ export default async function TicketPage({
     }),
     prisma.setorClickupList.findMany({
       where: { setor: { companyId: lookupCompanyId } },
-      select: { id: true, name: true },
+      select: {
+        id: true, name: true,
+        // Etapas ativas — o chamado pode entrar numa delas.
+        serviceSteps: {
+          where:   { completedAt: null },
+          select:  { id: true, name: true, order: true, service: { select: { name: true } } },
+          orderBy: { order: "asc" },
+        },
+      },
       orderBy: { name: "asc" },
     }),
   ]);

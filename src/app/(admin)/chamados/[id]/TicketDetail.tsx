@@ -142,6 +142,7 @@ interface Ticket {
   setorId?: string | null;
   clientCompanyId?: string | null;
   projetoId?: string | null;
+  etapaId?: string | null;
   visibility?: string | null;
   accessUsers?: { userId: string }[];
   assignee?: { id: string; name: string } | null;
@@ -314,7 +315,7 @@ export default function TicketDetail({
   users?: { id: string; name: string | null; email: string | null }[];
   setores?: { id: string; name: string }[];
   clientCompanies?: { id: string; name: string }[];
-  projetos?: { id: string; name: string }[];
+  projetos?: { id: string; name: string; serviceSteps?: { id: string; name: string | null; order: number; service: { name: string } | null }[] }[];
   whatsappEnabled?: boolean;
   // MinIO configurado → 📎 aceita qualquer arquivo (não só imagem em base64).
   storageEnabled?: boolean;
@@ -513,6 +514,7 @@ export default function TicketDetail({
   const [clientId, setClientId] = useState<string | null>(ticket.clientCompanyId ?? ticket.clientCompany?.id ?? null);
   const [clientName, setClientName] = useState<string | null>(ticket.clientCompany?.name ?? null);
   const [projetoId, setProjetoId] = useState<string | null>(ticket.projetoId ?? ticket.projeto?.id ?? null);
+  const [etapaId, setEtapaId] = useState<string | null>(ticket.etapaId ?? null);
   const [dueDate, setDueDate] = useState<string | null>(ticket.dueDate ?? null);
   const [title, setTitle] = useState(ticket.title);
   const [editingTitle, setEditingTitle] = useState(false);
@@ -588,8 +590,14 @@ export default function TicketDetail({
     await patchTicket({ clientCompanyId: newId });
   }
 
+  async function handleEtapaChange(newId: string | null) {
+    setEtapaId(newId);
+    await patchTicket({ etapaId: newId });
+  }
+
   async function handleProjetoChange(newId: string | null) {
     setProjetoId(newId);
+    setEtapaId(null); // trocar de projeto limpa a etapa (o servidor faz o mesmo)
     // Mover de lista no ClickUp pode demorar (recria a task); o refresh no
     // patchTicket reflete o novo vínculo.
     await patchTicket({ projetoId: newId });
@@ -2071,8 +2079,36 @@ export default function TicketDetail({
                   <option key={p.id} value={p.id}>{p.name}</option>
                 ))}
               </select>
+              {(() => {
+                const etapas = (projetos ?? []).find((p) => p.id === projetoId)?.serviceSteps ?? [];
+                // Etapa já vinculada mas concluída não está na lista de ativas: mostra mesmo assim.
+                if (!projetoId || (etapas.length === 0 && !etapaId)) return null;
+                return (
+                  <>
+                    <div className="text-[10px] text-slate-500 uppercase tracking-wide mt-2.5 mb-1.5">
+                      🧩 Etapa
+                    </div>
+                    <select
+                      value={etapaId ?? ""}
+                      onChange={(e) => handleEtapaChange(e.target.value || null)}
+                      disabled={savingMeta}
+                      className="w-full bg-[#161f30] border border-[#1e2d45] rounded-lg px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-violet-500"
+                    >
+                      <option value="">— Sem etapa —</option>
+                      {etapaId && !etapas.some((et) => et.id === etapaId) && (
+                        <option value={etapaId}>Etapa concluída</option>
+                      )}
+                      {etapas.map((et) => (
+                        <option key={et.id} value={et.id}>
+                          {et.name || et.service?.name || `Etapa ${et.order + 1}`}
+                        </option>
+                      ))}
+                    </select>
+                  </>
+                );
+              })()}
               <p className="text-[10px] text-slate-600 mt-1">
-                Vincular a um projeto com ClickUp move a tarefa pra lista do projeto.
+                Vincular a um projeto com ClickUp move a tarefa pra lista do projeto; a etapa a coloca como subtarefa da etapa.
               </p>
             </div>
           )}
