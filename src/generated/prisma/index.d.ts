@@ -82479,6 +82479,8 @@ export namespace Prisma {
     tokenEnc: string | null
     publishDir: string | null
     siteUrl: string | null
+    clientCanManageEmail: boolean | null
+    clientCanCreateEmail: boolean | null
     status: $Enums.IntegrationStatus | null
     lastTestedAt: Date | null
     lastError: string | null
@@ -82497,6 +82499,8 @@ export namespace Prisma {
     tokenEnc: string | null
     publishDir: string | null
     siteUrl: string | null
+    clientCanManageEmail: boolean | null
+    clientCanCreateEmail: boolean | null
     status: $Enums.IntegrationStatus | null
     lastTestedAt: Date | null
     lastError: string | null
@@ -82515,6 +82519,8 @@ export namespace Prisma {
     tokenEnc: number
     publishDir: number
     siteUrl: number
+    clientCanManageEmail: number
+    clientCanCreateEmail: number
     status: number
     lastTestedAt: number
     lastError: number
@@ -82543,6 +82549,8 @@ export namespace Prisma {
     tokenEnc?: true
     publishDir?: true
     siteUrl?: true
+    clientCanManageEmail?: true
+    clientCanCreateEmail?: true
     status?: true
     lastTestedAt?: true
     lastError?: true
@@ -82561,6 +82569,8 @@ export namespace Prisma {
     tokenEnc?: true
     publishDir?: true
     siteUrl?: true
+    clientCanManageEmail?: true
+    clientCanCreateEmail?: true
     status?: true
     lastTestedAt?: true
     lastError?: true
@@ -82579,6 +82589,8 @@ export namespace Prisma {
     tokenEnc?: true
     publishDir?: true
     siteUrl?: true
+    clientCanManageEmail?: true
+    clientCanCreateEmail?: true
     status?: true
     lastTestedAt?: true
     lastError?: true
@@ -82684,6 +82696,8 @@ export namespace Prisma {
     tokenEnc: string
     publishDir: string
     siteUrl: string | null
+    clientCanManageEmail: boolean
+    clientCanCreateEmail: boolean
     status: $Enums.IntegrationStatus
     lastTestedAt: Date | null
     lastError: string | null
@@ -82721,6 +82735,8 @@ export namespace Prisma {
     tokenEnc?: boolean
     publishDir?: boolean
     siteUrl?: boolean
+    clientCanManageEmail?: boolean
+    clientCanCreateEmail?: boolean
     status?: boolean
     lastTestedAt?: boolean
     lastError?: boolean
@@ -82740,6 +82756,8 @@ export namespace Prisma {
     tokenEnc?: boolean
     publishDir?: boolean
     siteUrl?: boolean
+    clientCanManageEmail?: boolean
+    clientCanCreateEmail?: boolean
     status?: boolean
     lastTestedAt?: boolean
     lastError?: boolean
@@ -82759,6 +82777,8 @@ export namespace Prisma {
     tokenEnc?: boolean
     publishDir?: boolean
     siteUrl?: boolean
+    clientCanManageEmail?: boolean
+    clientCanCreateEmail?: boolean
     status?: boolean
     lastTestedAt?: boolean
     lastError?: boolean
@@ -82789,6 +82809,8 @@ export namespace Prisma {
       tokenEnc: string
       publishDir: string
       siteUrl: string | null
+      clientCanManageEmail: boolean
+      clientCanCreateEmail: boolean
       status: $Enums.IntegrationStatus
       lastTestedAt: Date | null
       lastError: string | null
@@ -83198,6 +83220,8 @@ export namespace Prisma {
     readonly tokenEnc: FieldRef<"CpanelIntegration", 'String'>
     readonly publishDir: FieldRef<"CpanelIntegration", 'String'>
     readonly siteUrl: FieldRef<"CpanelIntegration", 'String'>
+    readonly clientCanManageEmail: FieldRef<"CpanelIntegration", 'Boolean'>
+    readonly clientCanCreateEmail: FieldRef<"CpanelIntegration", 'Boolean'>
     readonly status: FieldRef<"CpanelIntegration", 'IntegrationStatus'>
     readonly lastTestedAt: FieldRef<"CpanelIntegration", 'DateTime'>
     readonly lastError: FieldRef<"CpanelIntegration", 'String'>
@@ -181790,6 +181814,8 @@ export namespace Prisma {
     tokenEnc: 'tokenEnc',
     publishDir: 'publishDir',
     siteUrl: 'siteUrl',
+    clientCanManageEmail: 'clientCanManageEmail',
+    clientCanCreateEmail: 'clientCanCreateEmail',
     status: 'status',
     lastTestedAt: 'lastTestedAt',
     lastError: 'lastError',
@@ -190795,6 +190821,8 @@ export namespace Prisma {
     tokenEnc?: StringFilter<"CpanelIntegration"> | string
     publishDir?: StringFilter<"CpanelIntegration"> | string
     siteUrl?: StringNullableFilter<"CpanelIntegration"> | string | null
+    clientCanManageEmail?: BoolFilter<"CpanelIntegration"> | boolean
+    clientCanCreateEmail?: BoolFilter<"CpanelIntegration"> | boolean
     status?: EnumIntegrationStatusFilter<"CpanelIntegration"> | $Enums.IntegrationStatus
     lastTestedAt?: DateTimeNullableFilter<"CpanelIntegration"> | Date | string | null
     lastError?: StringNullableFilter<"CpanelIntegration"> | string | null
@@ -190814,6 +190842,8 @@ export namespace Prisma {
     tokenEnc?: SortOrder
     publishDir?: SortOrder
     siteUrl?: SortOrderInput | SortOrder
+    clientCanManageEmail?: SortOrder
+    clientCanCreateEmail?: SortOrder
     status?: SortOrder
     lastTestedAt?: SortOrderInput | SortOrder
     lastError?: SortOrderInput | SortOrder
@@ -190836,6 +190866,8 @@ export namespace Prisma {
     tokenEnc?: StringFilter<"CpanelIntegration"> | string
     publishDir?: StringFilter<"CpanelIntegration"> | string
     siteUrl?: StringNullableFilter<"CpanelIntegration"> | string | null
+    clientCanManageEmail?: BoolFilter<"CpanelIntegration"> | boolean
+    clientCanCreateEmail?: BoolFilter<"CpanelIntegration"> | boolean
     status?: EnumIntegrationStatusFilter<"CpanelIntegration"> | $Enums.IntegrationStatus
     lastTestedAt?: DateTimeNullableFilter<"CpanelIntegration"> | Date | string | null
     lastError?: StringNullableFilter<"CpanelIntegration"> | string | null
@@ -190855,6 +190887,8 @@ export namespace Prisma {
     tokenEnc?: SortOrder
     publishDir?: SortOrder
     siteUrl?: SortOrderInput | SortOrder
+    clientCanManageEmail?: SortOrder
+    clientCanCreateEmail?: SortOrder
     status?: SortOrder
     lastTestedAt?: SortOrderInput | SortOrder
     lastError?: SortOrderInput | SortOrder
@@ -190881,6 +190915,8 @@ export namespace Prisma {
     tokenEnc?: StringWithAggregatesFilter<"CpanelIntegration"> | string
     publishDir?: StringWithAggregatesFilter<"CpanelIntegration"> | string
     siteUrl?: StringNullableWithAggregatesFilter<"CpanelIntegration"> | string | null
+    clientCanManageEmail?: BoolWithAggregatesFilter<"CpanelIntegration"> | boolean
+    clientCanCreateEmail?: BoolWithAggregatesFilter<"CpanelIntegration"> | boolean
     status?: EnumIntegrationStatusWithAggregatesFilter<"CpanelIntegration"> | $Enums.IntegrationStatus
     lastTestedAt?: DateTimeNullableWithAggregatesFilter<"CpanelIntegration"> | Date | string | null
     lastError?: StringNullableWithAggregatesFilter<"CpanelIntegration"> | string | null
@@ -207044,6 +207080,8 @@ export namespace Prisma {
     tokenEnc: string
     publishDir?: string
     siteUrl?: string | null
+    clientCanManageEmail?: boolean
+    clientCanCreateEmail?: boolean
     status?: $Enums.IntegrationStatus
     lastTestedAt?: Date | string | null
     lastError?: string | null
@@ -207063,6 +207101,8 @@ export namespace Prisma {
     tokenEnc: string
     publishDir?: string
     siteUrl?: string | null
+    clientCanManageEmail?: boolean
+    clientCanCreateEmail?: boolean
     status?: $Enums.IntegrationStatus
     lastTestedAt?: Date | string | null
     lastError?: string | null
@@ -207080,6 +207120,8 @@ export namespace Prisma {
     tokenEnc?: StringFieldUpdateOperationsInput | string
     publishDir?: StringFieldUpdateOperationsInput | string
     siteUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientCanManageEmail?: BoolFieldUpdateOperationsInput | boolean
+    clientCanCreateEmail?: BoolFieldUpdateOperationsInput | boolean
     status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
     lastTestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastError?: NullableStringFieldUpdateOperationsInput | string | null
@@ -207099,6 +207141,8 @@ export namespace Prisma {
     tokenEnc?: StringFieldUpdateOperationsInput | string
     publishDir?: StringFieldUpdateOperationsInput | string
     siteUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientCanManageEmail?: BoolFieldUpdateOperationsInput | boolean
+    clientCanCreateEmail?: BoolFieldUpdateOperationsInput | boolean
     status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
     lastTestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastError?: NullableStringFieldUpdateOperationsInput | string | null
@@ -207117,6 +207161,8 @@ export namespace Prisma {
     tokenEnc: string
     publishDir?: string
     siteUrl?: string | null
+    clientCanManageEmail?: boolean
+    clientCanCreateEmail?: boolean
     status?: $Enums.IntegrationStatus
     lastTestedAt?: Date | string | null
     lastError?: string | null
@@ -207134,6 +207180,8 @@ export namespace Prisma {
     tokenEnc?: StringFieldUpdateOperationsInput | string
     publishDir?: StringFieldUpdateOperationsInput | string
     siteUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientCanManageEmail?: BoolFieldUpdateOperationsInput | boolean
+    clientCanCreateEmail?: BoolFieldUpdateOperationsInput | boolean
     status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
     lastTestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastError?: NullableStringFieldUpdateOperationsInput | string | null
@@ -207152,6 +207200,8 @@ export namespace Prisma {
     tokenEnc?: StringFieldUpdateOperationsInput | string
     publishDir?: StringFieldUpdateOperationsInput | string
     siteUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientCanManageEmail?: BoolFieldUpdateOperationsInput | boolean
+    clientCanCreateEmail?: BoolFieldUpdateOperationsInput | boolean
     status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
     lastTestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastError?: NullableStringFieldUpdateOperationsInput | string | null
@@ -222511,6 +222561,8 @@ export namespace Prisma {
     tokenEnc?: SortOrder
     publishDir?: SortOrder
     siteUrl?: SortOrder
+    clientCanManageEmail?: SortOrder
+    clientCanCreateEmail?: SortOrder
     status?: SortOrder
     lastTestedAt?: SortOrder
     lastError?: SortOrder
@@ -222533,6 +222585,8 @@ export namespace Prisma {
     tokenEnc?: SortOrder
     publishDir?: SortOrder
     siteUrl?: SortOrder
+    clientCanManageEmail?: SortOrder
+    clientCanCreateEmail?: SortOrder
     status?: SortOrder
     lastTestedAt?: SortOrder
     lastError?: SortOrder
@@ -222551,6 +222605,8 @@ export namespace Prisma {
     tokenEnc?: SortOrder
     publishDir?: SortOrder
     siteUrl?: SortOrder
+    clientCanManageEmail?: SortOrder
+    clientCanCreateEmail?: SortOrder
     status?: SortOrder
     lastTestedAt?: SortOrder
     lastError?: SortOrder
@@ -255612,6 +255668,8 @@ export namespace Prisma {
     tokenEnc: string
     publishDir?: string
     siteUrl?: string | null
+    clientCanManageEmail?: boolean
+    clientCanCreateEmail?: boolean
     status?: $Enums.IntegrationStatus
     lastTestedAt?: Date | string | null
     lastError?: string | null
@@ -255629,6 +255687,8 @@ export namespace Prisma {
     tokenEnc: string
     publishDir?: string
     siteUrl?: string | null
+    clientCanManageEmail?: boolean
+    clientCanCreateEmail?: boolean
     status?: $Enums.IntegrationStatus
     lastTestedAt?: Date | string | null
     lastError?: string | null
@@ -259126,6 +259186,8 @@ export namespace Prisma {
     tokenEnc?: StringFieldUpdateOperationsInput | string
     publishDir?: StringFieldUpdateOperationsInput | string
     siteUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientCanManageEmail?: BoolFieldUpdateOperationsInput | boolean
+    clientCanCreateEmail?: BoolFieldUpdateOperationsInput | boolean
     status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
     lastTestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastError?: NullableStringFieldUpdateOperationsInput | string | null
@@ -259143,6 +259205,8 @@ export namespace Prisma {
     tokenEnc?: StringFieldUpdateOperationsInput | string
     publishDir?: StringFieldUpdateOperationsInput | string
     siteUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clientCanManageEmail?: BoolFieldUpdateOperationsInput | boolean
+    clientCanCreateEmail?: BoolFieldUpdateOperationsInput | boolean
     status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
     lastTestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastError?: NullableStringFieldUpdateOperationsInput | string | null

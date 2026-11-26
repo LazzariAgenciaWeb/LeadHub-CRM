@@ -771,7 +771,7 @@ export default function CompanyDetailTabs({
         {activeTab === "integracoes" && (
           <>
             <CompanyIntegrations companyId={companyId} />
-            <CompanyCpanelIntegration companyId={companyId} />
+            <CompanyCpanelIntegration companyId={companyId} clientPortal={isClientCompany} />
           </>
         )}
 

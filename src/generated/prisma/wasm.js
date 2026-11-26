@@ -1058,6 +1058,8 @@ exports.Prisma.CpanelIntegrationScalarFieldEnum = {
   tokenEnc: 'tokenEnc',
   publishDir: 'publishDir',
   siteUrl: 'siteUrl',
+  clientCanManageEmail: 'clientCanManageEmail',
+  clientCanCreateEmail: 'clientCanCreateEmail',
   status: 'status',
   lastTestedAt: 'lastTestedAt',
   lastError: 'lastError',

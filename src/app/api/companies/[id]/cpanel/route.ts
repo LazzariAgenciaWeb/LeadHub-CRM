@@ -21,6 +21,7 @@ async function authorize(companyId: string) {
 const PUBLIC_SELECT = {
   host: true, port: true, username: true, publishDir: true, siteUrl: true,
   status: true, lastTestedAt: true, lastError: true, updatedAt: true, updatedByName: true,
+  clientCanManageEmail: true, clientCanCreateEmail: true,
   // tokenEnc NUNCA é retornado
 } as const;
 
@@ -83,6 +84,31 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
   const test = await testCpanelConnection(companyId);
   const cfg = await prisma.cpanelIntegration.findUnique({ where: { companyId }, select: PUBLIC_SELECT });
   return NextResponse.json({ ok: true, config: cfg, test });
+}
+
+// PATCH /api/companies/[id]/cpanel → o que o cliente pode fazer no Meu Espaço.
+// body: { clientCanManageEmail?, clientCanCreateEmail? }
+// Criar caixa exige o "ver e trocar senha" ligado — desligar este desliga o outro.
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id: companyId } = await params;
+  const a = await authorize(companyId);
+  if (!a.ok) return a.res;
+
+  const body = await req.json().catch(() => ({}));
+  const existing = await prisma.cpanelIntegration.findUnique({ where: { companyId } });
+  if (!existing) return NextResponse.json({ error: "cPanel não configurado para este cliente." }, { status: 404 });
+
+  let manage = typeof body.clientCanManageEmail === "boolean" ? body.clientCanManageEmail : existing.clientCanManageEmail;
+  let create = typeof body.clientCanCreateEmail === "boolean" ? body.clientCanCreateEmail : existing.clientCanCreateEmail;
+  if (create && body.clientCanCreateEmail === true) manage = true;
+  if (!manage) create = false;
+
+  const cfg = await prisma.cpanelIntegration.update({
+    where: { companyId },
+    data: { clientCanManageEmail: manage, clientCanCreateEmail: create, updatedByName: a.auth.userName },
+    select: PUBLIC_SELECT,
+  });
+  return NextResponse.json({ ok: true, config: cfg });
 }
 
 // DELETE /api/companies/[id]/cpanel → remove a integração (apaga o token do banco)

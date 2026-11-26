@@ -15,6 +15,8 @@ interface CpanelConfig {
   lastError: string | null;
   updatedAt: string;
   updatedByName: string | null;
+  clientCanManageEmail: boolean;
+  clientCanCreateEmail: boolean;
 }
 
 const EMPTY_FORM = { host: "", port: "2083", username: "", token: "", publishDir: "public_html", siteUrl: "" };
@@ -26,8 +28,10 @@ const EMPTY_FORM = { host: "", port: "2083", username: "", token: "", publishDir
  * simplesmente não aparece. O token nunca volta do servidor — depois de salvo,
  * o campo fica vazio e só é preenchido pra trocar.
  */
-export default function CompanyCpanelIntegration({ companyId, showDenied = false }: {
+export default function CompanyCpanelIntegration({ companyId, showDenied = false, clientPortal = false }: {
   companyId: string;
+  /** Empresa-cliente: mostra o que o cliente pode fazer no Meu Espaço. */
+  clientPortal?: boolean;
   /** Em Configurações a seção é só isto: mostra o aviso em vez de tela vazia. */
   showDenied?: boolean;
 }) {
@@ -102,6 +106,22 @@ export default function CompanyCpanelIntegration({ companyId, showDenied = false
       setMsg({ kind: "err", text: "Erro de rede ao testar." });
     } finally {
       setTesting(false);
+    }
+  }
+
+  async function setClientAccess(patch: { clientCanManageEmail?: boolean; clientCanCreateEmail?: boolean }) {
+    setMsg(null);
+    try {
+      const r = await fetch(`/api/companies/${companyId}/cpanel`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(patch),
+      });
+      const j = await r.json();
+      if (!r.ok) { setMsg({ kind: "err", text: j.error || "Erro ao salvar" }); return; }
+      setConfig(j.config);
+    } catch {
+      setMsg({ kind: "err", text: "Erro de rede ao salvar." });
     }
   }
 
@@ -218,6 +238,24 @@ export default function CompanyCpanelIntegration({ companyId, showDenied = false
               >
                 <Trash2 className="w-3.5 h-3.5" />
               </button>
+            </div>
+          )}
+
+          {/* O que o cliente pode fazer no Meu Espaço */}
+          {clientPortal && config && !editing && (
+            <div className="mt-3 ml-9 bg-black/20 border border-white/5 rounded-lg p-2.5 space-y-1.5">
+              <p className="text-white text-xs font-semibold">No Meu Espaço do cliente</p>
+              <label className="flex items-center gap-2 text-[11px] text-slate-300 cursor-pointer">
+                <input type="checkbox" checked={config.clientCanManageEmail}
+                  onChange={(e) => setClientAccess({ clientCanManageEmail: e.target.checked })} />
+                Ver o espaço e os e-mails, e trocar a senha das caixas
+              </label>
+              <label className={`flex items-center gap-2 text-[11px] cursor-pointer ${config.clientCanManageEmail ? "text-slate-300" : "text-slate-600"}`}>
+                <input type="checkbox" checked={config.clientCanCreateEmail} disabled={!config.clientCanManageEmail}
+                  onChange={(e) => setClientAccess({ clientCanCreateEmail: e.target.checked })} />
+                Criar caixas de e-mail novas
+              </label>
+              <p className="text-slate-600 text-[10px]">Vale pra todo usuário do cliente que entra no portal. Cada troca de senha e criação fica registrada.</p>
             </div>
           )}
 

@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Mail, HardDrive, Loader2, RefreshCw, Plus, KeyRound, Copy, Check, Wand2 } from "lucide-react";
 
 interface Usage { usedMb: number; limitMb: number | null }
 interface Mailbox { email: string; usedMb: number; quotaMb: number | null; suspended: boolean }
-interface Overview { usage: Usage; mailboxes: Mailbox[]; domains: string[] }
+interface Overview { usage: Usage; mailboxes: Mailbox[]; domains: string[]; canCreate?: boolean }
 
 const MIN_PASSWORD = 10;
 
@@ -38,7 +38,11 @@ function UsageBar({ used, limit }: { used: number; limit: number | null }) {
  * usuário pede (cada abertura bate no cPanel do cliente). Senhas digitadas ou
  * geradas aqui vão direto pro cPanel — o GoHub não guarda.
  */
-export default function CompanyCpanelEmail({ companyId }: { companyId: string }) {
+export default function CompanyCpanelEmail({ companyId, portal = false }: {
+  companyId?: string;
+  /** Meu Espaço do cliente: usa a rota do portal (empresa vem da sessão), já abre carregado. */
+  portal?: boolean;
+}) {
   const [data, setData] = useState<Overview | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -53,7 +57,7 @@ export default function CompanyCpanelEmail({ companyId }: { companyId: string })
   const [busy, setBusy] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const url = `/api/companies/${companyId}/cpanel/email`;
+  const url = portal ? "/api/meu-espaco/email" : `/api/companies/${companyId}/cpanel/email`;
 
   async function load() {
     setLoading(true);
@@ -70,6 +74,17 @@ export default function CompanyCpanelEmail({ companyId }: { companyId: string })
       setLoading(false);
     }
   }
+
+  useEffect(() => {
+    if (!portal) return;
+    // Fora do corpo do efeito: load() mexe em estado logo de cara.
+    const t = setTimeout(() => { void load(); }, 0);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [portal]);
+
+  // Na agência sempre pode criar; no portal depende da liberação.
+  const canCreate = data ? data.canCreate !== false : false;
 
   function open(next: "new" | string) {
     setMode(next);
@@ -125,11 +140,13 @@ export default function CompanyCpanelEmail({ companyId }: { companyId: string })
   const smallBtn = "flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-semibold uppercase tracking-wide disabled:opacity-50 transition-colors";
 
   return (
-    <div className="mt-3 ml-9 bg-black/20 border border-white/5 rounded-lg p-3 space-y-3">
+    <div className={portal
+      ? "bg-white/[0.03] border border-white/10 rounded-2xl p-4 space-y-3"
+      : "mt-3 ml-9 bg-black/20 border border-white/5 rounded-lg p-3 space-y-3"}>
       <div className="flex items-center gap-2">
         <Mail className="w-4 h-4 text-cyan-300" />
         <h4 className="text-white text-xs font-semibold flex-1">E-mails e espaço</h4>
-        {data && (
+        {data && canCreate && (
           <button onClick={() => open("new")} className={`${smallBtn} bg-indigo-600 hover:bg-indigo-500 text-white`}>
             <Plus className="w-3 h-3" /> Nova caixa
           </button>

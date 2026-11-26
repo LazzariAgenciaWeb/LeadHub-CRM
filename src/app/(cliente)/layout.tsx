@@ -19,7 +19,10 @@ export default async function ClienteLayout({ children }: { children: React.Reac
 
   const company = await prisma.company.findUnique({
     where: { id: companyId },
-    select: { name: true, parentCompanyId: true, fullSystemAccess: true, parentCompany: { select: { name: true } } },
+    select: {
+      name: true, parentCompanyId: true, fullSystemAccess: true, parentCompany: { select: { name: true } },
+      cpanelIntegration: { select: { clientCanManageEmail: true } },
+    },
   });
   if (!company?.parentCompanyId) redirect("/dashboard");
 
@@ -38,7 +41,7 @@ export default async function ClienteLayout({ children }: { children: React.Reac
   return (
     <>
       <IconGradients />
-      <ClientShell clientName={company.name} agencyName={company.parentCompany?.name ?? "Portal"} banner={banner} fullSystemAccess={company.fullSystemAccess} showMarketing={showMarketing}>
+      <ClientShell clientName={company.name} agencyName={company.parentCompany?.name ?? "Portal"} banner={banner} fullSystemAccess={company.fullSystemAccess} showMarketing={showMarketing} showEmails={!!company.cpanelIntegration?.clientCanManageEmail}>
         {children}
       </ClientShell>
     </>

@@ -2383,6 +2383,11 @@ model CpanelIntegration {
   publishDir String  @default("public_html") // pasta-base, relativa à home da conta
   siteUrl    String? // URL pública que aponta pra publishDir (pra devolver o link do que foi publicado)
 
+  // Meu Espaço: a agência libera, por cliente, o que ele mesmo pode fazer.
+  // Ver espaço + caixas e trocar senha; criar caixa é uma liberação à parte.
+  clientCanManageEmail Boolean @default(false)
+  clientCanCreateEmail Boolean @default(false)
+
   status       IntegrationStatus @default(ACTIVE)
   lastTestedAt DateTime?
   lastError    String?           @db.Text

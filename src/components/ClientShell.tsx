@@ -10,7 +10,7 @@ import { PORTAL_FINANCEIRO_ATIVO } from "@/lib/portal-flags";
  * cliente (sub-company). Sem o menu da agência: só o espaço dele.
  */
 export default function ClientShell({
-  children, clientName, agencyName, banner, fullSystemAccess = false, showMarketing = false,
+  children, clientName, agencyName, banner, fullSystemAccess = false, showMarketing = false, showEmails = false,
 }: {
   children: React.ReactNode;
   clientName: string;
@@ -19,6 +19,8 @@ export default function ClientShell({
   fullSystemAccess?: boolean;
   /** Company.moduleRelatorioMarketing — relatório liberado pra esta empresa. */
   showMarketing?: boolean;
+  /** Agência liberou o cliente cuidar dos e-mails da hospedagem (cPanel). */
+  showEmails?: boolean;
 }) {
   return (
     <div className="csh">
@@ -35,6 +37,9 @@ export default function ClientShell({
             <Link href="/meu-espaco/financeiro" className="cshlink">Financeiro</Link>
           )}
           <Link href="/meu-espaco/arquivos" className="cshlink">Arquivos</Link>
+          {showEmails && (
+            <Link href="/meu-espaco/emails" className="cshlink">E-mails</Link>
+          )}
           {showMarketing && (
             <Link href="/meu-espaco/marketing" className="cshlink">Marketing</Link>
           )}
