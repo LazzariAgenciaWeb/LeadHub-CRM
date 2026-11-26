@@ -177,6 +177,7 @@ export interface ClientRecordAccess {
   marketing: boolean;   // marketing + integrações
   campanhas: boolean;
   cofre: boolean;
+  hospedagem: boolean;  // cPanel: servidor, e-mails, espaço — só ADMIN/SUPER_ADMIN
 }
 
 export function clientRecordAccess(session: any): ClientRecordAccess {
@@ -189,6 +190,7 @@ export function clientRecordAccess(session: any): ClientRecordAccess {
     marketing: p.canViewMarketing,
     campanhas: p.canViewCampanhas,
     cofre: p.canViewCofre,
+    hospedagem: ["ADMIN", "SUPER_ADMIN"].includes(session?.user?.role),
   };
 }
 

@@ -10,7 +10,7 @@ import {
   X, Home, MessageSquare, Sparkles, Building2, Briefcase,
   Search, Target, Lightbulb, Megaphone, LifeBuoy, Link2, Shield,
   Settings, ChevronRight, ChevronUp, LogOut, ArrowLeft, CalendarDays, Clock,
-  BarChart3, Trophy, FolderKanban, UserCircle, Mail, CreditCard, Camera, LayoutGrid, LayoutTemplate, MonitorPlay, Ticket, Lock, Wallet, type LucideIcon,
+  BarChart3, Trophy, FolderKanban, UserCircle, Mail, CreditCard, Camera, LayoutGrid, LayoutTemplate, MonitorPlay, Ticket, Lock, Wallet, Server, type LucideIcon,
 } from "lucide-react";
 import VersionBadge from "./VersionBadge";
 import { gradStroke, type GradientKey } from "./IconGradients";
@@ -237,6 +237,7 @@ export default function Sidebar({ session, onClose, isClient = false }: SidebarP
       items: [
         { href: "/empresas",   Icon: Building2,    label: _isSuperAdmin ? "Empresas" : "Clientes", grad: "empresas", perm: _isAdmin || can(session, "canViewCompanies") },
         { href: "/financeiro", Icon: Wallet,       label: "Financeiro", grad: "empresas",   perm: _isAdmin || can(session, "canViewFinanceiro"), agencyOnly: true },
+        { href: "/hospedagem", Icon: Server,       label: "Hospedagem", grad: "empresas",   perm: _isAdmin, agencyOnly: true },
         { href: "/projetos",   Icon: FolderKanban, label: "Projetos",   grad: "pipeline",   lockModule: "projetos",   perm: _isAdmin || can(session, "canViewProjetos") },
         { href: "/calendario", Icon: CalendarDays, label: "Calendário", grad: "calendario", lockModule: "calendario", perm: _isAdmin || can(session, "canViewCalendario") },
         { href: "/ponto",      Icon: Clock,        label: "Ponto",      grad: "calendario", perm: true, agencyOnly: true },

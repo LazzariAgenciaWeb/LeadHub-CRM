@@ -405,7 +405,7 @@ export default async function ConfiguracoesPage({
     }
   } else if (secao === "integracoes-cpanel") {
     // cPanel da PRÓPRIA empresa (a hospedagem da agência). O de cada cliente
-    // fica no cadastro dele: Clientes → cliente → Marketing → Integrações.
+    // fica no cadastro dele: Clientes → cliente → Hospedagem (ou Gestão → Hospedagem).
     // SUPER_ADMIN fora de impersonação escolhe a empresa por ?companyId=.
     const targetCompanyId = isSuperAdmin ? (qCompanyId ?? userCompanyId) : userCompanyId;
     content = targetCompanyId ? (
@@ -413,7 +413,7 @@ export default async function ConfiguracoesPage({
         <CompanyCpanelIntegration companyId={targetCompanyId} showDenied />
         <p className="px-5 text-[11px] text-slate-500">
           Esta é a hospedagem da sua própria empresa. Para o cPanel de um cliente, abra o cliente em
-          {" "}<strong className="text-slate-400">Clientes → (cliente) → Marketing → Integrações</strong>.
+          {" "}<strong className="text-slate-400">Clientes → (cliente) → Hospedagem</strong>, ou veja todas as contas em <strong className="text-slate-400">Gestão → Hospedagem</strong>.
         </p>
       </div>
     ) : (

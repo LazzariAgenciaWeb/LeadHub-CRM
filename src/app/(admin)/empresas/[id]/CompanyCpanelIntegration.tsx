@@ -23,7 +23,7 @@ interface CpanelConfig {
 const EMPTY_FORM = { host: "", port: "2083", username: "", token: "", publishDir: "public_html", siteUrl: "" };
 
 /**
- * Cartão "cPanel (hospedagem)" da aba Integrações do cliente.
+ * Cartão "cPanel (hospedagem)" da aba Hospedagem do cliente.
  *
  * Só ADMIN / SUPER_ADMIN enxergam: a API devolve 403 pros demais e o cartão
  * simplesmente não aparece. O token nunca volta do servidor — depois de salvo,

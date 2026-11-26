@@ -38,10 +38,12 @@ function UsageBar({ used, limit }: { used: number; limit: number | null }) {
  * usuário pede (cada abertura bate no cPanel do cliente). Senhas digitadas ou
  * geradas aqui vão direto pro cPanel — o GoHub não guarda.
  */
-export default function CompanyCpanelEmail({ companyId, portal = false }: {
+export default function CompanyCpanelEmail({ companyId, portal = false, autoLoad = portal }: {
   companyId?: string;
   /** Meu Espaço do cliente: usa a rota do portal (empresa vem da sessão), já abre carregado. */
   portal?: boolean;
+  /** Consulta assim que aparece (portal e painel de Hospedagem). */
+  autoLoad?: boolean;
 }) {
   const [data, setData] = useState<Overview | null>(null);
   const [loading, setLoading] = useState(false);
@@ -76,12 +78,12 @@ export default function CompanyCpanelEmail({ companyId, portal = false }: {
   }
 
   useEffect(() => {
-    if (!portal) return;
+    if (!autoLoad) return;
     // Fora do corpo do efeito: load() mexe em estado logo de cara.
     const t = setTimeout(() => { void load(); }, 0);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [portal]);
+  }, [autoLoad]);
 
   // Na agência sempre pode criar; no portal depende da liberação.
   const canCreate = data ? data.canCreate !== false : false;

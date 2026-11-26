@@ -183,7 +183,7 @@ type TabId =
   | "timeline" | "contratos" | "documentos" | "emails"
   | "servicos" | "cobrancas" | "historico"
   | "negociacoes" | "vendas" | "projetos" | "chamados"
-  | "campanhas" | "contatos" | "cofre" | "integracoes" | "marketing" | "plano" | "conquistas"
+  | "campanhas" | "contatos" | "cofre" | "integracoes" | "hospedagem" | "marketing" | "plano" | "conquistas"
   | "arquivos";
 
 // `superAdminOnly`: só o super admin FORA de impersonação (dentro de um
@@ -209,6 +209,7 @@ const TABS: { id: TabId; label: string; icon: string; superAdminOnly?: boolean; 
   { id: "cofre",        label: "Cofre",        icon: "🔐" },
   { id: "arquivos",     label: "Arquivos",     icon: "🗂" },
   { id: "integracoes",  label: "Integrações",  icon: "🔌" },
+  { id: "hospedagem",   label: "Hospedagem",   icon: "🖥" },
   { id: "plano",        label: "Plano",        icon: "💳", realSuperAdminOnly: true },
 ];
 // Permissão de setor que cada aba exige. Aba fora do mapa é do cadastro em si
@@ -221,6 +222,7 @@ const TAB_ACCESS: Partial<Record<TabId, keyof ClientRecordAccess>> = {
   marketing: "marketing", integracoes: "marketing",
   campanhas: "campanhas",
   cofre: "cofre",
+  hospedagem: "hospedagem",
 };
 const CENTRAL_TABS: TabId[] = ["timeline", "contratos", "documentos", "emails"];
 const TAB_BY_ID = Object.fromEntries(TABS.map((t) => [t.id, t])) as Record<TabId, (typeof TABS)[number]>;
@@ -242,6 +244,7 @@ const GROUPS: { id: string; label: string; icon: string; tabIds: TabId[] }[] = [
   { id: "chamados",    label: "Chamados",           icon: "🎫", tabIds: ["chamados"] },
   { id: "acessos",     label: "Acessos & usuários", icon: "👥", tabIds: ["contatos"] },
   { id: "marketing",   label: "Marketing",          icon: "📊", tabIds: ["marketing", "integracoes", "campanhas", "conquistas"] },
+  { id: "hospedagem",  label: "Hospedagem",         icon: "🖥", tabIds: ["hospedagem"] },
   { id: "cofre",       label: "Cofre",              icon: "🔐", tabIds: ["cofre"] },
   { id: "arquivos",    label: "Arquivos",           icon: "🗂", tabIds: ["arquivos"] },
   { id: "plano",       label: "Plano & cobrança",   icon: "💳", tabIds: ["plano"] },
@@ -286,6 +289,7 @@ export default function CompanyDetailTabs({
     contatos:      contacts.length,
     cofre:         0, // count carregado dinamicamente dentro do componente
     integracoes:   0, // count carregado dinamicamente dentro do componente
+    hospedagem:    0,
     marketing:     0, // count carregado dinamicamente dentro do componente
     plano:         0, // sem contagem
     conquistas:    0, // count carregado dinamicamente dentro do componente
@@ -326,6 +330,7 @@ export default function CompanyDetailTabs({
       "#projetos": "projetos",
       "#chamados": "chamados",
       "#cofre": "cofre",
+      "#hospedagem": "hospedagem",
       "#arquivos": "arquivos",
     };
     const alvo = porAncora[window.location.hash];
@@ -771,8 +776,12 @@ export default function CompanyDetailTabs({
         {activeTab === "integracoes" && (
           <>
             <CompanyIntegrations companyId={companyId} />
-            <CompanyCpanelIntegration companyId={companyId} clientPortal={isClientCompany} />
           </>
+        )}
+
+        {/* ── Hospedagem (cPanel: servidor, e-mails, espaço, publicação) ── */}
+        {activeTab === "hospedagem" && (
+          <CompanyCpanelIntegration companyId={companyId} clientPortal={isClientCompany} showDenied />
         )}
 
         {/* ── Marketing (Dashboard) ── */}
