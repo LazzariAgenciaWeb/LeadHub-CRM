@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import CompanyCpanelEmail from "./CompanyCpanelEmail";
+import CompanyCpanelUpload from "./CompanyCpanelUpload";
 import { Server, Check, AlertTriangle, Loader2, Trash2, RefreshCw, Pencil } from "lucide-react";
 
 interface CpanelConfig {
@@ -260,6 +261,7 @@ export default function CompanyCpanelIntegration({ companyId, showDenied = false
           )}
 
           {/* E-mails e espaço — só com a conexão funcionando */}
+          {connected && !editing && config && <CompanyCpanelUpload companyId={companyId} publishDir={config.publishDir} />}
           {connected && !editing && <CompanyCpanelEmail companyId={companyId} />}
 
           {/* Formulário */}

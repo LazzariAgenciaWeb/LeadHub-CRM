@@ -12,6 +12,7 @@ import { projetosTools } from "./projetos";
 import { emailsTools } from "./emails";
 import { centralTools } from "./central";
 import { clientesTools } from "./clientes";
+import { siteTools } from "./site";
 
 export type { ToolDef, ToolContext, ToolResult, ToolChannel } from "./types";
 export { buildFilaDoDia, formatFila, type FilaDoDia, type FilaItem } from "./fila";
@@ -34,7 +35,8 @@ export const ALL_TOOLS: ToolDef[] = [
 ];
 
 /** Só pelo MCP: no chat/WhatsApp a resposta já vai pro canal. */
-export const MCP_ONLY_TOOLS: ToolDef[] = [avisarNoWhatsapp];
+// publicar_no_site: o HTML inteiro vem do Claude — no chat/WhatsApp não cabe.
+export const MCP_ONLY_TOOLS: ToolDef[] = [avisarNoWhatsapp, ...siteTools];
 
 const BY_NAME = new Map([...ALL_TOOLS, ...MCP_ONLY_TOOLS].map((t) => [t.name, t]));
 

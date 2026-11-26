@@ -21,7 +21,8 @@ export type AdminAuditAction =
   | "SUPER_ADMIN_CREATE"
   | "SUPER_ADMIN_LINK"
   | "CPANEL_EMAIL_CREATE"
-  | "CPANEL_EMAIL_PASSWORD";
+  | "CPANEL_EMAIL_PASSWORD"
+  | "CPANEL_UPLOAD";
 
 interface RecordAdminActionInput {
   adminUserId: string;

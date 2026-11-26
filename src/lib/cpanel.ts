@@ -180,11 +180,18 @@ export async function cpanelRequest<T = unknown>(
   module: string,
   fn: string,
   params: Record<string, string> = {},
-  opts: { method?: "GET" | "POST" } = {},
+  opts: {
+    method?: "GET" | "POST";
+    /** multipart (upload): vai no corpo; `params` ficam na URL — nunca ponha segredo neles. */
+    form?: FormData;
+    /** Devolve a resposta inteira mesmo com status 0 (upload diz o motivo por arquivo). */
+    raw?: boolean;
+  } = {},
 ): Promise<T> {
   // POST manda os parâmetros no corpo — obrigatório pra qualquer chamada que
   // leve senha, senão ela ficaria na URL (e nos logs de acesso do servidor).
-  const method = opts.method ?? "GET";
+  const method = opts.form ? "POST" : opts.method ?? "GET";
+  const urlencodedBody = method === "POST" && !opts.form;
   if (!/^[A-Za-z0-9_]+$/.test(module) || !/^[A-Za-z0-9_]+$/.test(fn)) {
     throw new CpanelError("Chamada inválida.");
   }
@@ -192,7 +199,7 @@ export async function cpanelRequest<T = unknown>(
 
   const hostPart = isIP(conn.host) === 6 ? `[${conn.host}]` : conn.host;
   const url = new URL(`https://${hostPart}:${conn.port}/execute/${module}/${fn}`);
-  if (method === "GET") {
+  if (!urlencodedBody) {
     for (const [k, v] of Object.entries(params)) url.searchParams.set(k, v);
   }
 
@@ -203,9 +210,10 @@ export async function cpanelRequest<T = unknown>(
       headers: {
         Authorization: `cpanel ${conn.username}:${conn.token}`,
         Accept: "application/json",
-        ...(method === "POST" ? { "Content-Type": "application/x-www-form-urlencoded" } : {}),
+        ...(urlencodedBody ? { "Content-Type": "application/x-www-form-urlencoded" } : {}),
       },
-      ...(method === "POST" ? { body: new URLSearchParams(params).toString() } : {}),
+      ...(urlencodedBody ? { body: new URLSearchParams(params).toString() } : {}),
+      ...(opts.form ? { body: opts.form } : {}),
       redirect: "manual", // redirect levaria o header de autorização pra outro host
       cache: "no-store",
       signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
@@ -239,6 +247,7 @@ export async function cpanelRequest<T = unknown>(
   } catch {
     throw new CpanelError("A resposta não parece ser de um cPanel. Confira o endereço e a porta.");
   }
+  if (opts.raw) return json as T;
   if (!json || json.status !== 1) {
     const msg = Array.isArray(json?.errors) && json.errors.length ? String(json.errors[0]) : "erro desconhecido";
     throw new CpanelError(`cPanel: ${msg.slice(0, 300)}`);
@@ -445,4 +454,104 @@ export async function changeCpanelMailboxPassword(
     { method: "POST" },
   );
   return { email };
+}
+
+// ─── Envio de arquivos (site estático) ───────────────────────────────────────
+//
+// Fileman::upload_files (multipart). O cPanel cria a pasta se não existir e,
+// com overwrite=0, recusa arquivo que já existe — é assim que o GoHub pergunta
+// antes de substituir. Tudo cai dentro de publishDir (resolveCpanelPath).
+//
+// Só tipos de site estático: .php/.cgi/.phtml etc. EXECUTARIAM no servidor do
+// cliente, e arquivo começando com ponto (.htaccess) muda a configuração dele.
+
+export const CPANEL_UPLOAD_EXTENSIONS = [
+  "html", "htm", "css", "js", "mjs", "json", "map", "txt", "xml", "webmanifest",
+  "svg", "png", "jpg", "jpeg", "gif", "webp", "avif", "ico",
+  "woff", "woff2", "ttf", "otf", "eot",
+  "pdf", "mp4", "webm", "mp3", "ogg",
+] as const;
+export const CPANEL_UPLOAD_MAX_FILES = 50;
+export const CPANEL_UPLOAD_MAX_BYTES = 25 * 1024 * 1024; // por envio, somando tudo
+
+/** Nome do arquivo final. Lança se for tipo não permitido ou nome perigoso. */
+export function normalizeUploadFileName(input: unknown): string {
+  const n = String(input ?? "").trim().split(/[\\/]/).pop() ?? "";
+  if (!n || n.startsWith(".")) throw new CpanelError(`Nome de arquivo inválido: "${n || "(vazio)"}".`);
+  if (!/^[A-Za-z0-9][A-Za-z0-9._-]{0,150}$/.test(n)) {
+    throw new CpanelError(`"${n}": use só letras, números, ponto, hífen e sublinhado no nome (sem espaço nem acento).`);
+  }
+  const ext = n.includes(".") ? n.split(".").pop()!.toLowerCase() : "";
+  if (!(CPANEL_UPLOAD_EXTENSIONS as readonly string[]).includes(ext)) {
+    throw new CpanelError(`"${n}": tipo não permitido. Aceitos: ${CPANEL_UPLOAD_EXTENSIONS.join(", ")}.`);
+  }
+  return n;
+}
+
+/** Link público de um arquivo publicado, se a integração tiver a URL do site. */
+export function publicUrlFor(siteUrl: string | null, subPath: string, fileName: string): string | null {
+  if (!siteUrl) return null;
+  // index.html abre pela pasta: https://site/lp/ em vez de https://site/lp/index.html
+  if (fileName === "index.html") return `${siteUrl}/${subPath ? `${subPath}/` : ""}`;
+  return `${siteUrl}/${subPath ? `${subPath}/` : ""}${fileName}`;
+}
+
+export interface CpanelUploadResult {
+  file: string;
+  ok: boolean;
+  /** Já existia e não foi substituído (mande de novo com overwrite pra trocar). */
+  exists: boolean;
+  reason: string | null;
+  url: string | null;
+}
+
+/**
+ * Envia arquivos pra `publishDir/subPath`. Nunca substitui sem `overwrite`.
+ * Erro geral (conexão, token) lança CpanelError; falha por arquivo volta no resultado.
+ */
+export async function uploadCpanelFiles(
+  companyId: string,
+  input: { subPath?: string | null; files: { name: string; data: Blob }[]; overwrite?: boolean },
+): Promise<{ dir: string; subPath: string; results: CpanelUploadResult[] }> {
+  if (input.files.length === 0) throw new CpanelError("Escolha pelo menos um arquivo.");
+  if (input.files.length > CPANEL_UPLOAD_MAX_FILES) throw new CpanelError(`No máximo ${CPANEL_UPLOAD_MAX_FILES} arquivos por envio.`);
+  const total = input.files.reduce((s, f) => s + f.data.size, 0);
+  if (total > CPANEL_UPLOAD_MAX_BYTES) throw new CpanelError("Envio grande demais (máximo 25 MB somando os arquivos).");
+
+  const names = input.files.map((f) => normalizeUploadFileName(f.name));
+  const dupe = names.find((n, i) => names.indexOf(n) !== i);
+  if (dupe) throw new CpanelError(`O arquivo "${dupe}" foi escolhido duas vezes.`);
+
+  const conn = await requireConn(companyId);
+  const subPath = normalizeCpanelDir(input.subPath ?? "", { allowEmpty: true });
+  const dir = resolveCpanelPath(conn.publishDir, subPath);
+
+  const form = new FormData();
+  input.files.forEach((f, i) => form.append(`file-${i}`, f.data, names[i]));
+
+  type Up = { file?: string; reason?: string; status?: number };
+  const json = await cpanelRequest<{ status?: number; errors?: unknown[] | null; data?: { uploads?: Up[] } | null }>(
+    conn, "Fileman", "upload_files",
+    { dir, overwrite: input.overwrite ? "1" : "0" },
+    { form, raw: true },
+  );
+  const uploads = json?.data?.uploads ?? [];
+  if (uploads.length === 0) {
+    const msg = Array.isArray(json?.errors) && json.errors.length ? String(json.errors[0]) : "o cPanel não aceitou os arquivos";
+    throw new CpanelError(`cPanel: ${msg.slice(0, 300)}`);
+  }
+
+  const results = names.map<CpanelUploadResult>((name) => {
+    const u = uploads.find((x) => x.file === name);
+    const ok = u?.status === 1;
+    const reason = ok ? null : String(u?.reason ?? "não enviado").slice(0, 300);
+    return {
+      file: name,
+      ok,
+      exists: !ok && /exist/i.test(reason ?? ""),
+      reason,
+      url: ok ? publicUrlFor(conn.siteUrl, subPath, name) : null,
+    };
+  });
+  return { dir, subPath, results };
 }
