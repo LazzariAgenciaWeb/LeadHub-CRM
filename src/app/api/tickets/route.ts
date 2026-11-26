@@ -101,7 +101,7 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
   const {
     title, description, priority, category, companyId, phone, isInternal,
-    type, dueDate, assigneeId, setorId, projetoId, visibility,
+    type, dueDate, assigneeId, setorId, projetoId, etapaId, visibility,
     clientCompanyId, clientCompanyName, clientCompanyPhone, clientCompanyEmail,
     // Cliente acompanha? Gera link público (sem login) em /acompanhar/[token].
     sharePublic,
@@ -169,6 +169,17 @@ export async function POST(req: NextRequest) {
     }
   }
 
+  // Etapa do projeto (só vale se for do projeto escolhido). Com ClickUp, a task
+  // do chamado nasce como subtarefa da tarefa-mãe da etapa.
+  let etapa: { id: string; clickupTaskId: string | null } | null = null;
+  if (project && etapaId) {
+    const e = await prisma.projectService.findUnique({
+      where:  { id: etapaId },
+      select: { id: true, projectId: true, clickupTaskId: true },
+    });
+    if (e && e.projectId === project.id) etapa = { id: e.id, clickupTaskId: e.clickupTaskId };
+  }
+
   const ticket = await prisma.ticket.create({
     data: {
       title,
@@ -187,6 +198,7 @@ export async function POST(req: NextRequest) {
       assigneeId: assigneeId || null,
       setorId: setorId || null,
       projetoId: project?.id ?? null,
+      etapaId:   etapa?.id ?? null,
       visibility: visibility === "RESTRICTED" ? "RESTRICTED" : "OPEN",
       messages: {
         create: {
@@ -225,6 +237,8 @@ export async function POST(req: NextRequest) {
         priority: ticket.priority,
         status: ticket.status,
         targetListId,
+        // Só vira subtarefa quando a task vai pra lista do próprio projeto.
+        parent: project?.clickupListId?.trim() ? etapa?.clickupTaskId ?? undefined : undefined,
       });
       if (newTaskId) {
         await prisma.ticket.update({

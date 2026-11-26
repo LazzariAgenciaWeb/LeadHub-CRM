@@ -515,6 +515,7 @@ export async function syncTicketToClickup({
   priority,
   status,
   targetListId,
+  parent,
 }: {
   settings: ClickupSettings;
   ticketId: string;
@@ -526,6 +527,8 @@ export async function syncTicketToClickup({
   // Lista de destino ao CRIAR. Default = lista padrão de chamados. Quando o
   // chamado é agrupado num projeto, passa o clickupListId do projeto.
   targetListId?: string;
+  // Tarefa-mãe (etapa do projeto) → o chamado nasce como subtarefa dela.
+  parent?: string;
 }): Promise<string | null> {
   const mappedStatus = status ? mapTicketStatus(status, settings.statusChamadoConcluido) : undefined;
 
@@ -553,6 +556,7 @@ export async function syncTicketToClickup({
     description,
     priority,
     tags: ["chamado"],
+    ...(parent ? { parent } : {}),
   });
 
   return newId;

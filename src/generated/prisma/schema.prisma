@@ -1538,6 +1538,11 @@ model Ticket {
   projeto   SetorClickupList? @relation("TicketProjeto", fields: [projetoId], references: [id], onDelete: SetNull)
   projetoId String?
 
+  // Etapa (ProjectService) do projeto onde o chamado entra. Com ClickUp, a task
+  // do chamado nasce como subtarefa da tarefa-mãe da etapa.
+  etapa   ProjectService? @relation("TicketEtapa", fields: [etapaId], references: [id], onDelete: SetNull)
+  etapaId String?
+
   // Visibilidade: "OPEN" (toda a empresa vê) | "RESTRICTED" (só setor do chamado
   // + pessoas extras em accessUsers + assignee/criador). ADMIN/SUPER_ADMIN sempre
   // veem. Default OPEN mantém compat com chamados antigos.
@@ -1910,7 +1915,8 @@ model ProjectService {
   completedAt     DateTime?
   createdAt       DateTime         @default(now())
 
-  tasks ProjectTask[]
+  tasks   ProjectTask[]
+  tickets Ticket[]      @relation("TicketEtapa")
 
   @@index([projectId])
   @@index([serviceId])

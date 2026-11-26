@@ -664,6 +664,20 @@ export default function WhatsappManager({
   const [convertingTicket, setConvertingTicket] = useState(false);
   const [ticketCreated, setTicketCreated] = useState(false);
   const [ticketError, setTicketError] = useState<string | null>(null);
+  // Projeto do chamado: projetos em aberto do cliente da conversa. Com um só,
+  // já vem selecionado; o chamado nasce dentro do projeto (e da lista ClickUp dele).
+  type TicketEtapaOpt = { id: string; name: string | null; order: number; service: { name: string } | null };
+  const [ticketProjetos, setTicketProjetos] = useState<{ id: string; name: string; service: { name: string } | null; serviceSteps: TicketEtapaOpt[] }[]>([]);
+  const [ticketProjetoId, setTicketProjetoId] = useState("");
+  const [ticketEtapaId, setTicketEtapaId] = useState("");
+  const ticketEtapas = ticketProjetos.find((p) => p.id === ticketProjetoId)?.serviceSteps ?? [];
+  // Troca de projeto: com uma etapa ativa só, já seleciona ela.
+  function pickTicketProjeto(id: string, list = ticketProjetos) {
+    setTicketProjetoId(id);
+    const steps = list.find((p) => p.id === id)?.serviceSteps ?? [];
+    setTicketEtapaId(steps.length === 1 ? steps[0].id : "");
+  }
+  const [loadingTicketProjetos, setLoadingTicketProjetos] = useState(false);
 
   // Convert to oportunidade
   const [showOportunidadeForm, setShowOportunidadeForm] = useState(false);
@@ -2629,6 +2643,28 @@ export default function WhatsappManager({
     }
   }
 
+  const ticketClientId = selectedConv?.companyContact?.company?.id ?? null;
+  useEffect(() => {
+    if (!showTicketForm) return;
+    setTicketProjetoId("");
+    setTicketEtapaId("");
+    setTicketProjetos([]);
+    if (!ticketClientId) return;
+    let cancelled = false;
+    setLoadingTicketProjetos(true);
+    fetch(`/api/projetos?clientCompanyId=${encodeURIComponent(ticketClientId)}`)
+      .then((r) => (r.ok ? r.json() : { projects: [] }))
+      .then((d) => {
+        if (cancelled) return;
+        const list = Array.isArray(d.projects) ? d.projects : [];
+        setTicketProjetos(list);
+        if (list.length === 1) pickTicketProjeto(list[0].id, list);
+      })
+      .catch(() => {})
+      .finally(() => { if (!cancelled) setLoadingTicketProjetos(false); });
+    return () => { cancelled = true; };
+  }, [showTicketForm, ticketClientId]);
+
   async function handleCreateTicket(e?: React.FormEvent) {
     e?.preventDefault();
     if (!selectedConv) return;
@@ -2655,6 +2691,8 @@ export default function WhatsappManager({
           ? { clientCompanyId: selectedConv.companyContact.company.id }
           : {}),
         ...(currentUserId ? { assigneeId: currentUserId } : {}),
+        ...(ticketProjetoId ? { projetoId: ticketProjetoId } : {}),
+        ...(ticketProjetoId && ticketEtapaId ? { etapaId: ticketEtapaId } : {}),
         // Cliente acompanha → gera link público (sem login)
         sharePublic: ticketShare,
       }),
@@ -5041,6 +5079,42 @@ export default function WhatsappManager({
                           style={{ minHeight: "160px", maxHeight: "40vh" }}
                         />
                       </div>
+
+                      {ticketClientId && (loadingTicketProjetos || ticketProjetos.length > 0) && (
+                        <div>
+                          <label className="block text-slate-400 text-[10px] uppercase tracking-wide mb-1">📁 Projeto</label>
+                          <select
+                            value={ticketProjetoId}
+                            onChange={(e) => pickTicketProjeto(e.target.value)}
+                            disabled={loadingTicketProjetos}
+                            className="w-full bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-orange-500 disabled:opacity-50"
+                          >
+                            <option value="">{loadingTicketProjetos ? "Carregando projetos…" : "— Sem projeto —"}</option>
+                            {ticketProjetos.map((p) => (
+                              <option key={p.id} value={p.id}>
+                                {p.name}{p.service?.name && p.service.name !== p.name ? ` · ${p.service.name}` : ""}
+                              </option>
+                            ))}
+                          </select>
+                          {ticketProjetoId && ticketEtapas.length > 0 && (
+                            <select
+                              value={ticketEtapaId}
+                              onChange={(e) => setTicketEtapaId(e.target.value)}
+                              className="mt-2 w-full bg-[#0f1623] border border-[#1e2d45] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-orange-500"
+                            >
+                              <option value="">— Sem etapa —</option>
+                              {ticketEtapas.map((et) => (
+                                <option key={et.id} value={et.id}>
+                                  {et.name || et.service?.name || `Etapa ${et.order + 1}`}
+                                </option>
+                              ))}
+                            </select>
+                          )}
+                          <p className="text-[10px] text-slate-600 mt-1">
+                            Se o projeto tiver ClickUp, a tarefa do chamado é criada na lista do projeto{ticketEtapaId ? ", como subtarefa da etapa" : ""}.
+                          </p>
+                        </div>
+                      )}
 
                       {/* Cliente acompanha? (link público) + avisar agora no WhatsApp */}
                       <div className="flex flex-wrap items-center gap-4 pt-1">

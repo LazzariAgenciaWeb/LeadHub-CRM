@@ -92,25 +92,24 @@ model User {
   // ── Assistente pessoal (IA) ──────────────────────────────────────────────
   // Grupo do WhatsApp (JID @g.us) onde só o usuário está e conversa com o
   // assistente. Vinculado por código de pareamento enviado no próprio grupo.
-  assistantGroupJid    String?
-  assistantInstanceId  String?
+  assistantGroupJid   String?
+  assistantInstanceId String?
   // Token pessoal pra conectar o Claude (MCP). Guardamos só o hash sha256 —
   // o token em texto puro é exibido uma única vez ao gerar.
-  mcpTokenHash         String?   @unique
+  mcpTokenHash        String?                  @unique
   // Senha própria dos Lembretes do iPhone (CalDAV) — só o hash sha256.
-  caldavPasswordHash String?  @unique
+  caldavPasswordHash  String?                  @unique
   // Propriedades que o iPhone grava na lista (cor, ordem…) — "dead properties" do WebDAV.
-  caldavProps        Json?
-  mcpTokenCreatedAt    DateTime?
-  mcpTokenLastUsedAt   DateTime?
-  assistantNotes       AssistantNote[]
-  assistantTurns       AssistantTurn[]
-  assistantPending     AssistantPendingAction[]
-  assistantRules       AssistantRule[]
+  caldavProps         Json?
+  mcpTokenCreatedAt   DateTime?
+  mcpTokenLastUsedAt  DateTime?
+  assistantNotes      AssistantNote[]
+  assistantTurns      AssistantTurn[]
+  assistantPending    AssistantPendingAction[]
+  assistantRules      AssistantRule[]
 
   @@index([companyId])
   @@index([assistantGroupJid])
-
   @@index([linkedSuperAdminId])
 }
 
@@ -119,52 +118,52 @@ model User {
 // capturadas por texto/áudio (app, WhatsApp ou Claude via MCP). Não é chamado
 // nem tarefa de projeto — é o que antes ficava só na cabeça.
 model AssistantNote {
-  id              String    @id @default(cuid())
-  userId          String
-  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  companyId       String?
-  kind            String    // IDEA | NOTE | REMINDER | TASK
-  title           String
-  body            String?   @db.Text
-  dueAt           DateTime? // lembrete/tarefa: quando avisar / prazo
-  done            Boolean   @default(false)
-  doneAt          DateTime?
-  remindedAt      DateTime? // lembrete já disparado (WhatsApp/push)
-  source          String    @default("APP") // APP | WHATSAPP | MCP | WEBHOOK | IPHONE
+  id                String               @id @default(cuid())
+  userId            String
+  user              User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  companyId         String?
+  kind              String // IDEA | NOTE | REMINDER | TASK
+  title             String
+  body              String?              @db.Text
+  dueAt             DateTime? // lembrete/tarefa: quando avisar / prazo
+  done              Boolean              @default(false)
+  doneAt            DateTime?
+  remindedAt        DateTime? // lembrete já disparado (WhatsApp/push)
+  source            String               @default("APP") // APP | WHATSAPP | MCP | WEBHOOK | IPHONE
   // Nome do recurso no CalDAV (Lembretes do iPhone) quando o item nasceu lá.
-  caldavUid       String?
+  caldavUid         String?
   // Lembrete exatamente como o iPhone gravou (com os campos internos dele) e quando.
   // Enquanto o GoHub não mexer no item, devolvemos esse texto igual — senão o
   // iOS vê "mudança", recarrega a lista e tira o usuário da tela.
-  caldavIcs       String?   @db.Text
-  caldavIcsAt     DateTime?
-  clientCompanyId String?   // opcional: sobre qual cliente é
-  tags            String[]  @default([]) // etiquetas livres: pessoal, financeiro, cliente…
-  doneNote        String?   @db.Text // o que foi feito na conclusão (opcional)
+  caldavIcs         String?              @db.Text
+  caldavIcsAt       DateTime?
+  clientCompanyId   String? // opcional: sobre qual cliente é
+  tags              String[]             @default([]) // etiquetas livres: pessoal, financeiro, cliente…
+  doneNote          String?              @db.Text // o que foi feito na conclusão (opcional)
   // Matriz de Eisenhower: importante × urgente. Quadrantes: fazer (ambos),
   // agendar (importante, não urgente), delegar (urgente, não importante),
   // eliminar (nenhum). Inferido pela IA, editável.
-  important       Boolean   @default(true)
-  urgent          Boolean   @default(false)
+  important         Boolean              @default(true)
+  urgent            Boolean              @default(false)
   // Fora da matriz: o item continua na fila/bloquinho/entrada, só não ocupa
   // quadrante ("só anotado"). Volta pra matriz ao ser arrastado pra um quadrante.
-  inMatrix        Boolean   @default(true)
+  inMatrix          Boolean              @default(true)
   // Arquivado: guardado sem ocupar o bloquinho (ideia/nota que não vira ação).
-  archivedAt      DateTime?
+  archivedAt        DateTime?
   // Tarefas de projeto (ProjectTask.id) que este item acompanha. O bloquinho
   // mostra "Abrir tarefa" e o item se conclui sozinho quando TODAS estiverem
   // concluídas (ou excluídas). Preenchido pelo MCP ou extraído do link
   // /projetos/<id>?tarefa=<id> no texto.
-  projectTaskIds  String[]  @default([])
+  projectTaskIds    String[]             @default([])
   // Delegado: vira chamado interno do responsável, mas o item continua ABERTO
   // no quadrante Delegar pra acompanhar (fora da fila e dos lembretes). Conclui
   // sozinho quando o chamado é resolvido/fechado.
   delegatedTicketId String?
   delegatedToName   String?
   delegatedAt       DateTime?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  events          AssistantNoteEvent[]
+  createdAt         DateTime             @default(now())
+  updatedAt         DateTime             @updatedAt
+  events            AssistantNoteEvent[]
 
   @@index([userId, kind, done])
   @@index([kind, done, dueAt])
@@ -190,7 +189,7 @@ model AssistantNoteEvent {
   id        String        @id @default(cuid())
   noteId    String
   note      AssistantNote @relation(fields: [noteId], references: [id], onDelete: Cascade)
-  type      String        // CREATED | EDITED | DONE | REOPENED
+  type      String // CREATED | EDITED | DONE | REOPENED
   detail    String?       @db.Text
   source    String        @default("APP") // APP | WHATSAPP | MCP
   createdAt DateTime      @default(now())
@@ -204,8 +203,8 @@ model AssistantTurn {
   id        String   @id @default(cuid())
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  channel   String   // APP | WHATSAPP | MCP
-  role      String   // user | assistant
+  channel   String // APP | WHATSAPP | MCP
+  role      String // user | assistant
   content   String   @db.Text
   createdAt DateTime @default(now())
 
@@ -335,30 +334,30 @@ enum RankingCategory {
 // ─── Empresas ─────────────────────────────────────────────────────────────────
 
 model Company {
-  id        String        @id @default(cuid())
-  name      String
+  id              String        @id @default(cuid())
+  name            String
   // Nome fantasia. `name` costuma guardar a razão social (é o que vem da lista
   // do ClickUp e do Bling); o fantasia é como o cliente é chamado no dia a dia.
   // Telas de trabalho mostram o fantasia quando existe, e o `name` continua
   // sendo o que casa com documento fiscal.
-  tradeName String?
-  slug      String        @unique
-  segment   String?
-  phone     String?
-  email     String?
-  website   String?
-  logoUrl   String?
+  tradeName       String?
+  slug            String        @unique
+  segment         String?
+  phone           String?
+  email           String?
+  website         String?
+  logoUrl         String?
   // Cor da marca (#RRGGBB) — com o logoUrl, veste as telas que o cliente
   // final vê (ex.: link de aprovação de peças) com a identidade da agência.
-  brandColor String?
+  brandColor      String?
   // Link "Avaliar no Google" do Perfil da Empresa da agência (o que o Google
   // dá em "Pedir avaliações"). Aparece pro cliente depois que ele confirma
   // que o chamado foi resolvido — pra TODO cliente, sem filtrar pela nota
   // (o Google proíbe pedir avaliação só de quem está satisfeito).
   googleReviewUrl String?
-  status    CompanyStatus @default(ACTIVE)
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
+  status          CompanyStatus @default(ACTIVE)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
 
   // CNPJ/CPF (só dígitos, sem máscara) — chave de casamento com o cadastro do
   // Bling. É por essa string que o sync Bling↔LeadHub decide se um contato do
@@ -561,7 +560,7 @@ model Company {
   webhookToken             String?                    @unique // token público para receber leads via webhook
 
   // Integração Bling (só a AZZ conecta — 1 conexão por empresa, na prática singleton).
-  blingIntegration BlingIntegration?
+  blingIntegration  BlingIntegration?
   cpanelIntegration CpanelIntegration?
 
   // Arquivos no MinIO (anexos de chamados/tarefas) — base do consumo de espaço.
@@ -752,11 +751,11 @@ model Lead {
   // Preenchido pela varredura (cron crm-ai-stage) ou pelo botão "Analisar com IA".
   // aiStageAnalyzedAt = momento da análise; a varredura só reanalisa quando a
   // conversa teve mensagem nova depois disso. Sugestão é limpa ao aplicar/ignorar.
-  aiStageSuggestion  String?
-  aiStageReason      String?   @db.Text
-  aiStageConfidence  Int?
-  aiStageReturnAt    DateTime? // retorno combinado na conversa (ex.: "me liga quinta 10h")
-  aiStageAnalyzedAt  DateTime?
+  aiStageSuggestion String?
+  aiStageReason     String?   @db.Text
+  aiStageConfidence Int?
+  aiStageReturnAt   DateTime? // retorno combinado na conversa (ex.: "me liga quinta 10h")
+  aiStageAnalyzedAt DateTime?
 
   // Visibilidade: isInternal=true → visível apenas ao SUPER_ADMIN (não aparece no portal do cliente)
   isInternal Boolean @default(false)
@@ -1354,22 +1353,22 @@ model Conversation {
   //   ACTIVE       → bot pode responder (se a instância tiver agente autoRespond)
   //   PAUSED_HUMAN → humano assumiu (outbound de atendente ou handoff) — bot cala
   //   OFF          → bot desligado manualmente nesta conversa
-  aiMode         AiMode    @default(ACTIVE)
-  aiPausedAt     DateTime? // quando o bot foi pausado (handoff/humano)
+  aiMode              AiMode    @default(ACTIVE)
+  aiPausedAt          DateTime? // quando o bot foi pausado (handoff/humano)
   // Quando o agente ASSUMIU esta conversa (só importa no modo TRIGGER).
   // Enquanto null nesse modo, ele fica fora — a conversa é do time. Zera ao
   // concluir o ciclo (Concluir IA / Finalizar): volta a esperar novo gatilho.
-  aiEngagedAt    DateTime?
+  aiEngagedAt         DateTime?
   // Marco de "atendimento de IA concluído": o agente ignora todo o histórico
   // anterior a este instante — a próxima mensagem inicia um ciclo NOVO
   // (re-saudação, re-qualificação). Setado pelo botão da Inbox e no Finalizar.
-  aiCycleResetAt DateTime?
+  aiCycleResetAt      DateTime?
   // Diagnostico persistente do agente: resultado da ULTIMA tentativa dele nesta
   // conversa ("ok:NONE", "aiMode_PAUSED_HUMAN", "ai_QUOTA"...). Antes isso so
   // vivia num anel de 12 execucoes em memoria — "por que a IA nao respondeu?"
   // virava adivinhacao dias depois.
-  aiLastResult   String?
-  aiLastRunAt    DateTime?
+  aiLastResult        String?
+  aiLastRunAt         DateTime?
   // Follow-up em etapas: quantas etapas já saíram neste sumiço, quando saiu a
   // última e quando a sequência esgotou sem resposta ("sem retorno"). Zera
   // quando o contato responde.
@@ -1539,6 +1538,11 @@ model Ticket {
   projeto   SetorClickupList? @relation("TicketProjeto", fields: [projetoId], references: [id], onDelete: SetNull)
   projetoId String?
 
+  // Etapa (ProjectService) do projeto onde o chamado entra. Com ClickUp, a task
+  // do chamado nasce como subtarefa da tarefa-mãe da etapa.
+  etapa   ProjectService? @relation("TicketEtapa", fields: [etapaId], references: [id], onDelete: SetNull)
+  etapaId String?
+
   // Visibilidade: "OPEN" (toda a empresa vê) | "RESTRICTED" (só setor do chamado
   // + pessoas extras em accessUsers + assignee/criador). ADMIN/SUPER_ADMIN sempre
   // veem. Default OPEN mantém compat com chamados antigos.
@@ -1558,7 +1562,7 @@ model Ticket {
   autoClosedAt    DateTime?
   // Avaliação do atendimento pelo cliente (1–5), interna — só a equipe vê.
   rating          Int?
-  ratingComment   String?  @db.Text
+  ratingComment   String?   @db.Text
   ratedAt         DateTime?
   ratedByName     String?
 
@@ -1742,10 +1746,10 @@ model SetorClickupList {
 
   // Aprovação pelo WhatsApp (gestão de mídias): grupo do cliente que recebe o
   // link de cada peça e os lembretes. null = projeto não usa aprovação por link.
-  approvalGroupJid      String? // JID @g.us
-  approvalGroupName     String?
-  approvalReminderDays  Int     @default(2) // lembra no grupo após N dias sem aprovar
-  approvalMaxReminders  Int     @default(3) // depois disso para de insistir e avisa a equipe
+  approvalGroupJid     String? // JID @g.us
+  approvalGroupName    String?
+  approvalReminderDays Int     @default(2) // lembra no grupo após N dias sem aprovar
+  approvalMaxReminders Int     @default(3) // depois disso para de insistir e avisa a equipe
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -1813,8 +1817,8 @@ model ProjectTask {
   startDate        DateTime? // início — pro cliente acompanhar o cronograma
   dueDate          DateTime? // fim / prazo
 
-  assignee   User?   @relation("ProjectTaskAssignee", fields: [assigneeId], references: [id], onDelete: SetNull)
-  assigneeId String?
+  assignee     User?     @relation("ProjectTaskAssignee", fields: [assigneeId], references: [id], onDelete: SetNull)
+  assigneeId   String?
   // "Com o Claude (IA)": o Diego despachou a tarefa pro Claude fazer. Não é um
   // usuário de verdade (senão ele apareceria em transferência de WhatsApp,
   // chamados, ranking…). assigneeId continua sendo quem pediu — é pra quem a
@@ -1830,10 +1834,10 @@ model ProjectTask {
   approvalToken       String?   @unique
   approvalRound       Int       @default(0)
   approvalCommentAt   String?
-  approvalFileIds     Json?     // arquivos da peça nesta rodada, na ordem do carrossel
+  approvalFileIds     Json? // arquivos da peça nesta rodada, na ordem do carrossel
   // Vídeos/arquivos por LINK (Drive, YouTube) da peça nesta rodada — tocam no
   // player do próprio Google no carrossel, sem passar pelo nosso storage.
-  approvalLinks       Json?     // [{ url, title }]
+  approvalLinks       Json? // [{ url, title }]
   // Cópia do descritivo NO ENVIO. Peça só de texto (planejamento, roteiro,
   // legenda) não tem arquivo pra congelar — sem isto, editar o descritivo
   // depois mudaria o que o link mostra como "aprovado".
@@ -1844,7 +1848,7 @@ model ProjectTask {
   approvalViewCount   Int       @default(0) // visitas nesta rodada
   approvalSlidesSeen  Int       @default(0) // até qual arquivo do carrossel o cliente passou
   approvalSlidesTotal Int       @default(0)
-  approvalLastViewIp  String?   // IP da última visita que contou (cliente, não equipe)
+  approvalLastViewIp  String? // IP da última visita que contou (cliente, não equipe)
   approvalNudgedAt    DateTime? // último lembrete no grupo
   approvalNudgeCount  Int       @default(0)
   approvedAt          DateTime?
@@ -1911,7 +1915,8 @@ model ProjectService {
   completedAt     DateTime?
   createdAt       DateTime         @default(now())
 
-  tasks ProjectTask[]
+  tasks   ProjectTask[]
+  tickets Ticket[]      @relation("TicketEtapa")
 
   @@index([projectId])
   @@index([serviceId])
@@ -2567,12 +2572,12 @@ model IgAutomation {
   // (brincadeira, pergunta, crítica, spam…), escreve no tom de aiPersona e o
   // worker publica em ritmo humano. No modo AI a DM só sai pra pergunta/
   // interesse — brincadeira não recebe DM.
-  replyMode   IgReplyMode @default(FIXED)
-  aiPersona   String?     @db.Text // quem é, tom, o que defende, o que evitar
-  aiExamples  String?     @db.Text // respostas reais do dono, pra IA pegar o jeito
-  aiApproval  Boolean     @default(true) // resposta espera aprovação no painel
-  aiMaxPerHour Int        @default(40) // teto de respostas publicadas por hora
-  aiHideSpam  Boolean     @default(true) // oculta spam/golpe automaticamente
+  replyMode    IgReplyMode @default(FIXED)
+  aiPersona    String?     @db.Text // quem é, tom, o que defende, o que evitar
+  aiExamples   String?     @db.Text // respostas reais do dono, pra IA pegar o jeito
+  aiApproval   Boolean     @default(true) // resposta espera aprovação no painel
+  aiMaxPerHour Int         @default(40) // teto de respostas publicadas por hora
+  aiHideSpam   Boolean     @default(true) // oculta spam/golpe automaticamente
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -3928,17 +3933,17 @@ model InboxEmail {
 
   // Triagem IA (endpoint /api/email/inbox/ai-triage, cota do Assistente IA):
   // importância "ALTA" | "NORMAL" | "BAIXA" + resumo de 1 linha.
-  aiImportance String?
-  aiSummary    String? @db.Text
+  aiImportance      String?
+  aiSummary         String?  @db.Text
   // Suspeita de golpe/phishing: heurística na chegada (nome de órgão/banco com
   // domínio aleatório, link disfarçado, anexo executável) OU sinalizada pela
   // triagem IA. Nunca desliga sozinha.
-  suspicious   Boolean @default(false)
+  suspicious        Boolean  @default(false)
   // Por que suspeitamos — frases prontas pro banner do leitor e pra IA.
   suspiciousReasons String[] @default([])
   // Classificação corrigida À MÃO (gaveta escolhida pelo usuário). A triagem
   // IA nunca sobrescreve e usa esses emails como exemplo do que é certo.
-  aiLocked Boolean @default(false)
+  aiLocked          Boolean  @default(false)
 
   // Assunto agrupado À MÃO: você marca os emails e eles passam a andar
   // juntos (aparecem um no outro e resolvem juntos), mesmo quando a regra
@@ -4292,27 +4297,27 @@ model Assistant {
   // FOLLOW-UP EM ETAPAS (sucessor do resgate): [{ delayMin, text, mode }], até 10.
   // delayMin conta da mensagem ANTERIOR (etapa 1 = da nossa última fala).
   // Vazio + revivalDelayMin > 0 = o resgate antigo vira a etapa 1.
-  followUpSteps        Json?
+  followUpSteps          Json?
   // Chave geral do follow-up. Desligado por padrão: ligar é decisão
   // consciente — ligado sem querer, o agente escreve pra base inteira.
-  followUpEnabled      Boolean   @default(false)
+  followUpEnabled        Boolean   @default(false)
   // Momento em que o follow-up foi ligado. Conversa que já estava parada
   // ANTES disso nunca recebe a etapa 1 — ligar não dispara na base antiga.
-  followUpArmedAt      DateTime?
+  followUpArmedAt        DateTime?
   // ESCOPO — em quais conversas o follow-up pode entrar (somam-se):
   // veio pela campanha (a IA assumiu pelo gatilho), mesmo que depois um
   // atendente tenha assumido e o contato não tenha voltado.
-  followUpScopeTrigger   Boolean @default(true)
+  followUpScopeTrigger   Boolean   @default(true)
   // ...e conversa marcada à mão pelo atendente ("Pedir follow-up").
-  followUpScopeRequested Boolean @default(true)
+  followUpScopeRequested Boolean   @default(true)
   // Escopo amplo: QUALQUER conversa em que a gente falou por último, inclusive
   // as que nunca passaram pelo agente. É o que causou o incidente da clínica —
   // fica desligado a não ser que alguém escolha.
-  followUpIncludeHuman Boolean @default(false)
+  followUpIncludeHuman   Boolean   @default(false)
   // Quem responde ao follow-up vai pra esta rota (intent); null = handoff.
-  followUpReplyIntent  String?
+  followUpReplyIntent    String?
   // Aviso curto ao contato quando ele volta (null = não manda nada).
-  followUpReplyText    String? @db.Text
+  followUpReplyText      String?   @db.Text
 
   // CONTINUACAO: o agente prometeu algo e o turno acabou sem entregar — ele
   // volta sozinho em ~30s pra cumprir. Ligado por padrao (e o conserto de um
@@ -4757,17 +4762,17 @@ model Sale {
   // "Assinado" deixou de ser um clique solto: só vale com o aceite registrado
   // (onde, quando, quem). É o que responde "cadê o de acordo desse cliente?"
   // sem procurar na caixa de email. Regra em src/lib/sale-contract.ts.
-  contractDocType     String? // CONTRATO | TERMO
-  contractDocument    ClientDocument? @relation("SaleContractDocument", fields: [contractDocumentId], references: [id], onDelete: SetNull)
-  contractDocumentId  String?
-  contractSentAt      DateTime? // quando foi enviado (contractAt guarda o último carimbo de status)
-  contractEndedAt     DateTime? // ENCERRADO
-  acceptanceType      String? // AUTENTIQUE | EMAIL | GOHUB | OUTRO
-  acceptanceUrl       String? // documento no Autentique, email de "de acordo"…
-  acceptedAt          DateTime?
-  acceptedByName      String?
-  acceptedByEmail     String?
-  acceptanceEmailId   String? // InboxEmail marcado como aceite (id solto: email apagado não apaga o aceite)
+  contractDocType      String? // CONTRATO | TERMO
+  contractDocument     ClientDocument? @relation("SaleContractDocument", fields: [contractDocumentId], references: [id], onDelete: SetNull)
+  contractDocumentId   String?
+  contractSentAt       DateTime? // quando foi enviado (contractAt guarda o último carimbo de status)
+  contractEndedAt      DateTime? // ENCERRADO
+  acceptanceType       String? // AUTENTIQUE | EMAIL | GOHUB | OUTRO
+  acceptanceUrl        String? // documento no Autentique, email de "de acordo"…
+  acceptedAt           DateTime?
+  acceptedByName       String?
+  acceptedByEmail      String?
+  acceptanceEmailId    String? // InboxEmail marcado como aceite (id solto: email apagado não apaga o aceite)
   acceptanceRecordedBy String? // quem registrou no GoHub
 
   // ─── Confirmação do faturamento ───────────────────────────────────────────
@@ -4787,7 +4792,7 @@ model Sale {
 
   documents ClientDocument[] @relation("SaleDocuments")
 
-  bonuses Bonus[]
+  bonuses  Bonus[]
   // Cobranças geradas quando a venda é marcada como faturada na esteira —
   // uma por parcela (venda à vista gera uma só).
   invoices ClientInvoice[]
@@ -4828,8 +4833,8 @@ model Sale {
 // nem impede mexer no que já foi pago. Sem o encerramento, um lançamento
 // tardio num mês já pago passava despercebido e virava pagamento em dobro.
 model BonusClosure {
-  id        String   @id @default(cuid())
-  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  id        String  @id @default(cuid())
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId String
   month     String // competência "YYYY-MM"
 
@@ -4838,7 +4843,7 @@ model BonusClosure {
   totalCents Int @default(0)
   qtd        Int @default(0)
 
-  closedAt   DateTime @default(now())
+  closedAt   DateTime  @default(now())
   closedBy   String? // nome de quem encerrou
   reopenedAt DateTime? // último reabrir, pra auditoria do vai-e-vem
   reopenedBy String?
@@ -5148,12 +5153,12 @@ model StorageObject {
   size     Int    @default(0) // bytes (confirmado via HEAD no bucket)
   status   String @default("PENDING") // "PENDING" | "DRAFT" | "READY"
 
-  ticketId        String?
-  ticket          Ticket?        @relation(fields: [ticketId], references: [id], onDelete: Cascade)
-  ticketMessageId String?
-  ticketMessage   TicketMessage? @relation(fields: [ticketMessageId], references: [id], onDelete: SetNull)
-  projectTaskId   String?
-  projectTask     ProjectTask?   @relation(fields: [projectTaskId], references: [id], onDelete: Cascade)
+  ticketId         String?
+  ticket           Ticket?            @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  ticketMessageId  String?
+  ticketMessage    TicketMessage?     @relation(fields: [ticketMessageId], references: [id], onDelete: SetNull)
+  projectTaskId    String?
+  projectTask      ProjectTask?       @relation(fields: [projectTaskId], references: [id], onDelete: Cascade)
   // Biblioteca de arquivos do cliente (Meu Espaço → Arquivos): id da
   // empresa-cliente dona do arquivo. Sem FK de propósito — o vínculo real é
   // ClientLibraryItem.storageObjectId (Cascade apaga o item junto).
@@ -5198,7 +5203,7 @@ model ClientLibraryItem {
   storageObjectId String?        @unique
   storageObject   StorageObject? @relation(fields: [storageObjectId], references: [id], onDelete: Cascade)
 
-  visibleToClient Boolean @default(true)
+  visibleToClient Boolean  @default(true)
   createdById     String?
   createdByName   String?
   createdAt       DateTime @default(now())
@@ -5226,16 +5231,16 @@ model ClientDocument {
   storageObject   StorageObject? @relation("ClientDocumentFile", fields: [storageObjectId], references: [id], onDelete: SetNull)
 
   // Venda/contrato a que se refere (opcional).
-  sale   Sale?   @relation("SaleDocuments", fields: [saleId], references: [id], onDelete: SetNull)
-  saleId String?
-  contractOf Sale[] @relation("SaleContractDocument")
+  sale       Sale?   @relation("SaleDocuments", fields: [saleId], references: [id], onDelete: SetNull)
+  saleId     String?
+  contractOf Sale[]  @relation("SaleContractDocument")
 
   // Data do documento (envio/assinatura), que nem sempre é a do cadastro.
   documentDate  DateTime?
   createdById   String?
   createdByName String?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 
   @@index([clientCompanyId, createdAt])
   @@index([saleId])
@@ -5246,10 +5251,10 @@ model ClientDocument {
 // remoto. Fluxo: /register → /authorize (consentimento, usuário logado) →
 // /token. O access token vira "token pessoal" equivalente ao gohub_… .
 model McpOAuthClient {
-  id           String   @id // client_id
+  id           String          @id // client_id
   name         String?
-  redirectUris String[] @default([])
-  createdAt    DateTime @default(now())
+  redirectUris String[]        @default([])
+  createdAt    DateTime        @default(now())
   codes        McpOAuthCode[]
   tokens       McpOAuthToken[]
 }
@@ -5302,19 +5307,19 @@ model InternalIp {
 // casando o padrão já entra tratado — delegado, arquivado, concluído ou
 // classificado na matriz. Evita triar o mesmo aviso todo mês.
 model AssistantRule {
-  id         String   @id @default(cuid())
+  id         String    @id @default(cuid())
   userId     String
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  pattern    String   // trecho normalizado (minúsculo, sem acento) a casar no título/corpo
-  action     String   // DONE | ARCHIVE | DELEGATE | CLASSIFY | INFO | IDEA
-  assigneeId String?  // DELEGATE: responsável do chamado interno
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pattern    String // trecho normalizado (minúsculo, sem acento) a casar no título/corpo
+  action     String // DONE | ARCHIVE | DELEGATE | CLASSIFY | INFO | IDEA
+  assigneeId String? // DELEGATE: responsável do chamado interno
   important  Boolean?
   urgent     Boolean?
-  tags       String[] @default([])
-  note       String?  // observação ("fatura mensal — Kelly paga")
-  hits       Int      @default(0)
+  tags       String[]  @default([])
+  note       String? // observação ("fatura mensal — Kelly paga")
+  hits       Int       @default(0)
   lastHitAt  DateTime?
-  createdAt  DateTime @default(now())
+  createdAt  DateTime  @default(now())
 
   @@index([userId])
 }
@@ -5461,11 +5466,11 @@ model BioQuestion {
   page   BioPage @relation(fields: [pageId], references: [id], onDelete: Cascade)
   pageId String
 
-  text    String
-  options String[] // respostas em botão, na ordem exibida
-  multiple Boolean @default(false) // visitante pode marcar mais de uma resposta
-  order   Int      @default(0)
-  active  Boolean  @default(true)
+  text     String
+  options  String[] // respostas em botão, na ordem exibida
+  multiple Boolean  @default(false) // visitante pode marcar mais de uma resposta
+  order    Int      @default(0)
+  active   Boolean  @default(true)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -5515,9 +5520,9 @@ model BioProgress {
   pageId    String
   visitorId String
 
-  answers     Json      @default("[]") // [{ questionId, question, answer }]
-  reachedForm Boolean   @default(false) // chegou no formulário de contato
-  convertedAt DateTime? // deixou o contato
+  answers      Json           @default("[]") // [{ questionId, question, answer }]
+  reachedForm  Boolean        @default(false) // chegou no formulário de contato
+  convertedAt  DateTime? // deixou o contato
   submission   BioSubmission? @relation(fields: [submissionId], references: [id], onDelete: SetNull)
   submissionId String?        @unique
 
@@ -5570,10 +5575,10 @@ model BioDomain {
 
   // Sempre minúsculo, sem "www." removido (www.cliente.com.br é um host
   // diferente de cliente.com.br) e sem porta nem caminho.
-  hostname String          @unique
-  status   BioDomainStatus @default(PENDING)
+  hostname      String          @unique
+  status        BioDomainStatus @default(PENDING)
   // Mensagem para o dono da página quando status = ERROR.
-  statusMessage String?    @db.Text
+  statusMessage String?         @db.Text
 
   // Custom hostname na Cloudflare. Nulo quando o super admin ativou à mão
   // (domínio já servido por outro caminho).

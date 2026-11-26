@@ -5,7 +5,7 @@ import { assertModule } from "@/lib/billing";
 import { getViewer, projectVisibilityWhere } from "@/lib/visibility";
 
 // GET /api/projetos — lista todos os projetos visíveis ao usuário
-export async function GET() {
+export async function GET(req: NextRequest) {
   const session = await getEffectiveSession();
   if (!session) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
 
@@ -23,6 +23,33 @@ export async function GET() {
   const viewer = await getViewer(session);
   const visWhere = projectVisibilityWhere(viewer);
   if (visWhere) where.AND = [...(where.AND ?? []), visWhere];
+
+  // ?clientCompanyId=X → só os projetos em aberto daquele cliente, em formato
+  // enxuto (usado pelo modal "Abrir chamado" do WhatsApp pra vincular o projeto).
+  const clientCompanyId = req.nextUrl.searchParams.get("clientCompanyId");
+  if (clientCompanyId) {
+    const projects = await prisma.setorClickupList.findMany({
+      where: {
+        ...where,
+        clientCompanyId,
+        status: { notIn: ["ENTREGUE", "CANCELADO"] },
+      },
+      select: {
+        id: true,
+        name: true,
+        status: true,
+        service: { select: { name: true } },
+        // Etapas ativas (não concluídas), na ordem do projeto.
+        serviceSteps: {
+          where:   { completedAt: null },
+          select:  { id: true, name: true, order: true, service: { select: { name: true } } },
+          orderBy: { order: "asc" },
+        },
+      },
+      orderBy: { name: "asc" },
+    });
+    return NextResponse.json({ projects });
+  }
 
   const projects = await prisma.setorClickupList.findMany({
     where,
