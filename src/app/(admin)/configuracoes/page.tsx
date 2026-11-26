@@ -25,6 +25,7 @@ import MetaCapiSettings from "./MetaCapiSettings";
 import IntegracoesMetaSection from "./IntegracoesMetaSection";
 import BillingActions from "./BillingActions";
 import BlingSettings from "./BlingSettings";
+import CompanyCpanelIntegration from "../empresas/[id]/CompanyCpanelIntegration";
 import { isBlingConfigured, BLING_REDIRECT_URI } from "@/lib/bling";
 import { getAiSpend } from "@/lib/ai-costs";
 import CompanyContacts from "../empresas/[id]/CompanyContacts";
@@ -402,6 +403,22 @@ export default async function ConfiguracoesPage({
         />
       );
     }
+  } else if (secao === "integracoes-cpanel") {
+    // cPanel da PRÓPRIA empresa (a hospedagem da agência). O de cada cliente
+    // fica no cadastro dele: Clientes → cliente → Marketing → Integrações.
+    // SUPER_ADMIN fora de impersonação escolhe a empresa por ?companyId=.
+    const targetCompanyId = isSuperAdmin ? (qCompanyId ?? userCompanyId) : userCompanyId;
+    content = targetCompanyId ? (
+      <div className="py-6 max-w-3xl">
+        <CompanyCpanelIntegration companyId={targetCompanyId} showDenied />
+        <p className="px-5 text-[11px] text-slate-500">
+          Esta é a hospedagem da sua própria empresa. Para o cPanel de um cliente, abra o cliente em
+          {" "}<strong className="text-slate-400">Clientes → (cliente) → Marketing → Integrações</strong>.
+        </p>
+      </div>
+    ) : (
+      <div className="p-6 text-slate-500 text-sm">Sua conta não está vinculada a nenhuma empresa.</div>
+    );
   } else if (secao === "integracoes-bling") {
     // Bling (ERP) — só a AZZ conecta. SUPER_ADMIN escolhe a empresa num seletor
     // (mesmo padrão da integração Google); ADMIN usa a própria empresa.

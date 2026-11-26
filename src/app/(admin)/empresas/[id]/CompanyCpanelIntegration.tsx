@@ -26,7 +26,11 @@ const EMPTY_FORM = { host: "", port: "2083", username: "", token: "", publishDir
  * simplesmente não aparece. O token nunca volta do servidor — depois de salvo,
  * o campo fica vazio e só é preenchido pra trocar.
  */
-export default function CompanyCpanelIntegration({ companyId }: { companyId: string }) {
+export default function CompanyCpanelIntegration({ companyId, showDenied = false }: {
+  companyId: string;
+  /** Em Configurações a seção é só isto: mostra o aviso em vez de tela vazia. */
+  showDenied?: boolean;
+}) {
   const [allowed, setAllowed] = useState<boolean | null>(null);
   const [config, setConfig] = useState<CpanelConfig | null>(null);
   const [editing, setEditing] = useState(false);
@@ -110,6 +114,13 @@ export default function CompanyCpanelIntegration({ companyId }: { companyId: str
     setMsg({ kind: "ok", text: "Integração removida." });
   }
 
+  if (allowed === false && showDenied) {
+    return (
+      <div className="px-5 pb-5 text-slate-500 text-sm">
+        Só administradores da empresa podem ver e configurar o cPanel.
+      </div>
+    );
+  }
   if (!allowed) return null; // carregando ou sem permissão
 
   const connected = !!config && config.status === "ACTIVE";

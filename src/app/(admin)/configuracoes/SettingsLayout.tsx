@@ -5,7 +5,7 @@ import { useState } from "react";
 import {
   MessageSquare, Building2, Plug, Zap, CheckSquare, Sparkles, Webhook,
   Workflow, Tag, Clock, Globe, Mail, FileText, Users, KeyRound, CreditCard, Trophy,
-  UserCircle, Search, Bot, Target, Receipt, ShieldCheck,
+  UserCircle, Search, Bot, Target, Receipt, ShieldCheck, Server,
   ChevronDown, ChevronRight,
   type LucideIcon,
 } from "lucide-react";
@@ -57,6 +57,7 @@ const SECTIONS: SectionItem[] = [
       { key: "integracoes-webhook",   Icon: Webhook,    grad: "webhook",   label: "Webhook de Leads",desc: "Receba leads de qualquer fonte" },
       { key: "integracoes-meta",      Icon: Target,     grad: "pipeline",  label: "Meta", desc: "Facebook, Instagram, Pixel e Meta Ads" },
       { key: "integracoes-bling",     Icon: Receipt,    grad: "oportunidades", label: "Bling · ERP",   desc: "Clientes e financeiro (boletos + NF)" },
+      { key: "integracoes-cpanel",    Icon: Server,     grad: "integracoes", label: "cPanel · Hospedagem", desc: "E-mails, espaço e publicação no site" },
     ],
   },
   { type: "item", key: "pipeline",    Icon: Workflow, grad: "pipeline",    label: "CRM / Pipeline", desc: "Etapas e configurações" },
@@ -128,6 +129,7 @@ const SECTION_GATE: Record<string, keyof EnabledSections | (keyof EnabledSection
   "integracoes-webhook":    "crm",
   "integracoes-meta":       ["crm", "marketing"],
   "integracoes-bling":      "bling", // AZZ (moduleBling) + SUPER_ADMIN
+  "integracoes-cpanel":     null,    // a própria tela esconde de quem não é ADMIN
   "plataforma-admins":      null,
 };
 
