@@ -82542,10 +82542,12 @@ export namespace Prisma {
 
   export type CpanelIntegrationAvgAggregateOutputType = {
     port: number | null
+    clientMaxQuotaMb: number | null
   }
 
   export type CpanelIntegrationSumAggregateOutputType = {
     port: number | null
+    clientMaxQuotaMb: number | null
   }
 
   export type CpanelIntegrationMinAggregateOutputType = {
@@ -82559,6 +82561,9 @@ export namespace Prisma {
     siteUrl: string | null
     clientCanManageEmail: boolean | null
     clientCanCreateEmail: boolean | null
+    clientCanChangeQuota: boolean | null
+    clientMaxQuotaMb: number | null
+    clientCanUpload: boolean | null
     status: $Enums.IntegrationStatus | null
     lastTestedAt: Date | null
     lastError: string | null
@@ -82579,6 +82584,9 @@ export namespace Prisma {
     siteUrl: string | null
     clientCanManageEmail: boolean | null
     clientCanCreateEmail: boolean | null
+    clientCanChangeQuota: boolean | null
+    clientMaxQuotaMb: number | null
+    clientCanUpload: boolean | null
     status: $Enums.IntegrationStatus | null
     lastTestedAt: Date | null
     lastError: string | null
@@ -82599,6 +82607,9 @@ export namespace Prisma {
     siteUrl: number
     clientCanManageEmail: number
     clientCanCreateEmail: number
+    clientCanChangeQuota: number
+    clientMaxQuotaMb: number
+    clientCanUpload: number
     status: number
     lastTestedAt: number
     lastError: number
@@ -82612,10 +82623,12 @@ export namespace Prisma {
 
   export type CpanelIntegrationAvgAggregateInputType = {
     port?: true
+    clientMaxQuotaMb?: true
   }
 
   export type CpanelIntegrationSumAggregateInputType = {
     port?: true
+    clientMaxQuotaMb?: true
   }
 
   export type CpanelIntegrationMinAggregateInputType = {
@@ -82629,6 +82642,9 @@ export namespace Prisma {
     siteUrl?: true
     clientCanManageEmail?: true
     clientCanCreateEmail?: true
+    clientCanChangeQuota?: true
+    clientMaxQuotaMb?: true
+    clientCanUpload?: true
     status?: true
     lastTestedAt?: true
     lastError?: true
@@ -82649,6 +82665,9 @@ export namespace Prisma {
     siteUrl?: true
     clientCanManageEmail?: true
     clientCanCreateEmail?: true
+    clientCanChangeQuota?: true
+    clientMaxQuotaMb?: true
+    clientCanUpload?: true
     status?: true
     lastTestedAt?: true
     lastError?: true
@@ -82669,6 +82688,9 @@ export namespace Prisma {
     siteUrl?: true
     clientCanManageEmail?: true
     clientCanCreateEmail?: true
+    clientCanChangeQuota?: true
+    clientMaxQuotaMb?: true
+    clientCanUpload?: true
     status?: true
     lastTestedAt?: true
     lastError?: true
@@ -82776,6 +82798,9 @@ export namespace Prisma {
     siteUrl: string | null
     clientCanManageEmail: boolean
     clientCanCreateEmail: boolean
+    clientCanChangeQuota: boolean
+    clientMaxQuotaMb: number | null
+    clientCanUpload: boolean
     status: $Enums.IntegrationStatus
     lastTestedAt: Date | null
     lastError: string | null
@@ -82815,6 +82840,9 @@ export namespace Prisma {
     siteUrl?: boolean
     clientCanManageEmail?: boolean
     clientCanCreateEmail?: boolean
+    clientCanChangeQuota?: boolean
+    clientMaxQuotaMb?: boolean
+    clientCanUpload?: boolean
     status?: boolean
     lastTestedAt?: boolean
     lastError?: boolean
@@ -82836,6 +82864,9 @@ export namespace Prisma {
     siteUrl?: boolean
     clientCanManageEmail?: boolean
     clientCanCreateEmail?: boolean
+    clientCanChangeQuota?: boolean
+    clientMaxQuotaMb?: boolean
+    clientCanUpload?: boolean
     status?: boolean
     lastTestedAt?: boolean
     lastError?: boolean
@@ -82857,6 +82888,9 @@ export namespace Prisma {
     siteUrl?: boolean
     clientCanManageEmail?: boolean
     clientCanCreateEmail?: boolean
+    clientCanChangeQuota?: boolean
+    clientMaxQuotaMb?: boolean
+    clientCanUpload?: boolean
     status?: boolean
     lastTestedAt?: boolean
     lastError?: boolean
@@ -82889,6 +82923,9 @@ export namespace Prisma {
       siteUrl: string | null
       clientCanManageEmail: boolean
       clientCanCreateEmail: boolean
+      clientCanChangeQuota: boolean
+      clientMaxQuotaMb: number | null
+      clientCanUpload: boolean
       status: $Enums.IntegrationStatus
       lastTestedAt: Date | null
       lastError: string | null
@@ -83300,6 +83337,9 @@ export namespace Prisma {
     readonly siteUrl: FieldRef<"CpanelIntegration", 'String'>
     readonly clientCanManageEmail: FieldRef<"CpanelIntegration", 'Boolean'>
     readonly clientCanCreateEmail: FieldRef<"CpanelIntegration", 'Boolean'>
+    readonly clientCanChangeQuota: FieldRef<"CpanelIntegration", 'Boolean'>
+    readonly clientMaxQuotaMb: FieldRef<"CpanelIntegration", 'Int'>
+    readonly clientCanUpload: FieldRef<"CpanelIntegration", 'Boolean'>
     readonly status: FieldRef<"CpanelIntegration", 'IntegrationStatus'>
     readonly lastTestedAt: FieldRef<"CpanelIntegration", 'DateTime'>
     readonly lastError: FieldRef<"CpanelIntegration", 'String'>
@@ -181896,6 +181936,9 @@ export namespace Prisma {
     siteUrl: 'siteUrl',
     clientCanManageEmail: 'clientCanManageEmail',
     clientCanCreateEmail: 'clientCanCreateEmail',
+    clientCanChangeQuota: 'clientCanChangeQuota',
+    clientMaxQuotaMb: 'clientMaxQuotaMb',
+    clientCanUpload: 'clientCanUpload',
     status: 'status',
     lastTestedAt: 'lastTestedAt',
     lastError: 'lastError',
@@ -190919,6 +190962,9 @@ export namespace Prisma {
     siteUrl?: StringNullableFilter<"CpanelIntegration"> | string | null
     clientCanManageEmail?: BoolFilter<"CpanelIntegration"> | boolean
     clientCanCreateEmail?: BoolFilter<"CpanelIntegration"> | boolean
+    clientCanChangeQuota?: BoolFilter<"CpanelIntegration"> | boolean
+    clientMaxQuotaMb?: IntNullableFilter<"CpanelIntegration"> | number | null
+    clientCanUpload?: BoolFilter<"CpanelIntegration"> | boolean
     status?: EnumIntegrationStatusFilter<"CpanelIntegration"> | $Enums.IntegrationStatus
     lastTestedAt?: DateTimeNullableFilter<"CpanelIntegration"> | Date | string | null
     lastError?: StringNullableFilter<"CpanelIntegration"> | string | null
@@ -190940,6 +190986,9 @@ export namespace Prisma {
     siteUrl?: SortOrderInput | SortOrder
     clientCanManageEmail?: SortOrder
     clientCanCreateEmail?: SortOrder
+    clientCanChangeQuota?: SortOrder
+    clientMaxQuotaMb?: SortOrderInput | SortOrder
+    clientCanUpload?: SortOrder
     status?: SortOrder
     lastTestedAt?: SortOrderInput | SortOrder
     lastError?: SortOrderInput | SortOrder
@@ -190964,6 +191013,9 @@ export namespace Prisma {
     siteUrl?: StringNullableFilter<"CpanelIntegration"> | string | null
     clientCanManageEmail?: BoolFilter<"CpanelIntegration"> | boolean
     clientCanCreateEmail?: BoolFilter<"CpanelIntegration"> | boolean
+    clientCanChangeQuota?: BoolFilter<"CpanelIntegration"> | boolean
+    clientMaxQuotaMb?: IntNullableFilter<"CpanelIntegration"> | number | null
+    clientCanUpload?: BoolFilter<"CpanelIntegration"> | boolean
     status?: EnumIntegrationStatusFilter<"CpanelIntegration"> | $Enums.IntegrationStatus
     lastTestedAt?: DateTimeNullableFilter<"CpanelIntegration"> | Date | string | null
     lastError?: StringNullableFilter<"CpanelIntegration"> | string | null
@@ -190985,6 +191037,9 @@ export namespace Prisma {
     siteUrl?: SortOrderInput | SortOrder
     clientCanManageEmail?: SortOrder
     clientCanCreateEmail?: SortOrder
+    clientCanChangeQuota?: SortOrder
+    clientMaxQuotaMb?: SortOrderInput | SortOrder
+    clientCanUpload?: SortOrder
     status?: SortOrder
     lastTestedAt?: SortOrderInput | SortOrder
     lastError?: SortOrderInput | SortOrder
@@ -191013,6 +191068,9 @@ export namespace Prisma {
     siteUrl?: StringNullableWithAggregatesFilter<"CpanelIntegration"> | string | null
     clientCanManageEmail?: BoolWithAggregatesFilter<"CpanelIntegration"> | boolean
     clientCanCreateEmail?: BoolWithAggregatesFilter<"CpanelIntegration"> | boolean
+    clientCanChangeQuota?: BoolWithAggregatesFilter<"CpanelIntegration"> | boolean
+    clientMaxQuotaMb?: IntNullableWithAggregatesFilter<"CpanelIntegration"> | number | null
+    clientCanUpload?: BoolWithAggregatesFilter<"CpanelIntegration"> | boolean
     status?: EnumIntegrationStatusWithAggregatesFilter<"CpanelIntegration"> | $Enums.IntegrationStatus
     lastTestedAt?: DateTimeNullableWithAggregatesFilter<"CpanelIntegration"> | Date | string | null
     lastError?: StringNullableWithAggregatesFilter<"CpanelIntegration"> | string | null
@@ -207195,6 +207253,9 @@ export namespace Prisma {
     siteUrl?: string | null
     clientCanManageEmail?: boolean
     clientCanCreateEmail?: boolean
+    clientCanChangeQuota?: boolean
+    clientMaxQuotaMb?: number | null
+    clientCanUpload?: boolean
     status?: $Enums.IntegrationStatus
     lastTestedAt?: Date | string | null
     lastError?: string | null
@@ -207216,6 +207277,9 @@ export namespace Prisma {
     siteUrl?: string | null
     clientCanManageEmail?: boolean
     clientCanCreateEmail?: boolean
+    clientCanChangeQuota?: boolean
+    clientMaxQuotaMb?: number | null
+    clientCanUpload?: boolean
     status?: $Enums.IntegrationStatus
     lastTestedAt?: Date | string | null
     lastError?: string | null
@@ -207235,6 +207299,9 @@ export namespace Prisma {
     siteUrl?: NullableStringFieldUpdateOperationsInput | string | null
     clientCanManageEmail?: BoolFieldUpdateOperationsInput | boolean
     clientCanCreateEmail?: BoolFieldUpdateOperationsInput | boolean
+    clientCanChangeQuota?: BoolFieldUpdateOperationsInput | boolean
+    clientMaxQuotaMb?: NullableIntFieldUpdateOperationsInput | number | null
+    clientCanUpload?: BoolFieldUpdateOperationsInput | boolean
     status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
     lastTestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastError?: NullableStringFieldUpdateOperationsInput | string | null
@@ -207256,6 +207323,9 @@ export namespace Prisma {
     siteUrl?: NullableStringFieldUpdateOperationsInput | string | null
     clientCanManageEmail?: BoolFieldUpdateOperationsInput | boolean
     clientCanCreateEmail?: BoolFieldUpdateOperationsInput | boolean
+    clientCanChangeQuota?: BoolFieldUpdateOperationsInput | boolean
+    clientMaxQuotaMb?: NullableIntFieldUpdateOperationsInput | number | null
+    clientCanUpload?: BoolFieldUpdateOperationsInput | boolean
     status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
     lastTestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastError?: NullableStringFieldUpdateOperationsInput | string | null
@@ -207276,6 +207346,9 @@ export namespace Prisma {
     siteUrl?: string | null
     clientCanManageEmail?: boolean
     clientCanCreateEmail?: boolean
+    clientCanChangeQuota?: boolean
+    clientMaxQuotaMb?: number | null
+    clientCanUpload?: boolean
     status?: $Enums.IntegrationStatus
     lastTestedAt?: Date | string | null
     lastError?: string | null
@@ -207295,6 +207368,9 @@ export namespace Prisma {
     siteUrl?: NullableStringFieldUpdateOperationsInput | string | null
     clientCanManageEmail?: BoolFieldUpdateOperationsInput | boolean
     clientCanCreateEmail?: BoolFieldUpdateOperationsInput | boolean
+    clientCanChangeQuota?: BoolFieldUpdateOperationsInput | boolean
+    clientMaxQuotaMb?: NullableIntFieldUpdateOperationsInput | number | null
+    clientCanUpload?: BoolFieldUpdateOperationsInput | boolean
     status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
     lastTestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastError?: NullableStringFieldUpdateOperationsInput | string | null
@@ -207315,6 +207391,9 @@ export namespace Prisma {
     siteUrl?: NullableStringFieldUpdateOperationsInput | string | null
     clientCanManageEmail?: BoolFieldUpdateOperationsInput | boolean
     clientCanCreateEmail?: BoolFieldUpdateOperationsInput | boolean
+    clientCanChangeQuota?: BoolFieldUpdateOperationsInput | boolean
+    clientMaxQuotaMb?: NullableIntFieldUpdateOperationsInput | number | null
+    clientCanUpload?: BoolFieldUpdateOperationsInput | boolean
     status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
     lastTestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastError?: NullableStringFieldUpdateOperationsInput | string | null
@@ -222682,6 +222761,9 @@ export namespace Prisma {
     siteUrl?: SortOrder
     clientCanManageEmail?: SortOrder
     clientCanCreateEmail?: SortOrder
+    clientCanChangeQuota?: SortOrder
+    clientMaxQuotaMb?: SortOrder
+    clientCanUpload?: SortOrder
     status?: SortOrder
     lastTestedAt?: SortOrder
     lastError?: SortOrder
@@ -222693,6 +222775,7 @@ export namespace Prisma {
 
   export type CpanelIntegrationAvgOrderByAggregateInput = {
     port?: SortOrder
+    clientMaxQuotaMb?: SortOrder
   }
 
   export type CpanelIntegrationMaxOrderByAggregateInput = {
@@ -222706,6 +222789,9 @@ export namespace Prisma {
     siteUrl?: SortOrder
     clientCanManageEmail?: SortOrder
     clientCanCreateEmail?: SortOrder
+    clientCanChangeQuota?: SortOrder
+    clientMaxQuotaMb?: SortOrder
+    clientCanUpload?: SortOrder
     status?: SortOrder
     lastTestedAt?: SortOrder
     lastError?: SortOrder
@@ -222726,6 +222812,9 @@ export namespace Prisma {
     siteUrl?: SortOrder
     clientCanManageEmail?: SortOrder
     clientCanCreateEmail?: SortOrder
+    clientCanChangeQuota?: SortOrder
+    clientMaxQuotaMb?: SortOrder
+    clientCanUpload?: SortOrder
     status?: SortOrder
     lastTestedAt?: SortOrder
     lastError?: SortOrder
@@ -222737,6 +222826,7 @@ export namespace Prisma {
 
   export type CpanelIntegrationSumOrderByAggregateInput = {
     port?: SortOrder
+    clientMaxQuotaMb?: SortOrder
   }
 
   export type MetaConversionConfigCountOrderByAggregateInput = {
@@ -255856,6 +255946,9 @@ export namespace Prisma {
     siteUrl?: string | null
     clientCanManageEmail?: boolean
     clientCanCreateEmail?: boolean
+    clientCanChangeQuota?: boolean
+    clientMaxQuotaMb?: number | null
+    clientCanUpload?: boolean
     status?: $Enums.IntegrationStatus
     lastTestedAt?: Date | string | null
     lastError?: string | null
@@ -255875,6 +255968,9 @@ export namespace Prisma {
     siteUrl?: string | null
     clientCanManageEmail?: boolean
     clientCanCreateEmail?: boolean
+    clientCanChangeQuota?: boolean
+    clientMaxQuotaMb?: number | null
+    clientCanUpload?: boolean
     status?: $Enums.IntegrationStatus
     lastTestedAt?: Date | string | null
     lastError?: string | null
@@ -259374,6 +259470,9 @@ export namespace Prisma {
     siteUrl?: NullableStringFieldUpdateOperationsInput | string | null
     clientCanManageEmail?: BoolFieldUpdateOperationsInput | boolean
     clientCanCreateEmail?: BoolFieldUpdateOperationsInput | boolean
+    clientCanChangeQuota?: BoolFieldUpdateOperationsInput | boolean
+    clientMaxQuotaMb?: NullableIntFieldUpdateOperationsInput | number | null
+    clientCanUpload?: BoolFieldUpdateOperationsInput | boolean
     status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
     lastTestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastError?: NullableStringFieldUpdateOperationsInput | string | null
@@ -259393,6 +259492,9 @@ export namespace Prisma {
     siteUrl?: NullableStringFieldUpdateOperationsInput | string | null
     clientCanManageEmail?: BoolFieldUpdateOperationsInput | boolean
     clientCanCreateEmail?: BoolFieldUpdateOperationsInput | boolean
+    clientCanChangeQuota?: BoolFieldUpdateOperationsInput | boolean
+    clientMaxQuotaMb?: NullableIntFieldUpdateOperationsInput | number | null
+    clientCanUpload?: BoolFieldUpdateOperationsInput | boolean
     status?: EnumIntegrationStatusFieldUpdateOperationsInput | $Enums.IntegrationStatus
     lastTestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastError?: NullableStringFieldUpdateOperationsInput | string | null

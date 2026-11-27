@@ -10,8 +10,13 @@ interface Result { file: string; ok: boolean; exists: boolean; reason: string | 
  * subpasta dela, criada se não existir). Nunca substitui direto: o que já
  * existe volta marcado e só é trocado se você confirmar.
  */
-export default function CompanyCpanelUpload({ companyId, publishDir }: { companyId: string; publishDir: string }) {
-  const [open, setOpen] = useState(false);
+export default function CompanyCpanelUpload({ companyId, publishDir = "", portal = false }: {
+  companyId?: string;
+  publishDir?: string;
+  /** Meu Espaço do cliente: rota do portal, sem mostrar o caminho no servidor, já aberto. */
+  portal?: boolean;
+}) {
+  const [open, setOpen] = useState(portal);
   const [subPath, setSubPath] = useState("");
   const [files, setFiles] = useState<File[]>([]);
   const [busy, setBusy] = useState(false);
@@ -29,7 +34,7 @@ export default function CompanyCpanelUpload({ companyId, publishDir }: { company
       list.forEach((f) => fd.append("files", f));
       fd.append("subPath", subPath);
       if (overwrite) fd.append("overwrite", "1");
-      const r = await fetch(`/api/companies/${companyId}/cpanel/upload`, { method: "POST", body: fd });
+      const r = await fetch(portal ? "/api/meu-espaco/upload" : `/api/companies/${companyId}/cpanel/upload`, { method: "POST", body: fd });
       const j = await r.json().catch(() => ({}));
       if (!r.ok) { setError(j.error || "Erro ao enviar."); return; }
       const incoming: Result[] = j.results ?? [];
@@ -58,14 +63,16 @@ export default function CompanyCpanelUpload({ companyId, publishDir }: { company
   const dest = [publishDir, subPath.trim().replace(/^\/+|\/+$/g, "")].filter(Boolean).join("/");
 
   return (
-    <div className="mt-3 ml-9 bg-black/20 border border-white/5 rounded-lg p-3 space-y-3">
+    <div className={portal
+      ? "bg-white/[0.03] border border-white/10 rounded-2xl p-4 space-y-3"
+      : "mt-3 ml-9 bg-black/20 border border-white/5 rounded-lg p-3 space-y-3"}>
       <div className="flex items-center gap-2">
         <FolderUp className="w-4 h-4 text-cyan-300" />
         <h4 className="text-white text-xs font-semibold flex-1">Enviar arquivos pro site</h4>
-        <button onClick={() => { setOpen((o) => !o); reset(); }}
+        {!portal && <button onClick={() => { setOpen((o) => !o); reset(); }}
           className={`${smallBtn} bg-indigo-500/15 hover:bg-indigo-500/25 text-indigo-300`}>
           <Upload className="w-3 h-3" /> {open ? "Fechar" : "Enviar"}
-        </button>
+        </button>}
       </div>
 
       {open && (
@@ -75,7 +82,11 @@ export default function CompanyCpanelUpload({ companyId, publishDir }: { company
               <label className="block text-[11px] font-semibold text-slate-400 mb-1">Subpasta (opcional)</label>
               <input value={subPath} onChange={(e) => setSubPath(e.target.value)} placeholder="lp/black-friday"
                 className={`${inputCls} font-mono`} />
-              <p className="text-slate-600 text-[10px] mt-1">Vai pra <span className="font-mono text-slate-400">{dest}</span>. Criada se não existir.</p>
+              <p className="text-slate-600 text-[10px] mt-1">
+                {portal
+                  ? <>Vazio = pasta principal do site. Uma subpasta nova é criada se não existir.</>
+                  : <>Vai pra <span className="font-mono text-slate-400">{dest}</span>. Criada se não existir.</>}
+              </p>
             </div>
             <div>
               <label className="block text-[11px] font-semibold text-slate-400 mb-1">Arquivos</label>

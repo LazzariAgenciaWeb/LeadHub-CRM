@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { authorizeVaultAccess } from "@/lib/vault-auth";
 import { extractIp, recordAdminAction } from "@/lib/admin-audit";
 import {
-  CpanelError, changeCpanelMailboxPassword, createCpanelMailbox, getCpanelEmailOverview, getCpanelMailClientSettings,
+  CpanelError, changeCpanelMailboxPassword, changeCpanelMailboxQuota, createCpanelMailbox, getCpanelEmailOverview, getCpanelMailClientSettings,
   normalizeMailDomain, normalizeMailboxLocal, normalizeMailboxPassword, normalizeMailboxQuota, splitMailbox,
 } from "@/lib/cpanel";
 
@@ -52,20 +52,21 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       password: normalizeMailboxPassword(body.password),
       quotaMb: normalizeMailboxQuota(body.quotaMb),
     };
-    const { email } = await createCpanelMailbox(companyId, input);
+    const { email, warning } = await createCpanelMailbox(companyId, input);
     await recordAdminAction({
       adminUserId: a.auth.userId, adminUserName: a.auth.userName,
       action: "CPANEL_EMAIL_CREATE", targetCompanyId: companyId,
       ip: extractIp(req), userAgent: req.headers.get("user-agent"),
       metadata: { email, quotaMb: input.quotaMb },
     });
-    return NextResponse.json({ ok: true, email });
+    return NextResponse.json({ ok: true, email, warning });
   } catch (e) {
     return fail(e);
   }
 }
 
 // PATCH → troca a senha de uma caixa existente. body: { email, password }
+//      ou muda a cota.                        body: { email, quotaMb } (0 = sem limite)
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id: companyId } = await params;
   const a = await authorize(companyId);
@@ -73,6 +74,17 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   const body = await req.json().catch(() => ({}));
   try {
     const { local, domain } = splitMailbox(body.email);
+    if ("quotaMb" in body) {
+      const quotaMb = normalizeMailboxQuota(body.quotaMb);
+      const r = await changeCpanelMailboxQuota(companyId, { local, domain, quotaMb });
+      await recordAdminAction({
+        adminUserId: a.auth.userId, adminUserName: a.auth.userName,
+        action: "CPANEL_EMAIL_QUOTA", targetCompanyId: companyId,
+        ip: extractIp(req), userAgent: req.headers.get("user-agent"),
+        metadata: { email: r.email, quotaMb, previousQuotaMb: r.previousQuotaMb },
+      });
+      return NextResponse.json({ ok: true, email: r.email, warning: r.warning });
+    }
     const password = normalizeMailboxPassword(body.password);
     const { email } = await changeCpanelMailboxPassword(companyId, { local, domain, password });
     await recordAdminAction({

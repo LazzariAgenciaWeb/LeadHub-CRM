@@ -21,7 +21,7 @@ export default async function ClienteLayout({ children }: { children: React.Reac
     where: { id: companyId },
     select: {
       name: true, parentCompanyId: true, fullSystemAccess: true, parentCompany: { select: { name: true } },
-      cpanelIntegration: { select: { clientCanManageEmail: true } },
+      cpanelIntegration: { select: { clientCanManageEmail: true, clientCanUpload: true } },
     },
   });
   if (!company?.parentCompanyId) redirect("/dashboard");
@@ -41,7 +41,7 @@ export default async function ClienteLayout({ children }: { children: React.Reac
   return (
     <>
       <IconGradients />
-      <ClientShell clientName={company.name} agencyName={company.parentCompany?.name ?? "Portal"} banner={banner} fullSystemAccess={company.fullSystemAccess} showMarketing={showMarketing} showEmails={!!company.cpanelIntegration?.clientCanManageEmail}>
+      <ClientShell clientName={company.name} agencyName={company.parentCompany?.name ?? "Portal"} banner={banner} fullSystemAccess={company.fullSystemAccess} showMarketing={showMarketing} showEmails={!!company.cpanelIntegration?.clientCanManageEmail || !!company.cpanelIntegration?.clientCanUpload}>
         {children}
       </ClientShell>
     </>

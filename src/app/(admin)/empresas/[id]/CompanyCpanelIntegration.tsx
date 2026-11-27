@@ -18,6 +18,9 @@ interface CpanelConfig {
   updatedByName: string | null;
   clientCanManageEmail: boolean;
   clientCanCreateEmail: boolean;
+  clientCanChangeQuota: boolean;
+  clientMaxQuotaMb: number | null;
+  clientCanUpload: boolean;
 }
 
 const EMPTY_FORM = { host: "", port: "2083", username: "", token: "", publishDir: "public_html", siteUrl: "" };
@@ -110,7 +113,10 @@ export default function CompanyCpanelIntegration({ companyId, showDenied = false
     }
   }
 
-  async function setClientAccess(patch: { clientCanManageEmail?: boolean; clientCanCreateEmail?: boolean }) {
+  async function setClientAccess(patch: {
+    clientCanManageEmail?: boolean; clientCanCreateEmail?: boolean;
+    clientCanChangeQuota?: boolean; clientMaxQuotaMb?: number | null; clientCanUpload?: boolean;
+  }) {
     setMsg(null);
     try {
       const r = await fetch(`/api/companies/${companyId}/cpanel`, {
@@ -254,9 +260,40 @@ export default function CompanyCpanelIntegration({ companyId, showDenied = false
               <label className={`flex items-center gap-2 text-[11px] cursor-pointer ${config.clientCanManageEmail ? "text-slate-300" : "text-slate-600"}`}>
                 <input type="checkbox" checked={config.clientCanCreateEmail} disabled={!config.clientCanManageEmail}
                   onChange={(e) => setClientAccess({ clientCanCreateEmail: e.target.checked })} />
-                Criar caixas de e-mail novas
+                Criar caixas de e-mail novas (até o limite do plano no cPanel)
               </label>
-              <p className="text-slate-600 text-[10px]">Vale pra todo usuário do cliente que entra no portal. Cada troca de senha e criação fica registrada.</p>
+              <label className={`flex items-center gap-2 text-[11px] cursor-pointer flex-wrap ${config.clientCanManageEmail ? "text-slate-300" : "text-slate-600"}`}>
+                <input type="checkbox" checked={config.clientCanChangeQuota} disabled={!config.clientCanManageEmail}
+                  onChange={(e) => setClientAccess({ clientCanChangeQuota: e.target.checked })} />
+                Mudar a cota das caixas
+                {config.clientCanChangeQuota && (
+                  <span className="flex items-center gap-1 text-slate-400">
+                    · até
+                    <input
+                      key={config.clientMaxQuotaMb ?? "none"}
+                      type="number" min={1} placeholder="sem teto"
+                      defaultValue={config.clientMaxQuotaMb ? Math.round(config.clientMaxQuotaMb / 1024 * 10) / 10 : ""}
+                      step={0.5}
+                      onBlur={(e) => {
+                        const gb = e.target.value === "" ? null : Number(e.target.value);
+                        const mb = gb && gb > 0 ? Math.round(gb * 1024) : null;
+                        if (mb !== config.clientMaxQuotaMb) setClientAccess({ clientMaxQuotaMb: mb });
+                      }}
+                      className="w-16 bg-[#0a1220] border border-[#1e2d45] rounded px-1.5 py-0.5 text-[11px] text-white"
+                    />
+                    GB por caixa
+                  </span>
+                )}
+              </label>
+              <label className="flex items-center gap-2 text-[11px] text-slate-300 cursor-pointer">
+                <input type="checkbox" checked={config.clientCanUpload}
+                  onChange={(e) => setClientAccess({ clientCanUpload: e.target.checked })} />
+                Enviar arquivos pro site (fica preso à pasta de publicação)
+              </label>
+              <p className="text-slate-600 text-[10px]">
+                Vale pra todo usuário do cliente que entra no portal. Cada troca de senha, cota, criação e envio fica registrada.
+                O cliente nunca passa do espaço livre da conta.
+              </p>
             </div>
           )}
 

@@ -23,7 +23,11 @@ export interface HostingRow {
 }
 
 interface Mailbox { email: string; usedMb: number; quotaMb: number | null; suspended: boolean }
-interface Overview { usage: { usedMb: number; limitMb: number | null }; mailboxes: Mailbox[] }
+interface Overview {
+  usage: { usedMb: number; limitMb: number | null };
+  mailboxes: Mailbox[];
+  plan?: { packageName: string | null; mailboxCount: number | null; mailboxMax: number | null };
+}
 type Live = { state: "loading" } | { state: "ok"; data: Overview } | { state: "error"; error: string };
 
 const CONCURRENCY = 4;
@@ -183,7 +187,8 @@ export default function HostingPanel({ rows, withoutCpanel }: {
                     <div className="w-36 text-[11px]">
                       {l?.state === "ok" && (
                         <>
-                          <p className="text-slate-300 flex items-center gap-1"><Mail className="w-3 h-3 text-slate-400" /> {l.data.mailboxes.length} caixa{l.data.mailboxes.length === 1 ? "" : "s"}</p>
+                          <p className="text-slate-300 flex items-center gap-1"><Mail className="w-3 h-3 text-slate-400" /> {l.data.mailboxes.length}{l.data.plan?.mailboxMax ? ` de ${l.data.plan.mailboxMax}` : ""} caixa{l.data.mailboxes.length === 1 && !l.data.plan?.mailboxMax ? "" : "s"}</p>
+                          {l.data.plan?.packageName && <p className="text-slate-500 truncate" title="Plano no cPanel">{l.data.plan.packageName}</p>}
                           {mbAlerts > 0 && <p className="text-amber-300">{mbAlerts} cheia{mbAlerts === 1 ? "" : "s"} ou suspensa{mbAlerts === 1 ? "" : "s"}</p>}
                         </>
                       )}

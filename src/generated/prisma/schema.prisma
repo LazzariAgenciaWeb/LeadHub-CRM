@@ -2395,6 +2395,11 @@ model CpanelIntegration {
   // Ver espaço + caixas e trocar senha; criar caixa é uma liberação à parte.
   clientCanManageEmail Boolean @default(false)
   clientCanCreateEmail Boolean @default(false)
+  // Mudar a cota das caixas (exige manage). Teto por caixa em MB; null = só o espaço livre da conta limita.
+  clientCanChangeQuota Boolean @default(false)
+  clientMaxQuotaMb     Int?
+  // Enviar arquivos pro site pelo Meu Espaço (independe dos e-mails).
+  clientCanUpload      Boolean @default(false)
 
   status       IntegrationStatus @default(ACTIVE)
   lastTestedAt DateTime?

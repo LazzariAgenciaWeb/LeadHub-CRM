@@ -22,6 +22,7 @@ const PUBLIC_SELECT = {
   host: true, port: true, username: true, publishDir: true, siteUrl: true,
   status: true, lastTestedAt: true, lastError: true, updatedAt: true, updatedByName: true,
   clientCanManageEmail: true, clientCanCreateEmail: true,
+  clientCanChangeQuota: true, clientMaxQuotaMb: true, clientCanUpload: true,
   // tokenEnc NUNCA é retornado
 } as const;
 
@@ -87,8 +88,9 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
 }
 
 // PATCH /api/companies/[id]/cpanel → o que o cliente pode fazer no Meu Espaço.
-// body: { clientCanManageEmail?, clientCanCreateEmail? }
-// Criar caixa exige o "ver e trocar senha" ligado — desligar este desliga o outro.
+// body: { clientCanManageEmail?, clientCanCreateEmail?, clientCanChangeQuota?, clientMaxQuotaMb?, clientCanUpload? }
+// Criar caixa e mudar cota exigem o "ver e trocar senha" ligado — desligar este
+// desliga os dois. Enviar arquivos é independente.
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id: companyId } = await params;
   const a = await authorize(companyId);
@@ -100,12 +102,31 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
   let manage = typeof body.clientCanManageEmail === "boolean" ? body.clientCanManageEmail : existing.clientCanManageEmail;
   let create = typeof body.clientCanCreateEmail === "boolean" ? body.clientCanCreateEmail : existing.clientCanCreateEmail;
-  if (create && body.clientCanCreateEmail === true) manage = true;
-  if (!manage) create = false;
+  let quota = typeof body.clientCanChangeQuota === "boolean" ? body.clientCanChangeQuota : existing.clientCanChangeQuota;
+  if ((create && body.clientCanCreateEmail === true) || (quota && body.clientCanChangeQuota === true)) manage = true;
+  if (!manage) { create = false; quota = false; }
+  const upload = typeof body.clientCanUpload === "boolean" ? body.clientCanUpload : existing.clientCanUpload;
+
+  let maxQuota = existing.clientMaxQuotaMb;
+  if ("clientMaxQuotaMb" in body) {
+    const raw = body.clientMaxQuotaMb;
+    if (raw === null || raw === "" || raw === 0 || raw === "0") maxQuota = null;
+    else {
+      const n = Number(raw);
+      if (!Number.isInteger(n) || n < 1 || n > 1_000_000) {
+        return NextResponse.json({ error: "Teto por caixa inválido. Informe em MB (vazio = sem teto)." }, { status: 400 });
+      }
+      maxQuota = n;
+    }
+  }
 
   const cfg = await prisma.cpanelIntegration.update({
     where: { companyId },
-    data: { clientCanManageEmail: manage, clientCanCreateEmail: create, updatedByName: a.auth.userName },
+    data: {
+      clientCanManageEmail: manage, clientCanCreateEmail: create,
+      clientCanChangeQuota: quota, clientMaxQuotaMb: maxQuota, clientCanUpload: upload,
+      updatedByName: a.auth.userName,
+    },
     select: PUBLIC_SELECT,
   });
   return NextResponse.json({ ok: true, config: cfg });

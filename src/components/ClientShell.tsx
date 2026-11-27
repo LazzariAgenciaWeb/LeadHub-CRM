@@ -38,7 +38,7 @@ export default function ClientShell({
           )}
           <Link href="/meu-espaco/arquivos" className="cshlink">Arquivos</Link>
           {showEmails && (
-            <Link href="/meu-espaco/emails" className="cshlink">E-mails</Link>
+            <Link href="/meu-espaco/emails" className="cshlink">E-mails e site</Link>
           )}
           {showMarketing && (
             <Link href="/meu-espaco/marketing" className="cshlink">Marketing</Link>

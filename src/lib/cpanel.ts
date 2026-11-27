@@ -405,27 +405,141 @@ export async function listCpanelMailDomains(conn: CpanelConn): Promise<string[]>
   return (Array.isArray(rows) ? rows : []).map((r) => String(r.domain ?? "").toLowerCase()).filter(Boolean);
 }
 
-/** Visão geral: espaço da conta + caixas + domínios. */
+export interface CpanelPlan {
+  packageName: string | null;  // nome do pacote de hospedagem contratado
+  mailboxCount: number | null;
+  mailboxMax: number | null;   // null = sem limite (ou o servidor não informou)
+  dbMb: number | null;         // espaço dos bancos MySQL
+}
+
+/** Lê a resposta do StatsBar::get_stats (separado pra testar). */
+export function parsePlanStats(rows: unknown): CpanelPlan {
+  const plan: CpanelPlan = { packageName: null, mailboxCount: null, mailboxMax: null, dbMb: null };
+  for (const r of Array.isArray(rows) ? (rows as Record<string, unknown>[]) : []) {
+    const id = String(r?.name ?? r?.id ?? "");
+    if (id === "hostingpackage") {
+      const v = String(r.value ?? r.count ?? r._count ?? "").trim();
+      plan.packageName = v && v.length <= 120 ? v : null;
+    } else if (id === "emailaccounts") {
+      plan.mailboxCount = toNumber(r._count);
+      const max = toNumber(r._max);
+      plan.mailboxMax = max && max > 0 ? max : null; // 0 / "unlimited" = sem limite
+    } else if (id === "mysqldiskusage" || (id === "cachedmysqldiskusage" && plan.dbMb === null)) {
+      plan.dbMb = toNumber(r._count);
+    }
+  }
+  return plan;
+}
+
+/** Plano e limites da conta. Se o servidor não tiver o StatsBar, volta tudo nulo. */
+export async function getCpanelPlan(conn: CpanelConn): Promise<CpanelPlan> {
+  try {
+    const rows = await cpanelRequest(conn, "StatsBar", "get_stats", {
+      display: "hostingpackage|emailaccounts|mysqldiskusage|cachedmysqldiskusage",
+    });
+    return parsePlanStats(rows);
+  } catch {
+    return { packageName: null, mailboxCount: null, mailboxMax: null, dbMb: null };
+  }
+}
+
+export interface CpanelSpace {
+  usedMb: number;
+  limitMb: number | null;
+  freeMb: number | null;       // null = conta sem limite
+  emailMb: number;             // soma das caixas
+  dbMb: number;                // bancos de dados
+  filesMb: number;             // o resto: site, arquivos e outros
+  quotaCommittedMb: number | null; // soma das cotas; null se alguma caixa é sem limite
+  overcommitted: boolean;      // cotas somadas passam do espaço total
+}
+
+/**
+ * Divide o espaço da conta. O espaço é UM só pra tudo: a cota de cada caixa é
+ * só um teto, não reserva — se a conta enche, todas as caixas param de receber.
+ */
+export function buildSpace(usage: CpanelUsage, mailboxes: CpanelMailbox[], dbMbInput: number | null): CpanelSpace {
+  const emailMb = mailboxes.reduce((n, m) => n + m.usedMb, 0);
+  const dbMb = Math.max(0, dbMbInput ?? 0);
+  const filesMb = Math.max(0, usage.usedMb - emailMb - dbMb);
+  const freeMb = usage.limitMb !== null ? Math.max(0, usage.limitMb - usage.usedMb) : null;
+  const anyUnlimited = mailboxes.some((m) => m.quotaMb === null);
+  const quotaCommittedMb = anyUnlimited ? null : mailboxes.reduce((n, m) => n + (m.quotaMb ?? 0), 0);
+  const overcommitted = usage.limitMb !== null && mailboxes.length > 0 &&
+    (anyUnlimited || (quotaCommittedMb ?? 0) > usage.limitMb);
+  return { usedMb: usage.usedMb, limitMb: usage.limitMb, freeMb, emailMb, dbMb, filesMb, quotaCommittedMb, overcommitted };
+}
+
+/** Visão geral: espaço (dividido) + plano + caixas + domínios. */
 export async function getCpanelEmailOverview(companyId: string) {
   const conn = await requireConn(companyId);
-  const [usage, mailboxes, domains] = await Promise.all([
+  const [usage, mailboxes, domains, plan] = await Promise.all([
     getCpanelUsage(conn),
     listCpanelMailboxes(conn),
     listCpanelMailDomains(conn),
+    getCpanelPlan(conn),
   ]);
-  return { usage, mailboxes, domains };
+  return { usage, mailboxes, domains, plan, space: buildSpace(usage, mailboxes, plan.dbMb) };
 }
 
-/** Cria uma caixa de e-mail. Só em domínio que já pertence à conta. */
+const fmtMb = (mb: number) => (mb >= 1024 ? `${(mb / 1024).toFixed(1).replace(".", ",")} GB` : `${Math.round(mb)} MB`);
+
+/**
+ * Regras da cota de uma caixa (nova ou existente). `strict` = cliente no Meu
+ * Espaço: bloqueia o que passa do teto da agência ou do espaço livre. Para a
+ * agência (`strict` false) passar do livre vira só um aviso.
+ */
+export function checkMailboxQuota(input: {
+  quotaMb: number;           // 0 = sem limite
+  usedMb: number;            // o que a caixa já ocupa (0 pra caixa nova)
+  currentQuotaMb?: number | null;
+  freeMb: number | null;
+  maxQuotaMb?: number | null;
+  strict: boolean;
+}): { warning: string | null } {
+  const { quotaMb, usedMb, freeMb, maxQuotaMb, strict } = input;
+  if (quotaMb > 0 && quotaMb < Math.ceil(usedMb)) {
+    throw new CpanelError(`A caixa já usa ${fmtMb(usedMb)}. A cota não pode ser menor que isso.`);
+  }
+  if (strict && maxQuotaMb) {
+    if (quotaMb === 0) throw new CpanelError(`Escolha um tamanho de até ${fmtMb(maxQuotaMb)}.`);
+    if (quotaMb > maxQuotaMb) throw new CpanelError(`O máximo liberado por caixa é ${fmtMb(maxQuotaMb)}.`);
+  }
+  if (freeMb === null) return { warning: null };
+  const room = usedMb + freeMb; // o que a caixa consegue ocupar de verdade hoje
+  const growing = quotaMb === 0 || quotaMb > (input.currentQuotaMb ?? 0);
+  if (growing && (quotaMb === 0 || quotaMb > room)) {
+    const msg = `A conta tem ${fmtMb(freeMb)} livres, somando e-mails e arquivos. ` +
+      `Uma cota maior que isso não cria espaço: quando a conta enche, todas as caixas param de receber.`;
+    if (strict) throw new CpanelError(`${msg} Para mais espaço, fale com a agência sobre aumentar o plano.`);
+    return { warning: msg };
+  }
+  return { warning: null };
+}
+
+/** Cria uma caixa de e-mail. Só em domínio da conta e dentro do limite do plano. */
 export async function createCpanelMailbox(
   companyId: string,
   input: { local: string; domain: string; password: string; quotaMb: number },
-): Promise<{ email: string }> {
+  opts: { strict?: boolean; maxQuotaMb?: number | null } = {},
+): Promise<{ email: string; warning: string | null }> {
   const conn = await requireConn(companyId);
-  const domains = await listCpanelMailDomains(conn);
+  const [domains, boxes, plan, usage] = await Promise.all([
+    listCpanelMailDomains(conn), listCpanelMailboxes(conn), getCpanelPlan(conn), getCpanelUsage(conn),
+  ]);
   if (!domains.includes(input.domain)) {
     throw new CpanelError(`O domínio "${input.domain}" não pertence a esta conta do cPanel.`);
   }
+  const count = plan.mailboxCount ?? boxes.length;
+  if (plan.mailboxMax !== null && count >= plan.mailboxMax) {
+    throw new CpanelError(
+      `O plano${plan.packageName ? ` ${plan.packageName}` : ""} permite ${plan.mailboxMax} contas de e-mail e todas já estão em uso.`,
+    );
+  }
+  const { warning } = checkMailboxQuota({
+    quotaMb: input.quotaMb, usedMb: 0, freeMb: buildSpace(usage, boxes, plan.dbMb).freeMb,
+    maxQuotaMb: opts.maxQuotaMb, strict: !!opts.strict,
+  });
   await cpanelRequest(
     conn, "Email", "add_pop",
     {
@@ -434,7 +548,30 @@ export async function createCpanelMailbox(
     },
     { method: "POST" },
   );
-  return { email: `${input.local}@${input.domain}` };
+  return { email: `${input.local}@${input.domain}`, warning };
+}
+
+/** Muda a cota (MB, 0 = sem limite) de uma caixa que já existe. */
+export async function changeCpanelMailboxQuota(
+  companyId: string,
+  input: { local: string; domain: string; quotaMb: number },
+  opts: { strict?: boolean; maxQuotaMb?: number | null } = {},
+): Promise<{ email: string; warning: string | null; previousQuotaMb: number | null }> {
+  const conn = await requireConn(companyId);
+  const email = `${input.local}@${input.domain}`;
+  const [boxes, usage, plan] = await Promise.all([listCpanelMailboxes(conn), getCpanelUsage(conn), getCpanelPlan(conn)]);
+  const box = boxes.find((b) => b.email.toLowerCase() === email);
+  if (!box) throw new CpanelError(`A caixa ${email} não existe nesta conta.`);
+  const { warning } = checkMailboxQuota({
+    quotaMb: input.quotaMb, usedMb: box.usedMb, currentQuotaMb: box.quotaMb,
+    freeMb: buildSpace(usage, boxes, plan.dbMb).freeMb, maxQuotaMb: opts.maxQuotaMb, strict: !!opts.strict,
+  });
+  await cpanelRequest(
+    conn, "Email", "edit_pop_quota",
+    { email: input.local, domain: input.domain, quota: String(input.quotaMb) },
+    { method: "POST" },
+  );
+  return { email, warning, previousQuotaMb: box.quotaMb };
 }
 
 /** Troca a senha de uma caixa que já existe. */
