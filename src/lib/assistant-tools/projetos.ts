@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@/generated/prisma";
 import { type ToolDef, ok, fail, appUrl, fmtDate, parseDate } from "./types";
-import { readComments, sanitizeComments, type TaskComment } from "@/lib/checklist";
+import { readComments, sanitizeComments, readChecklist, sanitizeChecklist, type TaskComment, type ChecklistItem } from "@/lib/checklist";
 import {
   getClickupSettings, updateClickupTask, markClickupTaskDone, reopenClickupTask,
   addCommentToClickupTask, fetchClickupTaskComments, clickupTaskUrl,
@@ -159,7 +159,7 @@ export const listarTarefasProjeto: ToolDef<{
 }> = {
   name: "listar_tarefas_projeto",
   description:
-    "Lista tarefas de projeto. Com projetoId: as tarefas daquele projeto. Sem projetoId: em todos os projetos da empresa, filtrando por responsável — assigneeId='claude' traz as tarefas DESPACHADAS PRO CLAUDE (IA) pra ele executar; ou um id de listar_usuarios. Informe ao menos projetoId, assigneeId, query ou etiqueta. Outros filtros: etapa (etapaId), status (abertas | concluidas | todas — default abertas), trecho do título (query), prazo máximo (venceAte, ISO 8601), etiqueta (ex.: Reels). Retorna id, título, cliente, projeto, etapa, etiquetas, dependências (dependeDe = ids; aguardando = as que ainda não foram concluídas), status, responsável, prazo, link da tarefa no GoHub, link do ClickUp, começo da descrição e os 3 últimos comentários (com autor e data — o pedido do Diego costuma vir num comentário; use listar_comentarios_tarefa_projeto pra ver todos).",
+    "Lista tarefas de projeto. Com projetoId: as tarefas daquele projeto. Sem projetoId: em todos os projetos da empresa, filtrando por responsável — assigneeId='claude' traz as tarefas DESPACHADAS PRO CLAUDE (IA) pra ele executar; ou um id de listar_usuarios. Informe ao menos projetoId, assigneeId, query ou etiqueta. Outros filtros: etapa (etapaId), status (abertas | concluidas | todas — default abertas), trecho do título (query), prazo máximo (venceAte, ISO 8601), etiqueta (ex.: Reels). Retorna id, título, cliente, projeto, etapa, etiquetas, checklist (itens numerados com n, item e feito — use checklist_tarefa_projeto pra mexer), dependências (dependeDe = ids; aguardando = as que ainda não foram concluídas), status, responsável, prazo, link da tarefa no GoHub, link do ClickUp, começo da descrição e os 3 últimos comentários (com autor e data — o pedido do Diego costuma vir num comentário; use listar_comentarios_tarefa_projeto pra ver todos).",
   input_schema: {
     type: "object",
     properties: {
@@ -219,7 +219,7 @@ export const listarTarefasProjeto: ToolDef<{
         ...(grafias.length ? { tags: { hasSome: grafias } } : {}),
       },
       select: {
-        id: true, title: true, description: true, status: true, done: true, dueDate: true, tags: true, dependsOnIds: true,
+        id: true, title: true, description: true, status: true, done: true, dueDate: true, tags: true, dependsOnIds: true, checklist: true,
         clickupTaskId: true, aiAssignedAt: true, comments: true,
         assignee: { select: { name: true } },
         project: { select: { id: true, name: true, clientCompany: { select: { id: true, name: true } } } },
@@ -252,6 +252,7 @@ export const listarTarefasProjeto: ToolDef<{
         projeto: t.project.name, projetoId: t.project.id,
         etapa: t.projectService ? etapaLabel(t.projectService) : null, etapaId: t.projectService?.id ?? null,
         etiquetas: t.tags,
+        checklist: readChecklist(t.checklist).map((c, i) => ({ n: i + 1, item: c.text, feito: c.done })),
         dependeDe: t.dependsOnIds.filter((id) => depById.has(id)),
         aguardando: t.done ? [] : t.dependsOnIds.map((id) => depById.get(id)).filter((d) => d && !d.done).map((d) => ({ id: d!.id, titulo: d!.title })),
         status: t.status, concluida: t.done, prazo: t.dueDate,
@@ -268,6 +269,7 @@ export const listarTarefasProjeto: ToolDef<{
       `- ${t.titulo} · id=${t.id}` +
       `\n    ${t.cliente ?? "sem cliente"} › ${t.projeto} › ${t.etapa ?? "sem etapa"}${t.etiquetas.length ? ` · 🏷 ${t.etiquetas.join(", ")}` : ""} · ${STATUS_LABEL[t.status] ?? t.status}` +
       (t.aguardando.length ? ` · ⏳ aguardando: ${t.aguardando.map((d) => d.titulo).join(" · ")}` : "") +
+      (t.checklist.length ? ` · ☑ checklist ${t.checklist.filter((c) => c.feito).length}/${t.checklist.length}` : "") +
       ` · ${t.responsavel ?? "sem responsável"}${t.comClaudeDesde ? ` (dono: ${t.dono ?? "—"})` : ""} · prazo ${fmtDate(t.prazo)}` +
       `\n    ${t.link}${t.clickupUrl ? ` · ClickUp ${t.clickupUrl}` : " · só no GoHub"}` +
       (t.descricao ? `\n    ${t.descricao}` : "") +
@@ -933,6 +935,94 @@ export const concluirEtapaProjeto: ToolDef<{ etapaId: string; concluir?: boolean
   },
 };
 
+// Checklist da tarefa: sub-passos leves (só GoHub — não vai pro ClickUp).
+// Item é apontado pelo número (1, 2…) ou por um trecho do texto.
+function achaItem(lista: ChecklistItem[], ref: string | number): number {
+  const n = typeof ref === "number" ? ref : /^\d+$/.test(String(ref).trim()) ? Number(String(ref).trim()) : NaN;
+  if (Number.isInteger(n) && n >= 1 && n <= lista.length) return n - 1;
+  const alvo = String(ref).trim().toLowerCase();
+  if (!alvo) return -1;
+  const exato = lista.findIndex((c) => c.text.toLowerCase() === alvo);
+  return exato >= 0 ? exato : lista.findIndex((c) => c.text.toLowerCase().includes(alvo));
+}
+
+export const checklistTarefaProjeto: ToolDef<{
+  id: string; adicionar?: string[]; marcar?: (string | number)[]; desmarcar?: (string | number)[];
+  remover?: (string | number)[]; substituir?: string[];
+}> = {
+  name: "checklist_tarefa_projeto",
+  description:
+    "Mexe no CHECKLIST de uma tarefa de projeto (id de listar_tarefas_projeto) — os pequenos passos dentro da tarefa (ex.: 'Coletar fotos', 'Montar layout', 'Revisar texto'). adicionar: itens novos no fim. marcar / desmarcar / remover: itens pelo número (1, 2…, como vem em listar_tarefas_projeto) ou por um trecho do texto. substituir: troca a lista inteira ([] limpa). Sem nenhum campo além do id, só mostra o checklist. Até 50 itens de 200 caracteres. Só no GoHub (não vai pro ClickUp) e não muda o status da tarefa.",
+  input_schema: {
+    type: "object",
+    properties: {
+      id: { type: "string", description: "Id da tarefa" },
+      adicionar: { type: "array", items: { type: "string" }, description: "Itens novos (vão pro fim)" },
+      marcar: { type: "array", items: { type: ["string", "number"] }, description: "Itens a marcar como feitos (número ou trecho)" },
+      desmarcar: { type: "array", items: { type: ["string", "number"] }, description: "Itens a desmarcar" },
+      remover: { type: "array", items: { type: ["string", "number"] }, description: "Itens a apagar" },
+      substituir: { type: "array", items: { type: "string" }, description: "Troca a lista inteira (todos desmarcados). [] limpa." },
+    },
+    required: ["id"],
+  },
+  mutating: true,
+  run: async (input, ctx) => {
+    const task = await loadTask(input.id, ctx.companyId);
+    if (!task) return fail("Tarefa não encontrada. Use listar_tarefas_projeto pra pegar o id.");
+    const row = await prisma.projectTask.findUnique({ where: { id: task.id }, select: { checklist: true } });
+    // Cliente MCP às vezes manda array como texto JSON.
+    const arr = <T,>(v: unknown): T[] | undefined => {
+      if (v === undefined) return undefined;
+      if (typeof v === "string" && v.trim().startsWith("[")) { try { v = JSON.parse(v); } catch { /* segue */ } }
+      return Array.isArray(v) ? (v as T[]) : typeof v === "string" || typeof v === "number" ? [v as T] : [];
+    };
+    const adicionar = arr<string>(input.adicionar);
+    const marcar = arr<string | number>(input.marcar);
+    const desmarcar = arr<string | number>(input.desmarcar);
+    const remover = arr<string | number>(input.remover);
+    const substituir = arr<string>(input.substituir);
+
+    let lista: ChecklistItem[] = substituir !== undefined
+      ? substituir.map((t) => ({ text: String(t), done: false, doneAt: null }))
+      : readChecklist(row?.checklist);
+    const naoAchou: string[] = [];
+    const agora = new Date().toISOString();
+    // Marca/desmarca ANTES de remover, pra numeração bater com a que a pessoa viu.
+    for (const ref of marcar ?? []) {
+      const i = achaItem(lista, ref);
+      if (i < 0) naoAchou.push(String(ref)); else if (!lista[i].done) lista[i] = { ...lista[i], done: true, doneAt: agora };
+    }
+    for (const ref of desmarcar ?? []) {
+      const i = achaItem(lista, ref);
+      if (i < 0) naoAchou.push(String(ref)); else lista[i] = { ...lista[i], done: false, doneAt: null };
+    }
+    if (remover?.length) {
+      const fora = new Set<number>();
+      for (const ref of remover) { const i = achaItem(lista, ref); if (i < 0) naoAchou.push(String(ref)); else fora.add(i); }
+      lista = lista.filter((_, i) => !fora.has(i));
+    }
+    for (const t of adicionar ?? []) lista.push({ text: String(t), done: false, doneAt: null });
+
+    const mexeu = [adicionar, marcar, desmarcar, remover, substituir].some((x) => x !== undefined);
+    const limpo = sanitizeChecklist(lista);
+    if (mexeu) {
+      await prisma.projectTask.update({ where: { id: task.id }, data: { checklist: limpo ?? Prisma.DbNull } });
+    }
+    const final = limpo ?? [];
+    const feitos = final.filter((c) => c.done).length;
+    const linhas = final.map((c, i) => `${i + 1}. [${c.done ? "x" : " "}] ${c.text}`);
+    return ok(
+      `${mexeu ? "Checklist atualizado" : "Checklist"} de "${task.title}" — ${feitos}/${final.length} feitos` +
+      (linhas.length ? `:\n${linhas.join("\n")}` : " (vazio)") +
+      (naoAchou.length ? `\n⚠️ Não achei: ${naoAchou.join(", ")}` : ""),
+      {
+        data: { id: task.id, feitos, total: final.length, itens: final.map((c, i) => ({ n: i + 1, item: c.text, feito: c.done })), naoAchou },
+        link: taskLink(task.project.id, task.id),
+      },
+    );
+  },
+};
+
 export const projetosTools: ToolDef[] = [
   verDetalhamentoProjeto,
   atualizarProjeto,
@@ -942,6 +1032,7 @@ export const projetosTools: ToolDef[] = [
   listarTarefasProjeto,
   listarComentariosTarefaProjeto,
   atualizarTarefaProjeto,
+  checklistTarefaProjeto,
   comentarTarefaProjeto,
   sincronizarProjeto,
   listarModelosImagem,

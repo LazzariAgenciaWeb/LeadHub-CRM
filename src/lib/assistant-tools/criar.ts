@@ -10,6 +10,7 @@ import { etapaLabel, pushTaskToClickup } from "@/lib/project-etapas";
 import { normalizeTags } from "@/lib/task-tags";
 import { cleanDependencies } from "@/lib/task-deps";
 import { reopenEtapaIfCompleted } from "@/lib/etapa-status";
+import { sanitizeChecklist } from "@/lib/checklist";
 
 const PRIORITIES = ["LOW", "MEDIUM", "HIGH", "URGENT"] as const;
 
@@ -119,11 +120,11 @@ export const criarChamado: ToolDef<{
 
 export const criarTarefaProjeto: ToolDef<{
   projetoId: string; title: string; description?: string; dueDate?: string; priority?: string; assigneeId?: string;
-  etapaId?: string; etiquetas?: string[]; dependeDe?: string[];
+  etapaId?: string; etiquetas?: string[]; dependeDe?: string[]; checklist?: string[];
 }> = {
   name: "criar_tarefa_projeto",
   description:
-    "Cria uma tarefa dentro de um projeto (use listar_projetos pra achar o projetoId). etapaId opcional (de listar_etapas_projeto): dentro de uma etapa, a tarefa sobe pro ClickUp como SUBTAREFA da tarefa principal da etapa, em vez de ficar solta na lista. Sem etapa, fica só no GoHub. dueDate opcional (ISO 8601). Sem assigneeId a tarefa fica com o próprio usuário. etiquetas opcional: classifica a peça (ex.: [\"Reels\", \"Carrossel\"]) — reaproveite as que já existem (aparecem em listar_tarefas_projeto) em vez de inventar variação. dependeDe opcional: ids de tarefas do mesmo projeto que precisam estar concluídas antes (só aviso).",
+    "Cria uma tarefa dentro de um projeto (use listar_projetos pra achar o projetoId). etapaId opcional (de listar_etapas_projeto): dentro de uma etapa, a tarefa sobe pro ClickUp como SUBTAREFA da tarefa principal da etapa, em vez de ficar solta na lista. Sem etapa, fica só no GoHub. dueDate opcional (ISO 8601). Sem assigneeId a tarefa fica com o próprio usuário. etiquetas opcional: classifica a peça (ex.: [\"Reels\", \"Carrossel\"]) — reaproveite as que já existem (aparecem em listar_tarefas_projeto) em vez de inventar variação. dependeDe opcional: ids de tarefas do mesmo projeto que precisam estar concluídas antes (só aviso). checklist opcional: os pequenos passos da tarefa (depois mexa com checklist_tarefa_projeto).",
   input_schema: {
     type: "object",
     properties: {
@@ -136,6 +137,7 @@ export const criarTarefaProjeto: ToolDef<{
       etapaId: { type: "string", description: "Etapa do projeto (de listar_etapas_projeto)" },
       etiquetas: { type: "array", items: { type: "string" }, description: "Etiquetas da tarefa (ex.: Reels, Carrossel, Stories). Até 10." },
       dependeDe: { type: "array", items: { type: "string" }, description: "Ids de tarefas do mesmo projeto que precisam estar concluídas antes desta (só aviso, não trava)" },
+      checklist: { type: "array", items: { type: "string" }, description: "Pequenos passos da tarefa (ex.: ['Coletar fotos','Montar layout','Revisar']). Nascem desmarcados. Até 50." },
     },
     required: ["projetoId", "title"],
   },
@@ -170,6 +172,13 @@ export const criarTarefaProjeto: ToolDef<{
         priority: (PRIORITIES as readonly string[]).includes(input.priority ?? "") ? (input.priority as any) : "MEDIUM",
         dueDate: due,
         tags: normalizeTags(input.etiquetas),
+        checklist: (() => {
+          // Cliente MCP às vezes manda o array como texto JSON.
+          let v: unknown = input.checklist;
+          if (typeof v === "string" && v.trim().startsWith("[")) { try { v = JSON.parse(v); } catch { /* segue */ } }
+          const itens = Array.isArray(v) ? v.map((t) => ({ text: String(t), done: false })) : [];
+          return sanitizeChecklist(itens) ?? undefined;
+        })(),
         assigneeId: input.assigneeId ?? ctx.userId,
         createdById: ctx.userId,
         ...(etapa ? { projectServiceId: etapa.id, stage: etapa.label.slice(0, 80) || null } : {}),
@@ -208,6 +217,7 @@ export const criarTarefaProjeto: ToolDef<{
       `Tarefa criada no projeto "${project.name}": "${input.title.trim()}"` +
       (etapa ? ` · etapa ${etapa.label}` : "") +
       (normalizeTags(input.etiquetas).length ? ` · etiquetas ${normalizeTags(input.etiquetas).join(", ")}` : "") +
+      (Array.isArray(input.checklist) && input.checklist.length ? ` · checklist com ${Math.min(input.checklist.length, 50)} item(ns)` : "") +
       (due ? ` · prazo ${fmtDateTime(due)}` : "") + depAviso + clickup,
       { data: { id: task.id, projectId: project.id, etapaId: etapa?.id ?? null }, link: appUrl(`/projetos/${project.id}`) },
     );
