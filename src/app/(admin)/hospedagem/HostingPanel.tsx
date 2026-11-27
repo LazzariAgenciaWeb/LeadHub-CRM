@@ -27,6 +27,7 @@ interface Overview {
   usage: { usedMb: number; limitMb: number | null };
   mailboxes: Mailbox[];
   plan?: { packageName: string | null; mailboxCount: number | null; mailboxMax: number | null };
+  space?: { emailMb: number; filesMb: number; dbMb: number };
 }
 type Live = { state: "loading" } | { state: "ok"; data: Overview } | { state: "error"; error: string };
 
@@ -160,7 +161,7 @@ export default function HostingPanel({ rows, withoutCpanel }: {
                     </button>
 
                     {/* Espaço */}
-                    <div className="w-48 space-y-1">
+                    <div className="w-56 space-y-1">
                       {r.status !== "ACTIVE" ? (
                         <p className="text-amber-300 text-[11px] flex items-center gap-1"><AlertTriangle className="w-3 h-3" /> {r.lastError || "Conexão com problema — teste de novo"}</p>
                       ) : !l || l.state === "loading" ? (
@@ -174,10 +175,23 @@ export default function HostingPanel({ rows, withoutCpanel }: {
                             <span className="text-white font-semibold">{fmtSize(l.data.usage.usedMb)}</span>
                             <span className="text-slate-500">{l.data.usage.limitMb ? `de ${fmtSize(l.data.usage.limitMb)} · ${pct}%` : "· sem limite"}</span>
                           </p>
-                          {pct !== null && (
+                          {pct !== null && (l.data.space && l.data.usage.limitMb ? (
+                            <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden flex" title="E-mails · site e arquivos · bancos">
+                              <div className="h-full bg-indigo-500" style={{ width: `${Math.min(100, (l.data.space.emailMb / l.data.usage.limitMb) * 100)}%` }} />
+                              <div className="h-full bg-cyan-400" style={{ width: `${Math.min(100, (l.data.space.filesMb / l.data.usage.limitMb) * 100)}%` }} />
+                              <div className="h-full bg-violet-400" style={{ width: `${Math.min(100, (l.data.space.dbMb / l.data.usage.limitMb) * 100)}%` }} />
+                            </div>
+                          ) : (
                             <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
                               <div className={`h-full ${barColor}`} style={{ width: `${Math.min(100, pct)}%` }} />
                             </div>
+                          ))}
+                          {l.data.space && (
+                            <p className="text-[10px] text-slate-400 flex flex-wrap gap-x-2">
+                              <span><span className="inline-block w-1.5 h-1.5 rounded-full bg-indigo-500 mr-1" />E-mails {fmtSize(l.data.space.emailMb)}</span>
+                              <span><span className="inline-block w-1.5 h-1.5 rounded-full bg-cyan-400 mr-1" />Arquivos {fmtSize(l.data.space.filesMb)}</span>
+                              {l.data.space.dbMb > 0 && <span><span className="inline-block w-1.5 h-1.5 rounded-full bg-violet-400 mr-1" />Bancos {fmtSize(l.data.space.dbMb)}</span>}
+                            </p>
                           )}
                         </>
                       )}
